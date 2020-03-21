@@ -5,7 +5,7 @@
 USE master;
 
 -- Falls vorhanden: DB löschen
-IF DB_ID(N'CrazyDog') IS NOT NULL DROP DATABASE DAB2Perf;
+IF DB_ID(N'CrazyDog') IS NOT NULL DROP DATABASE CrazyDog;
 
 -- Falls noch aktive Verbindungen vorhanden: Abbruch
 IF @@ERROR = 3702
