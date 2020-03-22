@@ -1,4 +1,4 @@
-package ch.zhaw.psit3.crazydog.Model;
+package ch.zhaw.psit3.crazydog.Model.Piece;
 
 public class Piece {
     private int id;
