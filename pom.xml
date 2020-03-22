@@ -53,6 +53,13 @@
             <version>4.4.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>8.2.0.jre8</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
