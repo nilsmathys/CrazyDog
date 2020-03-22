@@ -3,8 +3,8 @@ package ch.zhaw.psit3.crazydog.Model.Player;
 import java.util.List;
 
 public interface PlayerDAO {
-    Player getPlayerById();
+    Player getPlayerById(Integer id);
     List<Player> getAllPlayers();
-    Player getPlayerByUsernameAndPw();
-    boolean insertUser();
+    Player getPlayerByUsernameAndPw(String username, String pw);
+    boolean insertUser(Player player);
 }
