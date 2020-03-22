@@ -9,7 +9,7 @@ public class DBCon {
 
     public static void main(String[] args) {
 
-        String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=username;password=secret";
+        String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
 
         Connection con = null;
         Statement stmt = null;
