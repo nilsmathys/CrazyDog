@@ -17,7 +17,7 @@ public class DBConnectionFactory {
         }
     }
 
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(connectionUrl);
@@ -29,4 +29,10 @@ public class DBConnectionFactory {
         return conn;
     }
 
+    public static DBConnectionFactory getInstance() {
+        if (dbConnectionFactory == null) {
+            dbConnectionFactory = new DBConnectionFactory();
+        }
+        return dbConnectionFactory;
+    }
 }

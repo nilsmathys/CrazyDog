@@ -2,14 +2,13 @@ package ch.zhaw.psit3.crazydog;
 
 public class GameField {
     private String gameFieldName;
-    private int positionX;
-    private int positionY;
+    private String startImageName;
+    private String cssId;
     private String color;
 
-    private GameField(String gameFieldName, int positionX, int positionY, String color) {
+    private GameField(String startImageName,String cssId, String gameFieldName, String color) {
         this.gameFieldName = gameFieldName;
-        this.positionX = positionX;
-        this.positionY = positionY;
+        this.startImageName = startImageName;
         this.color = color;
     }
 
@@ -17,31 +16,30 @@ public class GameField {
         return gameFieldName;
     }
 
-    public int getPositionX() {
-        return positionX;
-    }
-
-    public int getPositionY() {
-        return positionY;
+    public String getStartImageName() {
+        return startImageName;
     }
 
     public String getColor() {
         return color;
     }
 
+    public String getCssId() {
+        return cssId;
+    }
+
     public void setGameFieldName(String gameFieldName) {
         this.gameFieldName = gameFieldName;
     }
 
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
-
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
+    public void setStartImageName(String startImageName) {
+        this.startImageName = startImageName;
     }
 
     public void setColor(String color) {
         this.color = color;
+    }
+    public void setCssId(String cssId) {
+        this.cssId = cssId;
     }
 }
