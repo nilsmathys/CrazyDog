@@ -10,7 +10,19 @@ public class Piece {
     @Size(min = 1, max = 4)
     private int number;
 
-    private String colour;
+    private int colourId;
+
+    public Piece() {
+
+    }
+
+    public Piece(int id, int number, int colourId) {
+        this.id = id;
+        this.number = number;
+        this.colourId = colourId;
+    }
+
+
 
     public int getId() {
         return id;
@@ -28,12 +40,12 @@ public class Piece {
         this.number = number;
     }
 
-    public String getColour() {
-        return colour;
+    public int getColourId() {
+        return colourId;
     }
 
-    public void setColour(String colour) {
-        this.colour = colour;
+    public void setColour(int colourId) {
+        this.colourId = colourId;
     }
 
 

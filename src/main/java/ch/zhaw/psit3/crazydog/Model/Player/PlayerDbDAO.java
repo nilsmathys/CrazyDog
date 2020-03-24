@@ -15,7 +15,6 @@ public class PlayerDbDAO implements PlayerDAO {
     public Player getPlayerById(Integer id) {
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
         Connection con = null;
-        Statement stmt = null;
         ResultSet rs = null;
 
         try {
@@ -26,14 +25,14 @@ public class PlayerDbDAO implements PlayerDAO {
             ps.setInt(1, id);
             // Load SQL Server JDBC driver and establish connection.
             rs = ps.executeQuery();
-
+            Player player = new Player();
             if (rs.next()) {
-                Player player = new Player();
                 player.setId( rs.getInt("playerID") );
                 player.setUsername( rs.getString("username") );
                 player.setEmail( rs.getString("email") );
-                return player;
             }
+            con.close();
+            return player;
         } catch (Exception e) {
             System.out.println();
             e.printStackTrace();
@@ -52,9 +51,9 @@ public class PlayerDbDAO implements PlayerDAO {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
             System.out.print("Connecting to SQL Server ... ");
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM players");
+            stmt = con.createStatement();
             // Load SQL Server JDBC driver and establish connection.
-            rs = ps.executeQuery();
+            rs = stmt.executeQuery("SELECT * FROM players");
 
             List<Player> playerList = new ArrayList<>();
 
@@ -65,6 +64,7 @@ public class PlayerDbDAO implements PlayerDAO {
                 Player dbPlayer = new Player(id, username, email);
                 playerList.add(dbPlayer);
             }
+            con.close();
             return playerList;
         } catch (Exception e) {
             System.out.println();
@@ -89,14 +89,14 @@ public class PlayerDbDAO implements PlayerDAO {
             ps.setString(2, pw);
             // Load SQL Server JDBC driver and establish connection.
             rs = ps.executeQuery();
-
+            Player player = new Player();
             if (rs.next()) {
-                Player player = new Player();
                 player.setId( rs.getInt("playerID") );
                 player.setUsername( rs.getString("username") );
                 player.setEmail( rs.getString("email") );
-                return player;
             }
+            con.close();
+            return player;
         } catch (Exception e) {
             System.out.println();
             e.printStackTrace();
@@ -105,7 +105,7 @@ public class PlayerDbDAO implements PlayerDAO {
     }
 
     @Override
-    public boolean insertUser(Player player) {
+    public boolean insertPlayer(Player player) {
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
         Connection con = null;
 
@@ -114,13 +114,13 @@ public class PlayerDbDAO implements PlayerDAO {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
             System.out.print("Connecting to SQL Server ... ");
-            PreparedStatement ps = con.prepareStatement("INSERT INTO dbo.Players (username, email, password) VALUES (?,?,?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO Players (username, email, password) VALUES (?,?,?)");
             ps.setString(1, player.getUsername());
-            ps.setString(1, player.getEmail());
-            ps.setString(1, player.getPw());
+            ps.setString(2, player.getEmail());
+            ps.setString(3, player.getPw());
             // Load SQL Server JDBC driver and establish connection.
             int i = ps.executeUpdate();
-
+            con.close();
             if (i == 1) {
                 return true;
             }
@@ -130,4 +130,55 @@ public class PlayerDbDAO implements PlayerDAO {
         }
         return false;
     }
+
+    @Override
+    public boolean updatePlayer(Player player) {
+        String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
+        Connection con = null;
+
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            System.out.print("Connecting to SQL Server ... ");
+            PreparedStatement ps = con.prepareStatement("UPDATE Players SET username=?, email=?, password=? WHERE playerID=?");
+            ps.setString(1, player.getUsername());
+            ps.setString(2, player.getEmail());
+            ps.setString(3, player.getPw());
+            ps.setInt(4, player.getId());
+            // Load SQL Server JDBC driver and establish connection.
+            int i = ps.executeUpdate();
+            con.close();
+            if (i == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println();
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deletePlayer(Player player) {
+        String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            System.out.print("Connecting to SQL Server ... ");
+            Statement stmt = con.createStatement();
+            // Load SQL Server JDBC driver and establish connection.
+            int i = stmt.executeUpdate("DELETE FROM players WHERE playerID=" +player.getId());
+            con.close();
+            if (i == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println();
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
