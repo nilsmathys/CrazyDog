@@ -1,7 +1,5 @@
 package ch.zhaw.psit3.crazydog.Model.Piece;
 
-import ch.zhaw.psit3.crazydog.Model.Player.Player;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +10,6 @@ public class PieceDbDAO implements PieceDAO {
     public Piece getPieceById(Integer id) {
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
         Connection con = null;
-        Statement stmt = null;
         ResultSet rs = null;
 
         try {
