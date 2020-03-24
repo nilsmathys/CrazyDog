@@ -1,13 +1,12 @@
 package ch.zhaw.psit3.crazydog;
 
-import java.awt.*;
-
 public class GameField {
     private String gameFieldName;
     private int positionX;
     private int positionY;
-    private Color color;
-    private GameField(String gameFieldName, int positionX, int positionY, Color color) {
+    private String color;
+
+    private GameField(String gameFieldName, int positionX, int positionY, String color) {
         this.gameFieldName = gameFieldName;
         this.positionX = positionX;
         this.positionY = positionY;
@@ -26,7 +25,7 @@ public class GameField {
         return positionY;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
@@ -42,7 +41,7 @@ public class GameField {
         this.positionY = positionY;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 }
