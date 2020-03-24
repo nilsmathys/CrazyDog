@@ -1,12 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Startseite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/static/css/style.css}" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css" />
+
+    <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
+    <script src="/js/main.js" th:href="@{/js/main.js}"></script>
+
+    <title>Crazy Dog</title>
 </head>
 <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <p>Spieler 1</p>
+                <p>Spieler 2</p>
+                <p>Spieler 3</p>
+            </div>
+            <div class="col-md-auto">
+                <!-- Die "normalen" Felder und Wurmlöcher -->
+                <img class="grid" src="/img/crazydog_grid.png" alt="Crazy Dog Grid" width="850px">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1blue.png}" class="field" id="field1">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2blue.png}" class="field" id="field2">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3blue.png}" class="field" id="field3">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4blue.png}" class="field" id="field4">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1red.png}" class="field" id="field5">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2red.png}" class="field" id="field6">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3red.png}" class="field" id="field7">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4red.png}" class="field" id="field8">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1green.png}" class="field" id="field9">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2green.png}" class="field" id="field10">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3green.png}" class="field" id="field11">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4green.png}" class="field" id="field12">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1yellow.png}" class="field" id="field13">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2yellow.png}" class="field" id="field14">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3yellow.png}" class="field" id="field15">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4yellow.png}" class="field" id="field16">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1blue.png}" class="field" id="field17">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2blue.png}" class="field" id="field18">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3blue.png}" class="field" id="field19">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4blue.png}" class="field" id="field20">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1red.png}" class="field" id="field21">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2red.png}" class="field" id="field22">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3red.png}" class="field" id="field23">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4red.png}" class="field" id="field24">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1green.png}" class="field" id="field25">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2green.png}" class="field" id="field26">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3green.png}" class="field" id="field27">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4green.png}" class="field" id="field28">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1yellow.png}" class="field" id="field29">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2yellow.png}" class="field" id="field30">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3yellow.png}" class="field" id="field31">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4yellow.png}" class="field" id="field32">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1blue.png}" class="field" id="field33">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2blue.png}" class="field" id="field34">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3blue.png}" class="field" id="field35">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4blue.png}" class="field" id="field36">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1red.png}" class="field" id="field37">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2red.png}" class="field" id="field38">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3red.png}" class="field" id="field39">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4red.png}" class="field" id="field40">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1green.png}" class="field" id="field41">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2green.png}" class="field" id="field42">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3green.png}" class="field" id="field43">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4green.png}" class="field" id="field44">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1yellow.png}" class="field" id="field45">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2yellow.png}" class="field" id="field46">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3yellow.png}" class="field" id="field47">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4yellow.png}" class="field" id="field48">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1blue.png}" class="field" id="field49">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2blue.png}" class="field" id="field50">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3blue.png}" class="field" id="field51">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4blue.png}" class="field" id="field52">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1red.png}" class="field" id="field53">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2red.png}" class="field" id="field54">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3red.png}" class="field" id="field55">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4red.png}" class="field" id="field56">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1green.png}" class="field" id="field57">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2green.png}" class="field" id="field58">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3green.png}" class="field" id="field59">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4green.png}" class="field" id="field60">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1yellow.png}" class="field" id="field61">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2yellow.png}" class="field" id="field62">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3yellow.png}" class="field" id="field63">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4yellow.png}" class="field" id="field64">
 
+                <!-- Die Heimfelder -->
+                <!-- Heimfeld von Rot -->
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4red.png}" class="field" id="field65">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3red.png}" class="field" id="field66">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2red.png}" class="field" id="field67">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1red.png}" class="field" id="field68">
+                <!-- Heimfeld von Gelb -->
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4yellow.png}" class="field" id="field69">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3yellow.png}" class="field" id="field70">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2yellow.png}" class="field" id="field71">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1yellow.png}" class="field" id="field72">
+                <!-- Heimfeld von Grün -->
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4green.png}" class="field" id="field73">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3green.png}" class="field" id="field74">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2green.png}" class="field" id="field75">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1green.png}" class="field" id="field76">
+                <!-- Heimfeld von Blau -->
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece4blue.png}" class="field" id="field77">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece3blue.png}" class="field" id="field78">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece2blue.png}" class="field" id="field79">
+                <img src="/img/pieces/empty.png" th:src="@{/img/pieces/piece1blue.png}" class="field" id="field80">
+            </div>
+            <div class="col">
+                3 of 3
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="/img/Karte_2.png" class="card" alt="Karte 2">
+            </div>
+            <div class="col-md-2">
+                <img src="/img/Karte_10.png" class="card" alt="Karte 10">
+            </div>
+            <div class="col-md-2">
+                <img src="/img/Karte_tausch.png" class="card" alt="Tausch-Karte">
+            </div>
+            <div class="col-md-2">
+                <img src="/img/Karte_fragezeichen.png" class="card" alt="Fragezeichen">
+            </div>
+            <div class="col-md-2">
+                <img src="/img/Karte_6.png" class="card" alt="Karte 6">
+            </div>
+            <div class="col-md-2">
+                <img src="/img/Karte_11.png" class="card" alt="Karte 11">
+            </div>
+        </div>
+    </div>
 </body>
 </html>
