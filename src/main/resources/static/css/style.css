@@ -1,18 +1,120 @@
+html {
+    overflow: hidden;
+}
+#body {
+    color: #444444;
+}
+/* CSS for cards starts here */
+#card2hover:hover {
+    position: relative;
+}
+#card2hover:hover:after {
+    content: url(/img/cards/karte_2.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#card10hover:hover {
+    position: relative;
+}
+#card10hover:hover:after {
+    content: url(/img/cards/karte_10.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#cardchangehover:hover {
+    position: relative;
+}
+#cardchangehover:hover:after {
+    content: url(/img/cards/karte_tausch.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#cardjokerhover:hover {
+    position: relative;
+}
+#cardjokerhover:hover:after {
+    content: url(/img/cards/karte_fragezeichen.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#card6hover:hover {
+    position: relative;
+}
+#card6hover:hover:after {
+    content: url(/img/cards/karte_6.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#card11hover:hover {
+    position: relative;
+}
+#card11hover:hover:after {
+    content: url(/img/cards/karte_11.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+
+
+#empty {
+    display: block;
+    height: 19px;
+}
+#board {
+    height: 890px;
+    width: 890px;
+    position: absolute;
+    top: 0;
+    left: 505px;
+    background-color: #cccccc;
+    border-radius: 50%;
+    display: inline-block;
+}
+#boardhole {
+    height: 380px;
+    width: 380px;
+    position: absolute;
+    top: 253px;
+    left: 762px;
+    background-color: white;
+    border-radius: 50%;
+    display: inline-block;
+}
 .grid {
     z-index: 2;
     position: relative;
 }
-
-.card {
-width: 300px;
+.playingcard {
+    width: 300px;
 }
-
+.list-group-item {
+    border: 3px solid white;
+    border-radius:9px;
+}
+.playername {
+    margin-left: 40px;
+    font-size: 40px;
+    vertical-align: middle;
+}
+.playerimage {
+    width: 80px;
+}
 .field {
     display: inline-block;
     position: absolute;
-    z-index: 1;
+    z-index: 3;
 }
-
 #field1 {
     top: 687px;
     left: 122px;
@@ -332,4 +434,68 @@ width: 300px;
 #field80 {
     top: 643px;
     left: 748px;
+}
+#field81 {
+    top: 607px;
+    left: 132px;
+}
+#field82 {
+    top: 564px;
+    left: 139px;
+}
+#field83 {
+    top: 541px;
+    left: 177px;
+}
+#field84 {
+    top: 517px;
+    left: 215px;
+}
+#field85 {
+    top: 119px;
+    left: 215px;
+}
+#field86 {
+    top: 125px;
+    left: 259px;
+}
+#field87 {
+    top: 163px;
+    left: 282px;
+}
+#field88 {
+    top: 201px;
+    left: 306px;
+}
+#field89 {
+    top: 203px;
+    left: 701px;
+}
+#field90 {
+    top: 247px;
+    left: 695px;
+}
+#field91 {
+    top: 270px;
+    left: 657px;
+}
+#field92 {
+    top: 294px;
+    left: 619px;
+}
+#field93 {
+    top: 690px;
+    left: 618px;
+}
+#field94 {
+    top: 683px;
+    left: 574px;
+}
+#field95 {
+    top: 646px;
+    left: 551px;
+}
+#field96 {
+    top: 608px;
+    left: 527px;
 }

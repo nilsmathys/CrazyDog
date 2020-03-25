@@ -1,9 +1,9 @@
 $(document).ready(function() {
-    $("#dot1").click(function() {
+    $("#field7").click(function() {
         $.ajax({
             url : 'test',
             success : function(data) {
-                $("dot1").html(data);
+                $("field7").html(data);
             }
         })
     });
