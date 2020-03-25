@@ -1,0 +1,501 @@
+html {
+    overflow: hidden;
+}
+#body {
+    color: #444444;
+}
+/* CSS for cards starts here */
+#card2hover:hover {
+    position: relative;
+}
+#card2hover:hover:after {
+    content: url(/img/cards/karte_2.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#card10hover:hover {
+    position: relative;
+}
+#card10hover:hover:after {
+    content: url(/img/cards/karte_10.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#cardchangehover:hover {
+    position: relative;
+}
+#cardchangehover:hover:after {
+    content: url(/img/cards/karte_tausch.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#cardjokerhover:hover {
+    position: relative;
+}
+#cardjokerhover:hover:after {
+    content: url(/img/cards/karte_fragezeichen.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#card6hover:hover {
+    position: relative;
+}
+#card6hover:hover:after {
+    content: url(/img/cards/karte_6.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+#card11hover:hover {
+    position: relative;
+}
+#card11hover:hover:after {
+    content: url(/img/cards/karte_11.png);
+    display: block;
+    position: absolute;
+    top: -370px;
+    z-index: 5;
+}
+
+
+#empty {
+    display: block;
+    height: 19px;
+}
+#board {
+    height: 890px;
+    width: 890px;
+    position: absolute;
+    top: 0;
+    left: 505px;
+    background-color: #cccccc;
+    border-radius: 50%;
+    display: inline-block;
+}
+#boardhole {
+    height: 380px;
+    width: 380px;
+    position: absolute;
+    top: 253px;
+    left: 762px;
+    background-color: white;
+    border-radius: 50%;
+    display: inline-block;
+}
+.grid {
+    z-index: 2;
+    position: relative;
+}
+.playingcard {
+    width: 300px;
+}
+.list-group-item {
+    border: 3px solid white;
+    border-radius:9px;
+}
+.playername {
+    margin-left: 40px;
+    font-size: 40px;
+    vertical-align: middle;
+}
+.playerimage {
+    width: 80px;
+}
+.field {
+    display: inline-block;
+    position: absolute;
+    z-index: 3;
+}
+#field1 {
+    top: 687px;
+    left: 122px;
+}
+#field2 {
+    top: 654px;
+    left: 93px;
+}
+#field3 {
+    top: 618px;
+    left: 68px;
+}
+#field4 {
+    top: 580px;
+    left: 47px;
+}
+#field5 {
+    top: 539px;
+    left: 30px;
+}
+#field6 {
+    top: 514px;
+    left: 69px;
+}
+#field7 {
+    top: 489px;
+    left: 108px;
+}
+#field8 {
+    top: 464px;
+    left: 148px;
+}
+#field9 {
+    top: 440px;
+    left: 188px;
+}
+#field10 {
+    top: 374px;
+    left: 188px;
+}
+#field11 {
+    top: 331px;
+    left: 198px;
+}
+#field12 {
+    top: 291px;
+    left: 216px;
+}
+#field13 {
+    top: 253px;
+    left: 241px;
+}
+#field14 {
+    top: 218px;
+    left: 214px;
+}
+#field15 {
+    top: 181px;
+    left: 188px;
+}
+#field16 {
+    top: 145px;
+    left: 162px;
+}
+#field17 {
+    top: 109px;
+    left: 135px;
+}
+#field18 {
+    top: 80px;
+    left: 169px;
+}
+#field19 {
+    top: 55px;
+    left: 204px;
+}
+#field20 {
+    top: 34px;
+    left: 243px;
+}
+#field21 {
+    top: 18px;
+    left: 283px;
+}
+#field22 {
+    top: 56px;
+    left: 308px;
+}
+#field23 {
+    top: 95px;
+    left: 333px;
+}
+#field24 {
+    top: 135px;
+    left: 358px;
+}
+#field25 {
+    top: 174px;
+    left: 383px;
+}
+#field26 {
+    top: 175px;
+    left: 447px;
+}
+#field27 {
+    top: 186px;
+    left: 490px;
+}
+#field28 {
+    top: 203px;
+    left: 529px;
+}
+#field29 {
+    top: 229px;
+    left: 567px;
+}
+#field30 {
+    top: 202px;
+    left: 602px;
+}
+#field31 {
+    top: 176px;
+    left: 639px;
+}
+#field32 {
+    top: 151px;
+    left: 674px;
+}
+#field33 {
+    top: 123px;
+    left: 711px;
+}
+#field34 {
+    top: 157px;
+    left: 739px;
+}
+#field35 {
+    top: 193px;
+    left: 764px;
+}
+#field36 {
+    top: 231px;
+    left: 785px;
+}
+#field37 {
+    top: 271px;
+    left: 801px;
+}
+#field38 {
+    top: 297px;
+    left: 763px;
+}
+#field39 {
+    top: 321px;
+    left: 724px;
+}
+#field40 {
+    top: 346px;
+    left: 685px;
+}
+#field41 {
+    top: 371px;
+    left: 646px;
+}
+#field42 {
+    top: 436px;
+    left: 645px;
+}
+#field43 {
+    top: 479px;
+    left: 635px;
+}
+#field44 {
+    top: 518px;
+    left: 617px;
+}
+#field45 {
+    top: 556px;
+    left: 591px;
+}
+#field46 {
+    top: 591px;
+    left: 618px;
+}
+#field47 {
+    top: 628px;
+    left: 644px;
+}
+#field48 {
+    top: 664px;
+    left: 670px;
+}
+#field49 {
+    top: 700px;
+    left: 698px;
+}
+#field50 {
+    top: 729px;
+    left: 665px;
+}
+#field51 {
+    top: 754px;
+    left: 629px;
+}
+#field52 {
+    top: 774px;
+    left: 590px;
+}
+#field53 {
+    top: 791px;
+    left: 549px;
+}
+#field54 {
+    top: 752px;
+    left: 524px;
+}
+#field55 {
+    top: 713px;
+    left: 500px;
+}
+#field56 {
+    top: 673px;
+    left: 475px;
+}
+#field57 {
+    top: 635px;
+    left: 450px;
+}
+#field58 {
+    top: 634px;
+    left: 387px;
+}
+#field59 {
+    top: 623px;
+    left: 344px;
+}
+#field60 {
+    top: 606px;
+    left: 305px;
+}
+#field61 {
+    top: 581px;
+    left: 267px;
+}
+#field62 {
+    top: 608px;
+    left: 231px;
+}
+#field63 {
+    top: 634px;
+    left: 194px;
+}
+#field64 {
+    top: 660px;
+    left: 158px;
+}
+#field65 {
+    top: 796px;
+    left: 298px;
+}
+#field66 {
+    top: 781px;
+    left: 256px;
+}
+#field67 {
+    top: 761px;
+    left: 217px;
+}
+#field68 {
+    top: 738px;
+    left: 179px;
+}
+#field69 {
+    top: 285px;
+    left: 26px;
+}
+#field70 {
+    top: 244px;
+    left: 41px;
+}
+#field71 {
+    top: 204px;
+    left: 61px;
+}
+#field72 {
+    top: 166px;
+    left: 85px;
+}
+#field73 {
+    top: 15px;
+    left: 535px;
+}
+#field74 {
+    top: 29px;
+    left: 577px;
+}
+#field75 {
+    top: 49px;
+    left: 617px;
+}
+#field76 {
+    top: 73px;
+    left: 654px;
+}
+#field77 {
+    top: 524px;
+    left: 806px;
+}
+#field78 {
+    top: 566px;
+    left: 791px;
+}
+#field79 {
+    top: 605px;
+    left: 771px;
+}
+#field80 {
+    top: 643px;
+    left: 748px;
+}
+#field81 {
+    top: 607px;
+    left: 132px;
+}
+#field82 {
+    top: 564px;
+    left: 139px;
+}
+#field83 {
+    top: 541px;
+    left: 177px;
+}
+#field84 {
+    top: 517px;
+    left: 215px;
+}
+#field85 {
+    top: 119px;
+    left: 215px;
+}
+#field86 {
+    top: 125px;
+    left: 259px;
+}
+#field87 {
+    top: 163px;
+    left: 282px;
+}
+#field88 {
+    top: 201px;
+    left: 306px;
+}
+#field89 {
+    top: 203px;
+    left: 701px;
+}
+#field90 {
+    top: 247px;
+    left: 695px;
+}
+#field91 {
+    top: 270px;
+    left: 657px;
+}
+#field92 {
+    top: 294px;
+    left: 619px;
+}
+#field93 {
+    top: 690px;
+    left: 618px;
+}
+#field94 {
+    top: 683px;
+    left: 574px;
+}
+#field95 {
+    top: 646px;
+    left: 551px;
+}
+#field96 {
+    top: 608px;
+    left: 527px;
+}
