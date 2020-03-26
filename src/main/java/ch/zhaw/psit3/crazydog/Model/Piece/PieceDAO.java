@@ -4,22 +4,21 @@ import ch.zhaw.psit3.crazydog.db.DBCon;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class PieceDAO {
 
     /**
      * Methode um die Spielfigur von der Datenbank auszulesen anhand der ID.
+     *
      * @param id Integer der Id der Spielfigur
      * @return piece
      */
     public Piece getPieceById(Integer id) {
-        String querry = "SELECT * FROM Pieces WHERE pieceID=?";
-        HashMap<Integer, Integer> intParameters = new HashMap<>();
-        intParameters.put(1, id);
+        String query = "SELECT pieceID, colourID, number FROM Pieces WHERE pieceID=?";
+        Object[] params = {id};
         DBCon.open();
-        ResultSet rs = DBCon.giveResultWithIntKey(querry, intParameters);
+        ResultSet rs = DBCon.giveResult(query, params);
         Piece piece = new Piece();
         try {
             if (rs.next()) {
@@ -36,12 +35,13 @@ public class PieceDAO {
 
     /**
      * Methode um alle Figuren der Datenbank auszulesen und in eine Liste abzuspeichern.
+     *
      * @return pieceList, Liste der Figuren in der Datenbank
      */
     public List<Piece> getAllPieces() {
-        String querry = "SELECT * FROM pieces";
+        String query = "SELECT pieceID, number, colourID FROM pieces";
         DBCon.open();
-        ResultSet rs = DBCon.giveResult(querry);
+        ResultSet rs = DBCon.giveResult(query);
         List<Piece> pieceList = new ArrayList<>();
         try {
             while (rs.next()) {
@@ -60,15 +60,15 @@ public class PieceDAO {
 
     /**
      * Gibt die ColourId der gewünschten Figur zurück
+     *
      * @param id FigurenId, bei der der man die Farbid wissen möchte
      * @return int mit der Colourid
      */
     public int getColourIdFromPeace(Integer id) {
-        String querry = "SELECT * FROM pieces WHERE pieceID=?";
-        HashMap<Integer, Integer> intParameters = new HashMap<>();
-        intParameters.put(1, id);
+        String query = "SELECT colourID FROM pieces WHERE pieceID=?";
+        Object[] params = {id};
         DBCon.open();
-        ResultSet rs = DBCon.giveResultWithIntKey(querry, intParameters);
+        ResultSet rs = DBCon.giveResult(query, params);
         Piece piece = new Piece();
         try {
             if (rs.next()) {
@@ -83,15 +83,16 @@ public class PieceDAO {
 
     /**
      * Gibt die Nummer der gewünschten Figur zurück
+     *
      * @param id FigurenId, bei der der man die Nummer wissen möchte
      * @return int mit der Nummer
      */
     public int getNumberOfPiece(Integer id) {
-        String querry = "SELECT number FROM pieces WHERE pieceID=?";
-        HashMap<Integer, Integer> intParameters = new HashMap<>();
-        intParameters.put(1, id);
+        String query = "SELECT number FROM pieces WHERE pieceID=?";
+
+        Object[] params = {id};
         DBCon.open();
-        ResultSet rs = DBCon.giveResultWithIntKey(querry, intParameters);
+        ResultSet rs = DBCon.giveResult(query, params);
         Piece piece = new Piece();
         try {
             if (rs.next()) {
