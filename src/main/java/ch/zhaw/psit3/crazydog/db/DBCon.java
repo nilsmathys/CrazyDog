@@ -64,7 +64,7 @@ public class DBCon {
     }
 
     /**
-     * Methode für eine Abfrage mit String- und Int-Paratmeterwerte für das PreparedStatement
+     * Methode für eine Abfrage mit String- und/oder Int-Paratmeterwerte für das PreparedStatement
      *
      * @param query als String
      * @param params Parameterwerte als Int oder String
@@ -111,7 +111,7 @@ public class DBCon {
     }
 
     /**
-     * Methode für eine Updateabfrage mit String- und Int-Paratmeterwerte für das PreparedStatement
+     * Methode für eine Updateabfrage mit String- und/oder Int-Paratmeterwerte für das PreparedStatement
      *
      * @param query als String
      * @param params Parameterwerte als Int oder String
