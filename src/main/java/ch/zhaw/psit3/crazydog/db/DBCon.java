@@ -1,10 +1,5 @@
 package ch.zhaw.psit3.crazydog.db;
 
-import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
-import ch.zhaw.psit3.crazydog.Model.Piece.PieceDbDAO;
-import ch.zhaw.psit3.crazydog.Model.Player.Player;
-import ch.zhaw.psit3.crazydog.Model.Player.PlayerDbDAO;
-
 import java.sql.*;
 import java.util.HashMap;
 import java.util.logging.Logger;
