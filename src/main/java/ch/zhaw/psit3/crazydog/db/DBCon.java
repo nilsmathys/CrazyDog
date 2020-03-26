@@ -35,47 +35,6 @@ public class DBCon {
             e.printStackTrace();
         }
 
-//        PlayerDbDAO playerDbDAO = new PlayerDbDAO();
-//        Player playerinDbAlt = new Player("Alt", "altt@alt.ch", "Alt123");
-//        Player playerinDbNeu = new Player("Neu", "Neu@Neu.ch", "Neu123");
-//        playerDbDAO.insertPlayer(playerinDbAlt);
-//        Player playerAltPwUsername = playerDbDAO.getPlayerByUsernameAndPw("Alt", "Alt123");
-//        Player playerByIdalt = playerDbDAO.getPlayerById(1);
-//        Player updatePlayerAlt = new Player("Alt2", "alt2@alt2.ch", "Alt2");
-//        Player playerDeleteAlt = playerDbDAO.getPlayerByUsernameAndPw("Spieler1", "test123");
-//
-//
-//        System.out.println();
-//        System.out.println();
-//        System.out.println("ALT PLAYER");
-//        System.out.println("Player alt getUsernamePW Username: " + playerAltPwUsername.getUsername() + ", Email: " + playerAltPwUsername.getEmail() + ", PW: " + playerAltPwUsername.getPw());
-//        System.out.println("Player alt getPlayerById Username: " + playerByIdalt.getUsername() + ", Email: " + playerByIdalt.getEmail() + ", PW: " + playerByIdalt.getPw());
-//        if (playerDbDAO.updatePlayer(updatePlayerAlt, 2) == true) {
-//            System.out.println("Player alt Update funktioniert");
-//        } else {
-//            System.out.println("Player alt Update fehlgeschlagen");
-//        }
-//        if (playerDbDAO.deletePlayer(playerDeleteAlt) == true) {
-//            System.out.println("Player alt Delete funktioniert");
-//        } else {
-//            System.out.println("Player alt Delete fehlgeschlagen");
-//        }
-//
-//
-//        PieceDbDAO pieceDbDAO = new PieceDbDAO();
-//        Piece piecebyIDalt = pieceDbDAO.getPieceById(1);
-//
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-//        System.out.println("ALT PIECE ");
-//        System.out.println("getPieceById ALT: " + piecebyIDalt.getNumber());
-//        System.out.println("getColourIDALT: " + pieceDbDAO.getColourIdFromPeace(1));
-//        System.out.println("getNumberofPeace ALT: " + pieceDbDAO.getNumberOfPiece(1));
-
-
     }
 
     /**
