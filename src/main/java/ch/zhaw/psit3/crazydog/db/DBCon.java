@@ -44,53 +44,31 @@ public class DBCon {
         Player playerinDbAlt = new Player("Alt", "altt@alt.ch", "Alt123");
         Player playerinDbNeu = new Player("Neu", "Neu@Neu.ch", "Neu123");
         playerDbDAO.insertPlayer(playerinDbAlt);
-        playerDbDAO.insertPlayerNeu(playerinDbNeu);
         Player playerAltPwUsername = playerDbDAO.getPlayerByUsernameAndPw("Alt", "Alt123");
-        Player playerNeuPwUsername = playerDbDAO.getPlayerByUsernameAndPwNeu("Neu", "Neu123");
         Player playerByIdalt = playerDbDAO.getPlayerById(1);
-        Player playerByIdneu = playerDbDAO.getPlayerByIdNeu(1);
         Player updatePlayerAlt = new Player("Alt2", "alt2@alt2.ch", "Alt2");
-        Player updatePlayerNeu = new Player("Neu2", "Neu2@Neu2.ch", "Neu2");
         Player playerDeleteAlt = playerDbDAO.getPlayerByUsernameAndPw("Spieler1", "test123");
-        Player playerDeleteNeu = playerDbDAO.getPlayerByUsernameAndPw("Spieler4", "test123");
-
 
 
         System.out.println();
         System.out.println();
         System.out.println("ALT PLAYER");
-        System.out.println("Player alt getUsernamePW Username: " + playerAltPwUsername .getUsername() + ", Email: " + playerAltPwUsername .getEmail() + ", PW: " + playerAltPwUsername .getPw());
-        System.out.println("Player alt getPlayerById Username: " + playerByIdalt .getUsername() + ", Email: " + playerByIdalt .getEmail() + ", PW: " + playerByIdalt .getPw());
-        if(playerDbDAO.updatePlayer(updatePlayerAlt, 2) == true) {
+        System.out.println("Player alt getUsernamePW Username: " + playerAltPwUsername.getUsername() + ", Email: " + playerAltPwUsername.getEmail() + ", PW: " + playerAltPwUsername.getPw());
+        System.out.println("Player alt getPlayerById Username: " + playerByIdalt.getUsername() + ", Email: " + playerByIdalt.getEmail() + ", PW: " + playerByIdalt.getPw());
+        if (playerDbDAO.updatePlayer(updatePlayerAlt, 2) == true) {
             System.out.println("Player alt Update funktioniert");
         } else {
             System.out.println("Player alt Update fehlgeschlagen");
         }
-        if(playerDbDAO.deletePlayer(playerDeleteAlt) == true) {
+        if (playerDbDAO.deletePlayer(playerDeleteAlt) == true) {
             System.out.println("Player alt Delete funktioniert");
         } else {
             System.out.println("Player alt Delete fehlgeschlagen");
-        }
-        System.out.println();
-        System.out.println();
-        System.out.println("NEU PLAYER");
-        System.out.println("Player neu getUsernamePW Username: " + playerNeuPwUsername .getUsername() + ", Email: " + playerNeuPwUsername .getEmail() + ", PW: " + playerNeuPwUsername .getPw());
-        System.out.println("Player neu getPlayerByIdUsername: " + playerByIdneu .getUsername() + ", Email: " + playerByIdneu .getEmail() + ", PW: " + playerByIdneu .getPw());
-        if(playerDbDAO.updatePlayer(updatePlayerNeu, 3) == true) {
-            System.out.println("Player Neu Update funktioniert");
-        } else {
-            System.out.println("Player Neu Update fehlgeschlagen");
-        }
-        if(playerDbDAO.deletePlayer(playerDeleteNeu) == true) {
-            System.out.println("Player Neu Delete funktioniert");
-        } else {
-            System.out.println("Player Neu Delete fehlgeschlagen");
         }
 
 
         PieceDbDAO pieceDbDAO = new PieceDbDAO();
         Piece piecebyIDalt = pieceDbDAO.getPieceById(1);
-        Piece piecebyIDneu = pieceDbDAO.getPieceByIdNeu(1);
 
         System.out.println();
         System.out.println();
@@ -103,13 +81,6 @@ public class DBCon {
         System.out.println("getNumberofPeace ALT: " + pieceDbDAO.getNumberOfPiece(1));
 
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println("NEU PIECE ");
-        System.out.println("getPieceById NEU: " + piecebyIDneu.getNumber());
-        System.out.println("getColorID NEU: " + pieceDbDAO.getColourIdFromPeaceNeu(1));
-        System.out.println("getNumberOfPeace NEU: " + pieceDbDAO.getNumberOfPieceNeu(1));
     }
 
     public static void open() {

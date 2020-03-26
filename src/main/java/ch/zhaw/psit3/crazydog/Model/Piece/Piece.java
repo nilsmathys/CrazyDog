@@ -23,7 +23,6 @@ public class Piece {
     }
 
 
-
     public int getId() {
         return id;
     }
