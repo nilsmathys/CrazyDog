@@ -1,5 +1,7 @@
 package ch.zhaw.psit3.crazydog.db;
 
+import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
+import ch.zhaw.psit3.crazydog.Model.Piece.PieceDbDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.PlayerDbDAO;
 
@@ -14,29 +16,29 @@ public class DBCon {
 
     public static void main(String[] args) throws SQLException {
 
-//        String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
-//
-//        Connection con = null;
-//        Statement stmt = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            // Load SQL Server JDBC driver and establish connection.
-//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//            con = DriverManager.getConnection(connectionUrl);
-//            System.out.print("Connecting to SQL Server ... ");
-//            String SQL = "SELECT cardID, name FROM dbo.Cards";
-//            stmt = con.createStatement();
-//            rs = stmt.executeQuery(SQL);
-//
-//            while (rs.next()) {
-//                System.out.println(rs.getInt(1) + " " + rs.getString(2));
-//            }
-//            con.close();
-//        } catch (Exception e) {
-//            System.out.println();
-//            e.printStackTrace();
-//        }
+        String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
+
+        Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            // Load SQL Server JDBC driver and establish connection.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            System.out.print("Connecting to SQL Server ... ");
+            String SQL = "SELECT cardID, name FROM dbo.Cards";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                System.out.println(rs.getInt(1) + " " + rs.getString(2));
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println();
+            e.printStackTrace();
+        }
 
         PlayerDbDAO playerDbDAO = new PlayerDbDAO();
         Player playerinDbAlt = new Player("Alt", "altt@alt.ch", "Alt123");
@@ -56,7 +58,7 @@ public class DBCon {
 
         System.out.println();
         System.out.println();
-        System.out.println("ALT");
+        System.out.println("ALT PLAYER");
         System.out.println("Player alt getUsernamePW Username: " + playerAltPwUsername .getUsername() + ", Email: " + playerAltPwUsername .getEmail() + ", PW: " + playerAltPwUsername .getPw());
         System.out.println("Player alt getPlayerById Username: " + playerByIdalt .getUsername() + ", Email: " + playerByIdalt .getEmail() + ", PW: " + playerByIdalt .getPw());
         if(playerDbDAO.updatePlayer(updatePlayerAlt, 2) == true) {
@@ -71,7 +73,7 @@ public class DBCon {
         }
         System.out.println();
         System.out.println();
-        System.out.println("NEU");
+        System.out.println("NEU PLAYER");
         System.out.println("Player neu getUsernamePW Username: " + playerNeuPwUsername .getUsername() + ", Email: " + playerNeuPwUsername .getEmail() + ", PW: " + playerNeuPwUsername .getPw());
         System.out.println("Player neu getPlayerByIdUsername: " + playerByIdneu .getUsername() + ", Email: " + playerByIdneu .getEmail() + ", PW: " + playerByIdneu .getPw());
         if(playerDbDAO.updatePlayer(updatePlayerNeu, 3) == true) {
@@ -86,6 +88,28 @@ public class DBCon {
         }
 
 
+        PieceDbDAO pieceDbDAO = new PieceDbDAO();
+        Piece piecebyIDalt = pieceDbDAO.getPieceById(1);
+        Piece piecebyIDneu = pieceDbDAO.getPieceByIdNeu(1);
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println("ALT PIECE ");
+        System.out.println("getPieceById ALT: " + piecebyIDalt.getNumber());
+        System.out.println("getColourIDALT: " + pieceDbDAO.getColourIdFromPeace(1));
+        System.out.println("getNumberofPeace ALT: " + pieceDbDAO.getNumberOfPiece(1));
+
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println("NEU PIECE ");
+        System.out.println("getPieceById NEU: " + piecebyIDneu.getNumber());
+        System.out.println("getColorID NEU: " + pieceDbDAO.getColourIdFromPeaceNeu(1));
+        System.out.println("getNumberOfPeace NEU: " + pieceDbDAO.getNumberOfPieceNeu(1));
     }
 
     public static void open() {

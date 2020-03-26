@@ -1,7 +1,11 @@
 package ch.zhaw.psit3.crazydog.Model.Piece;
 
+import ch.zhaw.psit3.crazydog.Model.Player.Player;
+import ch.zhaw.psit3.crazydog.db.DBCon;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PieceDbDAO implements PieceDAO {
@@ -15,7 +19,6 @@ public class PieceDbDAO implements PieceDAO {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
-            System.out.print("Connecting to SQL Server ... ");
             PreparedStatement ps = con.prepareStatement("SELECT * FROM Pieces WHERE pieceID=?");
             ps.setInt(1, id);
             // Load SQL Server JDBC driver and establish connection.
@@ -23,7 +26,7 @@ public class PieceDbDAO implements PieceDAO {
             Piece piece = new Piece();
             if (rs.next()) {
                 piece.setId(rs.getInt("pieceID"));
-                piece.setColour(rs.getInt("colourID"));
+                piece.setColourId(rs.getInt("colourID"));
                 piece.setNumber(rs.getInt("number"));
             }
             con.close();
@@ -36,6 +39,27 @@ public class PieceDbDAO implements PieceDAO {
     }
 
     @Override
+    public Piece getPieceByIdNeu(Integer id) {
+        String querry = "SELECT * FROM Pieces WHERE pieceID=?";
+        HashMap<Integer,Integer> intKey = new HashMap<>();
+        intKey.put(1, id);
+        DBCon.open();
+        ResultSet rs = DBCon.giveResultWithIntKey(querry, intKey);
+        Piece piece = new Piece();
+        try {
+            if (rs.next()) {
+                piece.setId(rs.getInt("pieceID"));
+                piece.setColourId(rs.getInt("colourID"));
+                piece.setNumber(rs.getInt("number"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DBCon.close();
+        return piece;
+    }
+
+    @Override
     public List<Piece> getAllPieces() {
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
         Connection con = null;
@@ -45,7 +69,6 @@ public class PieceDbDAO implements PieceDAO {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
-            System.out.print("Connecting to SQL Server ... ");
             stmt = con.createStatement();
             // Load SQL Server JDBC driver and establish connection.
             rs = stmt.executeQuery("SELECT * FROM pieces");
@@ -69,6 +92,27 @@ public class PieceDbDAO implements PieceDAO {
     }
 
     @Override
+    public List<Piece> getAllPiecesNeu() {
+        String querry = "SELECT * FROM pieces";
+        DBCon.open();
+        ResultSet rs = DBCon.giveResult(querry);
+        List<Piece> pieceList = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                int pieceId = rs.getInt("pieceID");
+                int number = rs.getInt("number");
+                int colourId = rs.getInt("colourId");
+                Piece dbPiece = new Piece(pieceId, number, colourId);
+                pieceList.add(dbPiece);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DBCon.close();
+        return pieceList;
+    }
+
+    @Override
     public int getColourIdFromPeace(Integer id) {
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
         Connection con = null;
@@ -77,8 +121,7 @@ public class PieceDbDAO implements PieceDAO {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
-            System.out.print("Connecting to SQL Server ... ");
-            PreparedStatement ps = con.prepareStatement("SELECT colorId FROM pieces WHERE pieceID=? ");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM pieces WHERE pieceID=?");
             ps.setInt(1, id);
             // Load SQL Server JDBC driver and establish connection.
             rs = ps.executeQuery();
@@ -86,7 +129,7 @@ public class PieceDbDAO implements PieceDAO {
             List<Piece> pieceList = new ArrayList<>();
             Piece piece = new Piece();
             if (rs.next()) {
-                piece.setColour(rs.getInt("colourID"));
+                piece.setColourId(rs.getInt("colourID"));
             }
             con.close();
             return piece.getColourId();
@@ -99,6 +142,25 @@ public class PieceDbDAO implements PieceDAO {
     }
 
     @Override
+    public int getColourIdFromPeaceNeu(Integer id) {
+        String querry = "SELECT * FROM pieces WHERE pieceID=?";
+        HashMap<Integer,Integer> intKey = new HashMap<>();
+        intKey.put(1, id);
+        DBCon.open();
+        ResultSet rs = DBCon.giveResultWithIntKey(querry, intKey);
+        Piece piece = new Piece();
+        try {
+            if (rs.next()) {
+                piece.setColourId(rs.getInt("colourID"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DBCon.close();
+        return piece.getColourId();
+    }
+
+    @Override
     public int getNumberOfPiece(Integer id) {
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
         Connection con = null;
@@ -107,13 +169,11 @@ public class PieceDbDAO implements PieceDAO {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
-            System.out.print("Connecting to SQL Server ... ");
-            PreparedStatement ps = con.prepareStatement("SELECT number FROM pieces WHERE pieceID=? ");
+            PreparedStatement ps = con.prepareStatement("SELECT number FROM pieces WHERE pieceID=?");
             ps.setInt(1, id);
             // Load SQL Server JDBC driver and establish connection.
             rs = ps.executeQuery();
 
-            List<Piece> pieceList = new ArrayList<>();
             Piece piece = new Piece();
             if (rs.next()) {
                 piece.setNumber(rs.getInt("number"));
@@ -126,5 +186,24 @@ public class PieceDbDAO implements PieceDAO {
 
         }
         return 0;
+    }
+
+    @Override
+    public int getNumberOfPieceNeu(Integer id) {
+        String querry = "SELECT number FROM pieces WHERE pieceID=?";
+        HashMap<Integer,Integer> intKey = new HashMap<>();
+        intKey.put(1, id);
+        DBCon.open();
+        ResultSet rs = DBCon.giveResultWithIntKey(querry, intKey);
+        Piece piece = new Piece();
+        try {
+            if (rs.next()) {
+                piece.setNumber(rs.getInt("number"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        DBCon.close();
+        return piece.getNumber();
     }
 }

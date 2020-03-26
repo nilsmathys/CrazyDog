@@ -44,7 +44,7 @@ public class Piece {
         return colourId;
     }
 
-    public void setColour(int colourId) {
+    public void setColourId(int colourId) {
         this.colourId = colourId;
     }
 
