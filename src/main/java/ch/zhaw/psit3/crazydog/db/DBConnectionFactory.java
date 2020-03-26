@@ -1,4 +1,4 @@
-package ch.zhaw.psit3.crazydog;
+package ch.zhaw.psit3.crazydog.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,7 +18,7 @@ public class DBConnectionFactory {
     }
 
     public static Connection getConnection() throws SQLException {
-        Connection conn = null;
+        Connection conn;
         try {
             conn = DriverManager.getConnection(connectionUrl);
         } catch (Exception e){
@@ -29,10 +29,4 @@ public class DBConnectionFactory {
         return conn;
     }
 
-    public static DBConnectionFactory getInstance() {
-        if (dbConnectionFactory == null) {
-            dbConnectionFactory = new DBConnectionFactory();
-        }
-        return dbConnectionFactory;
-    }
 }

@@ -1,4 +1,4 @@
-package ch.zhaw.psit3.crazydog;
+package ch.zhaw.psit3.crazydog.Model.GameField;
 
 public class GameField {
     private String gameFieldName;
@@ -6,7 +6,7 @@ public class GameField {
     private String cssId;
     private String color;
 
-    private GameField(String startImageName,String cssId, String gameFieldName, String color) {
+    public GameField(String startImageName,String cssId, String gameFieldName, String color) {
         this.gameFieldName = gameFieldName;
         this.startImageName = startImageName;
         this.color = color;
