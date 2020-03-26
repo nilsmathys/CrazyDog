@@ -10,14 +10,18 @@ import java.util.List;
 
 public class PlayerDbDAO implements PlayerDAO {
 
-
+    /**
+     * Methode um einen Spieler von der Datenbank auszulesen anhand der ID.
+     * @param id Integer der Id der Spielfigur
+     * @return player
+     */
     @Override
     public Player getPlayerById(Integer id) {
         String querry = "SELECT * FROM Players WHERE playerID=?";
-        HashMap<Integer, Integer> intKey = new HashMap<>();
-        intKey.put(1, id);
+        HashMap<Integer, Integer> intParameters = new HashMap<>();
+        intParameters.put(1, id);
         DBCon.open();
-        ResultSet rs = DBCon.giveResultWithIntKey(querry, intKey);
+        ResultSet rs = DBCon.giveResultWithIntKey(querry, intParameters);
         Player player = new Player();
         try {
             if (rs.next()) {
@@ -33,7 +37,10 @@ public class PlayerDbDAO implements PlayerDAO {
         return player;
     }
 
-
+    /**
+     * Methode um alle Spieler der Datenbank auszulesen und in eine Liste abzuspeichern.
+     * @return playerList, Liste der Spieler in der Datenbank
+     */
     @Override
     public List<Player> getAllPlayers() {
         String querry = "SELECT * FROM players";
@@ -55,15 +62,20 @@ public class PlayerDbDAO implements PlayerDAO {
         return playerList;
     }
 
-
+    /**
+     * Methode um einen Spieler von der Datenbank auszulesen anhand des Usernamens und des Passwortes.
+     * @param username Username des Spielers
+     * @param pw Passwort des Spielers
+     * @return player
+     */
     @Override
     public Player getPlayerByUsernameAndPw(String username, String pw) {
         String querry = "SELECT * FROM Players WHERE username=? AND password=?";
-        HashMap<Integer, String> stringKey = new HashMap<>();
-        stringKey.put(1, username);
-        stringKey.put(2, pw);
+        HashMap<Integer, String> stringParameters = new HashMap<>();
+        stringParameters.put(1, username);
+        stringParameters.put(2, pw);
         DBCon.open();
-        ResultSet rs = DBCon.giveResultWithStringKey(querry, stringKey);
+        ResultSet rs = DBCon.giveResultWithStringKey(querry, stringParameters);
         Player player = new Player();
         try {
             if (rs.next()) {
@@ -79,16 +91,20 @@ public class PlayerDbDAO implements PlayerDAO {
         return player;
     }
 
-
+    /**
+     * Methode um einen Spieler der Datenbank hinzuzufügen
+     * @param player Spieler der hinzugefügt werden soll
+     * @return true, falls der Spieler der Datenbank hinzugefügt werden konnte, ansonsten false
+     */
     @Override
     public boolean insertPlayer(Player player) {
         String querry = "INSERT INTO Players (username, email, password) VALUES (?,?,?)";
-        HashMap<Integer, String> stringKey = new HashMap<>();
-        stringKey.put(1, player.getUsername());
-        stringKey.put(2, player.getEmail());
-        stringKey.put(3, player.getPw());
+        HashMap<Integer, String> stringParameters = new HashMap<>();
+        stringParameters.put(1, player.getUsername());
+        stringParameters.put(2, player.getEmail());
+        stringParameters.put(3, player.getPw());
         DBCon.open();
-        int i = DBCon.executeUpdateWithStringKey(querry, stringKey);
+        int i = DBCon.executeUpdateWithStringKey(querry, stringParameters);
         try {
             if (i == 1) {
                 return true;
@@ -100,17 +116,23 @@ public class PlayerDbDAO implements PlayerDAO {
         return false;
     }
 
+    /**
+     * Überschreibt einen gewünschten Spieler mit einem neuen Spieler
+     * @param player der neue Spieler
+     * @param id die Id, an der der neue Spieler den alten Spieler ersetzen soll
+     * @return true, falls der Spieler der Datenbank hinzugefügt werden konnte, ansonsten false
+     */
     @Override
     public boolean updatePlayer(Player player, int id) {
         String querry = "UPDATE Players SET username=?, email=?, password=? WHERE playerID=?)";
-        HashMap<Integer, String> stringKey = new HashMap<>();
-        HashMap<Integer, Integer> intKey = new HashMap<>();
-        stringKey.put(1, player.getUsername());
-        stringKey.put(2, player.getEmail());
-        stringKey.put(3, player.getPw());
-        intKey.put(4, id);
+        HashMap<Integer, String> stringParameters = new HashMap<>();
+        HashMap<Integer, Integer> intParameters = new HashMap<>();
+        stringParameters.put(1, player.getUsername());
+        stringParameters.put(2, player.getEmail());
+        stringParameters.put(3, player.getPw());
+        intParameters.put(4, id);
         DBCon.open();
-        int i = DBCon.executeUpdateWithIntAndStringKey(querry, stringKey, intKey);
+        int i = DBCon.executeUpdateWithIntAndStringKey(querry, stringParameters, intParameters);
         try {
             if (i == 1) {
                 return true;
@@ -122,6 +144,11 @@ public class PlayerDbDAO implements PlayerDAO {
         return false;
     }
 
+    /**
+     * Löscht ein gewüunschten Spieler aus der Datenbank anhand der ID.
+     * @param player Spieler der gelöscht werden soll
+     * @return true, falls der Spieler gelöscht werden konnte, ansonsten false
+     */
     @Override
     public boolean deletePlayer(Player player) {
         String querry = "DELETE FROM players WHERE playerID=" + player.getId();

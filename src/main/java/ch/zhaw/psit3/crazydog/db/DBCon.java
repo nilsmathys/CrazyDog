@@ -83,6 +83,9 @@ public class DBCon {
 
     }
 
+    /**
+     * Öffnet die Verbindung zum Server
+     */
     public static void open() {
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=CrazyDog;user=CrazyDog;password=CrazyDog123";
         try {
@@ -94,6 +97,9 @@ public class DBCon {
         }
     }
 
+    /**
+     * Schliesst die Verbindung
+     */
     public static void close() {
         try {
             con.close();
@@ -102,18 +108,24 @@ public class DBCon {
         }
     }
 
-    //input querry, schlüssel int & string. return resultset
-    public static ResultSet giveResultWithIntAndStringKey(String querry, HashMap<Integer, String> stringKey, HashMap<Integer, Integer> integerKey) {
+    /**
+     * Methode für eine Abfrage mit String- und Int-Paratmeterwerte für das PreparedStatement
+     * @param querry als String
+     * @param stringParameters Stringparameterwerte des Preparedstatement als HashMap Bsp: <3, "test"> wird dem dritten Fragezeichen des preparedstatement mitgegeben
+     * @param integerParameters Intparatmeterwerte des Preparedstatement als Hashmap
+     * @return ResultSet mit den Abfrageresultaten
+     */
+    public static ResultSet giveResultWithIntAndStringKey(String querry, HashMap<Integer, String> stringParameters, HashMap<Integer, Integer> integerParameters) {
         ResultSet rs = null;
         try {
             System.out.print("Connecting to SQL Server ... ");
-            int sizeHashMap = stringKey.size() + integerKey.size();
+            int sizeHashMap = stringParameters.size() + integerParameters.size();
             PreparedStatement ps = con.prepareStatement(querry);
             for (int i = 1; i <= sizeHashMap; i++) {
-                if (stringKey.containsValue(i)) {
-                    ps.setString(i, stringKey.get(i));
+                if (stringParameters.containsValue(i)) {
+                    ps.setString(i, stringParameters.get(i));
                 } else {
-                    ps.setInt(i, integerKey.get(i));
+                    ps.setInt(i, integerParameters.get(i));
                 }
             }
             rs = ps.executeQuery();
@@ -125,13 +137,19 @@ public class DBCon {
         return rs;
     }
 
-    public static ResultSet giveResultWithIntKey(String querry, HashMap<Integer, Integer> integerKey) {
+    /**
+     * Methode für eine Abfrage mit Int-Paratmeterwerte für das PreparedStatement
+     * @param querry als String
+     * @param integerParameters Intparatmeterwerte des Preparedstatement als Hashmap
+     * @return ResultSet mit den Abfrageresultaten
+     */
+    public static ResultSet giveResultWithIntKey(String querry, HashMap<Integer, Integer> integerParameters) {
         ResultSet rs = null;
         try {
-            int sizeHashMap = integerKey.size();
+            int sizeHashMap = integerParameters.size();
             PreparedStatement ps = con.prepareStatement(querry);
             for (int i = 1; i <= sizeHashMap; i++) {
-                ps.setInt(i, integerKey.get(i));
+                ps.setInt(i, integerParameters.get(i));
             }
             rs = ps.executeQuery();
 
@@ -143,13 +161,19 @@ public class DBCon {
         return rs;
     }
 
-    public static ResultSet giveResultWithStringKey(String querry, HashMap<Integer, String> stringKey) {
+    /**
+     * Methode für eine Abfrage mit String-Paratmeterwerte für das PreparedStatement
+     * @param querry als String
+     * @param stringParameters Stringparatmeterwerte des Preparedstatement als HashMap Bsp: <3, "test"> wird dem dritten Fragezeichen des preparedstatement mitgegeben
+     * @return ResultSet mit den Abfrageresultaten
+     */
+    public static ResultSet giveResultWithStringKey(String querry, HashMap<Integer, String> stringParameters) {
         ResultSet rs = null;
         try {
-            int sizeHashMap = stringKey.size();
+            int sizeHashMap = stringParameters.size();
             PreparedStatement ps = con.prepareStatement(querry);
             for (int i = 1; i <= sizeHashMap; i++) {
-                ps.setString(i, stringKey.get(i));
+                ps.setString(i, stringParameters.get(i));
             }
             rs = ps.executeQuery();
 
@@ -161,6 +185,11 @@ public class DBCon {
         return rs;
     }
 
+    /**
+     * Methode für eine Abfrage ohne Paratmeterwerte
+     * @param querry als String
+     * @return ResultSet mit den Abfrageresultaten
+     */
     public static ResultSet giveResult(String querry) {
         ResultSet rs = null;
         try {
@@ -174,16 +203,23 @@ public class DBCon {
         return rs;
     }
 
-    public static int executeUpdateWithIntAndStringKey(String querry, HashMap<Integer, String> stringKey, HashMap<Integer, Integer> integerKey) {
+    /**
+     * Methode für eine Updateabfrage mit String- und Int-Paratmeterwerte für das PreparedStatement
+     * @param querry als String
+     * @param stringParameters des Preparedstatement als HashMap Bsp: <3, "test"> wird dem dritten Fragezeichen des preparedstatement mitgegeben
+     * @param integerParameters Intparatmeterwerte des Preparedstatement als Hashmap
+     * @return int, falls Update funktioniert hat = 1, falls nicht = 0
+     */
+    public static int executeUpdateWithIntAndStringKey(String querry, HashMap<Integer, String> stringParameters, HashMap<Integer, Integer> integerParameters) {
         int isUpdatet = 0;
         try {
-            int sizeHashMap = stringKey.size() + integerKey.size();
+            int sizeHashMap = stringParameters.size() + integerParameters.size();
             PreparedStatement ps = con.prepareStatement(querry);
             for (int i = 1; i <= sizeHashMap; i++) {
-                if (stringKey.containsValue(i)) {
-                    ps.setString(i, stringKey.get(i));
+                if (stringParameters.containsValue(i)) {
+                    ps.setString(i, stringParameters.get(i));
                 } else {
-                    ps.setInt(i, integerKey.get(i));
+                    ps.setInt(i, integerParameters.get(i));
                 }
             }
             isUpdatet = ps.executeUpdate();
@@ -195,13 +231,19 @@ public class DBCon {
         return isUpdatet;
     }
 
-    public static int executeUpdateWithIntKey(String querry, HashMap<Integer, Integer> integerKey) {
+    /**
+     * Methode für eine Updateabfrage mit Int-Paratmeterwerte für das PreparedStatement
+     * @param querry als String
+     * @param integerParameters Intparatmeterwerte des Preparedstatement als Hashmap
+     * @return int, falls Update funktioniert hat = 1, falls nicht = 0
+     */
+    public static int executeUpdateWithIntKey(String querry, HashMap<Integer, Integer> integerParameters) {
         int isUpdatet = 0;
         try {
-            int sizeHashMap = integerKey.size();
+            int sizeHashMap = integerParameters.size();
             PreparedStatement ps = con.prepareStatement(querry);
             for (int i = 1; i <= sizeHashMap; i++) {
-                ps.setInt(i, integerKey.get(i));
+                ps.setInt(i, integerParameters.get(i));
             }
             isUpdatet = ps.executeUpdate();
             return isUpdatet;
@@ -212,13 +254,19 @@ public class DBCon {
         return isUpdatet;
     }
 
-    public static int executeUpdateWithStringKey(String querry, HashMap<Integer, String> stringKey) {
+    /**
+     * Methode für eine Updateabfrage mit String-Paratmeterwerte für das PreparedStatement
+     * @param querry als String
+     * @param stringParameters Stringparatmeterwerte des Preparedstatement als HashMap Bsp: <3, "test"> wird dem dritten Fragezeichen des preparedstatement mitgegeben
+     * @return int, falls Update funktioniert hat = 1, falls nicht = 0
+     */
+    public static int executeUpdateWithStringKey(String querry, HashMap<Integer, String> stringParameters) {
         int isUpdatet = 0;
         try {
-            int sizeHashMap = stringKey.size();
+            int sizeHashMap = stringParameters.size();
             PreparedStatement ps = con.prepareStatement(querry);
             for (int i = 1; i <= sizeHashMap; i++) {
-                ps.setString(i, stringKey.get(i));
+                ps.setString(i, stringParameters.get(i));
             }
             isUpdatet = ps.executeUpdate();
             return isUpdatet;
@@ -229,6 +277,11 @@ public class DBCon {
         return isUpdatet;
     }
 
+    /**
+     * Methode für eine Updateabfrage ohne Paratmeterwerte
+     * @param querry als String
+     * @return int, falls Update funktioniert hat = 1, falls nicht = 0
+     */
     public static int executeUpdate(String querry) {
         int isUpdatet = 0;
         try {

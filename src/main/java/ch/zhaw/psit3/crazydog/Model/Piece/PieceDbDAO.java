@@ -10,14 +10,18 @@ import java.util.List;
 
 public class PieceDbDAO implements PieceDAO {
 
-
+    /**
+     * Methode um die Spielfigur von der Datenbank auszulesen anhand der ID.
+     * @param id Integer der Id der Spielfigur
+     * @return piece
+     */
     @Override
     public Piece getPieceById(Integer id) {
         String querry = "SELECT * FROM Pieces WHERE pieceID=?";
-        HashMap<Integer, Integer> intKey = new HashMap<>();
-        intKey.put(1, id);
+        HashMap<Integer, Integer> intParameters = new HashMap<>();
+        intParameters.put(1, id);
         DBCon.open();
-        ResultSet rs = DBCon.giveResultWithIntKey(querry, intKey);
+        ResultSet rs = DBCon.giveResultWithIntKey(querry, intParameters);
         Piece piece = new Piece();
         try {
             if (rs.next()) {
@@ -32,7 +36,10 @@ public class PieceDbDAO implements PieceDAO {
         return piece;
     }
 
-
+    /**
+     * Methode um alle Figuren der Datenbank auszulesen und in eine Liste abzuspeichern.
+     * @return pieceList, Liste der Figuren in der Datenbank
+     */
     @Override
     public List<Piece> getAllPieces() {
         String querry = "SELECT * FROM pieces";
@@ -54,14 +61,18 @@ public class PieceDbDAO implements PieceDAO {
         return pieceList;
     }
 
-
+    /**
+     * Gibt die ColourId der gewünschten Figur zurück
+     * @param id FigurenId, bei der der man die Farbid wissen möchte
+     * @return int mit der Colourid
+     */
     @Override
     public int getColourIdFromPeace(Integer id) {
         String querry = "SELECT * FROM pieces WHERE pieceID=?";
-        HashMap<Integer, Integer> intKey = new HashMap<>();
-        intKey.put(1, id);
+        HashMap<Integer, Integer> intParameters = new HashMap<>();
+        intParameters.put(1, id);
         DBCon.open();
-        ResultSet rs = DBCon.giveResultWithIntKey(querry, intKey);
+        ResultSet rs = DBCon.giveResultWithIntKey(querry, intParameters);
         Piece piece = new Piece();
         try {
             if (rs.next()) {
@@ -74,14 +85,18 @@ public class PieceDbDAO implements PieceDAO {
         return piece.getColourId();
     }
 
-
+    /**
+     * Gibt die Nummer der gewünschten Figur zurück
+     * @param id FigurenId, bei der der man die Nummer wissen möchte
+     * @return int mit der Nummer
+     */
     @Override
     public int getNumberOfPiece(Integer id) {
         String querry = "SELECT number FROM pieces WHERE pieceID=?";
-        HashMap<Integer, Integer> intKey = new HashMap<>();
-        intKey.put(1, id);
+        HashMap<Integer, Integer> intParameters = new HashMap<>();
+        intParameters.put(1, id);
         DBCon.open();
-        ResultSet rs = DBCon.giveResultWithIntKey(querry, intKey);
+        ResultSet rs = DBCon.giveResultWithIntKey(querry, intParameters);
         Piece piece = new Piece();
         try {
             if (rs.next()) {
