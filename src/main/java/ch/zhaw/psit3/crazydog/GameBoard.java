@@ -6,7 +6,7 @@ public class GameBoard {
 
     private GameField[] fields;
 
-    private GameBoard() {
+    public GameBoard() {
         initialize();
     }
 

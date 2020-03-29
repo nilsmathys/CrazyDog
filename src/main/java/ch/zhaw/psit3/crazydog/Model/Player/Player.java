@@ -23,16 +23,16 @@ public class Player {
 
     @NotNull
     @Size(min = 8, max = 30)
-    private String pw;
+    private String password;
 
     public Player() {
 
     }
 
-    public Player(String username, String email, String pw) {
+    public Player(String username, String email, String password) {
         this.username = username;
         this.email = email;
-        this.pw = pw;
+        this.password = password;
     }
 
     public Player(Integer id, String username, String email) {
@@ -41,11 +41,11 @@ public class Player {
         this.email = email;
     }
 
-    public Player(Integer id, String username, String email, String pw) {
+    public Player(Integer id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
-        this.pw = pw;
+        this.password = password;
     }
 
     public int getId() {
@@ -73,10 +73,10 @@ public class Player {
     }
 
     public String getPw() {
-        return pw;
+        return password;
     }
 
-    public void setPw(String pw) {
-        this.pw = pw;
+    public void setPw(String password) {
+        this.password = password;
     }
 }

@@ -121,6 +121,11 @@ public class PieceDAO {
         return piece.getColourId();
     }
 
+    /**
+     * Methode um die Farbe einer Figur zu ermitteln anhand ihrer Id.
+     * @param id FigurenId, bei der der man die Farbe wissen möchte
+     * @return String mit der Farbe
+     */
     public static String getColourFromPiece(int id) {
         Connection con = null;
         String colour = null;
@@ -182,6 +187,11 @@ public class PieceDAO {
         return piece.getNumber();
     }
 
+    /**
+     * Methode um die PictureId der Figur zu ermitteln
+     * @param id FigurenId, bei der der man die PictureId wissen möchte
+     * @return String mit der PictureId
+     */
     public static String getPictureId(int id) {
         Connection con = null;
         Piece piece = new Piece();
