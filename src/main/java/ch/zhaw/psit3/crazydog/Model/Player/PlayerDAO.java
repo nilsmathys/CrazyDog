@@ -1,6 +1,6 @@
 package ch.zhaw.psit3.crazydog.Model.Player;
 
-import ch.zhaw.psit3.crazydog.db.DBCon;
+import ch.zhaw.psit3.crazydog.db.DBConnectionFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,23 +15,81 @@ public class PlayerDAO {
      * @param id Integer der Id der Spielfigur
      * @return player
      */
-    public Player getPlayerById(Integer id) {
-        String query = "SELECT playerId, username, email, password FROM Players WHERE playerID=?";
-        Object[] params = {id};
-        DBCon.open();
-        ResultSet rs = DBCon.giveResult(query, params);
-        Player player = new Player();
+    public static Player getPlayerById(int id) {
+        Connection con = null;
+        Player player = null;
         try {
+            con = DBConnectionFactory.getConnection();
+
+            String query = "SELECT playerId, username, email, password FROM Players WHERE playerID=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            int playerId = 0;
+            String username = null;
+            String email = null;
+            String password = null;
             if (rs.next()) {
-                player.setId(rs.getInt("playerID"));
-                player.setUsername(rs.getString("username"));
-                player.setEmail(rs.getString("email"));
-                player.setPw(rs.getString("password"));
+                playerId = rs.getInt("playerID");
+                username = rs.getString("username");
+                email = rs.getString("email");
+                password = rs.getString("password");
             }
-        } catch (SQLException e) {
+            player = new Player(playerId, username, email, password);
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        DBCon.close();
+        return player;
+    }
+
+    /**
+     * Gibt einen Spieler anhand seines Benutzernamens zurück
+     *
+     * @param username String Username des Spielers
+     * @return gewünschter Spieler
+     */
+    public static Player getPlayerByUsername(String username) {
+        Connection con = null;
+        Player player = null;
+        try {
+            con = DBConnectionFactory.getConnection();
+
+            String query = "SELECT playerId, username, email, password FROM Players WHERE username=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            int playerId = 0;
+            username = null;
+            String email = null;
+            String password = null;
+            if (rs.next()) {
+                playerId = rs.getInt("playerID");
+                username = rs.getString("username");
+                email = rs.getString("email");
+                password = rs.getString("password");
+            }
+            player = new Player(playerId, username, email, password);
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return player;
     }
 
@@ -40,12 +98,14 @@ public class PlayerDAO {
      *
      * @return playerList, Liste der Spieler in der Datenbank
      */
-    public List<Player> getAllPlayers() {
-        String query = "SELECT playerID, username, email FROM players";
-        DBCon.open();
-        ResultSet rs = DBCon.giveResult(query);
+    public static List<Player> getAllPlayers() {
+        Connection con = null;
         List<Player> playerList = new ArrayList<>();
         try {
+            con = DBConnectionFactory.getConnection();
+            String query = "SELECT playerID, username, email FROM players";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 int id = rs.getInt("playerID");
                 String username = rs.getString("username");
@@ -53,10 +113,18 @@ public class PlayerDAO {
                 Player dbPlayer = new Player(id, username, email);
                 playerList.add(dbPlayer);
             }
-        } catch (SQLException e) {
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        DBCon.close();
         return playerList;
     }
 
@@ -67,23 +135,39 @@ public class PlayerDAO {
      * @param pw       Passwort des Spielers
      * @return player
      */
-    public Player getPlayerByUsernameAndPw(String username, String pw) {
-        String query = "SELECT playerID, username, email, password FROM Players WHERE username=? AND password=?";
-        Object[] params = {username, pw};
-        DBCon.open();
-        ResultSet rs = DBCon.giveResult(query, params);
-        Player player = new Player();
+    public static Player getPlayerByUsernameAndPw(String username, String pw) {
+        Connection con = null;
+        Player player = null;
         try {
+            con = DBConnectionFactory.getConnection();
+            String query = "SELECT playerID, username, email, password FROM Players WHERE username=? AND password=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, pw);
+            ResultSet rs = ps.executeQuery();
+            int playerId = 0;
+            username = null;
+            String email = null;
+            String password = null;
             if (rs.next()) {
-                player.setId(rs.getInt("playerID"));
-                player.setUsername(rs.getString("username"));
-                player.setEmail(rs.getString("email"));
-                player.setPw(rs.getString("password"));
+                playerId = rs.getInt("playerID");
+                username = rs.getString("username");
+                email = rs.getString("email");
+                password = rs.getString("password");
             }
-        } catch (SQLException e) {
+            player = new Player(playerId, username, email, password);
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        DBCon.close();
         return player;
     }
 
@@ -93,20 +177,35 @@ public class PlayerDAO {
      * @param player Spieler der hinzugefügt werden soll
      * @return true, falls der Spieler der Datenbank hinzugefügt werden konnte, ansonsten false
      */
-    public boolean insertPlayer(Player player) {
-        String query = "INSERT INTO Players (username, email, password) VALUES (?,?,?)";
-        Object[] params = {player.getUsername(), player.getEmail(), player.getPw()};
-        DBCon.open();
-        int i = DBCon.executeUpdate(query, params);
-        try {
-            if (i == 1) {
-                return true;
+    public static boolean inserPlayer(Player player) {
+        Connection con = null;
+        int i = 0;
+        if (getPlayerByUsername(player.getUsername()) == null) {
+            try {
+                con = DBConnectionFactory.getConnection();
+                String query = "INSERT INTO Players (username, email, password) VALUES (?,?,?)";
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setString(1, player.getUsername());
+                ps.setString(2, player.getEmail());
+                ps.setString(3, player.getPw());
+                i = ps.executeUpdate();
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (con != null)
+                        con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        DBCon.close();
-        return false;
+        if (i == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -116,20 +215,34 @@ public class PlayerDAO {
      * @param id     die Id, an der der neue Spieler den alten Spieler ersetzen soll
      * @return true, falls der Spieler der Datenbank hinzugefügt werden konnte, ansonsten false
      */
-    public boolean updatePlayer(Player player, Integer id) {
-        String query = "UPDATE Players SET username=?, email=?, password=? WHERE playerID=?";
-        Object[] params = {player.getUsername(), player.getEmail(), player.getPw(), id};
-        DBCon.open();
-        int i = DBCon.executeUpdate(query, params);
+    public static boolean updatePlayer(Player player, int id) {
+        Connection con = null;
+        int i = 0;
         try {
-            if (i == 1) {
-                return true;
-            }
+            con = DBConnectionFactory.getConnection();
+            String query = "UPDATE Players SET username=?, email=?, password=? WHERE playerID=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, player.getUsername());
+            ps.setString(2, player.getEmail());
+            ps.setString(3, player.getPw());
+            ps.setInt(4, id);
+            i = ps.executeUpdate();
+            ps.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        DBCon.close();
-        return false;
+        if (i == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -139,18 +252,30 @@ public class PlayerDAO {
      * @return true, falls der Spieler gelöscht werden konnte, ansonsten false
      */
     public boolean deletePlayer(Player player) {
-        String query = "DELETE FROM players WHERE playerID=" + player.getId();
-        DBCon.open();
-        int i = DBCon.executeUpdate(query);
+        Connection con = null;
+        int i = 0;
         try {
-            if (i == 1) {
-                return true;
-            }
+            con = DBConnectionFactory.getConnection();
+            String query = "DELETE FROM players WHERE playerID=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, player.getId());
+            i = ps.executeUpdate();
+            ps.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        DBCon.close();
-        return false;
+        if (i == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

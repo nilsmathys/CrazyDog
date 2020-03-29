@@ -12,16 +12,26 @@ public class Piece {
 
     private int colourId;
 
+    private String pictureId;
+
     public Piece() {
 
     }
 
-    public Piece(int id, int number, int colourId) {
+    public Piece(int id, int number, int colourId, String pictureId) {
         this.id = id;
         this.number = number;
         this.colourId = colourId;
+        this.pictureId = pictureId;
     }
 
+    public String getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(String pictureId) {
+        this.pictureId = pictureId;
+    }
 
     public int getId() {
         return id;

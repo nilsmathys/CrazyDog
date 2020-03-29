@@ -1,6 +1,6 @@
 package ch.zhaw.psit3.crazydog.Model.Piece;
 
-import ch.zhaw.psit3.crazydog.db.DBCon;
+import ch.zhaw.psit3.crazydog.db.DBConnectionFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,22 +14,40 @@ public class PieceDAO {
      * @param id Integer der Id der Spielfigur
      * @return piece
      */
-    public Piece getPieceById(Integer id) {
-        String query = "SELECT pieceID, colourID, number FROM Pieces WHERE pieceID=?";
-        Object[] params = {id};
-        DBCon.open();
-        ResultSet rs = DBCon.giveResult(query, params);
-        Piece piece = new Piece();
+    public static Piece getPieceById(int id) {
+        Connection con = null;
+        Piece piece = null;
         try {
+            con = DBConnectionFactory.getConnection();
+
+            String query = "SELECT pieceID, colourID, number FROM Pieces WHERE pieceID=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            int pieceId = 0;
+            int colourId = 0;
+            int number = 0;
+            String pictureId = null;
             if (rs.next()) {
-                piece.setId(rs.getInt("pieceID"));
-                piece.setColourId(rs.getInt("colourID"));
-                piece.setNumber(rs.getInt("number"));
+                pieceId = rs.getInt("pieceID");
+                colourId = rs.getInt("colourID");
+                number = rs.getInt("number");
+                pictureId = rs.getString("pictureId");
+
             }
-        } catch (SQLException e) {
+            piece = new Piece(pieceId, number, colourId, pictureId);
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        DBCon.close();
         return piece;
     }
 
@@ -38,23 +56,34 @@ public class PieceDAO {
      *
      * @return pieceList, Liste der Figuren in der Datenbank
      */
-    public List<Piece> getAllPieces() {
-        String query = "SELECT pieceID, number, colourID FROM pieces";
-        DBCon.open();
-        ResultSet rs = DBCon.giveResult(query);
+    public static List<Piece> getAllPieces() {
+        Connection con = null;
         List<Piece> pieceList = new ArrayList<>();
         try {
+            con = DBConnectionFactory.getConnection();
+            String query = "SELECT pieceID, number, colourID, pictureName FROM pieces";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 int pieceId = rs.getInt("pieceID");
                 int number = rs.getInt("number");
                 int colourId = rs.getInt("colourId");
-                Piece dbPiece = new Piece(pieceId, number, colourId);
+                String pictureName = rs.getString("pictureName");
+                Piece dbPiece = new Piece(pieceId, number, colourId, pictureName);
                 pieceList.add(dbPiece);
             }
-        } catch (SQLException e) {
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        DBCon.close();
         return pieceList;
     }
 
@@ -64,21 +93,59 @@ public class PieceDAO {
      * @param id FigurenId, bei der der man die Farbid wissen möchte
      * @return int mit der Colourid
      */
-    public int getColourIdFromPeace(Integer id) {
-        String query = "SELECT colourID FROM pieces WHERE pieceID=?";
-        Object[] params = {id};
-        DBCon.open();
-        ResultSet rs = DBCon.giveResult(query, params);
+    public static int getColourIdFromPeace(int id) {
+        Connection con = null;
         Piece piece = new Piece();
         try {
+            con = DBConnectionFactory.getConnection();
+            String query = "SELECT colourID FROM pieces WHERE pieceID=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            piece.setColourId(0);
             if (rs.next()) {
                 piece.setColourId(rs.getInt("colourID"));
             }
-        } catch (SQLException e) {
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        DBCon.close();
         return piece.getColourId();
+    }
+
+    public static String getColourFromPiece(int id) {
+        Connection con = null;
+        String colour = null;
+        try {
+            con = DBConnectionFactory.getConnection();
+            String query = "SELECT colourname FROM pieces p JOIN colour c ON c.colourID = p.colourID WHERE pieceID=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                colour = rs.getString("colourname");
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return colour;
     }
 
     /**
@@ -87,21 +154,59 @@ public class PieceDAO {
      * @param id FigurenId, bei der der man die Nummer wissen möchte
      * @return int mit der Nummer
      */
-    public int getNumberOfPiece(Integer id) {
-        String query = "SELECT number FROM pieces WHERE pieceID=?";
-
-        Object[] params = {id};
-        DBCon.open();
-        ResultSet rs = DBCon.giveResult(query, params);
+    public static int getNumberOfPiece(int id) {
+        Connection con = null;
         Piece piece = new Piece();
         try {
+            con = DBConnectionFactory.getConnection();
+            String query = "SELECT number FROM pieces WHERE pieceID=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            piece.setNumber(0);
             if (rs.next()) {
                 piece.setNumber(rs.getInt("number"));
             }
-        } catch (SQLException e) {
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        DBCon.close();
         return piece.getNumber();
+    }
+
+    public static String getPictureId(int id) {
+        Connection con = null;
+        Piece piece = new Piece();
+        try {
+            con = DBConnectionFactory.getConnection();
+            String query = "SELECT pictureId FROM pieces WHERE pieceID=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            piece.setNumber(0);
+            if (rs.next()) {
+                piece.setPictureId(rs.getString("pictureId"));
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return piece.getPictureId();
     }
 }
