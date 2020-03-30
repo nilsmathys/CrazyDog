@@ -1,9 +1,33 @@
 html {
     overflow: hidden;
 }
-#body {
+body {
     color: #444444;
+    margin: 100px 50px;
 }
+.container-top {
+    min-width: 1600px;
+    display: flex;
+
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.container-left, .container-right {
+    width: 20%;
+}
+.container-center {
+    height: 890px;
+    width: 890px;
+    position: relative;
+}
+
+.container-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
 /* CSS for cards starts here */
 #card2hover:hover {
     position: relative;
@@ -75,8 +99,8 @@ html {
     height: 890px;
     width: 890px;
     position: absolute;
-    top: 0;
-    left: 505px;
+    top: -20px;
+    left: -10px;
     background-color: #cccccc;
     border-radius: 50%;
     display: inline-block;
@@ -85,15 +109,16 @@ html {
     height: 380px;
     width: 380px;
     position: absolute;
-    top: 253px;
-    left: 762px;
+    top: 230px;
+    left: 250px;
     background-color: white;
     border-radius: 50%;
     display: inline-block;
 }
 .grid {
+    left: 14px;
     z-index: 2;
-    position: relative;
+    position: absolute;
 }
 .playingcard {
     width: 300px;
@@ -104,7 +129,7 @@ html {
 }
 .playername {
     margin-left: 40px;
-    font-size: 40px;
+    font-size: 28px;
     vertical-align: middle;
 }
 .playerimage {
