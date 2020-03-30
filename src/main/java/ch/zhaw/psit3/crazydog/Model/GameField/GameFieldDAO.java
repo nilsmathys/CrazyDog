@@ -25,7 +25,7 @@ public class GameFieldDAO {
 
             String query = "INSERT INTO dbo.Gamefields (startimagename, cssid, gamefieldNameID, colourID) VALUES (?,?,?,?)";
             PreparedStatement st = con.prepareStatement(query);
-            st.setString(1, field.getStartImageName());
+            st.setString(1, field.getImageName());
             st.setString(2, field.getCssId());
             st.setInt(3, gameFieldNameId);
             st.setInt(4, colourID);

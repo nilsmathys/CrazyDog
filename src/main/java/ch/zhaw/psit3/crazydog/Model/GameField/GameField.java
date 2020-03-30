@@ -2,12 +2,12 @@ package ch.zhaw.psit3.crazydog.Model.GameField;
 
 public class GameField {
     private String gameFieldName;
-    private String startImageName;
+    private String imageName;
     private String cssId;
     private String color;
 
-    public GameField(String startImageName,String cssId, String gameFieldName, String color) {
-        setStartImageName(startImageName);
+    public GameField(String imageName,String cssId, String gameFieldName, String color) {
+        setImageName(imageName);
         setCssId(cssId);
         setGameFieldName(gameFieldName);
         setColor(color);
@@ -15,8 +15,8 @@ public class GameField {
 
     public String getGameFieldName() { return gameFieldName; }
 
-    public String getStartImageName() {
-        return startImageName;
+    public String getImageName() {
+        return imageName;
     }
 
     public String getColor() {
@@ -36,8 +36,8 @@ public class GameField {
         this.gameFieldName = gameFieldName;
     }
 
-    public void setStartImageName(String startImageName) {
-        this.startImageName = startImageName;
+    public void setImageName(String startImageName) {
+        this.imageName = startImageName;
     }
 
     public void setColor(String color) {
