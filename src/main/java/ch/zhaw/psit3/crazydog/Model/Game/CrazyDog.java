@@ -15,11 +15,12 @@ public class CrazyDog {
     static final int colourIdBlue = 6;
 
     private int gameId = 0;
-    Team team1 = null;
-    Team team2 = null;
-    List<Piece> pieceList;
+    private Team team1 = null;
+    private Team team2 = null;
+    private int nextPlayer; //Id des Spielrs der als nächster dran ist.
+    private List<Piece> pieceList;
 //    List<Card> cardList;
-    GameBoard gameBoard;
+    private GameBoard gameBoard;
 
 
     /**
@@ -32,39 +33,24 @@ public class CrazyDog {
     public CrazyDog(Player player1, Player player2, Player player3, Player player4) {
         this.team1 = new Team(player1, player2, colourIdRed, colourIdGreen);
         this.team2 = new Team(player3, player4, colourIdYellow, colourIdBlue);
+        this.nextPlayer = player1.getId();
         this.gameBoard = new GameBoard();
-        PieceDAO pieceDAO = new PieceDAO();
-        this.pieceList = pieceDAO.getAllPieces();
-        //CardDAO cardDAO = new CardDAO();
-        //this.cardList = cardDAO.getAllCards();
+        this.pieceList = PieceDAO.getAllPieces();
+        //this.cardList = CardDAO.getAllCards();
     }
 
     /**
-     * Konstruktor, falls ein Spiel fortgesetzt werden soll.
-     * @param gameId
+     * Konstrutor falls bereits ein Spiel besteht.
      */
-    public CrazyDog(int gameId) {
-        loadGame(gameId);
-    }
-
-    /**
-     * Lädt Spiel anhand der gameId
-     * @param gameId int
-     */
-    public void loadGame(int gameId) {
+    public CrazyDog(int gameId, Player player1, Player player2, Player player3, Player player4, int nextPlayer, GameBoard gameBoard) {
+        this.gameId = gameId;
+        this.team1 = new Team(player1, player2, colourIdRed, colourIdGreen);
+        this.team2 = new Team(player3, player4, colourIdYellow, colourIdBlue);
+        this.nextPlayer = nextPlayer;
+        this.gameBoard = gameBoard;
+        this.pieceList = PieceDAO.getAllPieces();
+        //this.cardList = CardDAO.getAllCards();
 
     }
 
-    /**
-     * Speichert das Spiel anhand der GameId.
-     * Falls kein Spiel existiert ist die GameId = 0 und es wird ein neues Spiel in die Datenbank gespeichert.
-     * @param gameId int
-     */
-    public void saveGame(int gameId) {
-        if(gameId == 0) {
-            //saveNewGame
-        } else {
-            //saveExistGame
-        }
-    }
 }
