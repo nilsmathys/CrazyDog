@@ -7,14 +7,13 @@ public class GameField {
     private String color;
 
     public GameField(String startImageName,String cssId, String gameFieldName, String color) {
-        this.gameFieldName = gameFieldName;
-        this.startImageName = startImageName;
-        this.color = color;
+        setStartImageName(startImageName);
+        setCssId(cssId);
+        setGameFieldName(gameFieldName);
+        setColor(color);
     }
 
-    public String getGameFieldName() {
-        return gameFieldName;
-    }
+    public String getGameFieldName() { return gameFieldName; }
 
     public String getStartImageName() {
         return startImageName;
@@ -29,6 +28,11 @@ public class GameField {
     }
 
     public void setGameFieldName(String gameFieldName) {
+        if(!(gameFieldName.equals("wormhole") || gameFieldName.equals("standard") || gameFieldName.equals("startfield") ||
+                gameFieldName.equals("destinationfield") || gameFieldName.equals("homefield")))
+        {
+            throw new IllegalArgumentException("Please use a right Game Field Name.");
+        }
         this.gameFieldName = gameFieldName;
     }
 
@@ -37,6 +41,11 @@ public class GameField {
     }
 
     public void setColor(String color) {
+        if(!(color.equals("white") || color.equals("black") || color.equals("green") ||
+                color.equals("yellow") || color.equals("red") || color.equals("blue")))
+        {
+            throw new IllegalArgumentException("Please use a right color.");
+        }
         this.color = color;
     }
     public void setCssId(String cssId) {
