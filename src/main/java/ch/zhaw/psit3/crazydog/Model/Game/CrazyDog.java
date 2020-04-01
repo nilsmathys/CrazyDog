@@ -1,6 +1,7 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
 import ch.zhaw.psit3.crazydog.GameBoard;
+import ch.zhaw.psit3.crazydog.Model.Card.CardStock;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Piece.PieceDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
@@ -15,13 +16,13 @@ public class CrazyDog {
     static final int colourIdBlue = 6;
 
     private int gameId = 0;
-    private Team team1 = null;
-    private Team team2 = null;
+    private static Team team1 = null;
+    private static Team team2 = null;
     private int nextPlayer; //Id des Spielrs der als nächster dran ist.
     private List<Piece> pieceList;
-//    List<Card> cardList;
+    private CardStock stock;
     private GameBoard gameBoard;
-
+    private int roundNumber = 1;
 
     /**
      * Konstruktor falls neues Spiel
@@ -36,7 +37,8 @@ public class CrazyDog {
         this.nextPlayer = player1.getId();
         this.gameBoard = new GameBoard();
         this.pieceList = PieceDAO.getAllPieces();
-        //this.cardList = CardDAO.getAllCards();
+        this.stock = new CardStock();
+        stock.createStock();
     }
 
     /**
@@ -52,5 +54,15 @@ public class CrazyDog {
         //this.cardList = CardDAO.getAllCards();
 
     }
+
+    public void play() {
+        boolean playEnded = false;
+        while (!playEnded) {
+            Round round = new Round(roundNumber, stock, team1, team2, nextPlayer);
+            playEnded = round.startRound();
+            roundNumber++;
+        }
+    }
+
 
 }
