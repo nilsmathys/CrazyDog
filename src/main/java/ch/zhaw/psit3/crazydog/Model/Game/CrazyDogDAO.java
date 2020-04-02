@@ -1,6 +1,5 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
-import ch.zhaw.psit3.crazydog.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.PlayerDAO;
 import ch.zhaw.psit3.crazydog.db.DBConnectionFactory;

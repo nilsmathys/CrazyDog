@@ -1,4 +1,4 @@
-package ch.zhaw.psit3.crazydog;
+package ch.zhaw.psit3.crazydog.Model.GameField;
 
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameFieldDAO;

@@ -1,6 +1,6 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
-import ch.zhaw.psit3.crazydog.GameBoard;
+import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Card.CardStock;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Piece.PieceDAO;
