@@ -47,7 +47,7 @@ public class CrazyDogDAO {
             Player player3 = PlayerDAO.getPlayerById(player3ID);
             Player player4 = PlayerDAO.getPlayerById(player4ID);
             //GameBoard gameBoard = GameBoardDAO.getGameBoardById(gameBoardId);
-            //CardsOnHand carsOnHand = CarsOnHandDAO.getCardsOnHandById(cardsOnHandId);
+            //CardsOnHand cardsOnHand = CarsOnHandDAO.getCardsOnHandById(cardsOnHandId);
             //crazyDog = new CrazyDog(gameId, player1, player2, player3, player4, nextPlayer, gameboard, cardsOnHand);
             rs.close();
             ps.close();

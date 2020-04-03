@@ -10,10 +10,10 @@ import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import java.util.List;
 
 public class CrazyDog {
-    static final int colourIdRed = 3;
-    static final int colourIdGreen = 4;
-    static final int colourIdYellow = 5;
-    static final int colourIdBlue = 6;
+    static final int COLOURIDRED = 3;
+    static final int COLOURIDGREEN = 4;
+    static final int COLOURIDYELLOW = 5;
+    static final int COLOURIDBLUE = 6;
 
     private int gameId = 0;
     private static Team team1 = null;
@@ -32,8 +32,8 @@ public class CrazyDog {
      * @param player4 vierter Spieler und Partner des dritten Spielers.
      */
     public CrazyDog(Player player1, Player player2, Player player3, Player player4) {
-        this.team1 = new Team(player1, player2, colourIdRed, colourIdGreen);
-        this.team2 = new Team(player3, player4, colourIdYellow, colourIdBlue);
+        this.team1 = new Team(player1, player2, COLOURIDRED, COLOURIDGREEN);
+        this.team2 = new Team(player3, player4, COLOURIDYELLOW, COLOURIDBLUE);
         this.nextPlayer = player1.getId();
         this.gameBoard = new GameBoard();
         this.pieceList = PieceDAO.getAllPieces();
@@ -46,8 +46,8 @@ public class CrazyDog {
      */
     public CrazyDog(int gameId, Player player1, Player player2, Player player3, Player player4, int nextPlayer, GameBoard gameBoard) {
         this.gameId = gameId;
-        this.team1 = new Team(player1, player2, colourIdRed, colourIdGreen);
-        this.team2 = new Team(player3, player4, colourIdYellow, colourIdBlue);
+        this.team1 = new Team(player1, player2, COLOURIDRED, COLOURIDGREEN);
+        this.team2 = new Team(player3, player4, COLOURIDYELLOW, COLOURIDBLUE);
         this.nextPlayer = nextPlayer;
         this.gameBoard = gameBoard;
         this.pieceList = PieceDAO.getAllPieces();
