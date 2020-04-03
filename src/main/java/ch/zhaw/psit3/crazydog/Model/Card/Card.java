@@ -25,7 +25,7 @@ public class Card {
         return value;
     }
 
-    public boolean getIsCardSelected() { return isSelected; }
+    public boolean isSelected() { return isSelected; }
 
     public void setIsCardSelected(boolean state) { isSelected = state; }
 

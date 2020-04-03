@@ -1,13 +1,7 @@
 package ch.zhaw.psit3.crazydog.Model.Player;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class Player {
 
