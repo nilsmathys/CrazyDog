@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
+    <!--<script src="/js/main.js" th:href="@{/js/main.js}"></script>-->
+
+    <title>Crazy Dog</title>
+</head>
+<body>
+    <p>Test</p>
+    <table id="studentTable">
+        <thead>
+            <th>Name</th>
+            <th>ID</th>
+        </thead>
+        <tbody id="studentBody"></tbody>
+    </table>
+
+
+    <script>
+        //$.getJSON('foochange',
+        //    function(data) {
+        //        console.log(data);
+        //    });
+        $(function updateBoard() {
+            $.ajax({
+                type: 'GET',
+                url: 'foochange',
+                success: function(data) {
+                    console.log(data);
+                },
+                complete: function() {
+                    // Schedule the next request when the current one's complete
+                    setTimeout(updateBoard, 5000);
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

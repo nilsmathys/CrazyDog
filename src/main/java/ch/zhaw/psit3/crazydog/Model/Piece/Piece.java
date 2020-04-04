@@ -14,6 +14,8 @@ public class Piece {
 
     private String pictureId;
 
+    private int test = 0;
+
     public Piece() {
 
     }
@@ -23,6 +25,11 @@ public class Piece {
         this.number = number;
         this.colourId = colourId;
         this.pictureId = pictureId;
+    }
+
+    public int getInt() {
+        test = test + 1;
+        return test;
     }
 
     public String getPictureId() {
