@@ -33,15 +33,6 @@ public class FrontendController {
         System.out.println(source.getPiece() + " on " + source.getField() + " wants to move to " + dest.getField());
         System.out.println("At the moment, " + dest.getPiece() + " is on this field.");
 
-        //Map<String, String> fieldsAndPieces = GameState.getAllFieldsAndPieces();
-        //Iterator it = fieldsAndPieces.entrySet().iterator();
-        //while (it.hasNext()) {
-        //    Map.Entry pair = (Map.Entry)it.next();
-        //    System.out.println(pair.getKey() + " = " + pair.getValue());
-        //    it.remove(); // avoids a ConcurrentModificationException
-        //}
-
-
         // .... Server Logic ....
         // .... More Server Logic ....
 
