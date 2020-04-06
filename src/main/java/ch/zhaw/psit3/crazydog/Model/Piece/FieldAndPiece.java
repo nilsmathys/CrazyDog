@@ -1,5 +1,8 @@
 package ch.zhaw.psit3.crazydog.Model.Piece;
 
+/*
+This class should build simple Objects that will be returned to the ajax calls to manipulate the DOM.
+ */
 public class FieldAndPiece {
 
     private String field;
@@ -8,10 +11,6 @@ public class FieldAndPiece {
     public FieldAndPiece(String field, String piece) {
         this.field = field;
         this.piece = piece;
-    }
-
-    public void setField(String field) {
-        this.field = field;
     }
 
     public void setPiece(String piece) {

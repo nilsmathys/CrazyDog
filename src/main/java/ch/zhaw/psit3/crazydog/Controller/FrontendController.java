@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
 
+import java.util.Iterator;
+import java.util.Map;
+
 /* This controller is responsible for providing data to ajax calls. */
 @Controller
 public class FrontendController {
@@ -27,13 +30,17 @@ public class FrontendController {
         sourceAndDestination[1] = dest;
 
         // Debugging
-        System.out.println(source.getField());
-        System.out.println(source.getPiece());
-        System.out.println(dest.getField());
-        System.out.println(dest.getPiece());
+        System.out.println(source.getPiece() + " on " + source.getField() + " wants to move to " + dest.getField());
+        System.out.println("At the moment, " + dest.getPiece() + " is on this field.");
 
-        GameState.put(source);
-        System.out.println("!!!!!!!" + GameState.get(source.getField()));
+        //Map<String, String> fieldsAndPieces = GameState.getAllFieldsAndPieces();
+        //Iterator it = fieldsAndPieces.entrySet().iterator();
+        //while (it.hasNext()) {
+        //    Map.Entry pair = (Map.Entry)it.next();
+        //    System.out.println(pair.getKey() + " = " + pair.getValue());
+        //    it.remove(); // avoids a ConcurrentModificationException
+        //}
+
 
         // .... Server Logic ....
         // .... More Server Logic ....
@@ -42,6 +49,9 @@ public class FrontendController {
         String temp = source.getPiece();
         source.setPiece(dest.getPiece());
         dest.setPiece(temp);
+
+        GameState.put(source);  // Update the game state!
+        GameState.put(dest);    // Update the game state!
 
         return sourceAndDestination;
     }
