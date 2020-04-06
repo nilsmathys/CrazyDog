@@ -110,6 +110,21 @@ html {
 .playerimage {
     width: 80px;
 }
+#red {
+    background-color: #E41B13;
+}
+#yellow {
+    background-color: #D5BC00;
+}
+#green {
+    background-color: #0E8A12;
+}
+#blue {
+    background-color: #0086B3;
+}
+
+
+
 .field {
     display: inline-block;
     position: absolute;

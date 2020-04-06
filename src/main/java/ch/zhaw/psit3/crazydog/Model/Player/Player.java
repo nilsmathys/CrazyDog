@@ -12,6 +12,8 @@ import java.util.List;
 public class Player {
 
     private Integer id;
+    @NotNull
+    private String color;
 
     @NotNull
     @Size(min = 2, max = 30)
@@ -35,11 +37,6 @@ public class Player {
         this.password = password;
     }
 
-    public Player(Integer id, String username, String email) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-    }
 
     public Player(Integer id, String username, String email, String password) {
         this.id = id;

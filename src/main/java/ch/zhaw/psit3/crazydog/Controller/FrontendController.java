@@ -1,28 +1,19 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
+import ch.zhaw.psit3.crazydog.Model.Game.GameState;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
-import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
-import javax.servlet.http.HttpServletRequest;
 
 /* This controller is responsible for providing data to ajax calls. */
 @Controller
-public class ClickListenerController {
+public class FrontendController {
 
     FieldAndPiece source;
     FieldAndPiece dest;
     FieldAndPiece[] sourceAndDestination = new FieldAndPiece[2];
-    boolean flagOverwrite;
 
     // This method is reponsible for listening to ajax click events and handle their data.
     // It returns an array containing two FieldAndPiece Objects: The source and destination.
@@ -34,13 +25,15 @@ public class ClickListenerController {
         dest = new FieldAndPiece(jsonObj.getString("destfield"), jsonObj.getString("destpiece"));
         sourceAndDestination[0] = source;
         sourceAndDestination[1] = dest;
-        flagOverwrite = true;
 
         // Debugging
         System.out.println(source.getField());
         System.out.println(source.getPiece());
         System.out.println(dest.getField());
         System.out.println(dest.getPiece());
+
+        GameState.put(source);
+        System.out.println("!!!!!!!" + GameState.get(source.getField()));
 
         // .... Server Logic ....
         // .... More Server Logic ....

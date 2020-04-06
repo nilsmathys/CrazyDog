@@ -110,8 +110,8 @@ public class PlayerDAO {
                 int id = rs.getInt("playerID");
                 String username = rs.getString("username");
                 String email = rs.getString("email");
-                Player dbPlayer = new Player(id, username, email);
-                playerList.add(dbPlayer);
+                //Player dbPlayer = new Player(id, username, email);
+                //playerList.add(dbPlayer);
             }
             rs.close();
             stmt.close();
