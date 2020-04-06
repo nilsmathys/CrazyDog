@@ -21,21 +21,18 @@ function main(field, piecefullpath) {
 function send() {
     $(document).ready(function() {
         $.ajax({
-            url : 'footest',
+            url : 'listenclicks',
             type:'POST',
             data : JSON.stringify({sourcefield: sourcefield, sourcepiece:sourcepiece, destfield: destfield, destpiece:destpiece}),
             contentType : 'application/json; charset=utf-8',
             dataType:'json',
             success : function(data) {
-                console.log("success");
-                console.log(data);
-                console.log(data[0].field); // The source field id: E.g. : field 4
-                console.log(data[0].piece); // The source piece id: E.g. : empty.png
-                console.log(data[1].field); // The destination field id: E.g. : field 23
-                console.log(data[1].piece); // The destination field id: E.g. : piece1blue.png
+                console.log('Source field' + data[0].field);
+                console.log('Source piece' + data[0].piece);
+                console.log('Destination field' + data[1].field);
+                console.log('Destination piece' + data[1].piece);
                 reset(); // Sets Value of Variables back to 0
-                $('#'+data[0].field).attr('src', '/img/pieces/' + data[0].piece);
-                $('#'+data[1].field).attr('src', '/img/pieces/' + data[1].piece);
+                changeFrontend(data);
 
             },
             error: function(data) {
@@ -51,4 +48,9 @@ function reset() {
     sourcepiece = 0;
     destfield = 0;
     destpiece = 0;
+}
+
+function changeFrontend(data) {
+    $('#'+data[0].field).attr('src', '/img/pieces/' + data[0].piece);
+    $('#'+data[1].field).attr('src', '/img/pieces/' + data[1].piece);
 }

@@ -15,22 +15,26 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 
-/* Dieser Kontroller ist zuständig für das Empfangen und verarbeiten der Klicks*/
+/* This controller is responsible for providing data to ajax calls. */
 @Controller
-public class TestController {
+public class ClickListenerController {
 
     FieldAndPiece source;
     FieldAndPiece dest;
     FieldAndPiece[] sourceAndDestination = new FieldAndPiece[2];
+    boolean flagOverwrite;
 
-    @RequestMapping(value = "/footest", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody FieldAndPiece[] checkUsername(@RequestBody String json) {
+    // This method is reponsible for listening to ajax click events and handle their data.
+    // It returns an array containing two FieldAndPiece Objects: The source and destination.
+    @RequestMapping(value = "/listenclicks", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody FieldAndPiece[] listenToClicks(@RequestBody String json) {
         JSONObject jsonObj =new JSONObject(json);
         // FieldAndPiece Objects that store the original user values
         source = new FieldAndPiece(jsonObj.getString("sourcefield"), jsonObj.getString("sourcepiece"));
         dest = new FieldAndPiece(jsonObj.getString("destfield"), jsonObj.getString("destpiece"));
         sourceAndDestination[0] = source;
         sourceAndDestination[1] = dest;
+        flagOverwrite = true;
 
         // Debugging
         System.out.println(source.getField());
@@ -46,6 +50,14 @@ public class TestController {
         source.setPiece(dest.getPiece());
         dest.setPiece(temp);
 
+        return sourceAndDestination;
+    }
+
+    // This method is reponsible for listening to the continous ajax frontend-updater.
+    // It returns the data that was processed by the server, when the listenToClicks-Controller was called.
+    @RequestMapping(value = "/getchanges", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody FieldAndPiece[] returnChanges() {
+        System.out.println("/getchanges Controller was called");
         return sourceAndDestination;
     }
 }

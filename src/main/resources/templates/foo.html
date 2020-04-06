@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
-    <script src="/js/main.js" th:href="@{/js/main.js}"></script>
-
     <title>Crazy Dog</title>
 </head>
 <body>
@@ -14,32 +11,8 @@
     <img src="/img/pieces/empty.png" class="field" id="field2" alt="Field 2" onclick="main(this.id, this.src)">
     <img src="/img/pieces/empty.png" class="field" id="field3" alt="Field 3" onclick="main(this.id, this.src)">
     <img src="/img/pieces/empty.png" class="field" id="field4" alt="Field 4" onclick="main(this.id, this.src)">
-
-    <p id="mail">remo.bertschinger@outlook.com</p>
-    <table id="studentTable">
-        <thead>
-            <th>Name</th>
-            <th>ID</th>
-        </thead>
-        <tbody id="studentBody"></tbody>
-    </table>
-
-
-    <script>
-        $(function updateBoard() {
-            $.ajax({
-                type: 'GET',
-                url: 'foochange',
-                success: function(data) {
-                    console.log(data);
-                },
-                complete: function() {
-                    // Schedule the next request when the current one's complete
-                    //setTimeout(updateBoard, 20000);
-                }
-            });
-        });
-
-    </script>
+    <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
+    <script src="/js/clicklistener.js" th:href="@{/js/clicklistener.js}"></script>
+    <script src="/js/frontendupdater.js" th:href="@{/js/frontendupdater.js}"></script>
 </body>
 </html>
