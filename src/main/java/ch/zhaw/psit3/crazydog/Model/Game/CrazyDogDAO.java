@@ -73,10 +73,10 @@ public class CrazyDogDAO {
     public static boolean saveGame(int gameId) {
         int i = 0;
         if(gameId == 0) {
-            //saveNewGame
+            //ToDo: saveNewGame
 
         } else {
-            //saveExistGame
+            //TODo: saveExistGame
         }
         if (i == 1) {
             return true;

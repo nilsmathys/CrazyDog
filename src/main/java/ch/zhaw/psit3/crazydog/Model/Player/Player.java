@@ -25,20 +25,32 @@ public class Player {
 
     public Player(String username, String email, String password) {
         this.username = username;
-        this.email = email;
+        if(email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Emailaddresse überprüfen");
+        }
         this.password = password;
     }
 
     public Player(Integer id, String username, String email) {
         this.id = id;
         this.username = username;
-        this.email = email;
+        if(email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Emailaddresse überprüfen");
+        }
     }
 
     public Player(Integer id, String username, String email, String password) {
         this.id = id;
         this.username = username;
-        this.email = email;
+        if(email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Emailaddresse überprüfen");
+        }
         this.password = password;
     }
 
@@ -63,7 +75,11 @@ public class Player {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if(email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Emailaddresse überprüfen");
+        }
     }
 
     public String getPw() {

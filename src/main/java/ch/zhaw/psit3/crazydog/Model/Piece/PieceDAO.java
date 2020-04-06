@@ -93,7 +93,7 @@ public class PieceDAO {
      * @param id FigurenId, bei der der man die Farbid wissen möchte
      * @return int mit der Colourid
      */
-    public static int getColourIdFromPeace(int id) {
+    public static int getColourId(int id) {
         Connection con = null;
         Piece piece = new Piece();
         try {
