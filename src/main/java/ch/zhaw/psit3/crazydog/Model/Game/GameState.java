@@ -30,11 +30,6 @@ public class GameState {
         fieldsAndPieces = AllFieldsAndPieces;
     }
 
-    // Update the Location of a piece on a field
-    //public static void updatePieceOnField(FieldAndPiece fap) {
-    //    fieldsAndPieces.put(fap.getField(), fap.getPiece());
-    //}
-
     // Overwrite the List with the players with a new List
     public static void putPlayers(List<Player> listOfplayers) {
         players = listOfplayers;
