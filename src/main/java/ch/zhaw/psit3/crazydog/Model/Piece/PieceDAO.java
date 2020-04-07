@@ -20,22 +20,22 @@ public class PieceDAO {
         try {
             con = DBConnectionFactory.getConnection();
 
-            String query = "SELECT pieceID, colourID, number FROM Pieces WHERE pieceID=?";
+            String query = "SELECT pieceID, colourID, number, pictureName FROM Pieces WHERE pieceID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             int pieceId = 0;
             int colourId = 0;
             int number = 0;
-            String pictureId = null;
+            String pictureName = null;
             if (rs.next()) {
                 pieceId = rs.getInt("pieceID");
                 colourId = rs.getInt("colourID");
                 number = rs.getInt("number");
-                pictureId = rs.getString("pictureId");
+                pictureName = rs.getString("pictureName");
 
             }
-            piece = new Piece(pieceId, number, colourId, pictureId);
+            piece = new Piece(pieceId, number, colourId, pictureName);
             rs.close();
             ps.close();
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class PieceDAO {
      * @param id FigurenId, bei der der man die Farbid wissen möchte
      * @return int mit der Colourid
      */
-    public static int getColourIdFromPeace(int id) {
+    public static int getColourId(int id) {
         Connection con = null;
         Piece piece = new Piece();
         try {
@@ -188,22 +188,22 @@ public class PieceDAO {
     }
 
     /**
-     * Methode um die PictureId der Figur zu ermitteln
+     * Methode um den PictureName der Figur zu ermitteln
      * @param id FigurenId, bei der der man die PictureId wissen möchte
-     * @return String mit der PictureId
+     * @return String mit dem PictureName
      */
-    public static String getPictureId(int id) {
+    public static String getPictureName(int id) {
         Connection con = null;
         Piece piece = new Piece();
         try {
             con = DBConnectionFactory.getConnection();
-            String query = "SELECT pictureId FROM pieces WHERE pieceID=?";
+            String query = "SELECT pictureName FROM pieces WHERE pieceID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             piece.setNumber(0);
             if (rs.next()) {
-                piece.setPictureId(rs.getString("pictureId"));
+                piece.setPictureName(rs.getString("pictureName"));
             }
             rs.close();
             ps.close();
@@ -217,6 +217,6 @@ public class PieceDAO {
                 e.printStackTrace();
             }
         }
-        return piece.getPictureId();
+        return piece.getPictureName();
     }
 }

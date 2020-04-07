@@ -8,6 +8,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class GameFieldDAO {
+
+    /**
+     * Methode für um eine GameField der Datenbank hinzuzufügen
+     *
+     * @param field als GameField - Feld welches hinzugefügt werden soll
+     * @return Boolean ob das Einfügen funktioniert hat oder nicht.
+     */
     public Boolean insert(GameField field) {
         Connection con = null;
         Boolean insertOk = false;
@@ -18,7 +25,7 @@ public class GameFieldDAO {
 
             String query = "INSERT INTO dbo.Gamefields (startimagename, cssid, gamefieldNameID, colourID) VALUES (?,?,?,?)";
             PreparedStatement st = con.prepareStatement(query);
-            st.setString(1, field.getStartImageName());
+            st.setString(1, field.getImageName());
             st.setString(2, field.getCssId());
             st.setInt(3, gameFieldNameId);
             st.setInt(4, colourID);
@@ -49,6 +56,12 @@ public class GameFieldDAO {
 
     }
 
+    /**
+     * Methode für um ein GameField mit einer spezifischen ID aus der DB auszulesen.
+     *
+     * @param id als Integer - Id des GameField welches aus der DB geholt werden soll
+     * @return GameField welches erstellt wurde.
+     */
     public static GameField findById(int id){
         Connection con = null;
         GameField field = null;
@@ -71,7 +84,7 @@ public class GameFieldDAO {
                 cssId = result.getString("cssid"); // using column name
                 gameFieldName = result.getString("name"); // using column name
                 colourName = result.getString("colourname"); // using column name
-                System.out.println("Name: "+ gameFieldName + " startImageName: " + startImageName + " Color: " + colourName + " cssid: "+cssId  );
+                //System.out.println("Name: "+ gameFieldName + " startImageName: " + startImageName + " Color: " + colourName + " cssid: "+cssId  );
             }
 
             field = new GameField(startImageName,cssId, gameFieldName, colourName);
@@ -89,8 +102,14 @@ public class GameFieldDAO {
         return field;
     }
 
-    public static void findAll() {
+    /**
+     * Methode für um alle Spielfelder aus der Datenbank auszulesen.
+     *
+     * @return List<GameField> Liste aller Felder aus der Datenbank.
+     */
+    public static List<GameField> findAll() {
         Connection con = null;
+        List<GameField> fieldList = new ArrayList<>();
         try {
             con = DBConnectionFactory.getConnection();
             Statement st = con.createStatement();
@@ -100,12 +119,8 @@ public class GameFieldDAO {
             ResultSet result = st.executeQuery(query);
 
             while (result.next()) {
-                String startImageName = result.getString("startImageName"); // using column name
-                String cssId = result.getString("cssid"); // using column name
-                String name = result.getString("name"); // using column name
-                String colourName = result.getString("colourname"); // using column name
-
-                System.out.println("Name: "+ name + " startImageName: " + startImageName + " Color: " + colourName + " cssid: "+cssId  );
+                fieldList.add(new GameField(result.getString("startImageName"),result.getString("cssid"),
+                        result.getString("name"), result.getString("colourname")));
             }
             result.close(); st.close();
         }
@@ -120,8 +135,15 @@ public class GameFieldDAO {
                 e.printStackTrace();
             }
         }
+        return fieldList;
     }
 
+    /**
+     * Methode für um alle Spielfelder aus der Datenbank auszulesen mit einem bestimmten Namen
+     *
+     * @param name als String - Name der Felder, welche ausgelesen werden sollen.
+     * @return List<GameField> Liste aller Felder aus der Datenbank mit einem bestimmten Namen.
+     */
     public static List<GameField> findByName(String name) {
         if(!(name.equals("wormhole") || name.equals("standard") || name.equals("startfield") || name.equals("destinationfield") || name.equals("homefield")))
         {
@@ -140,12 +162,13 @@ public class GameFieldDAO {
             ResultSet result = st.executeQuery();
 
             while (result.next()) {
-                String startImageName = result.getString("startImageName"); // using column name
+                /*String startImageName = result.getString("startImageName"); // using column name
                 String cssId = result.getString("cssid"); // using column name
                 String gameFieldName = result.getString("name"); // using column name
-                String colourName = result.getString("colourname"); // using column name
-                System.out.println("Name: "+ gameFieldName + " startImageName: " + startImageName + " Color: " + colourName + " cssid: "+cssId  );
-               fieldList.add(new GameField(startImageName,cssId, gameFieldName, colourName));
+                String colourName = result.getString("colourname"); // using column name*/
+                //System.out.println("Name: "+ gameFieldName + " startImageName: " + startImageName + " Color: " + colourName + " cssid: "+cssId  );
+               fieldList.add(new GameField(result.getString("startImageName"),result.getString("cssid"),
+                        result.getString("name"), result.getString("colourname")));
             }
             result.close(); st.close();
         }
@@ -161,6 +184,12 @@ public class GameFieldDAO {
         return fieldList;
     }
 
+    /**
+     * Methode für um alle Spielfelder aus der Datenbank auszulesen mit einer bestimmten Farbe
+     *
+     * @param name als String - Name der Farbe
+     * @return List<GameField> Liste aller Felder aus der Datenbank mit einer bestimmten Farbe
+     */
     public static List<GameField> findByColour(String name) {
         if(!(name.equals("white") || name.equals("black") || name.equals("green") ||
                 name.equals("yellow") || name.equals("red") || name.equals("blue")))
@@ -180,12 +209,8 @@ public class GameFieldDAO {
             ResultSet result = st.executeQuery();
 
             while (result.next()) {
-                String startImageName = result.getString("startImageName"); // using column name
-                String cssId = result.getString("cssid"); // using column name
-                String gameFieldName = result.getString("name"); // using column name
-                String colourName = result.getString("colourname"); // using column name
-                System.out.println("Name: "+ gameFieldName + " startImageName: " + startImageName + " Color: " + colourName + " cssid: "+cssId  );
-                fieldList.add(new GameField(startImageName,cssId, gameFieldName, colourName));
+                fieldList.add(new GameField(result.getString("startImageName"),result.getString("cssid"),
+                        result.getString("name"), result.getString("colourname")));
             }
             result.close(); st.close();
         }
@@ -201,6 +226,12 @@ public class GameFieldDAO {
         return fieldList;
     }
 
+    /**
+     * Methode um die ID eines bestimmten FeldNamens auszulesen.
+     *
+     * @param name als String - Name der des Feldes
+     * @return Integer ID des GameFieldName.
+    */
     private int getGameFieldNameId(String name) {
         if(!(name.equals("wormhole") || name.equals("standard") || name.equals("startfield") || name.equals("destinationfield") || name.equals("homefield")))
         {
@@ -234,6 +265,12 @@ public class GameFieldDAO {
         return gamefieldNameID;
     }
 
+    /**
+     * Methode um die ID einer bestimmten Farbe auszulesen.
+     *
+     * @param name als String - Name der Farbe
+     * @return Integer ID der Farbe.
+    */
     private int getColourId(String name) {
         if(!(name.equals("white") || name.equals("black") || name.equals("green") ||
                 name.equals("yellow") || name.equals("red") || name.equals("blue")))
@@ -270,7 +307,7 @@ public class GameFieldDAO {
     }
 
     public static void main(String[] args) {
-       //findAll();
+        List<GameField> fieldListAll = findAll();
        GameField field = findById(1);
        List<GameField> fieldList1 = findByName("wormhole");
        List<GameField> fieldList2 = findByColour("red");

@@ -12,7 +12,7 @@ public class Piece {
 
     private int colourId;
 
-    private String pictureId;
+    private String pictureName;
 
     private int test = 0;
 
@@ -20,24 +20,19 @@ public class Piece {
 
     }
 
-    public Piece(int id, int number, int colourId, String pictureId) {
+    public Piece(int id, int number, int colourId, String pictureName) {
         this.id = id;
         this.number = number;
         this.colourId = colourId;
-        this.pictureId = pictureId;
+        this.pictureName = pictureName;
     }
 
-    public int getInt() {
-        test = test + 1;
-        return test;
+    public String getPictureName() {
+        return pictureName;
     }
 
-    public String getPictureId() {
-        return pictureId;
-    }
-
-    public void setPictureId(String pictureId) {
-        this.pictureId = pictureId;
+    public void setPictureName(String pictureName) {
+        this.pictureName = pictureName;
     }
 
     public int getId() {

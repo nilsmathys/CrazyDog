@@ -1,6 +1,7 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
-import ch.zhaw.psit3.crazydog.GameBoard;
+import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
+import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Piece.PieceDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
@@ -9,18 +10,18 @@ import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import java.util.List;
 
 public class CrazyDog {
-    static final int colourIdRed = 3;
-    static final int colourIdGreen = 4;
-    static final int colourIdYellow = 5;
-    static final int colourIdBlue = 6;
+    static final int COLOURIDRED = 3;
+    static final int COLOURIDGREEN = 4;
+    static final int COLOURIDYELLOW = 5;
+    static final int COLOURIDBLUE = 6;
 
     private int gameId = 0;
-    Team team1 = null;
-    Team team2 = null;
-    List<Piece> pieceList;
-//    List<Card> cardList;
-    GameBoard gameBoard;
-
+    private static Team team1 = null;
+    private static Team team2 = null;
+    private int nextPlayer; //Id des Spielrs der als nächster dran ist.
+    private List<Piece> pieceList;
+    private CardDeck deck;
+    private GameBoard gameBoard;
 
     /**
      * Konstruktor falls neues Spiel
@@ -30,41 +31,38 @@ public class CrazyDog {
      * @param player4 vierter Spieler und Partner des dritten Spielers.
      */
     public CrazyDog(Player player1, Player player2, Player player3, Player player4) {
-        this.team1 = new Team(player1, player2, colourIdRed, colourIdGreen);
-        this.team2 = new Team(player3, player4, colourIdYellow, colourIdBlue);
+        this.team1 = new Team(player1, player2, COLOURIDRED, COLOURIDGREEN);
+        this.team2 = new Team(player3, player4, COLOURIDYELLOW, COLOURIDBLUE);
+        this.nextPlayer = player1.getId();
         this.gameBoard = new GameBoard();
-        PieceDAO pieceDAO = new PieceDAO();
-        this.pieceList = pieceDAO.getAllPieces();
-        //CardDAO cardDAO = new CardDAO();
-        //this.cardList = cardDAO.getAllCards();
+        this.pieceList = PieceDAO.getAllPieces();
+        this.deck = new CardDeck();
+        deck.createDeck();
     }
 
     /**
-     * Konstruktor, falls ein Spiel fortgesetzt werden soll.
-     * @param gameId
+     * Konstrutor falls bereits ein Spiel besteht.
      */
-    public CrazyDog(int gameId) {
-        loadGame(gameId);
-    }
-
-    /**
-     * Lädt Spiel anhand der gameId
-     * @param gameId int
-     */
-    public void loadGame(int gameId) {
+    public CrazyDog(int gameId, Player player1, Player player2, Player player3, Player player4, int nextPlayer, GameBoard gameBoard) {
+        this.gameId = gameId;
+        this.team1 = new Team(player1, player2, COLOURIDRED, COLOURIDGREEN);
+        this.team2 = new Team(player3, player4, COLOURIDYELLOW, COLOURIDBLUE);
+        this.nextPlayer = nextPlayer;
+        this.gameBoard = gameBoard;
+        this.pieceList = PieceDAO.getAllPieces();
+        //this.cardList = CardDAO.getAllCards();
 
     }
 
-    /**
-     * Speichert das Spiel anhand der GameId.
-     * Falls kein Spiel existiert ist die GameId = 0 und es wird ein neues Spiel in die Datenbank gespeichert.
-     * @param gameId int
-     */
-    public void saveGame(int gameId) {
-        if(gameId == 0) {
-            //saveNewGame
-        } else {
-            //saveExistGame
+    public void playGame() {
+        boolean playEnded = false;
+        int roundNumber = 1;
+        while (!playEnded) {
+            Round round = new Round(roundNumber, deck, team1, team2, nextPlayer);
+            playEnded = round.startRound();
+            roundNumber++;
         }
     }
+
+
 }

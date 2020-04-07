@@ -1,13 +1,7 @@
 package ch.zhaw.psit3.crazydog.Model.Player;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class Player {
 
@@ -33,15 +27,32 @@ public class Player {
 
     public Player(String username, String email, String password) {
         this.username = username;
-        this.email = email;
+        if(email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Emailaddresse überprüfen");
+        }
         this.password = password;
     }
 
+    public Player(Integer id, String username, String email) {
+        this.id = id;
+        this.username = username;
+        if(email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Emailaddresse überprüfen");
+        }
+    }
 
     public Player(Integer id, String username, String email, String password) {
         this.id = id;
         this.username = username;
-        this.email = email;
+        if(email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Emailaddresse überprüfen");
+        }
         this.password = password;
     }
 
@@ -66,7 +77,11 @@ public class Player {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if(email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Emailaddresse überprüfen");
+        }
     }
 
     public String getPw() {
