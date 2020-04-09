@@ -1,13 +1,8 @@
-package ch.zhaw.psit3.crazydog.Piece;
+package ch.zhaw.psit3.crazydog.Model.Piece;
 
-import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
-import ch.zhaw.psit3.crazydog.Model.Piece.PieceDAO;
-import ch.zhaw.psit3.crazydog.Model.Player.Player;
-import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

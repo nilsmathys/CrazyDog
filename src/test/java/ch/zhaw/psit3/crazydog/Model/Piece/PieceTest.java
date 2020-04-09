@@ -1,6 +1,5 @@
-package ch.zhaw.psit3.crazydog.Piece;
+package ch.zhaw.psit3.crazydog.Model.Piece;
 
-import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,5 @@
-package ch.zhaw.psit3.crazydog.Player;
+package ch.zhaw.psit3.crazydog.Model.Player;
 
-import ch.zhaw.psit3.crazydog.Model.Player.Player;
-import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

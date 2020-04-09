@@ -1,7 +1,6 @@
-package ch.zhaw.psit3.crazydog.Player;
+package ch.zhaw.psit3.crazydog.Model.Player;
 
-import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
-import ch.zhaw.psit3.crazydog.Model.Player.Player;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
