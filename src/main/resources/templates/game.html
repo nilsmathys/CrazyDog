@@ -1,63 +1,52 @@
 <!doctype html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css" />
+        <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css" />
 
-    <title>Crazy Dog</title>
-</head>
-<body>
-    <div class="container-top">
-        <div class="container-left">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item" th:each="player : ${players}" th:id="${player.getPw()}">
-                    <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'" th:alt="${player.getUsername()}">
-                    <span class="playername" th:text="${player.getUsername()}"></span>
-                </li>
-            </ul>
+        <title>Crazy Dog</title>
+    </head>
+    <body>
+        <header>
+            <h2>HOME</h2>
+            <h2>Abmelden</h2>
+        </header>
+        <div class="container-top">
+            <div class="container-left">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:each="player : ${players}" th:id="${player.getPw()}">
+                        <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'" th:alt="${player.getUsername()}">
+                        <span class="playername" th:text="${player.getUsername()}"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-center">
+                <span id="board"></span>
+                <span id="boardhole"></span>
+                <img class="grid" src="/img/crazydog_grid.png" alt="Crazy Dog Grid" width="850px">
+                <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field" th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
+            </div>
+            <div class="container-right">
+                <div class="card-header" style="background-color:#fcf8e8">
+                    <h5 class="card-title">> Warte, bis Isabella eine Karte gespielt hat...</h5>
+                </div>
+                <div class="card-header" style="background-color: #f1f3f4">> Isabella ist am Zug.</div>
+                <div class="card-header" style="background-color: #fcf8e8">> Johannes hat Figur 4 um 9 Felder bewegt.</div>
+                <div class="card-header" style="background-color: #f1f3f4">> Warte bis Johannes seine Spielfigur bewegt hat...</div>
+                <div class="card-header" style="background-color: #fcf8e8">> Johannes hat die 9 ausgespielt.</div>
+                <div class="card-header" style="background-color: #f1f3f4">> Warte bis Johannes eine Karte gespielt hat...</div>
+            </div>
         </div>
-        <div class="container-center">
-            <span id="board"></span>
-            <span id="boardhole"></span>
-            <img class="grid" src="/img/crazydog_grid.png" alt="Crazy Dog Grid" width="850px">
-            <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field" th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
+        <div class="container-bottom">
+            <div th:each="coh : ${cardsOnHand}">
+                <img th:src="'/img/cards/karte_' + ${coh.getId()} + '.png'" class="playingcard" th:id="'card' + ${coh.getId()}" th:alt="'Karte ' + ${coh.getId()}">
+            </div>
         </div>
-        <div class="container-right">
-            <div class="card-header" style="background-color:#fcf8e8">
-                <h5 class="card-title">> Warte, bis Isabella eine Karte gespielt hat...</h5>
-            </div>
-            <div class="card-header" style="background-color: #f1f3f4">> Isabella ist am Zug.</div>
-            <div class="card-header" style="background-color: #fcf8e8">> Johannes hat Figur 4 um 9 Felder bewegt.</div>
-            <div class="card-header" style="background-color: #f1f3f4">> Warte bis Johannes seine Spielfigur bewegt hat...</div>
-            <div class="card-header" style="background-color: #fcf8e8">> Johannes hat die 9 ausgespielt.</div>
-            <div class="card-header" style="background-color: #f1f3f4">> Warte bis Johannes eine Karte gespielt hat...</div>
-        </div>
-    </div>
-    <div class="container-bottom">
-            <div class="col-md-2" id="card2hover"><!--Die id ist da, damit das Hoover funktioniert. -->
-                <img src="/img/cards/karte_2.png" class="playingcard" id="card2" alt="Karte 2">
-            </div>
-            <div class="col-md-2" id="card10hover"><!--Die id ist da, damit das Hoover funktioniert. -->
-                <img src="/img/cards/karte_10.png" class="playingcard" id="card10" alt="Karte 10">
-            </div>
-            <div class="col-md-2" id="cardchangehover"><!--Die id ist da, damit das Hoover funktioniert. -->
-                <img src="/img/cards/karte_tausch.png" class="playingcard" id="cardchange" alt="Tausch-Karte">
-            </div>
-            <div class="col-md-2" id="cardjokerhover"><!--Die id ist da, damit das Hoover funktioniert. -->
-                <img src="/img/cards/karte_fragezeichen.png" class="playingcard" id="cardjoker" alt="Fragezeichen">
-            </div>
-            <div class="col-md-2" id="card6hover"><!--Die id ist da, damit das Hoover funktioniert. -->
-                <img src="/img/cards/karte_6.png" class="playingcard" id="card6" alt="Karte 6">
-            </div>
-            <div class="col-md-2" id="card11hover"><!--Die id ist da, damit das Hoover funktioniert. -->
-                <img src="/img/cards/karte_11.png" class="playingcard" id="card11" alt="Karte 11">
-            </div>
-    </div>
-    <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
-    <script src="/js/clicklistener.js" th:href="@{/js/clicklistener.js}"></script>
-    <script src="/js/frontendupdater.js" th:href="@{/js/frontendupdater.js}"></script>
-</body>
+        <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
+        <script src="/js/clicklistener.js" th:href="@{/js/clicklistener.js}"></script>
+        <script src="/js/frontendupdater.js" th:href="@{/js/frontendupdater.js}"></script>
+    </body>
 </html>
