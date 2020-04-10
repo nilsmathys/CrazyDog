@@ -1,6 +1,5 @@
 package ch.zhaw.psit3.crazydog.Model.Player;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,6 +83,7 @@ class PlayerDAOTest {
     @Test
     void inserPlayer() {
         assertTrue(PlayerDAO.inserPlayer(newPlayer));
+        System.out.println(PlayerDAO.getPlayerByUsername("SpielerNeu").getId());
         newPlayer.setId(PlayerDAO.getPlayerByUsername("SpielerNeu").getId());
         PlayerDAO.deletePlayer(newPlayer);
     }

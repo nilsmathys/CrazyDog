@@ -70,17 +70,14 @@ public class PlayerDAO {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-            int playerId = 0;
-            username = null;
-            String email = null;
-            String password = null;
             if (rs.next()) {
-                playerId = rs.getInt("playerID");
-                username = rs.getString("username");
-                email = rs.getString("email");
-                password = rs.getString("password");
+                player = new Player(
+                        rs.getInt("playerID"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                );
             }
-            player = new Player(playerId, username, email, password);
             rs.close();
             ps.close();
         } catch (Exception e) {
