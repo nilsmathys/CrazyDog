@@ -3,11 +3,21 @@ html {
 }
 body {
     color: #444444;
-    margin: 100px 50px;
+}
+header {
+    background-color: #444444;
+    display: flex;
+    justify-content: space-between;
+}
+h2 {
+    color: azure;
+    padding: 20px;
+    cursor: pointer;
 }
 .container-top {
     min-width: 1600px;
     display: flex;
+    margin: 30px 50px 0;
 
     justify-content: space-between;
     align-content: space-between;
@@ -24,8 +34,8 @@ body {
 
 .container-bottom {
     display: flex;
-    justify-content: space-between;
-    align-content: space-between;
+    justify-content: center;
+    margin: 0 50px;
 }
 
 /* CSS for cards starts here */
@@ -121,7 +131,7 @@ body {
     position: absolute;
 }
 .playingcard {
-    width: 300px;
+    width: 90%;
 }
 .list-group-item {
     border: 3px solid white;

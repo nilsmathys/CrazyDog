@@ -1,5 +1,7 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
+import ch.zhaw.psit3.crazydog.Model.Card.Card;
+import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Game.GameState;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import org.springframework.stereotype.Controller;
@@ -19,10 +21,19 @@ public class GameController {
     @RequestMapping(value = { "/game" }, method = RequestMethod.GET)
     public String foo(Model model) {
         List<Player> players = GameState.getPlayers();
-        model.addAttribute("players", GameState.getPlayers());
+        model.addAttribute("players", players);
 
         Map<String, String> fieldsAndPieces = GameState.getAllFieldsAndPieces();
         model.addAttribute("fieldsandpieces", fieldsAndPieces);
+
+        CardsOnHand cardsOnHand = new CardsOnHand();
+        cardsOnHand.takeCard(new Card(2, "standard", 2));
+        cardsOnHand.takeCard(new Card(10, "standard", 10));
+        cardsOnHand.takeCard(new Card(5, "standard", 5));
+        cardsOnHand.takeCard(new Card(9, "standard", 9));
+        cardsOnHand.takeCard(new Card(6, "standard", 6));
+        cardsOnHand.takeCard(new Card(11, "eleven", 0));
+        model.addAttribute("cardsOnHand", cardsOnHand.getHand());
 
         System.out.println("Return to game");
         return "game";

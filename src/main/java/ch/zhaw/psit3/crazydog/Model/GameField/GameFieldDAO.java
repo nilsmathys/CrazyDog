@@ -9,54 +9,7 @@ import java.util.ArrayList;
 
 public class GameFieldDAO {
 
-    /**
-     * Methode für um eine GameField der Datenbank hinzuzufügen
-     *
-     * @param field als GameField - Feld welches hinzugefügt werden soll
-     * @return Boolean ob das Einfügen funktioniert hat oder nicht.
-     */
-    public Boolean insert(GameField field) {
-        Connection con = null;
-        Boolean insertOk = false;
-        try {
-            con = DBConnectionFactory.getConnection();
-            int gameFieldNameId = getGameFieldNameId(field.getGameFieldName());
-            int colourID = getGameFieldNameId(field.getColor());
-
-            String query = "INSERT INTO dbo.Gamefields (startimagename, cssid, gamefieldNameID, colourID) VALUES (?,?,?,?)";
-            PreparedStatement st = con.prepareStatement(query);
-            st.setString(1, field.getImageName());
-            st.setString(2, field.getCssId());
-            st.setInt(3, gameFieldNameId);
-            st.setInt(4, colourID);
-            int result = st.executeUpdate();
-
-            if(result == 1) {
-                insertOk = true;
-            }
-            st.close();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                if (con != null)
-                    con.close();
-            } catch (SQLException e) { e.printStackTrace(); }
-        }
-        return insertOk;
-    }
-
-    public void update(GameField field) {
-
-    }
-
-    public void delete(GameField field) {
-
-    }
-
-    /**
+     /**
      * Methode für um ein GameField mit einer spezifischen ID aus der DB auszulesen.
      *
      * @param id als Integer - Id des GameField welches aus der DB geholt werden soll
