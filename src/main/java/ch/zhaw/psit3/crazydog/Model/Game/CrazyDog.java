@@ -1,14 +1,22 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
+import ch.zhaw.psit3.crazydog.CrazydogApplication;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Piece.PieceDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
+import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@SpringBootApplication
 public class CrazyDog {
     static final int COLOURIDRED = 3;
     static final int COLOURIDGREEN = 4;
@@ -21,7 +29,18 @@ public class CrazyDog {
     private int nextPlayer; //Id des Spielrs der als nächster dran ist.
     private List<Piece> pieceList;
     private CardDeck deck;
-    private GameBoard gameBoard;
+    private static GameBoard gameBoard;
+
+    /**
+     * leerer Konstruktur um Webseite starten zu können von dieser Klasse aus.
+     */
+    public CrazyDog()
+    {
+        gameBoard = new GameBoard();
+        pieceList = PieceDAO.getAllPieces();
+        deck = new CardDeck();
+        deck.createDeck();
+    }
 
     /**
      * Konstruktor falls neues Spiel
@@ -64,5 +83,24 @@ public class CrazyDog {
         }
     }
 
+    public static void main(String[] args) {
+        SpringApplication.run(CrazyDog.class, args);
+
+        // Initialize Players
+        List<Player> players = new ArrayList<>();
+        players.add(new Player(1, "Heidi", "heidi@test.com", "red"));
+        players.add(new Player(2, "Johannes", "johannes@test.com", "yellow"));
+        players.add(new Player(3, "Isabella", "isabella@test.com", "green"));
+        players.add(new Player(4, "Peter", "peter@test.com", "blue"));
+        GameState.putPlayers(players);
+
+        Map<String, String> fieldsAndPieces = new HashMap<>();
+        for(GameField field : gameBoard.getFields())
+        {
+            fieldsAndPieces.put(field.getCssId(),field.getImageName());
+        }
+
+        GameState.putAllFieldsAndPieces(fieldsAndPieces);
+    }
 
 }
