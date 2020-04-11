@@ -1,6 +1,7 @@
-package ch.zhaw.psit3.crazydog.Model.Game;
+package ch.zhaw.psit3.crazydog;
 
-import ch.zhaw.psit3.crazydog.CrazydogApplication;
+import ch.zhaw.psit3.crazydog.Model.Game.GameState;
+import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
