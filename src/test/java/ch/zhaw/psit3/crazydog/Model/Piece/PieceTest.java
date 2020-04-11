@@ -9,7 +9,7 @@ class PieceTest {
     Piece piece;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         piece = new Piece(1, 2, 3, "testpic.png");
     }
 

@@ -1,5 +1,7 @@
 package ch.zhaw.psit3.crazydog.db;
 
+import ch.zhaw.psit3.crazydog.Model.Card.CardDAO;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

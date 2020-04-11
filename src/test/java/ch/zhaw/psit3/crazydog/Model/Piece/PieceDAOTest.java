@@ -26,7 +26,7 @@ class PieceDAOTest {
     Piece piece16;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         piece1 = new Piece(1, 1, 3, "piece1red.png");
         piece2 = new Piece(2, 2, 3, "piece2red.png");
         piece3 = new Piece(3, 3, 3, "piece3red.png");

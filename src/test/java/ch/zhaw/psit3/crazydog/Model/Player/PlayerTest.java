@@ -12,7 +12,7 @@ class PlayerTest {
 
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         player = new Player(1, "Tester", "test@test.ch", "test123");
     }
 

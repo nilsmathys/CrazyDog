@@ -11,8 +11,9 @@ class TeamTest {
     Player player2;
     Player player1New;
     Player player2New;
+
     @BeforeEach
-    public void setup() {
+    void setup() {
         player1 = new Player(1, "Player1", "player1@player.ch", "test123");
         player2 = new Player(2, "Player2", "player2@player.ch", "test123");
         team = new Team(player1, player2, 1, 2);

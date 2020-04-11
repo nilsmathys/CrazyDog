@@ -1,18 +1,15 @@
 package ch.zhaw.psit3.crazydog.Model.GameField;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameFieldDAOTest {
 
-    static GameFieldDAO gameFieldDAO;
-    static GameField newGamefield;
-    static GameField updateGamefield;
     static GameField gamefieldDbLocal1;
     static GameField gamefieldDbLocal11;
     static GameField gamefieldDbLocal29;
@@ -27,10 +24,7 @@ class GameFieldDAOTest {
 
     @BeforeAll
     static void beforeAll() {
-        gameFieldDAO = new GameFieldDAO();
-        newGamefield = new GameField("standardImg", "standardCssId", "standard", "white");
-        updateGamefield = new GameField("updateImg", "updateCssId", "homefield", "red");
-        gamefieldDbLocal1 = new GameField("empty.png", "field1", "startfield", "green");
+        gamefieldDbLocal1 = new GameField("empty.png", "field1", "startfield", "red");
         gamefieldDbLocal11 = new GameField("empty.png", "field11", "standard", "white");
         gamefieldDbLocal29 = new GameField("empty.png", "field29", "standard", "white");
         gamefieldDbLocal57 = new GameField("empty.png", "field57", "wormhole", "black");
@@ -43,26 +37,6 @@ class GameFieldDAOTest {
     }
 
 
-    @Test
-    void insert() {
-        // assertTrue(GameFieldDAO.insert(newGamefield));
-        // GameFieldDAO.delete(insertGamefield); TODO: delete implementieren
-    }
-
-    @Test
-    void update() {
-        // GameFieldDAO.insert(newGameField);
-        // assertTrue(GamefieldDAO.update(updateGameField));
-        // GameFieldDAO.delete(updateGamefield);
-        //TODO: update implementieren
-    }
-
-    @Test
-    void delete() {
-        // GamefieldDAO.insert(newGamefield);
-        // assertTrue(GamefieldDAO.delete(newGamefield));
-        //TODO: delete implementieren
-    }
 
     @Test
     void findById() {
@@ -167,16 +141,56 @@ class GameFieldDAOTest {
         assertEquals(gamefieldDbLocal96.getColor(), findYellow.get(8).getColor());
 
         //red 65
-        assertEquals(gamefieldDbLocal65.getImageName(), findRed.get(8).getImageName());
-        assertEquals(gamefieldDbLocal65.getCssId(), findRed.get(8).getCssId());
-        assertEquals(gamefieldDbLocal65.getGameFieldName(), findRed.get(8).getGameFieldName());
-        assertEquals(gamefieldDbLocal65.getColor(), findRed.get(8).getColor());
+        assertEquals(gamefieldDbLocal65.getImageName(), findRed.get(1).getImageName());
+        assertEquals(gamefieldDbLocal65.getCssId(), findRed.get(1).getCssId());
+        assertEquals(gamefieldDbLocal65.getGameFieldName(), findRed.get(1).getGameFieldName());
+        assertEquals(gamefieldDbLocal65.getColor(), findRed.get(1).getColor());
 
         //blue 85
-        assertEquals(gamefieldDbLocal85.getImageName(), findBlue.get(8).getImageName());
-        assertEquals(gamefieldDbLocal85.getCssId(), findBlue.get(8).getCssId());
-        assertEquals(gamefieldDbLocal85.getGameFieldName(), findBlue.get(8).getGameFieldName());
-        assertEquals(gamefieldDbLocal85.getColor(), findBlue.get(8).getColor());
+        assertEquals(gamefieldDbLocal85.getImageName(), findBlue.get(5).getImageName());
+        assertEquals(gamefieldDbLocal85.getCssId(), findBlue.get(5).getCssId());
+        assertEquals(gamefieldDbLocal85.getGameFieldName(), findBlue.get(5).getGameFieldName());
+        assertEquals(gamefieldDbLocal85.getColor(), findBlue.get(5).getColor());
 
+    }
+
+    @Test
+    void getGameFieldNameId() {
+        assertEquals(1, GameFieldDAO.getGameFieldNameId("standard"));
+        assertEquals(2, GameFieldDAO.getGameFieldNameId("wormhole"));
+        assertEquals(3, GameFieldDAO.getGameFieldNameId("startfield"));
+        assertEquals(4, GameFieldDAO.getGameFieldNameId("destinationfield"));
+        assertEquals(5, GameFieldDAO.getGameFieldNameId("homefield"));
+
+    }
+
+    @Test
+    void getColourId() {
+        assertEquals(1, GameFieldDAO.getColourId("white"));
+        assertEquals(2, GameFieldDAO.getColourId("black"));
+        assertEquals(3, GameFieldDAO.getColourId("red"));
+        assertEquals(4, GameFieldDAO.getColourId("green"));
+        assertEquals(5, GameFieldDAO.getColourId("yellow"));
+        assertEquals(6, GameFieldDAO.getColourId("blue"));
+    }
+
+    @Test
+    void Exceptiontest() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            GameFieldDAO.findByName("Test");
+        });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            GameFieldDAO.findByColour("Test");
+        });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            GameFieldDAO.getGameFieldNameId("Test");
+        });
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            GameFieldDAO.getColourId("Test");
+        });
     }
 }

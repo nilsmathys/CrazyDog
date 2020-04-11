@@ -185,7 +185,7 @@ public class GameFieldDAO {
      * @param name als String - Name der des Feldes
      * @return Integer ID des GameFieldName.
     */
-    private int getGameFieldNameId(String name) {
+    public static int getGameFieldNameId(String name) {
         if(!(name.equals("wormhole") || name.equals("standard") || name.equals("startfield") || name.equals("destinationfield") || name.equals("homefield")))
         {
             throw new IllegalArgumentException("Please use a right parameter.");
@@ -202,7 +202,6 @@ public class GameFieldDAO {
 
             while (result.next()) {
                 gamefieldNameID = result.getInt("gamefieldNameID"); // using column name
-                System.out.println("gamefieldNameID: "+ gamefieldNameID);
             }
             result.close(); st.close();
         }
@@ -224,7 +223,7 @@ public class GameFieldDAO {
      * @param name als String - Name der Farbe
      * @return Integer ID der Farbe.
     */
-    private int getColourId(String name) {
+    public static int getColourId(String name) {
         if(!(name.equals("white") || name.equals("black") || name.equals("green") ||
                 name.equals("yellow") || name.equals("red") || name.equals("blue")))
         {
@@ -243,7 +242,6 @@ public class GameFieldDAO {
 
             while (result.next()) {
                 colourID = result.getInt("colourID"); // using column name
-                System.out.println("colourID: "+ colourID);
             }
             result.close(); st.close();
         }

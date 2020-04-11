@@ -18,7 +18,6 @@ public class GameBoard {
         List<GameField> listGameFields = GameFieldDAO.findAll();
         int size = listGameFields.size();
         fields = new GameField[size];
-        System.out.println(size);
         int index = 0;
         for (GameField field : listGameFields) {
             fields[index] = field;
