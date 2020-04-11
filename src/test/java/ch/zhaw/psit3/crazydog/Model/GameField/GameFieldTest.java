@@ -12,7 +12,8 @@ class GameFieldTest {
     @BeforeEach
     void setup() {
         gameField = new GameField("imgName", "cssId", "standard", "white");
-;    }
+        ;
+    }
 
     @Test
     void getGameFieldName() {
@@ -42,7 +43,7 @@ class GameFieldTest {
 
     @Test
     void ThrowExceptionSettingGamefieldName() {
-        Assertions.assertThrows(IllegalArgumentException.class, ()-> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             gameField.setGameFieldName("FalseName");
         });
     }
@@ -61,7 +62,7 @@ class GameFieldTest {
 
     @Test
     void ThrowExceptionSettinColor() {
-        Assertions.assertThrows(IllegalArgumentException.class, ()-> {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             gameField.setColor("FalseColor");
         });
     }

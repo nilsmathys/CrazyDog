@@ -126,13 +126,10 @@ class CardDeckTest {
     }
 
     @Test
-    void getCardDeck() {
+    void getCardFromDeck() {
+        assertEquals(0, cardDeck.getDeckSize());
         cardDeck.getCardFromDeck();
         assertEquals(109, cardDeck.getDeckSize());
-    }
-
-    @Test
-    void getCardFromDeck() {
-
+        assertEquals(Card.class, cardDeck.getCardFromDeck().getClass());
     }
 }

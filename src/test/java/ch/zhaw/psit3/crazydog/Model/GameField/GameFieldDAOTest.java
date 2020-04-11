@@ -37,7 +37,6 @@ class GameFieldDAOTest {
     }
 
 
-
     @Test
     void findById() {
         assertEquals(gamefieldDbLocal1.getImageName(), GameFieldDAO.findById(1).getImageName());
