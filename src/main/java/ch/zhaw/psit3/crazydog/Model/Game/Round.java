@@ -16,7 +16,6 @@ public class Round {
     private int nextPlayer;
 
     public Round(int roundNumber, CardDeck deck, List<Player> players, int nextPlayer) {
-        System.out.println(deck.getCardFromDeck().getName());
         this.players = players;
         this.nextPlayer = nextPlayer;
         this.deck = deck;
