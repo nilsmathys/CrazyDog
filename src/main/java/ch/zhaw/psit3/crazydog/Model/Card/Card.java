@@ -5,7 +5,6 @@ public class Card {
     private int id = 0;
     private String name = "";
     private int value = 0;
-    private boolean isSelected = false;
 
     public Card(int cardID, String name, int value) {
         this.id = cardID;
@@ -24,9 +23,5 @@ public class Card {
     public int getValue() {
         return value;
     }
-
-    public boolean isSelected() { return isSelected; }
-
-    public void setIsCardSelected(boolean state) { isSelected = state; }
 
 }

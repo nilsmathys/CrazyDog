@@ -4,32 +4,32 @@ import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
-import ch.zhaw.psit3.crazydog.Model.Player.Team;
 
 import java.util.*;
 
 
 public class Round {
 
-    LinkedHashMap<Integer, CardsOnHand> cardsOnHandMap = new LinkedHashMap<>();
-    ArrayList<Player> playerList = new ArrayList<>();
+    List<Player> players;
+    Map<Integer, CardsOnHand> playerAndHand;
+    CardDeck deck;
+    private int nextPlayer;
 
-    private Player nextPlayer;
+    public Round(int roundNumber, CardDeck deck, List<Player> players, int nextPlayer) {
+        System.out.println(deck.getCardFromDeck().getName());
+        this.players = players;
+        this.nextPlayer = nextPlayer;
+        this.deck = deck;
 
-    public Round(int roundNumber, CardDeck deck, Team t1, Team t2, int nextPlayer) {
-        cardsOnHandMap.put(t1.getPlayer1().getId(), new CardsOnHand());
-        cardsOnHandMap.put(t1.getPlayer2().getId(), new CardsOnHand());
-        cardsOnHandMap.put(t2.getPlayer1().getId(), new CardsOnHand());
-        cardsOnHandMap.put(t2.getPlayer2().getId(), new CardsOnHand());
-        playerList.add(t1.getPlayer1());
-        playerList.add(t1.getPlayer2());
-        playerList.add(t2.getPlayer1());
-        playerList.add(t2.getPlayer2());
-        this.nextPlayer = playerList.get(nextPlayer);
+        playerAndHand = new HashMap<>();
+        playerAndHand.put(players.get(0).getId(), new CardsOnHand());
+        playerAndHand.put(players.get(1).getId(), new CardsOnHand());
+        playerAndHand.put(players.get(2).getId(), new CardsOnHand());
+        playerAndHand.put(players.get(3).getId(), new CardsOnHand());
 
-        distributeCards(roundNumber, deck);
+        distributeCards(roundNumber);
         // TODO: show countdown for players to select a card
-        changeCardWithTeamplayer();
+
     }
 
     /**
@@ -63,32 +63,28 @@ public class Round {
      * Distributes in turn a card for every player from the stock depending on the current round
      * @param round current round; stock: left cards to play from the previous round
      */
-    private void distributeCards(int round, CardDeck deck) {
+    private void distributeCards(int round) {
         int totalCardsToDistribute = 4 * getNumberOfCardsToDistribute(round);
         if(deck.getDeckSize() < totalCardsToDistribute) {
             deck.createDeck();
         }
-        for(int i=0; i<totalCardsToDistribute; i+=4) {
-            cardsOnHandMap.get(playerList.get(0).getId()).takeCard(deck.getCardFromDeck());
-            cardsOnHandMap.get(playerList.get(1).getId()).takeCard(deck.getCardFromDeck());
-            cardsOnHandMap.get(playerList.get(2).getId()).takeCard(deck.getCardFromDeck());
-            cardsOnHandMap.get(playerList.get(3).getId()).takeCard(deck.getCardFromDeck());
+
+        for(int i=0; i<totalCardsToDistribute; i=i+4) {
+            //playerAndHand.get(players.get(0).getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(players.get(1).getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(players.get(2).getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(players.get(3).getId()).takeCard(deck.getCardFromDeck());
         }
-    }
 
-    /**
-     * Exchanges the selected card between the teammembers.
-     */
-    private void changeCardWithTeamplayer() {
-        Card selectedCardPlayer1 = cardsOnHandMap.get(playerList.get(0).getId()).discardCard();
-        Card selectedCardPlayer2 = cardsOnHandMap.get(playerList.get(1).getId()).discardCard();
-        Card selectedCardPlayer3 = cardsOnHandMap.get(playerList.get(2).getId()).discardCard();
-        Card selectedCardPlayer4 = cardsOnHandMap.get(playerList.get(3).getId()).discardCard();
+        // only for prototype demo
+        playerAndHand.get(players.get(0).getId()).takeCard(new Card(21, "standard", 2));
+        playerAndHand.get(players.get(0).getId()).takeCard(new Card(101, "standard", 10));
+        playerAndHand.get(players.get(0).getId()).takeCard(new Card(22, "standard", 2));
+        playerAndHand.get(players.get(0).getId()).takeCard(new Card(91, "standard", 9));
+        playerAndHand.get(players.get(0).getId()).takeCard(new Card(61, "standard", 6));
+        playerAndHand.get(players.get(0).getId()).takeCard(new Card(111, "eleven", 11));
 
-        cardsOnHandMap.get(playerList.get(0).getId()).takeCard(selectedCardPlayer2);
-        cardsOnHandMap.get(playerList.get(1).getId()).takeCard(selectedCardPlayer1);
-        cardsOnHandMap.get(playerList.get(2).getId()).takeCard(selectedCardPlayer4);
-        cardsOnHandMap.get(playerList.get(3).getId()).takeCard(selectedCardPlayer3);
+        GameState.setAllPlayersAndHand(playerAndHand);
     }
 
     /**
@@ -100,8 +96,6 @@ public class Round {
         boolean hasWinner = false;
         while (!hasWinner || !playerOutOfCards()) {
             // TODO output should later be displayed in browser
-            System.out.println(nextPlayer.getUsername() + " ist am Zug.");
-            cardsOnHandMap.get(nextPlayer.getId()).playCard(nextPlayer.getUsername());
 
             hasWinner = false;
         }
@@ -114,10 +108,8 @@ public class Round {
      */
     private boolean playerOutOfCards() {
         boolean allPlayersOutOfCards = false;
-        if (cardsOnHandMap.get(playerList.get(0).getId()).isHandEmpty()
-                && cardsOnHandMap.get(playerList.get(1).getId()).isHandEmpty()
-                && cardsOnHandMap.get(playerList.get(2).getId()).isHandEmpty()
-                && cardsOnHandMap.get(playerList.get(3).getId()).isHandEmpty()) {
+        if (playerAndHand.get(0).isHandEmpty() && playerAndHand.get(1).isHandEmpty()
+                && playerAndHand.get(2).isHandEmpty() && playerAndHand.get(3).isHandEmpty()) {
             allPlayersOutOfCards = true;
         }
         return allPlayersOutOfCards;

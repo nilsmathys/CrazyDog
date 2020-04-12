@@ -25,8 +25,8 @@ public class CrazyDog {
     static final int COLOURIDBLUE = 6;
 
     private int gameId = 0;
-    private static Team team1 = null;
-    private static Team team2 = null;
+    private Team team1 = null;
+    private Team team2 = null;
     private int nextPlayer; //Id des Spielrs der als nächster dran ist.
     private List<Piece> pieceList;
     private CardDeck deck;
@@ -70,15 +70,17 @@ public class CrazyDog {
         this.nextPlayer = nextPlayer;
         this.gameBoard = gameBoard;
         this.pieceList = PieceDAO.getAllPieces();
-        //this.cardList = CardDAO.getAllCards();
-
     }
 
-    public void playGame() {
+    private static void playGame(List<Player> players) {
+        CardDeck deck = new CardDeck();
+        deck.createDeck();
+        deck.getCardDeck();
+
         boolean playEnded = false;
         int roundNumber = 1;
         while (!playEnded) {
-            Round round = new Round(roundNumber, deck, team1, team2, nextPlayer);
+            Round round = new Round(roundNumber, deck, players, players.get(0).getId());
             playEnded = round.startRound();
             roundNumber++;
         }
@@ -102,6 +104,8 @@ public class CrazyDog {
         }
 
         GameState.putAllFieldsAndPieces(fieldsAndPieces);
+
+        playGame(players);
     }
 
 }

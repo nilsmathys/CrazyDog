@@ -63,7 +63,7 @@ h2 {
     position: relative;
 }
 #cardchangehover:hover:after {
-    content: url(/img/cards/karte_tausch.png);
+    content: url(/static/img/cards/karte_15.png);
     display: block;
     position: absolute;
     top: -370px;
@@ -73,7 +73,7 @@ h2 {
     position: relative;
 }
 #cardjokerhover:hover:after {
-    content: url(/img/cards/karte_fragezeichen.png);
+    content: url(/static/img/cards/karte_14.png);
     display: block;
     position: absolute;
     top: -370px;
