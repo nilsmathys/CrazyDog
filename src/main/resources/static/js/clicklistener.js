@@ -4,17 +4,34 @@ var sourcepiece = 0;
 var destfield = 0;
 var destpiece = 0;
 
+var chosenCardId = 0;
+var chosenCardValue = 0;
+
 function main(field, piecefullpath) {
     piece = piecefullpath.replace(/^.*[\\\/]/, '');     // This extracts the image name out of the image src
 
-    if(sourcefield != 0) {
-        destfield = field;
-        destpiece = piece;
-        send();
-    }
-    else {
+    if (chosenCardValue == 2 || chosenCardValue == 5 || chosenCardValue == 6 || chosenCardValue == 8 || chosenCardValue == 9 || chosenCardValue == 10) {
+        var fieldId = (parseInt(field.substring(5)) + parseInt(chosenCardValue)) % 64 !== 0?
+            (parseInt(field.substring(5)) + parseInt(chosenCardValue)) % 64 : 64;
+        console.log(fieldId);
+        var fieldToGoTo = 'field' + fieldId;
         sourcefield = field;
         sourcepiece = piece;
+        destfield = fieldToGoTo;
+        destpiece = 'empty.png';
+        send();
+        removeCardFromHand();
+    } else {
+        if(sourcefield != 0) {
+            destfield = field;
+            destpiece = piece;
+            send();
+            removeCardFromHand();
+        }
+        else {
+            sourcefield = field;
+            sourcepiece = piece;
+        }
     }
 }
 
@@ -33,7 +50,6 @@ function send() {
                 console.log('Destination piece: ' + data[1].piece);
                 reset(); // Sets Value of Variables back to 0
                 changeFrontend(data);
-
             },
             error: function(data) {
                 console.log("failure");
@@ -53,4 +69,26 @@ function reset() {
 function changeFrontend(data) {
     $('#'+data[0].field).attr('src', '/img/pieces/' + data[0].piece);
     $('#'+data[1].field).attr('src', '/img/pieces/' + data[1].piece);
+}
+
+function chooseCard(id, value) {
+    chosenCardId = id;
+    if (value === 3) {}
+    else if (value === 4) {}
+    else if (value === 7) {}
+    else if (value === 11) {
+       chosenCardValue = value;
+       //TODO: choose an action
+    }
+    else if (value === 12) {}
+    else if (value === 13) {}
+    else if (value === 14) {}
+    else if (value === 15) {}
+    else {
+       chosenCardValue = value;
+    }
+}
+
+function removeCardFromHand() {
+    $('img[id='+ chosenCardId + ']').remove();
 }

@@ -2,7 +2,14 @@ package ch.zhaw.psit3.crazydog.Model.GameField;
 
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.db.DBConnectionFactory;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -257,10 +264,38 @@ public class GameFieldDAO {
         return colourID;
     }
 
+    private static GameField parseFieldObject(JSONObject field)
+    {
+        return new GameField((String) field.get("imageName"),(String) field.get("cssId"),
+                (String) field.get("gameFieldName"),(String) field.get("color"));
+    }
+
+    public static List<GameField> getFieldsFromJSON()
+    {
+        //JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+        ArrayList<GameField> fieldList = new ArrayList<>();
+        try (FileReader reader = new FileReader("./src/main/java/ch/zhaw/psit3/crazydog/Model/GameField/gamefields.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+            JSONArray gameFieldList = (JSONArray) obj;
+            //System.out.println(gameFieldList);
+
+            //Iterate over employee array
+            gameFieldList.forEach(
+                    field -> fieldList.add(parseFieldObject( (JSONObject) field ))
+            );
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return fieldList;
+    }
+
     public static void main(String[] args) {
-        List<GameField> fieldListAll = findAll();
-       GameField field = findById(1);
-       List<GameField> fieldList1 = findByName("wormhole");
-       List<GameField> fieldList2 = findByColour("red");
+        List<GameField> fieldListAll = getFieldsFromJSON();
+        System.out.println(fieldListAll.get(1).getImageName());
     }
 }

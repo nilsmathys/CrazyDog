@@ -18,11 +18,13 @@ public class CardDeck {
         for(int i=0; i<cardList.size(); i++) {
             if("questionmark".equals(cardList.get(i).getName())) {
                 for(int k=1; k<=6; k++) {
-                    cardDeck.add(cardList.get(i));
+                    String customId = "" + cardList.get(i).getId() + k;
+                    cardDeck.add(new Card(Integer.parseInt(customId), cardList.get(i).getName(), cardList.get(i).getValue()));
                 }
             } else {
                 for(int l=1; l<=8; l++) {
-                    cardDeck.add(cardList.get(i));
+                    String customId = "" + cardList.get(i).getId() + l;
+                    cardDeck.add(new Card(Integer.parseInt(customId), cardList.get(i).getName(), cardList.get(i).getValue()));
                 }
             }
         }
@@ -33,7 +35,7 @@ public class CardDeck {
         return cardDeck.size();
     }
 
-    public static List<Card> getCardDeck() {
+    public List<Card> getCardDeck() {
         return cardDeck;
     }
 

@@ -2,47 +2,45 @@ package ch.zhaw.psit3.crazydog.Model.GameField;
 
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameFieldDAO;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.*;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.io.FileReader;
+import java.io.IOException;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class GameBoard {
 
-    private GameField[] fields;
+    private List<GameField> fields;
 
     public GameBoard() {
-        initialize();
-    }
-
-    private void initialize() {
-        //fields = GameFieldDAO.findAll();
-        List<GameField> listGameFields = GameFieldDAO.findAll();
-        int size = listGameFields.size();
-        fields = new GameField[size];
-        int index = 0;
-        for (GameField field : listGameFields) {
-            fields[index] = field;
-            index++;
-        }
+        this.fields = GameFieldDAO.getFieldsFromJSON();
     }
 
     public void changePictureOnField(int index, String pictureName) {
-        if(index < 0 || index > fields.length)
+        if(index < 0 || index > fields.size())
         {
             throw new IllegalArgumentException("Please specify a correct index");
         }
-        fields[index].setImageName(pictureName);
+        fields.get(index).setImageName(pictureName);
     }
 
-    public GameField[] getFields()
+    public List<GameField> getFields()
     {
         return fields;
     }
 
     public GameField getSpecificField(int index) {
-        if(index < 0 || index > fields.length)
+        if(index < 0 || index > fields.size())
         {
             throw new IllegalArgumentException("Please specify a correct index");
         }
-        return fields[index];
+        return fields.get(index);
     }
+
 }

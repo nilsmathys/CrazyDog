@@ -1,14 +1,23 @@
-package ch.zhaw.psit3.crazydog.Model.Game;
+package ch.zhaw.psit3.crazydog;
 
+import ch.zhaw.psit3.crazydog.Model.Game.GameState;
+import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Piece.PieceDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
+import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@SpringBootApplication
 public class CrazyDog {
     static final int COLOURIDRED = 3;
     static final int COLOURIDGREEN = 4;
@@ -16,12 +25,23 @@ public class CrazyDog {
     static final int COLOURIDBLUE = 6;
 
     private int gameId = 0;
-    private static Team team1 = null;
-    private static Team team2 = null;
+    private Team team1 = null;
+    private Team team2 = null;
     private int nextPlayer; //Id des Spielrs der als nächster dran ist.
     private List<Piece> pieceList;
     private CardDeck deck;
-    private GameBoard gameBoard;
+    private static GameBoard gameBoard;
+
+    /**
+     * leerer Konstruktur um Webseite starten zu können von dieser Klasse aus.
+     */
+    public CrazyDog()
+    {
+        gameBoard = new GameBoard();
+        pieceList = PieceDAO.getAllPieces();
+        deck = new CardDeck();
+        deck.createDeck();
+    }
 
     /**
      * Konstruktor falls neues Spiel
@@ -50,19 +70,42 @@ public class CrazyDog {
         this.nextPlayer = nextPlayer;
         this.gameBoard = gameBoard;
         this.pieceList = PieceDAO.getAllPieces();
-        //this.cardList = CardDAO.getAllCards();
-
     }
 
-    public void playGame() {
+    private static void playGame(List<Player> players) {
+        CardDeck deck = new CardDeck();
+        deck.createDeck();
+        deck.getCardDeck();
+
         boolean playEnded = false;
         int roundNumber = 1;
         while (!playEnded) {
-            Round round = new Round(roundNumber, deck, team1, team2, nextPlayer);
+            Round round = new Round(roundNumber, deck, players, players.get(0).getId());
             playEnded = round.startRound();
             roundNumber++;
         }
     }
 
+    public static void main(String[] args) {
+        SpringApplication.run(CrazyDog.class, args);
+
+        // Initialize Players
+        List<Player> players = new ArrayList<>();
+        players.add(new Player(1, "Heidi", "heidi@test.com", "red"));
+        players.add(new Player(2, "Johannes", "johannes@test.com", "yellow"));
+        players.add(new Player(3, "Isabella", "isabella@test.com", "green"));
+        players.add(new Player(4, "Peter", "peter@test.com", "blue"));
+        GameState.putPlayers(players);
+
+        Map<String, String> fieldsAndPieces = new HashMap<>();
+        for(GameField field : gameBoard.getFields())
+        {
+            fieldsAndPieces.put(field.getCssId(),field.getImageName());
+        }
+
+        GameState.putAllFieldsAndPieces(fieldsAndPieces);
+
+        playGame(players);
+    }
 
 }

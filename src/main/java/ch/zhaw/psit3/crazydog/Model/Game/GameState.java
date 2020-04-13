@@ -1,5 +1,6 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
+import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import java.util.List;
@@ -9,6 +10,7 @@ public class GameState {
 
     private static List<Player> players;
     private static Map<String, String> fieldsAndPieces;
+    private static Map<Integer, CardsOnHand> playerAndHand;
 
     // Put one relationship between a field and a piece
     public static void put(FieldAndPiece fap) {
@@ -39,4 +41,10 @@ public class GameState {
     public static List<Player> getPlayers() {
         return players;
     }
+
+    // Set the map with objects of players with a hand
+    public static void setAllPlayersAndHand(Map<Integer, CardsOnHand> AllPlayersAndHand) { playerAndHand = AllPlayersAndHand;}
+
+    // Get every player with its hand
+    public static Map<Integer, CardsOnHand> getAllPlayerAndHand() {return playerAndHand;}
 }

@@ -41,8 +41,10 @@
             </div>
         </div>
         <div class="container-bottom">
-            <div th:each="coh : ${cardsOnHand}">
-                <img th:src="'/img/cards/karte_' + ${coh.getId()} + '.png'" class="playingcard" th:id="'card' + ${coh.getId()}" th:alt="'Karte ' + ${coh.getId()}">
+            <div th:each="coh : ${ playerandhand }" id="cards">
+                <img th:src="'/img/cards/karte_' + ${ coh.getValue() } + '.png'" class="playingcard"
+                     th:id=" ${ coh.getId() }" id="card" th:alt="'Karte ' + ${ coh.getValue() }"
+                     th:onclick="|chooseCard(${ coh.getId() },  ${ coh.getValue() })|">
             </div>
         </div>
         <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
