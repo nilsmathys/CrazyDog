@@ -12,7 +12,6 @@ class GameFieldTest {
     @BeforeEach
     void setup() {
         gameField = new GameField("imgName", "cssId", "standard", "white");
-        ;
     }
 
     @Test
