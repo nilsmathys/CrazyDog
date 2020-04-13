@@ -67,8 +67,7 @@ class CardDeckTest {
                                                     if (i % 50 == i) {
                                                         if (i % 40 == i) {
                                                             if (i % 30 == i) {
-                                                                if (i % 20 == i) {
-                                                                } else {
+                                                                if (i % 20 != i) {
                                                                     card2Counter += 1;
                                                                 }
                                                             } else {
