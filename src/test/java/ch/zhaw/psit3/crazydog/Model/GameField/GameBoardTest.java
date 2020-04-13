@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameBoardTest {
@@ -51,19 +53,19 @@ class GameBoardTest {
 
     @Test
     void getFields() {
-        GameField[] gamefield = gameBoard.getFields();
-        assertEquals(gamefieldDbLocal11.getImageName(), gamefield[10].getImageName());
-        assertEquals(gamefieldDbLocal29.getImageName(), gamefield[28].getImageName());
-        assertEquals(gamefieldDbLocal57.getImageName(), gamefield[56].getImageName());
-        assertEquals(gamefieldDbLocal57.getCssId(), gamefield[56].getCssId());
-        assertEquals(gamefieldDbLocal57.getGameFieldName(), gamefield[56].getGameFieldName());
-        assertEquals(gamefieldDbLocal61.getImageName(), gamefield[60].getImageName());
-        assertEquals(gamefieldDbLocal65.getImageName(), gamefield[64].getImageName());
-        assertEquals(gamefieldDbLocal84.getImageName(), gamefield[83].getImageName());
-        assertEquals(gamefieldDbLocal85.getImageName(), gamefield[84].getImageName());
-        assertEquals(gamefieldDbLocal86.getImageName(), gamefield[85].getImageName());
-        assertEquals(gamefieldDbLocal86.getColor(), gamefield[85].getColor());
-        assertEquals(gamefieldDbLocal96.getImageName(), gamefield[95].getImageName());
+        List<GameField> fields = gameBoard.getFields();
+        assertEquals(gamefieldDbLocal11.getImageName(), fields.get(10).getImageName());
+        assertEquals(gamefieldDbLocal29.getImageName(), fields.get(28).getImageName());
+        assertEquals(gamefieldDbLocal57.getImageName(), fields.get(56).getImageName());
+        assertEquals(gamefieldDbLocal57.getCssId(), fields.get(56).getCssId());
+        assertEquals(gamefieldDbLocal57.getGameFieldName(), fields.get(56).getGameFieldName());
+        assertEquals(gamefieldDbLocal61.getImageName(), fields.get(60).getImageName());
+        assertEquals(gamefieldDbLocal65.getImageName(), fields.get(64).getImageName());
+        assertEquals(gamefieldDbLocal84.getImageName(), fields.get(83).getImageName());
+        assertEquals(gamefieldDbLocal85.getImageName(), fields.get(84).getImageName());
+        assertEquals(gamefieldDbLocal86.getImageName(), fields.get(85).getImageName());
+        assertEquals(gamefieldDbLocal86.getColor(), fields.get(85).getColor());
+        assertEquals(gamefieldDbLocal96.getImageName(), fields.get(95).getImageName());
 
     }
 
@@ -89,13 +91,13 @@ class GameBoardTest {
             gameBoard.changePictureOnField(-1, "test1");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            gameBoard.changePictureOnField(gameBoard.getFields().length + 1, "test1");
+            gameBoard.changePictureOnField(gameBoard.getFields().size() + 1, "test1");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             gameBoard.getSpecificField(-1);
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            gameBoard.getSpecificField(gameBoard.getFields().length + 1);
+            gameBoard.getSpecificField(gameBoard.getFields().size() + 1);
         });
     }
 

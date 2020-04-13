@@ -28,17 +28,4 @@ class CardTest {
         assertEquals(13, card.getValue());
     }
 
-    @Test
-    void isSelected() {
-        assertFalse(card.isSelected());
-    }
-
-    @Test
-    void setIsCardSelected() {
-        card.setIsCardSelected(true);
-        assertTrue(card.isSelected());
-        card.setIsCardSelected(false);
-        assertFalse(card.isSelected());
-
-    }
 }

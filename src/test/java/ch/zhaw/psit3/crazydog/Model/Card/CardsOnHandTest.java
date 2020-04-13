@@ -19,7 +19,6 @@ class CardsOnHandTest {
         card3 = new Card(3, "changeDirection", 3);
         card4 = new Card(4, "four", 4);
         card5 = new Card(5, "standard", 5);
-        card2.setIsCardSelected(true);
     }
 
     @BeforeEach
@@ -35,11 +34,6 @@ class CardsOnHandTest {
         assertEquals(card4.getValue(), cardsOnHand.getHand().get(1).getValue());
     }
 
-    // TODO: Methode muss noch fertig implementiert werden
-    @Test
-    void playCard() {
-    }
-
     @Test
     void takeCard() {
         assertEquals(0, cardsOnHand.getHand().size());
@@ -53,7 +47,7 @@ class CardsOnHandTest {
         cardsOnHand.takeCard(card2);
         cardsOnHand.takeCard(card3);
         cardsOnHand.takeCard(card4);
-        assertEquals(card2.getValue(), cardsOnHand.discardCard().getValue());
+        assertEquals(card2.getValue(), cardsOnHand.discardCard(2).getValue());
     }
 
     @Test
@@ -63,12 +57,4 @@ class CardsOnHandTest {
         assertFalse(cardsOnHand.isHandEmpty());
     }
 
-    // TODO: Methode muss noch fertig implementiert werden
-    @Test
-    void getSelectedCard() {
-        cardsOnHand.takeCard(card2);
-        cardsOnHand.takeCard(card3);
-        cardsOnHand.takeCard(card4);
-        assertEquals(card2.getValue(), cardsOnHand.getSelectedCard().getValue());
-    }
 }

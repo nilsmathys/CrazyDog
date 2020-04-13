@@ -48,55 +48,67 @@ class CardDeckTest {
         int card11Counter = 0; // must be 8 at the end
         int card12Counter = 0; // must be 8 at the end
         int card13Counter = 0; // must be 8 at the end
-        int pieceexchangeCounter = 0; // must be 8 at the end
         int questionCardCounter = 0; //must be 6 at the end
+        int pieceexchangeCounter = 0; // must be 8 at the end
+        int i = 0;
 
         while (cardDeck.getDeckSize() > 0) {
-            switch (cardDeck.getCardFromDeck().getId()) {
-                case 2:
-                    card2Counter += 1;
-                    break;
-                case 3:
-                    card3Counter += 1;
-                    break;
-                case 4:
-                    card4Counter += 1;
-                    break;
-                case 5:
-                    card5Counter += 1;
-                    break;
-                case 6:
-                    card6Counter += 1;
-                    break;
-                case 7:
-                    card7Counter += 1;
-                    break;
-                case 8:
-                    card8Counter += 1;
-                    break;
-                case 9:
-                    card9Counter += 1;
-                    break;
-                case 10:
-                    card10Counter += 1;
-                    break;
-                case 11:
-                    card11Counter += 1;
-                    break;
-                case 12:
-                    card12Counter += 1;
-                    break;
-                case 13:
-                    card13Counter += 1;
-                    break;
-                case 14:
+            i = cardDeck.getCardFromDeck().getId();
+            if (i % 150 == i) {
+                if (i % 140 == i) {
+                    if (i % 130 == i) {
+                        if (i % 120 == i) {
+                            if (i % 110 == i) {
+                                if (i % 100 == i) {
+                                    if (i % 90 == i) {
+                                        if (i % 80 == i) {
+                                            if (i % 70 == i) {
+                                                if (i % 60 == i) {
+                                                    if (i % 50 == i) {
+                                                        if (i % 40 == i) {
+                                                            if (i % 30 == i) {
+                                                                if (i % 20 == i) {
+                                                                } else {
+                                                                    card2Counter += 1;
+                                                                }
+                                                            } else {
+                                                                card3Counter += 1;
+                                                            }
+                                                        } else {
+                                                            card4Counter += 1;
+                                                        }
+                                                    } else {
+                                                        card5Counter += 1;
+                                                    }
+                                                } else {
+                                                    card6Counter += 1;
+                                                }
+                                            } else {
+                                                card7Counter += 1;
+                                            }
+                                        } else {
+                                            card8Counter += 1;
+                                        }
+                                    } else {
+                                        card9Counter += 1;
+                                    }
+                                } else {
+                                    card10Counter += 1;
+                                }
+                            } else {
+                                card11Counter += 1;
+                            }
+                        } else {
+                            card12Counter += 1;
+                        }
+                    } else {
+                        card13Counter += 1;
+                    }
+                } else {
                     questionCardCounter += 1;
-                    break;
-                case 15:
-                    pieceexchangeCounter += 1;
-                    break;
-                default:
-                    System.out.println("Test fehlgeschlagen");
+                }
+            } else {
+                pieceexchangeCounter += 1;
             }
 
         }
