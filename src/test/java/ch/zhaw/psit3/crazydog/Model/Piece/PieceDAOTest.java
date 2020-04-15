@@ -1,13 +1,8 @@
-package ch.zhaw.psit3.crazydog.Piece;
+package ch.zhaw.psit3.crazydog.Model.Piece;
 
-import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
-import ch.zhaw.psit3.crazydog.Model.Piece.PieceDAO;
-import ch.zhaw.psit3.crazydog.Model.Player.Player;
-import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +26,7 @@ class PieceDAOTest {
     Piece piece16;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         piece1 = new Piece(1, 1, 3, "piece1red.png");
         piece2 = new Piece(2, 2, 3, "piece2red.png");
         piece3 = new Piece(3, 3, 3, "piece3red.png");

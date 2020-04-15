@@ -1,7 +1,5 @@
-package ch.zhaw.psit3.crazydog.Player;
+package ch.zhaw.psit3.crazydog.Model.Player;
 
-import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
-import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,7 @@ class PlayerTest {
 
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         player = new Player(1, "Tester", "test@test.ch", "test123");
     }
 
@@ -47,13 +45,13 @@ class PlayerTest {
     @Test
     void setEmail() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-           player.setEmail("Test");
+            player.setEmail("Test");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-           player.setEmail("Test@");
+            player.setEmail("Test@");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-           player.setEmail("Test.");
+            player.setEmail("Test.");
         });
         player.setEmail("test2@test.ch");
         assertEquals("test2@test.ch", player.getEmail());

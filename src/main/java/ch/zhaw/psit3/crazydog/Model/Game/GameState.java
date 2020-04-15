@@ -3,14 +3,18 @@ package ch.zhaw.psit3.crazydog.Model.Game;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class GameState {
 
-    private static List<Player> players;
-    private static Map<String, String> fieldsAndPieces;
-    private static Map<Integer, CardsOnHand> playerAndHand;
+    private static List<Player> players = new ArrayList<>();
+    private static Map<String, String> fieldsAndPieces = new HashMap<>();;
+    private static Map<Integer, CardsOnHand> playerAndHand = new HashMap<>();
+
 
     // Put one relationship between a field and a piece
     public static void put(FieldAndPiece fap) {

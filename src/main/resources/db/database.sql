@@ -365,7 +365,7 @@ CREATE TABLE dbo.Gamefields
 
 --standard:1 wormhole:2 startfield:3 destinationfield:4 homefield:5
 --white:1 black:2 red: 3 green:4 yellow:5 blue:6
-INSERT INTO dbo.Gamefields (startimagename, cssid, gamefieldNameID, colourID) VALUES ('empty.png','field1',3,4);--1 startfield red
+INSERT INTO dbo.Gamefields (startimagename, cssid, gamefieldNameID, colourID) VALUES ('empty.png','field1',3,3);--1 startfield red
 INSERT INTO dbo.Gamefields (startimagename, cssid, gamefieldNameID, colourID) VALUES ('empty.png','field2',1,1);--2
 INSERT INTO dbo.Gamefields (startimagename, cssid, gamefieldNameID, colourID) VALUES ('empty.png','field3',1,1);--3
 INSERT INTO dbo.Gamefields (startimagename, cssid, gamefieldNameID, colourID) VALUES ('empty.png','field4',1,1);--4

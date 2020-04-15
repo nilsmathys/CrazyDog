@@ -5,9 +5,12 @@ import ch.zhaw.psit3.crazydog.db.DBConnectionFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class PlayerDAO {
+    private static final Logger LOGGER = Logger.getLogger(PlayerDAO.class.getName());
 
     /**
      * Methode um einen Spieler von der Datenbank auszulesen anhand der ID.
@@ -39,13 +42,13 @@ public class PlayerDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aus Datenbank ausgelesen werden.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
             }
         }
         return player;
@@ -63,31 +66,28 @@ public class PlayerDAO {
         try {
             con = DBConnectionFactory.getConnection();
 
-            String query = "SELECT playerId, username, email, password FROM Players WHERE username=?";
+            String query = "SELECT playerId, username, email, password FROM players WHERE username=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-            int playerId = 0;
-            username = null;
-            String email = null;
-            String password = null;
             if (rs.next()) {
-                playerId = rs.getInt("playerID");
-                username = rs.getString("username");
-                email = rs.getString("email");
-                password = rs.getString("password");
+                player = new Player(
+                        rs.getInt("playerID"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                );
             }
-            player = new Player(playerId, username, email, password);
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aus Datenbank ausgelesen werden.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
             }
         }
         return player;
@@ -110,19 +110,19 @@ public class PlayerDAO {
                 int id = rs.getInt("playerID");
                 String username = rs.getString("username");
                 String email = rs.getString("email");
-                //Player dbPlayer = new Player(id, username, email);
-                //playerList.add(dbPlayer);
+                Player dbPlayer = new Player(id, username, email);
+                playerList.add(dbPlayer);
             }
             rs.close();
             stmt.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Spieler konnten nicht aus Datenbank ausgelesen werden.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
             }
         }
         return playerList;
@@ -159,13 +159,13 @@ public class PlayerDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aus Datenbank ausgelesen werden.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
             }
         }
         return player;
@@ -180,6 +180,12 @@ public class PlayerDAO {
     public static boolean inserPlayer(Player player) {
         Connection con = null;
         int i = 0;
+
+        if(player.getEmail().contains("@") && player.getEmail().contains(".")) {
+            player.setEmail(player.getEmail().toLowerCase());
+        } else {
+            throw new IllegalArgumentException("Emailaddresse überprüfen");
+        }
         if (getPlayerByUsername(player.getUsername()) == null) {
             try {
                 con = DBConnectionFactory.getConnection();
@@ -197,7 +203,7 @@ public class PlayerDAO {
                     if (con != null)
                         con.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    LOGGER.log(Level.SEVERE, "Spieler konnte nicht in Datenbank gespeichert werden.", e);
                 }
             }
         }
@@ -229,13 +235,13 @@ public class PlayerDAO {
             i = ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aktualisiert werden.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
             }
         }
         if (i == 1) {
@@ -251,7 +257,7 @@ public class PlayerDAO {
      * @param player Spieler der gelöscht werden soll
      * @return true, falls der Spieler gelöscht werden konnte, ansonsten false
      */
-    public boolean deletePlayer(Player player) {
+    public static boolean deletePlayer(Player player) {
         Connection con = null;
         int i = 0;
         try {
@@ -262,13 +268,13 @@ public class PlayerDAO {
             i = ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aus Datenbank gelöscht werden.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
             }
         }
         if (i == 1) {
