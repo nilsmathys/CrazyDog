@@ -47,8 +47,12 @@ public class GameState {
     }
 
     // Set the map with objects of players with a hand
-    public static void setAllPlayersAndHand(Map<Integer, CardsOnHand> AllPlayersAndHand) { playerAndHand = AllPlayersAndHand;}
+    public static void setAllPlayersAndHand(Map<Integer, CardsOnHand> AllPlayersAndHand) {
+        playerAndHand = AllPlayersAndHand;
+    }
 
     // Get every player with its hand
-    public static Map<Integer, CardsOnHand> getAllPlayerAndHand() {return playerAndHand;}
+    public static Map<Integer, CardsOnHand> getAllPlayerAndHand() {
+        return playerAndHand;
+    }
 }

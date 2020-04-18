@@ -71,18 +71,23 @@ public class CrazyDogDAO {
      * @param gameId int
      * @return true falls das Speichern funktioniert hat, ansonsten false.
      */
-    public static boolean saveGame(int gameId) {
-        int i = 0;
-        if(gameId == 0) {
-            //ToDo: saveNewGame
-
-        } else {
-            //TODo: saveExistGame
-        }
-        if (i == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    public static boolean saveGame(int gameId, int playerId1, int PlayerId2, int PlayerId3, int PlayerId4, int nextPlayer,
+//                                   int positionRed1, int positionRed2, int PositionRed3, int positionRed4, int positionGreen1,
+//                                   int positionGreen2, int positionGreen3, int positionGreen4, int positionBlue1, int positionBlue2,
+//                                   int positionBlue3, int positionBlue4, int positionYellow1, int positionYellow2, int positionYellow3,
+//                                   int positionYellow4,
+//                                   ) {
+//        int i = 0;
+//        if(gameId == 0) {
+//            //ToDo: saveNewGame
+//
+//        } else {
+//            //TODo: saveExistGame
+//        }
+//        if (i == 1) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 }

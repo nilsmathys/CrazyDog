@@ -4,27 +4,30 @@ import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
+import ch.zhaw.psit3.crazydog.Model.Player.Team;
 
 import java.util.*;
 
 
 public class Round {
 
-    List<Player> players;
+    Team team1;
+    Team team2;
     Map<Integer, CardsOnHand> playerAndHand;
     CardDeck deck;
     private int nextPlayer;
 
-    public Round(int roundNumber, CardDeck deck, List<Player> players, int nextPlayer) {
-        this.players = players;
+    public Round(int roundNumber, CardDeck deck, Team team1, Team team2, int nextPlayer) {
+        this.team1 = team1;
+        this.team2 = team2;
         this.nextPlayer = nextPlayer;
         this.deck = deck;
 
         playerAndHand = new HashMap<>();
-        playerAndHand.put(players.get(0).getId(), new CardsOnHand());
-        playerAndHand.put(players.get(1).getId(), new CardsOnHand());
-        playerAndHand.put(players.get(2).getId(), new CardsOnHand());
-        playerAndHand.put(players.get(3).getId(), new CardsOnHand());
+        playerAndHand.put(team1.getPlayer1().getId(), new CardsOnHand());
+        playerAndHand.put(team1.getPlayer2().getId(), new CardsOnHand());
+        playerAndHand.put(team2.getPlayer1().getId(), new CardsOnHand());
+        playerAndHand.put(team2.getPlayer2().getId(), new CardsOnHand());
 
         distributeCards(roundNumber);
         // TODO: show countdown for players to select a card
@@ -69,19 +72,19 @@ public class Round {
         }
 
         for(int i=0; i<totalCardsToDistribute; i=i+4) {
-            //playerAndHand.get(players.get(0).getId()).takeCard(deck.getCardFromDeck());
-            playerAndHand.get(players.get(1).getId()).takeCard(deck.getCardFromDeck());
-            playerAndHand.get(players.get(2).getId()).takeCard(deck.getCardFromDeck());
-            playerAndHand.get(players.get(3).getId()).takeCard(deck.getCardFromDeck());
+            //playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(team1.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
 
         // only for prototype demo
-        playerAndHand.get(players.get(0).getId()).takeCard(new Card(21, "standard", 2));
-        playerAndHand.get(players.get(0).getId()).takeCard(new Card(101, "standard", 10));
-        playerAndHand.get(players.get(0).getId()).takeCard(new Card(22, "standard", 2));
-        playerAndHand.get(players.get(0).getId()).takeCard(new Card(91, "standard", 9));
-        playerAndHand.get(players.get(0).getId()).takeCard(new Card(61, "standard", 6));
-        playerAndHand.get(players.get(0).getId()).takeCard(new Card(111, "eleven", 11));
+        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(21, "standard", 2));
+        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(101, "standard", 10));
+        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(22, "standard", 2));
+        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(91, "standard", 9));
+        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(61, "standard", 6));
+        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(111, "eleven", 11));
 
         GameState.setAllPlayersAndHand(playerAndHand);
     }
