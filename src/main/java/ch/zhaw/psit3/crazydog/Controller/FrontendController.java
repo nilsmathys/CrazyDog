@@ -1,14 +1,11 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
-import ch.zhaw.psit3.crazydog.Model.Game.GameState;
+import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
-
-import java.util.Iterator;
-import java.util.Map;
 
 /* This controller is responsible for providing data to ajax calls. */
 @Controller
@@ -41,8 +38,8 @@ public class FrontendController {
         source.setPiece(dest.getPiece());
         dest.setPiece(temp);
 
-        GameState.put(source);  // Update the game state!
-        GameState.put(dest);    // Update the game state!
+        GameBoard.put(source);      // Update the game state!
+        GameBoard.put(dest);        // Update the game state!
 
         return sourceAndDestination;
     }

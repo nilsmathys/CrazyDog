@@ -1,9 +1,5 @@
 package ch.zhaw.psit3.crazydog;
 
-import ch.zhaw.psit3.crazydog.Model.Card.Card;
-import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
-import ch.zhaw.psit3.crazydog.Model.Game.CrazyDogDAO;
-import ch.zhaw.psit3.crazydog.Model.Game.GameState;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
@@ -13,14 +9,10 @@ import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.PlayerAndHand;
 import ch.zhaw.psit3.crazydog.Model.Player.PlayerDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
-import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SpringBootApplication
 public class CrazyDog {
@@ -30,8 +22,8 @@ public class CrazyDog {
     static final int COLOURIDBLUE = 6;
 
     public int gameId;
-    public Team team1;
-    public Team team2;
+    private static Team team1;
+    private static Team team2;
     public int nextPlayer; //Id des Spielrs der als nächster dran ist.
     public List<Piece> pieceList;
     public CardDeck deck;
@@ -68,14 +60,14 @@ public class CrazyDog {
         this.pieceList = PieceDAO.getAllPieces();
         this.deck = new CardDeck();
         deck.createDeck();
-        CardsOnHand cardsPlayer1 = new CardsOnHand();
+    /*    CardsOnHand cardsPlayer1 = new CardsOnHand();
         CardsOnHand cardsPlayer2 = new CardsOnHand();
         CardsOnHand cardsPlayer3 = new CardsOnHand();
         CardsOnHand cardsPlayer4 = new CardsOnHand();
         playerAndHand1 = new PlayerAndHand(player1, cardsPlayer1);
         playerAndHand2 = new PlayerAndHand(player2, cardsPlayer2);
         playerAndHand3 = new PlayerAndHand(player3, cardsPlayer3);
-        playerAndHand4 = new PlayerAndHand(player4, cardsPlayer4);
+        playerAndHand4 = new PlayerAndHand(player4, cardsPlayer4);*/
     }
 
     /**
@@ -115,23 +107,16 @@ public class CrazyDog {
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
         crazyDog.playGame(crazyDog.team1, crazyDog.team2, crazyDog.nextPlayer);
 
-//        // Initialize Players
-//        List<Player> players = new ArrayList<>();
-//        players.add(player1);
-//        players.add(player2);
-//        players.add(player3);
-//        players.add(player4);
-//        GameState.putPlayers(players);
-//
-//        Map<String, String> fieldsAndPieces = new HashMap<>();
-//        for(GameField field : gameBoard.getFields())
-//        {
-//            fieldsAndPieces.put(field.getCssId(),field.getImageName());
-//        }
-//
-//        GameState.putAllFieldsAndPieces(fieldsAndPieces);
-//
-//        playGame(players);
+    }
+
+    public static Team getTeam1() {
+        return team1;
+    }
+    public static Team getTeam2() {
+        return team2;
+    }
+    public static GameBoard getGameBoard() {
+        return gameBoard;
     }
 
 }

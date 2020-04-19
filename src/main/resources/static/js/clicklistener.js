@@ -64,6 +64,8 @@ function reset() {
     sourcepiece = 0;
     destfield = 0;
     destpiece = 0;
+    chosenCardId = 0;
+    chosenCardValue = 0;
 }
 
 function changeFrontend(data) {

@@ -1,9 +1,7 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
-import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
-import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
 
 import java.util.*;
@@ -13,9 +11,9 @@ public class Round {
 
     Team team1;
     Team team2;
-    Map<Integer, CardsOnHand> playerAndHand;
     CardDeck deck;
     private int nextPlayer;
+    private static Map<Integer, CardsOnHand> playerAndHand = new HashMap<>();
 
     public Round(int roundNumber, CardDeck deck, Team team1, Team team2, int nextPlayer) {
         this.team1 = team1;
@@ -23,7 +21,6 @@ public class Round {
         this.nextPlayer = nextPlayer;
         this.deck = deck;
 
-        playerAndHand = new HashMap<>();
         playerAndHand.put(team1.getPlayer1().getId(), new CardsOnHand());
         playerAndHand.put(team1.getPlayer2().getId(), new CardsOnHand());
         playerAndHand.put(team2.getPlayer1().getId(), new CardsOnHand());
@@ -72,21 +69,12 @@ public class Round {
         }
 
         for(int i=0; i<totalCardsToDistribute; i=i+4) {
-            //playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team1.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
 
-        // only for prototype demo
-        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(21, "standard", 2));
-        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(101, "standard", 10));
-        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(22, "standard", 2));
-        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(91, "standard", 9));
-        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(61, "standard", 6));
-        playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(111, "eleven", 11));
-
-        GameState.setAllPlayersAndHand(playerAndHand);
     }
 
     /**
@@ -117,4 +105,7 @@ public class Round {
         return allPlayersOutOfCards;
     }
 
+    public static Map<Integer, CardsOnHand> getPlayerAndHand() {
+        return playerAndHand;
+    }
 }
