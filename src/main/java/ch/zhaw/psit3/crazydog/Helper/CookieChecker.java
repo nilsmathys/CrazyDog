@@ -3,6 +3,9 @@ package ch.zhaw.psit3.crazydog.Helper;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+/*
+CookieChecker is responsible for checking wether cookies are set or not.
+ */
 public class CookieChecker {
     private static boolean cookieIsSet = false;
 
