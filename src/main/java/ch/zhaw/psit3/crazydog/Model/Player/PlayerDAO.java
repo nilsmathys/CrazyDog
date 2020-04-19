@@ -159,6 +159,7 @@ public class PlayerDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
+            player = new Player(0, "", "", ""); // return an empty player, if exception occurs
             e.printStackTrace();
         } finally {
             try {
