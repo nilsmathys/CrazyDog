@@ -16,11 +16,12 @@ public class CreateGameController {
 
     @GetMapping("/creategame")
     public String createGame(HttpServletRequest request, Model model) {
-        boolean cookieIsSet = CookieChecker.isCookieSet(request);
+        //boolean cookieIsSet = CookieChecker.isCookieSet(request);         // Might be used later.
 
-        if(cookieIsSet) {
+        if(request.getSession().getAttribute("id") != null) {
             // Create Game Logic ....
             // More Create Game Logic ....
+            model.addAttribute("sessionid", request.getSession().getAttribute("id"));
             return "creategame";
         }
         else {
