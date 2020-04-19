@@ -84,11 +84,11 @@ public class Player {
         }
     }
 
-    public String getPw() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPw(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }

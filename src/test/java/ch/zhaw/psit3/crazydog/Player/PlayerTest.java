@@ -61,12 +61,12 @@ class PlayerTest {
 
     @Test
     void getPw() {
-        assertEquals("test123", player.getPw());
+        assertEquals("test123", player.getPassword());
     }
 
     @Test
     void setPw() {
-        player.setPw("test1234");
-        assertEquals("test1234", player.getPw());
+        player.setPassword("test1234");
+        assertEquals("test1234", player.getPassword());
     }
 }
