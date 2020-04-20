@@ -16,12 +16,24 @@
         </header>
         <div class="container-top">
             <div class="container-left">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item" th:each="player : ${players}" th:id="${player.getPw()}">
-                        <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'" th:alt="${player.getUsername()}">
-                        <span class="playername" th:text="${player.getUsername()}"></span>
-                    </li>
-                </ul>
+                <div>
+                    <h3>Team 1</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:each="player : ${team1}" th:id="${player.getPw()}">
+                            <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'" th:alt="${player.getUsername()}">
+                            <span class="playername" th:text="${player.getUsername()}"></span>
+                        </li>
+                    </ul>
+                </div>
+              <div>
+                  <h3>Team 2</h3>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item" th:each="player : ${team2}" th:id="${player.getPw()}">
+                          <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'" th:alt="${player.getUsername()}">
+                          <span class="playername" th:text="${player.getUsername()}"></span>
+                      </li>
+                  </ul>
+              </div>
             </div>
             <div class="container-center">
                 <span id="board"></span>

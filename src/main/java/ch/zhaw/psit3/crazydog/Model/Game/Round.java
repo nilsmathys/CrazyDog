@@ -18,6 +18,7 @@ public class Round {
     List<PlayerAndHand> playerAndHand;
     CardDeck deck;
     private int nextPlayer;
+    private static Map<Integer, CardsOnHand> playerAndHand = new HashMap<>();
 
     public Round(int roundNumber, CardDeck deck, Team team1, Team team2, int nextPlayer) {
         this.team1 = team1;
@@ -25,15 +26,11 @@ public class Round {
         this.nextPlayer = nextPlayer;
         this.deck = deck;
 
-        playerAndHand = new ArrayList<>();
-        CardsOnHand cardsPlayer1 = new CardsOnHand();
-        CardsOnHand cardsPlayer2 = new CardsOnHand();
-        CardsOnHand cardsPlayer3 = new CardsOnHand();
-        CardsOnHand cardsPlayer4 = new CardsOnHand();
-        playerAndHand.add(new PlayerAndHand(team1.getPlayer1(), cardsPlayer1));
-        playerAndHand.add(new PlayerAndHand(team1.getPlayer2(), cardsPlayer1));
-        playerAndHand.add(new PlayerAndHand(team2.getPlayer1(), cardsPlayer1));
-        playerAndHand.add(new PlayerAndHand(team2.getPlayer2(), cardsPlayer1));
+        playerAndHand.put(team1.getPlayer1().getId(), new CardsOnHand());
+        playerAndHand.put(team1.getPlayer2().getId(), new CardsOnHand());
+        playerAndHand.put(team2.getPlayer1().getId(), new CardsOnHand());
+        playerAndHand.put(team2.getPlayer2().getId(), new CardsOnHand());
+
         distributeCards(roundNumber);
         // TODO: show countdown for players to select a card
 
@@ -83,23 +80,13 @@ public class Round {
             deck.createDeck();
         }
 
-        for (int i = 0; i < totalCardsToDistribute; i = i + 4) {
-            //playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
-            playerAndHand.get(0).getHand().takeCard(deck.getCardFromDeck());
-            playerAndHand.get(1).getHand().takeCard(deck.getCardFromDeck());
-            playerAndHand.get(2).getHand().takeCard(deck.getCardFromDeck());
-            playerAndHand.get(3).getHand().takeCard(deck.getCardFromDeck());
+        for(int i=0; i<totalCardsToDistribute; i=i+4) {
+            playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(team1.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
 
-        // only for prototype demo
-        playerAndHand.get(0).getHand().takeCard(new Card(21, "standard", 2));
-        playerAndHand.get(0).getHand().takeCard(new Card(101, "standard", 10));
-        playerAndHand.get(0).getHand().takeCard(new Card(22, "standard", 2));
-        playerAndHand.get(0).getHand().takeCard(new Card(91, "standard", 9));
-        playerAndHand.get(0).getHand().takeCard(new Card(61, "standard", 6));
-        playerAndHand.get(0).getHand().takeCard(new Card(111, "eleven", 11));
-
-        //GameState.setAllPlayersAndHand(playerAndHand);
     }
 
     /**
@@ -176,11 +163,14 @@ public class Round {
      */
     private boolean playerOutOfCards() {
         boolean allPlayersOutOfCards = false;
-        if (playerAndHand.get(0).getHand().isHandEmpty() && playerAndHand.get(1).getHand().isHandEmpty()
-                && playerAndHand.get(2).getHand().isHandEmpty() && playerAndHand.get(3).getHand().isHandEmpty()) {
+        if (playerAndHand.get(0).isHandEmpty() && playerAndHand.get(1).isHandEmpty()
+                && playerAndHand.get(2).isHandEmpty() && playerAndHand.get(3).isHandEmpty()) {
             allPlayersOutOfCards = true;
         }
         return allPlayersOutOfCards;
     }
 
+    public static Map<Integer, CardsOnHand> getPlayerAndHand() {
+        return playerAndHand;
+    }
 }
