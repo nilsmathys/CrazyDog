@@ -28,7 +28,7 @@ public class PlayCard {
      * @param cardName  Name der Karte
      * @return true, wenn das ein gültiger Spielzug ist, ansonsten false
      */
-    public static boolean checkValidturn(int pieceDest, String cardName, Piece piece, int fieldsToGo, int selectetAction) {
+    public static boolean checkValidturn(int pieceDest, String cardName, Piece piece, int fieldsToGo) {
         switch (piece.getColourId()) {
             case COLOURIDRED:
                 if (pieceDest == 65 || pieceDest == 66 || pieceDest == 67 || pieceDest == 68) {
@@ -149,6 +149,11 @@ public class PlayCard {
         return false;
     }
 
+    private static int calculateNewDestination(int fieldsToGo, int colourId, int pieceDestination, int direction) {
+
+        return 0;
+    }
+
     /**
      * @param colourIdPlayer       FarbId des Spielers
      * @param colourIdPartner      FarbId es Partners
@@ -157,7 +162,7 @@ public class PlayCard {
      * @param pieceDestinations    Array mit den aktuellen Standorten der Figuren, 0=Figur1 etc.
      * @param targetDestination    gewünschte Zieldestinationen. (wird nur bei Karte 7 benötigt)
      * @param selectetPieces       List mit den Figuren die der Spieler gewählt hat. (Mehr als eine Figur wird nur bei den Karten 7 und PieceExchange benötigt)
-     * @param direction            aktuelle Spielrichtung: 0= Uhrezeigersin, 1 = Gegenuhrzeigersinn
+     * @param direction            aktuelle Spielrichtung: 0= Uhrezeigersinn, 1 = Gegenuhrzeigersinn
      * @param selectetCardQuestion Falls der Spieler die Questioncard hat, ist dies die Karte die der Spieler spielen möchte.
      * @param selectetAction       Falls der Spieler eine Spezialkarte spielen möchte die mehr als eine Aktion hat,
      *                             Karte 3: 0=3 Felder fahren, 1=Richtungswechsel;
@@ -183,7 +188,7 @@ public class PlayCard {
         fieldsToGo = 0;
         switch (cardToPlay.getValue()) {
             case 3:
-                direction = playCard3(pieceDestinations.get(0), selectetAction, direction);
+                direction = playCard3(pieceDestinations.get(0), selectetPieces.get(0), selectetAction, direction);
                 //ToDo: online umsetzen
                 break;
             case 4:
@@ -196,9 +201,9 @@ public class PlayCard {
             case 0:
                 if (cardToPlay.getName() == "oneEleven") {
                     if(ownPiecesFinished) {
-                        playCardOneEleven(selectetAction, colourIdPartner, pieceDestinations.get(0));
+                        playCardOneEleven(selectetAction, selectetPieces.get(0), colourIdPartner, pieceDestinations.get(0), direction);
                     } else {
-                        playCardOneEleven(selectetAction, colourIdPlayer, pieceDestinations.get(0));
+                        playCardOneEleven(selectetAction, selectetPieces.get(0), colourIdPlayer, pieceDestinations.get(0), direction);
                     }
 
                     //ToDo: oneEleven online umsetzen (falls figur auf homefiled ausgewählt wird keine Aktion)
@@ -213,9 +218,9 @@ public class PlayCard {
                 break;
             case 13:
                 if(ownPiecesFinished) {
-                    playCard13(colourIdPartner, pieceDestinations.get(0));
+                    playCard13(colourIdPartner, selectetPieces.get(0), pieceDestinations.get(0), direction);
                 } else {
-                    playCard13(colourIdPlayer, pieceDestinations.get(0));
+                    playCard13(colourIdPlayer, selectetPieces.get(0), pieceDestinations.get(0), direction);
                 }
                 //ToDO: Card13 online umsetzen (falls figur auf homefiled ausgewählt wird keine Aktion)
                 break;
@@ -223,7 +228,7 @@ public class PlayCard {
                 throw new IllegalArgumentException();
 
         }
-        //ToDo: zurückgeben der Figuren die bewegt werden soll und neuer Standort und Dircetion (List Pieces, targertdest, direction)
+        //ToDo: neue Hand, neuer Standort und Dircetion zurückgeben(List Pieces, targertdest, direction)
     }
 
     /**
@@ -242,24 +247,35 @@ public class PlayCard {
             throw new IllegalArgumentException();
         }
         playerAndHand.getHand().discardCard(idCardToPlay);
-        //ToDo: überprüfen ob es ein gültiger Zug ist
-        fieldsToGo = cardToPlay.getValue();
-        //berechnen neuer Standort
-        //targetDestination.add(neuerStandort);
-        //ToDo: Figur und neuer Standort zurückgeben.(Piece, pieceDest)
+        if(checkValidturn(pieceDestination, cardToPlay.getName(), selectetPiece, cardToPlay.getValue())) {
+            fieldsToGo = cardToPlay.getValue();
+        } {
+            fieldsToGo = 0;
+        }
+        if(ownPiecesFinished) {
+            targetDestination.add(0, calculateNewDestination(fieldsToGo, colourIdPartner, pieceDestination, direction));
+        } else {
+            targetDestination.add(0, calculateNewDestination(fieldsToGo, colourIdPlayer, pieceDestination, direction));
+        }
+        //ToDo: neuer Standort und neue Hand zurückgeben.(Piece, pieceDest)
     }
 
     /**
      * @param pieceDest      aktueller Standort der Figur
+     * @param piece Figur die bewegt werden soll
      * @param selectetAction ausgeählte Aktion, 0 = 3 Felder gehen, 1 = Richtungswechsel
      * @param direction      aktuelle Spielrichtung, 0 = Uhrzeigersinn, 1 = Gegenuhrzeigersinn
      * @return gibt die neue Spielrichtung zurück
      */
-    public static int playCard3(int pieceDest, int selectetAction, int direction) {
+    private static int playCard3(int pieceDest, Piece piece, int selectetAction, int direction) {
         if (selectetAction == 0) {
             //ToDo: überprüfen ob Validtun
 
-            fieldsToGo = 3;
+            if(checkValidturn(pieceDest, null, piece, 3)) {
+                fieldsToGo = 3;
+            } else {
+                playCard3(pieceDest, piece, 1, direction);
+            }
             //targetDestination.add(neuerStandort);
             //TODo: zurückgeben neuer Standort der ausgewählten Figur
             return direction;
@@ -275,7 +291,7 @@ public class PlayCard {
         return direction;
     }
 
-    public static void playCard4(int pieceDestination, int direction) {
+    private static void playCard4(int pieceDestination, int direction) {
         fieldsToGo = 4;
         //targetDestination.add(neuerStandort);
         //ToDo: Fahren in die andere Richtung
@@ -288,7 +304,14 @@ public class PlayCard {
 
     }
 
-    public static void playCardOneEleven(int selectetAction, int colourId, int pieceDestination) {
+    /**
+     *
+     * @param selectetAction ausgewählte AKtion: 0 = 1 Feld fahren, 1 = 11 Felder fahren
+     * @param piece Figur die bewegt werden soll
+     * @param colourId colourid des Spielers oder des Partners
+     * @param pieceDestination aktueller Standort der gewählten Figur
+     */
+    private static void playCardOneEleven(int selectetAction, Piece piece, int colourId, int pieceDestination, int direction) {
         if(colourId == COLOURIDRED) {
             if(pieceDestination == 65 || pieceDestination == 66 || pieceDestination == 67 || pieceDestination == 68) {
                 targetDestination.add(0, 1);
@@ -308,13 +331,19 @@ public class PlayCard {
                 targetDestination.add(0, 49);
             }
         } else if (selectetAction == 0) {
-            //ToDo: überprüfen ob gültiger Zug
-            fieldsToGo = 1;
-            //targetDestination.add(neuerStandort);
+            if(checkValidturn(pieceDestination, null, piece, 3)) {
+                fieldsToGo = 1;
+            } else {
+                fieldsToGo = 0;
+            }
+            targetDestination.add(calculateNewDestination(fieldsToGo, colourId, pieceDestination, direction));
         } else if (selectetAction == 1) {
-            //ToDo: überprüfen ob gültiger Zug
-            fieldsToGo = 11;
-            //targetDestination.add(neuerStandort);
+            if(checkValidturn(pieceDestination, null, piece, 3)) {
+                fieldsToGo = 11;
+            } else {
+                playCardOneEleven( 0, piece, colourId, pieceDestination, direction);
+            }
+            targetDestination.add(calculateNewDestination(fieldsToGo, colourId, pieceDestination, direction));
         } else {
             throw new IllegalArgumentException();
         }
@@ -322,12 +351,11 @@ public class PlayCard {
     }
 
     /**
-     *
-     * @param selectetAction ausgewählte Aktion: 0 = Figur auf Startfeld, 1 = 13 Felder fahren
      * @param colourId ColourId des Spieler oder des Partners
-     * @param pieceDestination aktueller Standort der Figur die bewegt werden soll
+     * @param piece Figur die bewegt werden soll
+     * @param pieceDestination aktueller Standort der gewählten Figur
      */
-    public static void playCard13(int colourId, int pieceDestination) {
+    private static void playCard13(int colourId, Piece piece, int pieceDestination, int direction) {
         if(colourId == COLOURIDRED) {
             if(pieceDestination == 65 || pieceDestination == 66 || pieceDestination == 67 || pieceDestination == 68) {
                 targetDestination.add(0, 1);
@@ -347,9 +375,12 @@ public class PlayCard {
                 targetDestination.add(0, 49);
             }
         } else {
-            //ToDO: überprüfen ob gültiger Zug
-            fieldsToGo = 13;
-            //targetDestination.add();
+            if(checkValidturn(pieceDestination, null, piece, 3)) {
+                fieldsToGo = 13;
+            } else {
+                fieldsToGo = 0;
+            }
+            targetDestination.add(calculateNewDestination(fieldsToGo, colourId, pieceDestination, direction));
         }
     }
 
@@ -357,7 +388,7 @@ public class PlayCard {
      * @param targetDestination Standort der Figuren die getauscht werdens sollen
      * @return targetDestination, neuer Standort der Figuren
      */
-    public static List pieceExchange(List<Integer> targetDestination) {
+    private static List pieceExchange(List<Integer> targetDestination) {
         int store = targetDestination.get(0);
         targetDestination.set(0, 1);
         targetDestination.set(1, store);
@@ -378,7 +409,7 @@ public class PlayCard {
      *                             Karte oneEleven: 0=1 Feld fahren, 1=11 Felder fahren, 2=Figur auf Start;
      *                             Karte13: 0=13 Felder fahren, 1=Figur auf Start
      */
-    public static void playQuestionCard(int colourIdPlayer, int colourIdPartner, PlayerAndHand playerAndHand, int idCardToPlay, List<Integer> pieceDestinations,
+    private static void playQuestionCard(int colourIdPlayer, int colourIdPartner, PlayerAndHand playerAndHand, int idCardToPlay, List<Integer> pieceDestinations,
                                         List<Integer> targetDestination, List<Piece> selectetPieces,
                                         int direction, Card selectetCardQuestion, int selectetAction, boolean ownPiecesFinished) {
         playerAndHand.getHand().getHand().get(idCardToPlay).setId(selectetCardQuestion.getId());
