@@ -1,7 +1,9 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
+import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
+import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
 
 import java.util.*;
@@ -28,7 +30,6 @@ public class Round {
 
         distributeCards(roundNumber);
         // TODO: show countdown for players to select a card
-
     }
 
     /**
@@ -75,6 +76,20 @@ public class Round {
             playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
 
+    }
+
+    /**
+     * Exchanges selected cards from teammembers
+     * @param idPlayer1 id of teammember 1
+     * @param cardPlayer1 selected card from teammember 1
+     * @param idPlayer2 id of teammember 2
+     * @param cardPlayer2 selected card from teammember 2
+     */
+    private void exchangeCards(int idPlayer1, Card cardPlayer1, int idPlayer2, Card cardPlayer2) {
+        Card cardFromPlayer1 = playerAndHand.get(idPlayer1).discardCard(cardPlayer1.getId());
+        Card cardFromPlayer2 = playerAndHand.get(idPlayer2).discardCard(cardPlayer2.getId());
+        playerAndHand.get(idPlayer1).takeCard(cardFromPlayer2);
+        playerAndHand.get(idPlayer2).takeCard(cardFromPlayer1);
     }
 
     /**
