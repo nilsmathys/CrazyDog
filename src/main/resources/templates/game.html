@@ -19,7 +19,7 @@
                 <div>
                     <h3>Team 1</h3>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:each="player : ${team1}" th:id="${player.getPw()}">
+                        <li class="list-group-item" th:each="player : ${team1}" th:id="${player.getPassword()}">
                             <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'" th:alt="${player.getUsername()}">
                             <span class="playername" th:text="${player.getUsername()}"></span>
                         </li>
@@ -28,7 +28,7 @@
               <div>
                   <h3>Team 2</h3>
                   <ul class="list-group list-group-flush">
-                      <li class="list-group-item" th:each="player : ${team2}" th:id="${player.getPw()}">
+                      <li class="list-group-item" th:each="player : ${team2}" th:id="${player.getPassword()}">
                           <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'" th:alt="${player.getUsername()}">
                           <span class="playername" th:text="${player.getUsername()}"></span>
                       </li>
@@ -55,6 +55,7 @@
         <div class="container-bottom">
             <div class="select-buttons">
                 <form th:action="@{exchangeCard}">
+                    <input type="hidden" th:name="sessionId" th:value="${sessionId}">
                     <input type="hidden" th:name="selectedCardId" value=""/>
                     <button th:if="${ !roundStarted }" type="submit" id="exchange-button" >Karte tauschen</button>
                 </form>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,20 +38,28 @@ public class GameController {
         return team2;
     }
 
-/*    @ModelAttribute("fieldsandpieces")
-    public Map<String, String> populateFieldsAndPieces() {
-        Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
-        return fieldsAndPieces;
+    @GetMapping("/game")
+    public String playGame(HttpServletRequest request, Model model) {
+
+        if(request.getSession().getAttribute("id") != null) {
+            Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
+            model.addAttribute("fieldsandpieces", fieldsAndPieces);
+
+            int playerId = Integer.parseInt(request.getSession().getAttribute("id").toString());
+            Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
+            model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
+
+            model.addAttribute("roundStarted", roundStarted);
+            model.addAttribute("sessionId", request.getSession().getAttribute("id"));
+            return "game";
+        }
+        else {
+            model.addAttribute("player", new Player());
+            model.addAttribute("loginerror", "Please login to create a game");
+            return "login";
+        }
     }
-
-    @ModelAttribute("playerandhand")
-    public List<Card> populatePlayerAndHand() {
-        int playerId = 1;
-        Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
-        return playerAndHand.get(playerId).getHand();
-    }*/
-
-
+/*
     @RequestMapping(value = { "/game" }, method = RequestMethod.GET)
     public String foo(Model model) {
         Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
@@ -64,21 +73,12 @@ public class GameController {
         System.out.println("Return to game");
         return "game";
     }
-
+*/
     @RequestMapping(value="exchangeCard")
-    public ModelAndView exchangeCardService(@RequestParam(value = "selectedCardId") String selectedCardId, Model model) {
+    public ModelAndView exchangeCardService(@RequestParam(value = "selectedCardId") String selectedCardId,
+                                            @RequestParam(value = "sessionId") String sessionId) {
 
-        int playerId = 1;
-        Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
-        CardsOnHand hand = playerAndHand.get(playerId);
-        Card cardToChange = hand.discardCard(Integer.parseInt(selectedCardId));
-
-        // hand teamplayer
-        int playerId2 = 2;
-        CardsOnHand handTeamplayer = playerAndHand.get(playerId2);
-        handTeamplayer.takeCard(cardToChange);
-
-        roundStarted = true;
+        Round.setExchangeCard(Integer.parseInt(sessionId), Integer.parseInt(selectedCardId));
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/game");

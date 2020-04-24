@@ -6,7 +6,6 @@ import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Piece.PieceDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
-import ch.zhaw.psit3.crazydog.Model.Player.PlayerAndHand;
 import ch.zhaw.psit3.crazydog.Model.Player.PlayerDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import org.springframework.boot.SpringApplication;
@@ -28,10 +27,6 @@ public class CrazyDog {
     public List<Piece> pieceList;
     public CardDeck deck;
     public static GameBoard gameBoard;
-    public PlayerAndHand playerAndHand1;
-    public PlayerAndHand playerAndHand2;
-    public PlayerAndHand playerAndHand3;
-    public PlayerAndHand playerAndHand4;
 
 
     /**
@@ -60,14 +55,6 @@ public class CrazyDog {
         this.pieceList = PieceDAO.getAllPieces();
         this.deck = new CardDeck();
         deck.createDeck();
-    /*    CardsOnHand cardsPlayer1 = new CardsOnHand();
-        CardsOnHand cardsPlayer2 = new CardsOnHand();
-        CardsOnHand cardsPlayer3 = new CardsOnHand();
-        CardsOnHand cardsPlayer4 = new CardsOnHand();
-        playerAndHand1 = new PlayerAndHand(player1, cardsPlayer1);
-        playerAndHand2 = new PlayerAndHand(player2, cardsPlayer2);
-        playerAndHand3 = new PlayerAndHand(player3, cardsPlayer3);
-        playerAndHand4 = new PlayerAndHand(player4, cardsPlayer4);*/
     }
 
     /**

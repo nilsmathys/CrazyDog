@@ -42,7 +42,7 @@ class PlayerDAOTest {
         assertEquals(firstPlayerDbLocal.getId(), dbPlayer.getId());
         assertEquals(firstPlayerDbLocal.getUsername(), dbPlayer.getUsername());
         assertEquals(firstPlayerDbLocal.getEmail(), dbPlayer.getEmail());
-        assertEquals(firstPlayerDbLocal.getPw(), dbPlayer.getPw());
+        assertEquals(firstPlayerDbLocal.getPassword(), dbPlayer.getPassword());
     }
 
     @Test
@@ -51,7 +51,7 @@ class PlayerDAOTest {
         assertEquals(firstPlayerDbLocal.getId(), dbPlayer.getId());
         assertEquals(firstPlayerDbLocal.getUsername(), dbPlayer.getUsername());
         assertEquals(firstPlayerDbLocal.getEmail(), dbPlayer.getEmail());
-        assertEquals(firstPlayerDbLocal.getPw(), dbPlayer.getPw());
+        assertEquals(firstPlayerDbLocal.getPassword(), dbPlayer.getPassword());
     }
 
     @Test
@@ -77,7 +77,7 @@ class PlayerDAOTest {
         assertEquals(firstPlayerDbLocal.getId(), dbPlayer.getId());
         assertEquals(firstPlayerDbLocal.getUsername(), dbPlayer.getUsername());
         assertEquals(firstPlayerDbLocal.getEmail(), dbPlayer.getEmail());
-        assertEquals(firstPlayerDbLocal.getPw(), dbPlayer.getPw());
+        assertEquals(firstPlayerDbLocal.getPassword(), dbPlayer.getPassword());
     }
 
     @Test

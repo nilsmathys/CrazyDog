@@ -3,7 +3,6 @@ package ch.zhaw.psit3.crazydog.Model.Game;
 import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
-import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
 
 import java.util.*;
@@ -11,11 +10,15 @@ import java.util.*;
 
 public class Round {
 
-    Team team1;
-    Team team2;
+    private static Team team1;
+    private static Team team2;
     CardDeck deck;
     private int nextPlayer;
     private static Map<Integer, CardsOnHand> playerAndHand = new HashMap<>();
+    private static Card exchangeCardP1 = null;
+    private static Card exchangeCardP2 = null;
+    private static Card exchangeCardP3 = null;
+    private static Card exchangeCardP4 = null;
 
     public Round(int roundNumber, CardDeck deck, Team team1, Team team2, int nextPlayer) {
         this.team1 = team1;
@@ -30,6 +33,7 @@ public class Round {
 
         distributeCards(roundNumber);
         // TODO: show countdown for players to select a card
+        exchangeCards();
     }
 
     /**
@@ -80,16 +84,12 @@ public class Round {
 
     /**
      * Exchanges selected cards from teammembers
-     * @param idPlayer1 id of teammember 1
-     * @param cardPlayer1 selected card from teammember 1
-     * @param idPlayer2 id of teammember 2
-     * @param cardPlayer2 selected card from teammember 2
      */
-    private void exchangeCards(int idPlayer1, Card cardPlayer1, int idPlayer2, Card cardPlayer2) {
-        Card cardFromPlayer1 = playerAndHand.get(idPlayer1).discardCard(cardPlayer1.getId());
-        Card cardFromPlayer2 = playerAndHand.get(idPlayer2).discardCard(cardPlayer2.getId());
-        playerAndHand.get(idPlayer1).takeCard(cardFromPlayer2);
-        playerAndHand.get(idPlayer2).takeCard(cardFromPlayer1);
+    private void exchangeCards() {
+        playerAndHand.get(team1.getPlayer1().getId()).takeCard(exchangeCardP2);
+        playerAndHand.get(team1.getPlayer2().getId()).takeCard(exchangeCardP1);
+        playerAndHand.get(team2.getPlayer1().getId()).takeCard(exchangeCardP4);
+        playerAndHand.get(team2.getPlayer2().getId()).takeCard(exchangeCardP3);
     }
 
     /**
@@ -122,5 +122,19 @@ public class Round {
 
     public static Map<Integer, CardsOnHand> getPlayerAndHand() {
         return playerAndHand;
+    }
+
+    public static void setExchangeCard(int playerId, int cardId) {
+        if (playerId == team1.getPlayer1().getId()) {
+            exchangeCardP1 = playerAndHand.get(team1.getPlayer1().getId()).discardCard(cardId);
+        } else if (playerId == team1.getPlayer2().getId()) {
+            exchangeCardP2 = playerAndHand.get(team1.getPlayer2().getId()).discardCard(cardId);
+        } else if (playerId == team2.getPlayer1().getId()) {
+            exchangeCardP3 = playerAndHand.get(team2.getPlayer1().getId()).discardCard(cardId);
+        } else if (playerId == team2.getPlayer2().getId()) {
+            exchangeCardP4 = playerAndHand.get(team2.getPlayer2().getId()).discardCard(cardId);
+        } else {
+
+        }
     }
 }
