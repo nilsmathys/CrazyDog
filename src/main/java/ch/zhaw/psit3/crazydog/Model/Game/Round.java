@@ -76,7 +76,6 @@ public class Round {
         }
 
     }
-
     /**
      * Handles a single round of the game. In case a team wins during a round, the round ends. If no team finishes,
      * the round ends when no player has a card left to play.
