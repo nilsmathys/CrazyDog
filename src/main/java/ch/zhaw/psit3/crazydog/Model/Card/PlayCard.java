@@ -33,15 +33,15 @@ public class PlayCard {
      * @return true,    wenn das ein gültiger Spielzug ist, ansonsten false
      */
     public static boolean checkValidturn(int pieceDest, String cardName, Piece piece, int fieldsToGo) {
-        int[] val = Values.HOMEANDDESTFIELDS.get(piece.getColourId());
-        if (pieceDest >= val[0] && pieceDest <= val[1]) {
+        Map<String, Integer> vals = Values.HOMEANDDESTFIELDS.get(piece.getColourId());
+        if (pieceDest >= vals.get("LowestHomefield") && pieceDest <= vals.get("HighestHomefield")) {
             return cardName.equals("thirteen") || cardName.equals("oneEleven");
         }
-        if (pieceDest == val[2]) {
+        if (pieceDest == vals.get("LowestDestinationField")) {
             return piece.getNumber() > 1 && fieldsToGo < 3;
-        } else if (pieceDest == val[2] + 1) {
+        } else if (pieceDest == vals.get("LowestDestinationField") + 1) {
             return piece.getNumber() > 2 && fieldsToGo < 2;
-        } else if (pieceDest == val[2] + 2) {
+        } else if (pieceDest == vals.get("LowestDestinationField") + 2) {
             return piece.getNumber() == 4 && fieldsToGo == 1;
         }
         return true;
@@ -268,6 +268,8 @@ public class PlayCard {
         CardsOnHand cardsOnHand = new CardsOnHand();
         List<Integer> pieceDestinations = new ArrayList<>();
         pieceDestinations.add(10);
+        List<Integer> pieceDestinations11 = new ArrayList<>();
+        pieceDestinations11.add(65);
         List<Piece> selectetPieces = new ArrayList<>();
         selectetPieces.add(pieceRed);
         cardsOnHand.takeCard(card2);
@@ -282,18 +284,58 @@ public class PlayCard {
         cardsOnHand.takeCard(card9);
         cardsOnHand.takeCard(card10);
         cardsOnHand.takeCard(card11);
+        cardsOnHand.takeCard(card11);
+        cardsOnHand.takeCard(card11);
         cardsOnHand.takeCard(card12);
+        cardsOnHand.takeCard(card13);
+        cardsOnHand.takeCard(card13);
         cardsOnHand.takeCard(card13);
         cardsOnHand.takeCard(card14);
         cardsOnHand.takeCard(card15);
         cardsOnHand.takeCard(card15);
         PlayerAndHand playerAndHand = new PlayerAndHand(player, cardsOnHand);
+        System.out.println("Handsize should be 21: " + playerAndHand.getHand().getHand().size());
+
+        System.out.println("Play card 2");
         playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 2, pieceRed, 10, 0, false);
         System.out.println("Should be 12: " + targetDestination.get(0));
+        System.out.println("Handsize should be 20: " + playerAndHand.getHand().getHand().size());
+
+        System.out.println("Play card 2");
         playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 2, pieceRed, 10, 0, false);
         System.out.println("Should be 12: " + targetDestination.get(0));
+        System.out.println("Handsize should be 19: " + playerAndHand.getHand().getHand().size());
+
+        System.out.println("Play card Questionmark");
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 14, pieceDestinations, null, selectetPieces, 0, card2, 0, false);
         System.out.println("Should be 12: " + targetDestination.get(0));
+        System.out.println("Handsize should be 18: " + playerAndHand.getHand().getHand().size());
+
+        System.out.println("Play card 11 Aktion 1 fahren");
+        playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 11, pieceDestinations, null, selectetPieces, 0, card2, 0, false);
+        System.out.println("Should be 11: " + targetDestination.get(0));
+        System.out.println("Handsize should be 17: " + playerAndHand.getHand().getHand().size());
+
+        System.out.println("Play card 11 Aktion 11 fahren");
+        playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 11, pieceDestinations, null, selectetPieces, 0, card2, 1, false);
+        System.out.println("Should be 21: " + targetDestination.get(0));
+        System.out.println("Handsize should be 16: " + playerAndHand.getHand().getHand().size());
+
+        System.out.println("Play card 11 Aktion auf Homefield fahren");
+        playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 11, pieceDestinations11, null, selectetPieces, 0, card2, 1, false);
+        System.out.println("Should be 1: " + targetDestination.get(0));
+        System.out.println("Handsize should be 15: " + playerAndHand.getHand().getHand().size());
+
+        System.out.println("Play card 13 Aktion 13 fahren");
+        playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 13, pieceDestinations, null, selectetPieces, 0, card2, 1, false);
+        System.out.println("Should be 23: " + targetDestination.get(0));
+        System.out.println("Handsize should be 14: " + playerAndHand.getHand().getHand().size());
+
+        System.out.println("Play card 13 Aktion auf Homefield fahren");
+        playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 13, pieceDestinations11, null, selectetPieces, 0, card2, 1, false);
+        System.out.println("Should be 1: " + targetDestination.get(0));
+        System.out.println("Handsize should be 13: " + playerAndHand.getHand().getHand().size());
+
         System.out.println();
         System.out.println();
         System.out.println();
@@ -404,59 +446,33 @@ public class PlayCard {
      * @param pieceDestination aktueller Standort der gewählten Figur
      */
     private static void playCardOneEleven(int selectetAction, Piece piece, int pieceDestination, int direction) {
-        if (piece.getColourId() == COLOURIDRED) {
-            if (pieceDestination >= Values.LOWESTHOMEFIELDRED && pieceDestination <= Values.HIGHESTHOMEFIELDRED) {
+        movePieceOnStartField(piece, pieceDestination);
+        if(targetDestination.isEmpty()) {
+            if (selectetAction == 0) {
+                if (checkValidturn(pieceDestination, null, piece, 1)) {
+                    fieldsToGo = 1;
+                } else {
+                    fieldsToGo = 0;
+                }
                 if (!targetDestination.isEmpty()) {
                     targetDestination.clear();
                 }
-                targetDestination.add(0, Values.STARTFIELDRED);
-            }
-        } else if (piece.getColourId() == COLOURIDGREEN) {
-            if (pieceDestination >= Values.LOWESTHOMEFIELDGREEN && pieceDestination <= Values.HIGHESTHOMEFIELDGREEN) {
+                targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, piece));
+            } else if (selectetAction == 1) {
+                if (checkValidturn(pieceDestination, null, piece, 11)) {
+                    fieldsToGo = 11;
+                } else {
+                    playCardOneEleven(0, piece, pieceDestination, direction);
+                }
                 if (!targetDestination.isEmpty()) {
                     targetDestination.clear();
                 }
-                targetDestination.add(0, Values.STARTFIELDGREEN);
-            }
-
-        } else if (piece.getColourId() == COLOURIDYELLOW) {
-            if (pieceDestination >= Values.LOWESTHOMEFIELDYELLOW && pieceDestination <= Values.HIGHESTHOMEFIELDYELLOW) {
-                if (!targetDestination.isEmpty()) {
-                    targetDestination.clear();
-                }
-                targetDestination.add(0, Values.STARTFIELDYELLOW);
-            }
-
-        } else if (piece.getColourId() == COLOURIDBLUE) {
-            if (pieceDestination >= Values.LOWESTHOMEFIELDBLUE && pieceDestination <= Values.HIGHESTHOMEFIELDBLUE) {
-                if (!targetDestination.isEmpty()) {
-                    targetDestination.clear();
-                }
-                targetDestination.add(0, Values.STARTFIELDBLUE);
-            }
-        } else if (selectetAction == 0) {
-            if (checkValidturn(pieceDestination, null, piece, 1)) {
-                fieldsToGo = 1;
+                targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, piece));
             } else {
-                fieldsToGo = 0;
+                throw new IllegalArgumentException();
             }
-            if (!targetDestination.isEmpty()) {
-                targetDestination.clear();
-            }
-            targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, piece));
-        } else if (selectetAction == 1) {
-            if (checkValidturn(pieceDestination, null, piece, 11)) {
-                fieldsToGo = 11;
-            } else {
-                playCardOneEleven(0, piece, pieceDestination, direction);
-            }
-            if (!targetDestination.isEmpty()) {
-                targetDestination.clear();
-            }
-            targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, piece));
-        } else {
-            throw new IllegalArgumentException();
         }
+
 
     }
 
@@ -490,29 +506,7 @@ public class PlayCard {
      * @param pieceDestination aktueller Standort der gewählten Figur
      */
     private static void playCard13(Piece piece, int pieceDestination, int direction) {
-        if (!targetDestination.isEmpty()) {
-            targetDestination.clear();
-        }
-        if (piece.getColourId() == COLOURIDRED) {
-            if (pieceDestination >= Values.LOWESTHOMEFIELDRED && pieceDestination <= Values.HIGHESTHOMEFIELDRED) {
-                targetDestination.add(Values.STARTFIELDRED);
-            }
-        } else if (piece.getColourId() == COLOURIDGREEN) {
-            if (pieceDestination >= Values.LOWESTHOMEFIELDGREEN && pieceDestination <= Values.HIGHESTHOMEFIELDGREEN) {
-                targetDestination.add(Values.STARTFIELDGREEN);
-            }
-
-        } else if (piece.getColourId() == COLOURIDYELLOW) {
-            if (pieceDestination >= Values.LOWESTHOMEFIELDYELLOW && pieceDestination <= Values.HIGHESTHOMEFIELDYELLOW) {
-                targetDestination.add(Values.STARTFIELDYELLOW);
-            }
-
-        } else if (piece.getColourId() == COLOURIDBLUE) {
-            if (pieceDestination >= Values.LOWESTHOMEFIELDBLUE && pieceDestination <= Values.HIGHESTHOMEFIELDBLUE) {
-                targetDestination.add(Values.STARTFIELDBLUE);
-            }
-        }
-
+        movePieceOnStartField(piece, pieceDestination);
         if (checkValidturn(pieceDestination, null, piece, 13) && targetDestination.isEmpty()) {
             fieldsToGo = 13;
         } else {
