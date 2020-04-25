@@ -2,9 +2,12 @@ package ch.zhaw.psit3.crazydog.Model.Card;
 
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Game.Values;
+import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.PlayerAndHand;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PlayCard {
     static int fieldsToGo;
@@ -16,65 +19,12 @@ public class PlayCard {
     PlayerAndHand playerAndHand;
     int IdCardToPlay;
     List<Integer> pieceDestination;
-    static List<Integer> targetDestination;
+    static List<Integer> targetDestination = new ArrayList<>();
     List<Piece> selectetPieces;
     int direction;
     Card selectetCardQuestion;
     int selectetAction;
 
-    public static void main(String[] args) {
-        Piece pieceRed = new Piece(1, 2, 3, "picname"); //red
-        Piece pieceGreen = new Piece(2, 2, 4, "picname"); //green
-        Piece pieceYellow = new Piece(3, 2, 5, "picname"); //yellow
-        Piece pieceBlue = new Piece(4, 2, 6, "picname"); //green
-        System.out.println("PIECERED");
-        System.out.println("Should be 15: " + calculateNewDestination(10, 5, 0, pieceRed));
-        System.out.println("Should be 1: " + calculateNewDestination(64, 1, 0, pieceRed));
-        System.out.println("Should be 3: " + calculateNewDestination(60, 7, 0, pieceRed));
-        System.out.println("Should be 4: " + calculateNewDestination(7, 3, 1, pieceRed));
-        System.out.println();
-        System.out.println();
-        System.out.println("PIECEGREEN");
-        System.out.println("Should be 15: " + calculateNewDestination(10, 5, 0, pieceGreen));
-        System.out.println("Should be 1: " + calculateNewDestination(64, 1, 0, pieceGreen));
-        System.out.println("Should be 82: " + calculateNewDestination(60, 7, 0, pieceGreen));
-        System.out.println("Should be 4: " + calculateNewDestination(7, 3, 1, pieceGreen));
-        System.out.println("Should be 83: " + calculateNewDestination(3, 5, 1, pieceGreen));
-        System.out.println();
-        System.out.println();
-        System.out.println("PIECEYELLOW");
-        System.out.println("Should be 15: " + calculateNewDestination(10, 5, 0, pieceYellow));
-        System.out.println("Should be 94: " + calculateNewDestination(48, 3, 0, pieceYellow));
-        System.out.println("Should be 53: " + calculateNewDestination(48, 5, 0, pieceYellow));
-        System.out.println("Should be 3: " + calculateNewDestination(60, 7, 0, pieceYellow));
-        System.out.println("Should be 4: " + calculateNewDestination(7, 3, 1, pieceYellow));
-        System.out.println("Should be 62: " + calculateNewDestination(3, 5, 1, pieceYellow));
-        System.out.println();
-        System.out.println();
-        System.out.println("PIECEBLUE");
-        System.out.println("Should be 15: " + calculateNewDestination(10, 5, 0, pieceBlue));
-        System.out.println("Should be 1: " + calculateNewDestination(64, 1, 0, pieceBlue));
-        System.out.println("Should be 3: " + calculateNewDestination(60, 7, 0, pieceBlue));
-        System.out.println("Should be 4: " + calculateNewDestination(7, 3, 1, pieceBlue));
-        System.out.println("Should be 62: " + calculateNewDestination(3, 5, 1, pieceBlue));
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println("CHECK VALID TURN");
-        System.out.println("Should be true: ");
-        if (checkValidturn(66, "thirteen", pieceRed, 5)) {
-            System.out.println("true :)");
-        } else {
-            System.out.println("false :-(");
-        }
-        System.out.println("Should be false: ");
-        if (checkValidturn(66, "one", pieceRed, 5)) {
-            System.out.println("true :)");
-        } else {
-            System.out.println("false :-(");
-        }
-    }
 
     /**
      * @param pieceDest Position der zu spielenden Figur
@@ -101,14 +51,14 @@ public class PlayCard {
      * @param pieceDestination aktueler Standort der gewählten Figur
      * @param fieldsToGo       Anzahl der Felder die zu gehen sind
      * @param direction        Spielrichtung: 0 = Uhrzeigersinn, 1 = Gegenuhrzeigersinn
-     * @param piece            Figur die bewegt werden soll
+     * @param piece            Figur die bewegt werden soll (braucht es wegen der Farbid)
      * @return newDest         die neue Spielfeldnummer der Figur
      */
     private static int calculateNewDestination(int pieceDestination, int fieldsToGo, int direction, Piece piece) {
         int newDest;
+        Map<String, Integer> vals = Values.STARTANDDESTFIELDS.get(piece.getColourId());
         if (direction == 0) {
             newDest = (pieceDestination + fieldsToGo) % 64;
-            int[] val = Values.DESTFIELDSCLOCKWISE.get(piece.getColourId());
             if (piece.getColourId() == Values.COLOURIDGREEN) {
                 if (pieceDestination > 50 && newDest < Values.STARTFIELDRED + 5) {
                     if (newDest == Values.STARTFIELDRED + 1) {
@@ -128,20 +78,20 @@ public class PlayCard {
                         }
                     }
                 }
-            } else if (pieceDestination < val[0] && newDest > val[0] && newDest < val[1]) {
-                if (newDest == val[0] + 1) {
-                    newDest = val[2];
+            } else if (pieceDestination < vals.get("Startfield") && newDest > vals.get("Startfield") && newDest < vals.get("MaxWithToGoClockwise")) {
+                if (newDest == vals.get("Startfield") + 1) {
+                    newDest = vals.get("DestField");
                 }
                 if (piece.getNumber() < 4) {
-                    if (newDest == val[0] + 2) {
-                        newDest = val[2] + 1;
+                    if (newDest == vals.get("Startfield") + 2) {
+                        newDest = vals.get("DestField") + 1;
                     }
                     if (piece.getNumber() < 3) {
-                        if (newDest == val[0] + 3) {
-                            newDest = val[2] + 2;
+                        if (newDest == vals.get("Startfield") + 3) {
+                            newDest = vals.get("DestField") + 2;
                         }
-                        if (piece.getNumber() == 1 && newDest == val[0] + 4) {
-                            newDest = val[3] + 3;
+                        if (piece.getNumber() == 1 && newDest == vals.get("Startfield") + 4) {
+                            newDest = vals.get("DestField") + 3;
                         }
                     }
                 }
@@ -153,9 +103,8 @@ public class PlayCard {
             } else {
                 newDest = pieceDestination - fieldsToGo;
             }
-            int[] val = Values.DESTFIELDCOUNTERCLOCKWISE.get(piece.getColourId());
             if (piece.getColourId() == Values.COLOURIDGREEN) {
-                if (pieceDestination < 15 & newDest > 60) { //
+                if (pieceDestination < 15 && newDest > 60) { //
                     if (piece.getNumber() < 5) {
                         if (newDest == 64) {
                             newDest = Values.LOWESTDESTINATIONFIELDGREEN; //Zielfeld für Piece4 von Green
@@ -168,29 +117,30 @@ public class PlayCard {
                                 if (newDest == 62) {
                                     newDest = Values.LOWESTDESTINATIONFIELDGREEN + 2; //Zielfeld für Piece2 von Green
                                 }
-                                if (piece.getNumber() == 1 && newDest == 5) {
+                                if (piece.getNumber() == 1 && newDest == 61) {
                                     newDest = Values.LOWESTDESTINATIONFIELDGREEN + 3; //Zielfeld für Piece1 von Green
                                 }
                             }
                         }
                     }
                 }
-            } else if (pieceDestination > val[0] && newDest < val[0] && newDest > val[1]) {
-                if (piece.getNumber() < 5) {
-                    if (newDest == val[0] - 1) {
-                        newDest = val[3];
+            } else if (pieceDestination > vals.get("Startfield") && newDest < vals.get("Startfield") && newDest > vals.get("MaxWithToGoCounterClockwise")) {
+                if (piece.getNumber() >= 5) {
+                    return newDest;
+                }
+                if (newDest == vals.get("Startfield") - 1) {
+                    newDest = vals.get("DestField");
+                }
+                if (piece.getNumber() < 4) {
+                    if (newDest == vals.get("Startfield") - 2) {
+                        newDest = vals.get("DestField") + 1;
                     }
-                    if (piece.getNumber() < 4) {
-                        if (newDest == val[0] - 2) {
-                            newDest = val[3] + 1;
+                    if (piece.getNumber() < 3) {
+                        if (newDest == vals.get("Startfield") - 3) {
+                            newDest = vals.get("DestField") + 2;
                         }
-                        if (piece.getNumber() < 3) {
-                            if (newDest == val[0] - 3) {
-                                newDest = val[3] + 2;
-                            }
-                            if (piece.getNumber() == 1 && newDest == val[0] - 4) {
-                                newDest = val[3] + 3;
-                            }
+                        if (piece.getNumber() == 1 && newDest == vals.get("Startfield") - 4) {
+                            newDest = vals.get("DestField") + 3;
                         }
                     }
                 }
@@ -206,7 +156,7 @@ public class PlayCard {
      * @param playerAndHand        Spieler und Hand
      * @param idCardToPlay         id der Karte die der Spieler spielen möchte.
      * @param pieceDestinations    Array mit den aktuellen Standorten der Figuren, 0=Figur1 etc.
-     * @param targetDestination    gewünschte Zieldestinationen. (wird nur bei Karte 7 benötigt)
+     * @param targetDestinations   gewünschte Zieldestinationen. (wird nur bei Karte 7 benötigt)
      * @param selectetPieces       List mit den Figuren die der Spieler gewählt hat. (Mehr als eine Figur wird nur bei den Karten 7 und PieceExchange benötigt)
      * @param direction            aktuelle Spielrichtung: 0= Uhrezeigersinn, 1 = Gegenuhrzeigersinn
      * @param selectetCardQuestion Falls der Spieler die Questioncard hat, ist dies die Karte die der Spieler spielen möchte.
@@ -216,9 +166,9 @@ public class PlayCard {
      * @param ownPiecesFinished    true = eigene Figuren sind im Ziel, False eigene Figuren sind noch nicht im Ziel
      */
     public static void playSpecialCard(int colourIdPlayer, int colourIdPartner, PlayerAndHand playerAndHand, int idCardToPlay, List<Integer> pieceDestinations,
-                                       List<Integer> targetDestination, List<Piece> selectetPieces,
+                                       List<Integer> targetDestinations, List<Piece> selectetPieces,
                                        int direction, Card selectetCardQuestion, int selectetAction, boolean ownPiecesFinished) {
-        Card cardToPlay = playerAndHand.getHand().getHand().get(idCardToPlay);
+        Card cardToPlay = playerAndHand.getHand().discardCard(idCardToPlay);
         if (cardToPlay.getId() != 14 && cardToPlay.getId() != 15) { //id quetsionmark und id pieceExchange
             for (int i = 0; i < selectetPieces.size(); i++) {
                 if (ownPiecesFinished && colourIdPartner != selectetPieces.get(i).getColourId()) {
@@ -227,9 +177,6 @@ public class PlayCard {
                     throw new IllegalArgumentException();
                 }
             }
-        }
-        if (cardToPlay.getId() != 14) { //id der questioncard
-            playerAndHand.getHand().discardCard(idCardToPlay);
         }
         fieldsToGo = 0;
         switch (cardToPlay.getValue()) {
@@ -250,9 +197,12 @@ public class PlayCard {
                     playCardOneEleven(selectetAction, selectetPieces.get(0), pieceDestinations.get(0), direction);
                 } else if (cardToPlay.getName() == "questionmark") {
                     //ToDo: questionmarkKarte online umsetzen
-                    playQuestionCard(colourIdPlayer, colourIdPartner, playerAndHand, idCardToPlay, pieceDestinations, targetDestination, selectetPieces, direction, selectetCardQuestion, selectetAction, ownPiecesFinished);
+                    playQuestionCard(colourIdPlayer, colourIdPartner, playerAndHand, pieceDestinations, targetDestinations, selectetPieces, direction, selectetCardQuestion, selectetAction, ownPiecesFinished);
                 } else if (cardToPlay.getName() == "pieceExchange") {
-                    targetDestination = pieceExchange(targetDestination);
+                    if (!targetDestination.isEmpty()) {
+                        targetDestination.clear();
+                    }
+                    targetDestination = pieceExchange(pieceDestinations);
                 } else {
                     throw new IllegalArgumentException("KartenId ist kommisch");
                 }
@@ -277,25 +227,130 @@ public class PlayCard {
      * @param direction        aktuelle Spielrichtung, 0 = Uhzeigersinn, 1 = Gegenuhrzeigersinn.
      */
     public static void playNormalCard(int colourIdPlayer, int colourIdPartner, PlayerAndHand playerAndHand, int idCardToPlay, Piece selectetPiece, int pieceDestination, int direction, boolean ownPiecesFinished) {
-        Card cardToPlay = playerAndHand.getHand().getHand().get(idCardToPlay);
+        Card cardToPlay = playerAndHand.getHand().discardCard(idCardToPlay);
         if (ownPiecesFinished && colourIdPartner != selectetPiece.getColourId()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("ungültige Figur ausgewählt: Figur des Partners auswählen");
         } else if (colourIdPlayer != selectetPiece.getColourId()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("ungültige Figur ausgewählt: eigene FIgur auswählen");
         }
-        playerAndHand.getHand().discardCard(idCardToPlay);
         if (checkValidturn(pieceDestination, cardToPlay.getName(), selectetPiece, cardToPlay.getValue())) {
             fieldsToGo = cardToPlay.getValue();
-        }
-        {
+        } else {
             fieldsToGo = 0;
         }
-        if (ownPiecesFinished) {
-            targetDestination.add(0, calculateNewDestination(pieceDestination, fieldsToGo, direction, selectetPiece));
-        } else {
-            targetDestination.add(0, calculateNewDestination(pieceDestination, fieldsToGo, direction, selectetPiece));
+        if (!targetDestination.isEmpty()) {
+            targetDestination.clear();
         }
+        targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, selectetPiece));
         //ToDo: neuer Standort und neue Hand zurückgeben.(Piece, pieceDest)
+    }
+
+    public static void main(String[] args) {
+        Piece pieceRed = new Piece(1, 2, 3, "picname"); //red
+        Piece pieceGreen = new Piece(2, 2, 4, "picname"); //green
+        Piece pieceYellow = new Piece(3, 2, 5, "picname"); //yellow
+        Piece pieceBlue = new Piece(4, 2, 6, "picname"); //green
+        Player player = new Player(1, "Ted", "test@test.ch");
+        Card card2 = new Card(2, "standard", 2);
+        Card card3 = new Card(3, "changeDirection", 3);
+        Card card4 = new Card(4, "four", 4);
+        Card card5 = new Card(5, "standard", 5);
+        Card card6 = new Card(6, "standard", 6);
+        Card card7 = new Card(7, "seven", 7);
+        Card card8 = new Card(8, "standard", 8);
+        Card card9 = new Card(9, "standard", 9);
+        Card card10 = new Card(10, "standard", 10);
+        Card card11 = new Card(11, "oneEleven", 0);
+        Card card12 = new Card(12, "standard", 12);
+        Card card13 = new Card(13, "thirteen", 13);
+        Card card14 = new Card(14, "questionmark", 0);
+        Card card15 = new Card(15, "pieceExchange", 0);
+        CardsOnHand cardsOnHand = new CardsOnHand();
+        List<Integer> pieceDestinations = new ArrayList<>();
+        pieceDestinations.add(10);
+        List<Piece> selectetPieces = new ArrayList<>();
+        selectetPieces.add(pieceRed);
+        cardsOnHand.takeCard(card2);
+        cardsOnHand.takeCard(card2);
+        cardsOnHand.takeCard(card3);
+        cardsOnHand.takeCard(card4);
+        cardsOnHand.takeCard(card5);
+        cardsOnHand.takeCard(card5);
+        cardsOnHand.takeCard(card6);
+        cardsOnHand.takeCard(card7);
+        cardsOnHand.takeCard(card8);
+        cardsOnHand.takeCard(card9);
+        cardsOnHand.takeCard(card10);
+        cardsOnHand.takeCard(card11);
+        cardsOnHand.takeCard(card12);
+        cardsOnHand.takeCard(card13);
+        cardsOnHand.takeCard(card14);
+        cardsOnHand.takeCard(card15);
+        cardsOnHand.takeCard(card15);
+        PlayerAndHand playerAndHand = new PlayerAndHand(player, cardsOnHand);
+        playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 2, pieceRed, 10, 0, false);
+        System.out.println("Should be 12: " + targetDestination.get(0));
+        playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 2, pieceRed, 10, 0, false);
+        System.out.println("Should be 12: " + targetDestination.get(0));
+        playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 14, pieceDestinations, null, selectetPieces, 0, card2, 0, false);
+        System.out.println("Should be 12: " + targetDestination.get(0));
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+
+
+//        System.out.println();
+//        System.out.println("NORMALETEST");
+//        System.out.println("PIECERED");
+//        System.out.println("Should be 15: " + calculateNewDestination(10, 5, 0, pieceRed));
+//        System.out.println("Should be 1: " + calculateNewDestination(64, 1, 0, pieceRed));
+//        System.out.println("Should be 3: " + calculateNewDestination(60, 7, 0, pieceRed));
+//        System.out.println("Should be 4: " + calculateNewDestination(7, 3, 1, pieceRed));
+//        System.out.println();
+//        System.out.println();
+//        System.out.println("PIECEGREEN");
+//        System.out.println("Should be 15: " + calculateNewDestination(10, 5, 0, pieceGreen));
+//        System.out.println("Should be 1: " + calculateNewDestination(64, 1, 0, pieceGreen));
+//        System.out.println("Should be 82: " + calculateNewDestination(60, 7, 0, pieceGreen));
+//        System.out.println("Should be 4: " + calculateNewDestination(7, 3, 1, pieceGreen));
+//        System.out.println("Should be 83: " + calculateNewDestination(3, 5, 1, pieceGreen));
+//        System.out.println("Should be 83: " + calculateNewDestination(1, 3, 1, pieceGreen));
+//        System.out.println("Should be 61: " + calculateNewDestination(1, 4, 1, pieceGreen));
+//        System.out.println();
+//        System.out.println();
+//        System.out.println("PIECEYELLOW");
+//        System.out.println("Should be 15: " + calculateNewDestination(10, 5, 0, pieceYellow));
+//        System.out.println("Should be 94: " + calculateNewDestination(48, 3, 0, pieceYellow));
+//        System.out.println("Should be 53: " + calculateNewDestination(48, 5, 0, pieceYellow));
+//        System.out.println("Should be 3: " + calculateNewDestination(60, 7, 0, pieceYellow));
+//        System.out.println("Should be 4: " + calculateNewDestination(7, 3, 1, pieceYellow));
+//        System.out.println("Should be 62: " + calculateNewDestination(3, 5, 1, pieceYellow));
+//        System.out.println();
+//        System.out.println();
+//        System.out.println("PIECEBLUE");
+//        System.out.println("Should be 15: " + calculateNewDestination(10, 5, 0, pieceBlue));
+//        System.out.println("Should be 1: " + calculateNewDestination(64, 1, 0, pieceBlue));
+//        System.out.println("Should be 3: " + calculateNewDestination(60, 7, 0, pieceBlue));
+//        System.out.println("Should be 4: " + calculateNewDestination(7, 3, 1, pieceBlue));
+//        System.out.println("Should be 62: " + calculateNewDestination(3, 5, 1, pieceBlue));
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+//        System.out.println("CHECK VALID TURN");
+//        System.out.println("Should be true: ");
+//        if (checkValidturn(66, "thirteen", pieceRed, 5)) {
+//            System.out.println("true :)");
+//        } else {
+//            System.out.println("false :(");
+//        }
+//        System.out.println("Should be false: ");
+//        if (checkValidturn(66, "one", pieceRed, 5)) {
+//            System.out.println("true :)");
+//        } else {
+//            System.out.println("false :(");
+//        }
     }
 
     /**
@@ -311,6 +366,9 @@ public class PlayCard {
                 fieldsToGo = 3;
             } else {
                 playCard3(pieceDestination, piece, 1, direction);
+            }
+            if (!targetDestination.isEmpty()) {
+                targetDestination.clear();
             }
             targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, piece));
             //TODo: zurückgeben neuer Standort der ausgewählten Figur
@@ -347,35 +405,53 @@ public class PlayCard {
      */
     private static void playCardOneEleven(int selectetAction, Piece piece, int pieceDestination, int direction) {
         if (piece.getColourId() == COLOURIDRED) {
-            if (pieceDestination >= 65 && pieceDestination <= 68) {
-                targetDestination.add(0, 1);
+            if (pieceDestination >= Values.LOWESTHOMEFIELDRED && pieceDestination <= Values.HIGHESTHOMEFIELDRED) {
+                if (!targetDestination.isEmpty()) {
+                    targetDestination.clear();
+                }
+                targetDestination.add(0, Values.STARTFIELDRED);
             }
         } else if (piece.getColourId() == COLOURIDGREEN) {
-            if (pieceDestination >= 73 && pieceDestination <= 76) {
-                targetDestination.add(0, 33);
+            if (pieceDestination >= Values.LOWESTHOMEFIELDGREEN && pieceDestination <= Values.HIGHESTHOMEFIELDGREEN) {
+                if (!targetDestination.isEmpty()) {
+                    targetDestination.clear();
+                }
+                targetDestination.add(0, Values.STARTFIELDGREEN);
             }
 
         } else if (piece.getColourId() == COLOURIDYELLOW) {
-            if (pieceDestination >= 69 && pieceDestination <= 72) {
-                targetDestination.add(0, 17);
+            if (pieceDestination >= Values.LOWESTHOMEFIELDYELLOW && pieceDestination <= Values.HIGHESTHOMEFIELDYELLOW) {
+                if (!targetDestination.isEmpty()) {
+                    targetDestination.clear();
+                }
+                targetDestination.add(0, Values.STARTFIELDYELLOW);
             }
 
         } else if (piece.getColourId() == COLOURIDBLUE) {
-            if (pieceDestination >= 77 && pieceDestination <= 80) {
-                targetDestination.add(0, 49);
+            if (pieceDestination >= Values.LOWESTHOMEFIELDBLUE && pieceDestination <= Values.HIGHESTHOMEFIELDBLUE) {
+                if (!targetDestination.isEmpty()) {
+                    targetDestination.clear();
+                }
+                targetDestination.add(0, Values.STARTFIELDBLUE);
             }
         } else if (selectetAction == 0) {
-            if (checkValidturn(pieceDestination, null, piece, 3)) {
+            if (checkValidturn(pieceDestination, null, piece, 1)) {
                 fieldsToGo = 1;
             } else {
                 fieldsToGo = 0;
             }
+            if (!targetDestination.isEmpty()) {
+                targetDestination.clear();
+            }
             targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, piece));
         } else if (selectetAction == 1) {
-            if (checkValidturn(pieceDestination, null, piece, 3)) {
+            if (checkValidturn(pieceDestination, null, piece, 11)) {
                 fieldsToGo = 11;
             } else {
                 playCardOneEleven(0, piece, pieceDestination, direction);
+            }
+            if (!targetDestination.isEmpty()) {
+                targetDestination.clear();
             }
             targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, piece));
         } else {
@@ -384,75 +460,100 @@ public class PlayCard {
 
     }
 
+    private static void movePieceOnStartField(Piece piece, int pieceDestination) {
+        if (!targetDestination.isEmpty()) {
+            targetDestination.clear();
+        }
+        if (piece.getColourId() == COLOURIDRED) {
+            if (pieceDestination >= Values.LOWESTHOMEFIELDRED && pieceDestination <= Values.HIGHESTHOMEFIELDRED) {
+                targetDestination.add(Values.STARTFIELDRED);
+            }
+        } else if (piece.getColourId() == COLOURIDGREEN) {
+            if (pieceDestination >= Values.LOWESTHOMEFIELDGREEN && pieceDestination <= Values.HIGHESTHOMEFIELDGREEN) {
+                targetDestination.add(Values.STARTFIELDGREEN);
+            }
+
+        } else if (piece.getColourId() == COLOURIDYELLOW) {
+            if (pieceDestination >= Values.LOWESTHOMEFIELDYELLOW && pieceDestination <= Values.HIGHESTHOMEFIELDYELLOW) {
+                targetDestination.add(Values.STARTFIELDYELLOW);
+            }
+
+        } else if (piece.getColourId() == COLOURIDBLUE) {
+            if (pieceDestination >= Values.LOWESTHOMEFIELDBLUE && pieceDestination <= Values.HIGHESTHOMEFIELDBLUE) {
+                targetDestination.add(Values.STARTFIELDBLUE);
+            }
+        }
+    }
+
     /**
      * @param piece            Figur die bewegt werden soll
      * @param pieceDestination aktueller Standort der gewählten Figur
      */
     private static void playCard13(Piece piece, int pieceDestination, int direction) {
+        if (!targetDestination.isEmpty()) {
+            targetDestination.clear();
+        }
         if (piece.getColourId() == COLOURIDRED) {
-            if (pieceDestination >= 65 && pieceDestination <= 68) {
-                targetDestination.add(0, 1);
+            if (pieceDestination >= Values.LOWESTHOMEFIELDRED && pieceDestination <= Values.HIGHESTHOMEFIELDRED) {
+                targetDestination.add(Values.STARTFIELDRED);
             }
         } else if (piece.getColourId() == COLOURIDGREEN) {
-            if (pieceDestination >= 73 && pieceDestination <= 76) {
-                targetDestination.add(0, 33);
+            if (pieceDestination >= Values.LOWESTHOMEFIELDGREEN && pieceDestination <= Values.HIGHESTHOMEFIELDGREEN) {
+                targetDestination.add(Values.STARTFIELDGREEN);
             }
 
         } else if (piece.getColourId() == COLOURIDYELLOW) {
-            if (pieceDestination >= 69 && pieceDestination <= 72) {
-                targetDestination.add(0, 17);
+            if (pieceDestination >= Values.LOWESTHOMEFIELDYELLOW && pieceDestination <= Values.HIGHESTHOMEFIELDYELLOW) {
+                targetDestination.add(Values.STARTFIELDYELLOW);
             }
 
         } else if (piece.getColourId() == COLOURIDBLUE) {
-            if (pieceDestination >= 77 && pieceDestination <= 80) {
-                targetDestination.add(0, 49);
+            if (pieceDestination >= Values.LOWESTHOMEFIELDBLUE && pieceDestination <= Values.HIGHESTHOMEFIELDBLUE) {
+                targetDestination.add(Values.STARTFIELDBLUE);
             }
-        } else {
-            if (checkValidturn(pieceDestination, null, piece, 3)) {
-                fieldsToGo = 13;
-            } else {
-                fieldsToGo = 0;
-            }
-            targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, piece));
         }
+
+        if (checkValidturn(pieceDestination, null, piece, 13) && targetDestination.isEmpty()) {
+            fieldsToGo = 13;
+        } else {
+            fieldsToGo = 0;
+        }
+        targetDestination.add(calculateNewDestination(pieceDestination, fieldsToGo, direction, piece));
+
     }
 
     /**
-     * @param targetDestination Standort der Figuren die getauscht werdens sollen
+     * @param pieceDestination Standort der Figuren die getauscht werdens sollen
      * @return targetDestination, neuer Standort der Figuren
      */
-    private static List pieceExchange(List<Integer> targetDestination) {
-        int store = targetDestination.get(0);
-        targetDestination.set(0, 1);
-        targetDestination.set(1, store);
-        return targetDestination;
+    private static List pieceExchange(List<Integer> pieceDestination) {
+        int store = pieceDestination.get(0);
+        pieceDestination.set(0, 1);
+        pieceDestination.set(1, store);
+        return pieceDestination;
     }
 
     /**
      * @param colourIdPlayer       FarbId des Spielers
      * @param playerAndHand        Spieler und Hand
-     * @param idCardToPlay         id der Karte die der Spieler spielen möchte.
      * @param pieceDestinations    Array mit den aktuellen Standorten der Figuren, 0=Figur1 etc.
      * @param targetDestination    gewünschte Zieldestinationen. (wird nur bei Karte 7 benötigt)
      * @param selectetPieces       List mit den Figuren die der Spieler gewählt hat. (Mehr als eine Figur wird nur bei den Karten 7 und PieceExchange benötigt)
      * @param direction            aktuelle Spielrichtung: 0= Uhrezeigersin, 1 = Gegenuhrzeigersinn
-     * @param selectetCardQuestion Falls der Spieler die Questioncard hat, ist dies die Karte die der Spieler spielen möchte.
+     * @param selectetCardQuestion Karte die der Spieleler spielen möchte
      * @param selectetAction       Falls der Spieler eine Spezialkarte spielen möchte die mehr als eine Aktion hat,
      *                             Karte 3: 0=3 Felder fahren, 1=Richtungswechsel;
      *                             Karte oneEleven: 0=1 Feld fahren, 1=11 Felder fahren, 2=Figur auf Start;
      *                             Karte13: 0=13 Felder fahren, 1=Figur auf Start
      */
-    private static void playQuestionCard(int colourIdPlayer, int colourIdPartner, PlayerAndHand playerAndHand, int idCardToPlay, List<Integer> pieceDestinations,
+    private static void playQuestionCard(int colourIdPlayer, int colourIdPartner, PlayerAndHand playerAndHand, List<Integer> pieceDestinations,
                                          List<Integer> targetDestination, List<Piece> selectetPieces,
                                          int direction, Card selectetCardQuestion, int selectetAction, boolean ownPiecesFinished) {
-        playerAndHand.getHand().getHand().get(idCardToPlay).setId(selectetCardQuestion.getId());
-        playerAndHand.getHand().getHand().get(idCardToPlay).setName(selectetCardQuestion.getName());
-        playerAndHand.getHand().getHand().get(idCardToPlay).setValue(selectetCardQuestion.getValue());
-        idCardToPlay = selectetCardQuestion.getId();
-        if (idCardToPlay == 2 || idCardToPlay == 5 || idCardToPlay == 6 || idCardToPlay == 8 || idCardToPlay == 9 || idCardToPlay == 10 || idCardToPlay == 12) {
-            playNormalCard(colourIdPlayer, colourIdPartner, playerAndHand, idCardToPlay, selectetPieces.get(0), pieceDestinations.get(0), direction, ownPiecesFinished);
+        playerAndHand.getHand().takeCard(selectetCardQuestion);
+        if (selectetCardQuestion.getId() == Values.CARDVALUE2 || selectetCardQuestion.getId() == Values.CARDVALUE5 || selectetCardQuestion.getId() == Values.CARDVALUE6 || selectetCardQuestion.getId() == Values.CARDVALUE8 || selectetCardQuestion.getId() == Values.CARDVALUE9 || selectetCardQuestion.getId() == Values.CARDVALUE10 || selectetCardQuestion.getId() == Values.CARDVALUE12) {
+            playNormalCard(colourIdPlayer, colourIdPartner, playerAndHand, selectetCardQuestion.getId(), selectetPieces.get(0), pieceDestinations.get(0), direction, ownPiecesFinished);
         } else {
-            playSpecialCard(colourIdPlayer, colourIdPartner, playerAndHand, idCardToPlay, pieceDestinations, targetDestination, selectetPieces, direction, selectetCardQuestion, selectetAction, ownPiecesFinished);
+            playSpecialCard(colourIdPlayer, colourIdPartner, playerAndHand, selectetCardQuestion.getId(), pieceDestinations, targetDestination, selectetPieces, direction, selectetCardQuestion, selectetAction, ownPiecesFinished);
         }
 
     }

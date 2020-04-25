@@ -5,13 +5,23 @@ import java.util.Map;
 
 public class Values {
 
+    public static final int CARDVALUE2 = 2;
+    public static final int CARDVALUE5 = 5;
+    public static final int CARDVALUE6 = 6;
+    public static final int CARDVALUE8 = 8;
+    public static final int CARDVALUE9 = 9;
+    public static final int CARDVALUE10 = 10;
+    public static final int CARDVALUE12 = 12;
+
+
+    //ColourID
     public static final int COLOURIDRED = 3;
     public static final int COLOURIDGREEN = 4;
     public static final int COLOURIDYELLOW = 5;
     public static final int COLOURIDBLUE = 6;
 
 
-    //red
+    //redFields
     public static final int STARTFIELDRED = 1;
     public static final int LOWESTHOMEFIELDRED = 65;
     public static final int HIGHESTHOMEFIELDRED = 68;
@@ -21,7 +31,7 @@ public class Values {
 
     public static final int[] HOMEANDDESTFIELDSRED = {LOWESTHOMEFIELDRED, HIGHESTHOMEFIELDRED, LOWESTDESTINATIONFIELDRED};
 
-    //green
+    //greenFields
     public static final int STARTFIELDGREEN = 33;
     public static final int LOWESTHOMEFIELDGREEN = 73;
     public static final int HIGHESTHOMEFIELDGREEN = 76;
@@ -29,7 +39,7 @@ public class Values {
 
     public static final int[] HOMEANDDESTFIELDSGREEN = {LOWESTHOMEFIELDGREEN, HIGHESTHOMEFIELDGREEN, LOWESTDESTINATIONFIELDGREEN};
 
-    //yellow
+    //yellowFields
     public static final int STARTFIELDYELLOW = 17;
     public static final int LOWESTHOMEFIELDYELLOW = 69;
     public static final int HIGHESTHOMEFIELDYELLOW = 72;
@@ -39,7 +49,7 @@ public class Values {
 
     public static final int[] HOMEANDDESTFIELDSYELLOW = {LOWESTHOMEFIELDYELLOW, HIGHESTHOMEFIELDYELLOW, LOWESTDESTINATIONFIELDYELLOW};
 
-    //blue
+    //blueFields
     public static final int STARTFIELDBLUE = 49;
     public static final int LOWESTHOMEFIELDBLUE = 77;
     public static final int HIGHESTHOMEFIELDBLUE = 80;
@@ -50,8 +60,7 @@ public class Values {
     public static final int[] HOMEANDDESTFIELDSBLUE = {LOWESTHOMEFIELDBLUE, HIGHESTHOMEFIELDBLUE, LOWESTDESTINATIONFIELDBLUE};
 
 
-
-    public static final Map<Integer, int[]> HOMEANDDESTFIELDS= new HashMap<>() {
+    public static final Map<Integer, int[]> HOMEANDDESTFIELDS = new HashMap<>() {
         {
             put(COLOURIDRED, HOMEANDDESTFIELDSRED);
             put(COLOURIDGREEN, HOMEANDDESTFIELDSGREEN);
@@ -60,31 +69,50 @@ public class Values {
         }
     };
 
-    //CLOCKWISE
-    public static final int[] CLOCKWISERED = {STARTFIELDGREEN, MAXWITHTOGOCLOCKWISERED, LOWESTDESTINATIONFIELDRED};
-    public static final int[] CLOCKWISEYELLOW = {STARTFIELDBLUE, MAXWITHTOGOCLOCKWISEYELLOW, LOWESTDESTINATIONFIELDYELLOW};
-    public static final int[] CLOCKWISEBLUE = {STARTFIELDYELLOW, MAXWITHTOGOCLOCKWISEBLUE, LOWESTDESTINATIONFIELDBLUE};
 
-    public static final Map<Integer, int[]> DESTFIELDSCLOCKWISE = new HashMap<>() {
+
+    public static final Map<String, Integer> REDFIELDS = new HashMap<>() {
         {
-            put(COLOURIDRED, CLOCKWISERED);
-            put(COLOURIDYELLOW, CLOCKWISEYELLOW);
-            put(COLOURIDBLUE, CLOCKWISEBLUE);
+            put("Startfield", STARTFIELDGREEN);
+            put("MaxWithToGoClockwise", MAXWITHTOGOCLOCKWISERED);
+            put("MaxWithToGoCounterClockwise", MAXWITHTOGOCOUNTERCLOCKWISERED);
+            put("DestField", LOWESTDESTINATIONFIELDRED);
         }
     };
 
-    //COUNTERCLOCKWISE
-    public static final int[] COUNTERCLOCKWISERED = {STARTFIELDGREEN, MAXWITHTOGOCOUNTERCLOCKWISERED, LOWESTDESTINATIONFIELDRED};
-    public static final int[] COUNTERCLOCKWISEYELLOW = {STARTFIELDBLUE, MAXWITHTOGOCOUNTERCLOCKWISEYELLOW, LOWESTDESTINATIONFIELDYELLOW};
-    public static final int[] COUNTERCLOCKWISEBLUE = {STARTFIELDYELLOW, MAXWITHTOGOCOUNTERCLOCKWISEBLUE, LOWESTDESTINATIONFIELDBLUE};
-
-    public static final Map<Integer, int[]> DESTFIELDCOUNTERCLOCKWISE = new HashMap<>() {
+    public static final Map<String, Integer> YELLOWFIELDS = new HashMap<>() {
         {
-            put(COLOURIDRED, COUNTERCLOCKWISERED);
-            put(COLOURIDYELLOW, COUNTERCLOCKWISEYELLOW);
-            put(COLOURIDBLUE, COUNTERCLOCKWISEBLUE);
+            put("Startfield", STARTFIELDBLUE);
+            put("MaxWithToGoClockwise", MAXWITHTOGOCLOCKWISEYELLOW);
+            put("MaxWithToGoCounterClockwise", MAXWITHTOGOCOUNTERCLOCKWISEYELLOW);
+            put("DestField", LOWESTDESTINATIONFIELDYELLOW);
         }
     };
+
+    public static final Map<String, Integer> BLUEFIELDS = new HashMap<>() {
+        {
+            put("Startfield", STARTFIELDYELLOW);
+            put("MaxWithToGoClockwise", MAXWITHTOGOCLOCKWISEBLUE);
+            put("MaxWithToGoCounterClockwise", MAXWITHTOGOCOUNTERCLOCKWISEBLUE);
+            put("DestField", LOWESTDESTINATIONFIELDBLUE);
+        }
+    };
+
+
+    public static final Map<Integer, Map> STARTANDDESTFIELDS= new HashMap<>() {
+        {
+            put(COLOURIDRED, REDFIELDS);
+            put(COLOURIDYELLOW, YELLOWFIELDS);
+            put(COLOURIDBLUE, BLUEFIELDS);
+
+        }
+    };
+
+
+
+
+
+
 
 
 }
