@@ -171,10 +171,12 @@ public class PlayCard {
         Card cardToPlay = playerAndHand.getHand().discardCard(idCardToPlay);
         if (cardToPlay.getId() != 14 && cardToPlay.getId() != 15) { //id quetsionmark und id pieceExchange
             for (int i = 0; i < selectetPieces.size(); i++) {
-                if (ownPiecesFinished && colourIdPartner != selectetPieces.get(i).getColourId()) {
-                    throw new IllegalArgumentException();
+                if (ownPiecesFinished) {
+                    if (colourIdPartner != selectetPieces.get(i).getColourId()) {
+                        throw new IllegalArgumentException("Figur gehört nicht dem Partner");
+                    }
                 } else if (colourIdPlayer != selectetPieces.get(i).getColourId()) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Keine eigene Figur");
                 }
             }
         }
@@ -198,7 +200,7 @@ public class PlayCard {
                     playCardOneEleven(selectetAction, selectetPieces.get(0), pieceDestinations.get(0), direction);
                 } else if (cardToPlay.getName() == "questionmark") {
                     //ToDo: questionmarkKarte online umsetzen
-                    playQuestionCard(colourIdPlayer, colourIdPartner, playerAndHand, pieceDestinations, targetDestinations, selectetPieces, direction, selectetCardQuestion, selectetAction, ownPiecesFinished);
+                    playQuestionCard(colourIdPlayer, colourIdPartner, playerAndHand, pieceDestinations, targetDestinations, selectetPieces, selectetCardQuestion, selectetAction, ownPiecesFinished);
                 } else if (cardToPlay.getName() == "pieceExchange") {
                     if (!targetDestination.isEmpty()) {
                         targetDestination.clear();
@@ -395,8 +397,7 @@ public class PlayCard {
      *                             Karte13: 0=13 Felder fahren, 1=Figur auf Start
      */
     private static void playQuestionCard(int colourIdPlayer, int colourIdPartner, PlayerAndHand playerAndHand, List<Integer> pieceDestinations,
-                                         List<Integer> targetDestination, List<Piece> selectetPieces,
-                                         int direction, Card selectetCardQuestion, int selectetAction, boolean ownPiecesFinished) {
+                                         List<Integer> targetDestination, List<Piece> selectetPieces, Card selectetCardQuestion, int selectetAction, boolean ownPiecesFinished) {
         playerAndHand.getHand().takeCard(selectetCardQuestion);
         if (selectetCardQuestion.getId() == Values.CARDVALUE2 || selectetCardQuestion.getId() == Values.CARDVALUE5 || selectetCardQuestion.getId() == Values.CARDVALUE6 || selectetCardQuestion.getId() == Values.CARDVALUE8 || selectetCardQuestion.getId() == Values.CARDVALUE9 || selectetCardQuestion.getId() == Values.CARDVALUE10 || selectetCardQuestion.getId() == Values.CARDVALUE12) {
             playNormalCard(colourIdPlayer, colourIdPartner, playerAndHand, selectetCardQuestion.getId(), selectetPieces.get(0), pieceDestinations.get(0), direction, ownPiecesFinished);
@@ -405,6 +406,7 @@ public class PlayCard {
         }
 
     }
+
     public static void main(String[] args) {
         Piece pieceRed = new Piece(1, 2, 3, "picname"); //red
         Piece pieceGreen = new Piece(2, 2, 4, "picname"); //green
@@ -430,11 +432,15 @@ public class PlayCard {
         pieceDestinations.add(10);
         List<Integer> pieceDestinations11 = new ArrayList<>();
         pieceDestinations11.add(65);
+        List<Integer> pieceDestinations14 = new ArrayList<>();
+        pieceDestinations14.add(73);
         List<Integer> pieceDestinations15 = new ArrayList<>();
         pieceDestinations15.add(10);
         pieceDestinations15.add(20);
         List<Piece> selectetPieces = new ArrayList<>();
         selectetPieces.add(pieceRed);
+        List<Piece> selectetPieces14 = new ArrayList<>();
+        selectetPieces14.add(pieceGreen);
         List<Piece> selectetPieces15 = new ArrayList<>();
         selectetPieces15.add(pieceRed);
         selectetPieces15.add(pieceGreen);
@@ -458,9 +464,15 @@ public class PlayCard {
         cardsOnHand.takeCard(card13); //
         cardsOnHand.takeCard(card13); //
         cardsOnHand.takeCard(card14); //
+        cardsOnHand.takeCard(card14); //
         cardsOnHand.takeCard(card14);
         cardsOnHand.takeCard(card15); //
         PlayerAndHand playerAndHand = new PlayerAndHand(player, cardsOnHand);
+        System.out.println("Handsize should be 23: " + playerAndHand.getHand().getHand().size());
+        System.out.println();
+        System.out.println("Play card 2");
+        playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 2, pieceRed, 10, 0, false);
+        System.out.println("Should be 12: " + targetDestination.get(0));
         System.out.println("Handsize should be 22: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 2");
@@ -468,92 +480,87 @@ public class PlayCard {
         System.out.println("Should be 12: " + targetDestination.get(0));
         System.out.println("Handsize should be 21: " + playerAndHand.getHand().getHand().size());
         System.out.println();
-        System.out.println("Play card 2");
-        playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 2, pieceRed, 10, 0, false);
-        System.out.println("Should be 12: " + targetDestination.get(0));
-        System.out.println("Handsize should be 20: " + playerAndHand.getHand().getHand().size());
-        System.out.println();
-        System.out.println("Play card Questionmark");
+        System.out.println("Play card Questionmark with Card 2");
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 14, pieceDestinations, null, selectetPieces, 0, card2, 0, false);
         System.out.println("Should be 12: " + targetDestination.get(0));
-        System.out.println("Handsize should be 19: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 20: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 11 Aktion 1 fahren");
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 11, pieceDestinations, null, selectetPieces, 0, card2, 0, false);
         System.out.println("Should be 11: " + targetDestination.get(0));
-        System.out.println("Handsize should be 18: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 19: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 11 Aktion 11 fahren");
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 11, pieceDestinations, null, selectetPieces, 0, card2, 1, false);
         System.out.println("Should be 21: " + targetDestination.get(0));
-        System.out.println("Handsize should be 17: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 18: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 11 Aktion auf Homefield fahren");
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 11, pieceDestinations11, null, selectetPieces, 0, card2, 1, false);
         System.out.println("Should be 1: " + targetDestination.get(0));
-        System.out.println("Handsize should be 16: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 17: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 13 Aktion 13 fahren");
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 13, pieceDestinations, null, selectetPieces, 0, card2, 1, false);
         System.out.println("Should be 23: " + targetDestination.get(0));
-        System.out.println("Handsize should be 15: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 16: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 13 Aktion auf Homefield fahren");
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 13, pieceDestinations11, null, selectetPieces, 0, card2, 1, false);
         System.out.println("Should be 1: " + targetDestination.get(0));
-        System.out.println("Handsize should be 14: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 15: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 5");
         playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 5, pieceRed, 10, 0, false);
         System.out.println("Should be 15: " + targetDestination.get(0));
-        System.out.println("Handsize should be 13: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 14: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 5 Counterclockwise");
         playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 5, pieceRed, 10, 1, false);
         System.out.println("Should be 5: " + targetDestination.get(0));
-        System.out.println("Handsize should be 12: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 13: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 6 über Grenze hinaus");
         playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 6, pieceRed, 62, 0, false);
         System.out.println("Should be 4: " + targetDestination.get(0));
-        System.out.println("Handsize should be 11: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 12: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 8 über Grenze hinaus Counterclockwise");
         playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 8, pieceRed, 2, 1, false);
         System.out.println("Should be 58: " + targetDestination.get(0));
-        System.out.println("Handsize should be 10: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 11: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 9 eigeneFiguren fertig");
         playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 9, pieceGreen, 2, 0, true);
         System.out.println("Should be 11: " + targetDestination.get(0));
-        System.out.println("Handsize should be 9: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 10: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 10 nach Hause");
         playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 10, pieceRed, 26, 0, false);
         System.out.println("Should be 91: " + targetDestination.get(0));
-        System.out.println("Handsize should be 8 " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 9 " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 12 eigene Figuren fertig, Partner nach Hause Counterclockwise");
         playNormalCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 12, pieceGreen, 11, 1, true);
         System.out.println("Should be 82: " + targetDestination.get(0));
-        System.out.println("Handsize should be 7: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 8: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 3 Aktion 3 Felder fahren");
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 3, pieceDestinations, null, selectetPieces, 0, card2, 0, false);
         System.out.println("should be 13: " + targetDestination.get(0));
-        System.out.println("Handsize should be 6: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 7: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 3 Aktion dir ändern");
         System.out.println("Richtung sollte 0 sein: " + direction);
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 3, pieceDestinations, null, selectetPieces, 0, card2, 1, false);
         System.out.println("Richtung sollte 1 sein: " + direction);
-        System.out.println("Handsize should be 5: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 6: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 3 Aktion 0 gewählt aber Richtung ändern, weil ungültiger Zug");
         System.out.println("Richtung sollte 1 sein: " + direction);
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 3, pieceDestinations11, null, selectetPieces, 1, card2, 0, false);
         System.out.println("Richtung sollte 0 sein: " + direction);
-        System.out.println("Handsize should be 4: " + playerAndHand.getHand().getHand().size());
+        System.out.println("Handsize should be 5: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play Card PieceExchange");
         System.out.println("pieceDest0 sollte 10 sein: " + pieceDestinations15.get(0));
@@ -561,6 +568,18 @@ public class PlayCard {
         playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 15, pieceDestinations15, null, selectetPieces15, 1, card2, 0, false);
         System.out.println("pieceDest0 sollte 20 sein: " + pieceDestinations15.get(0));
         System.out.println("pieceDest1 sollte 10 sein: " + pieceDestinations15.get(1));
+        System.out.println("Handsize should be 4 " + playerAndHand.getHand().getHand().size());
+        System.out.println();
+        System.out.println("Play card Questionmark wit Card 13 and go to startfield");
+        playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 14, pieceDestinations11, null, selectetPieces, 0, card13, 0, false);
+        System.out.println("Should be 1: " + targetDestination.get(0));
         System.out.println("Handsize should be 3: " + playerAndHand.getHand().getHand().size());
+        System.out.println();
+        System.out.println();
+        System.out.println("Play card Questionmark wit Card 13 and go to startfield and ownPieceFinished");
+        playSpecialCard(COLOURIDRED, COLOURIDGREEN, playerAndHand, 14, pieceDestinations14, null, selectetPieces14, 0, card13, 0, true);
+        System.out.println("Should be 33: " + targetDestination.get(0));
+        System.out.println("Handsize should be 2: " + playerAndHand.getHand().getHand().size());
+        System.out.println();
     }
 }
