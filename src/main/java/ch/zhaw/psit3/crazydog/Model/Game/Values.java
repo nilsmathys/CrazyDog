@@ -6,8 +6,10 @@ import java.util.Map;
 public class Values {
 
     public static final int CARDVALUE2 = 2;
+    public static final int CARDVALUE4 = 4;
     public static final int CARDVALUE5 = 5;
     public static final int CARDVALUE6 = 6;
+    public static final int CARDVALUE7 = 7;
     public static final int CARDVALUE8 = 8;
     public static final int CARDVALUE9 = 9;
     public static final int CARDVALUE10 = 10;
@@ -133,12 +135,4 @@ public class Values {
 
         }
     };
-
-
-
-
-
-
-
-
 }
