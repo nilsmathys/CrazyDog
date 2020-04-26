@@ -51,13 +51,13 @@ public class Round {
         }
         switch (number) {
             case 1: cardsToDistribute = 6;
-            break;
+                break;
             case 2: cardsToDistribute = 5;
-            break;
+                break;
             case 3: cardsToDistribute = 4;
-            break;
+                break;
             case 4: cardsToDistribute = 3;
-            break;
+                break;
             case 5: cardsToDistribute = 2;
         }
         return cardsToDistribute;
@@ -81,7 +81,6 @@ public class Round {
         }
 
     }
-
     /**
      * Exchanges selected cards from teammembers
      */

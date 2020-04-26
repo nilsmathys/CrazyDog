@@ -27,6 +27,7 @@ public class CrazyDog {
     public List<Piece> pieceList;
     public CardDeck deck;
     public static GameBoard gameBoard;
+    public int direction;
 
 
     /**
@@ -53,6 +54,7 @@ public class CrazyDog {
         this.nextPlayer = player1.getId();
         this.gameBoard = new GameBoard();
         this.pieceList = PieceDAO.getAllPieces();
+        this.direction = 0;
         this.deck = new CardDeck();
         deck.createDeck();
     }
@@ -87,7 +89,7 @@ public class CrazyDog {
         SpringApplication.run(CrazyDog.class, args);
 
         Player player1 = PlayerDAO.getPlayerById(1);
-        Player player2 = PlayerDAO.getPlayerById(2);;
+        Player player2 = PlayerDAO.getPlayerById(2);
         Player player3 = PlayerDAO.getPlayerById(3);
         Player player4 = PlayerDAO.getPlayerById(4);
 
