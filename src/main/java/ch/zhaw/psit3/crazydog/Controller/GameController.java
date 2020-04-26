@@ -55,7 +55,7 @@ public class GameController {
         }
         else {
             model.addAttribute("player", new Player());
-            model.addAttribute("loginerror", "Please login to create a game");
+            model.addAttribute("loginerror", "Please login to play a game");
             return "login";
         }
     }
