@@ -1,13 +1,16 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
 import ch.zhaw.psit3.crazydog.CrazyDog;
+import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,8 @@ import java.util.Map;
 // Leitet den Benutzer auf die Seite foo zurück.
 @Controller
 public class GameController {
+
+    boolean roundStarted = false;
 
     @ModelAttribute("team1")
     public List<Player> populateTeam1() {
@@ -33,6 +38,28 @@ public class GameController {
         return team2;
     }
 
+    @GetMapping("/game")
+    public String playGame(HttpServletRequest request, Model model) {
+
+        if(request.getSession().getAttribute("id") != null) {
+            Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
+            model.addAttribute("fieldsandpieces", fieldsAndPieces);
+
+            int playerId = Integer.parseInt(request.getSession().getAttribute("id").toString());
+            Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
+            model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
+
+            model.addAttribute("roundStarted", roundStarted);
+            model.addAttribute("sessionId", request.getSession().getAttribute("id"));
+            return "game";
+        }
+        else {
+            model.addAttribute("player", new Player());
+            model.addAttribute("loginerror", "Please login to play a game");
+            return "login";
+        }
+    }
+/*
     @RequestMapping(value = { "/game" }, method = RequestMethod.GET)
     public String foo(Model model) {
         Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
@@ -42,8 +69,20 @@ public class GameController {
         Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
         model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
 
+        model.addAttribute("roundStarted", roundStarted);
         System.out.println("Return to game");
         return "game";
+    }
+*/
+    @RequestMapping(value="exchangeCard")
+    public ModelAndView exchangeCardService(@RequestParam(value = "selectedCardId") String selectedCardId,
+                                            @RequestParam(value = "sessionId") String sessionId) {
+
+        Round.setExchangeCard(Integer.parseInt(sessionId), Integer.parseInt(selectedCardId));
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/game");
+        return modelAndView;
     }
 
 }

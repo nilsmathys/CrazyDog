@@ -33,9 +33,16 @@ h2 {
 }
 
 .container-bottom {
+    margin: 0 50px;
+}
+.select-buttons {
     display: flex;
     justify-content: center;
-    margin: 0 50px;
+    margin-bottom: 20px;
+}
+.hand {
+    display: flex;
+    justify-content: center;
 }
 
 /* CSS for cards starts here */

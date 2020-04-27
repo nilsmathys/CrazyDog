@@ -94,3 +94,8 @@ function chooseCard(id, value) {
 function removeCardFromHand() {
     $('img[id='+ chosenCardId + ']').remove();
 }
+
+//Set the value of the hidden input field
+$("img[data-card_id]").click(function(e){
+    $("input[name='selectedCardId']").val($(this).data('card_id'));
+});
