@@ -135,12 +135,4 @@ public class Values {
 
         }
     };
-
-
-
-
-
-
-
-
 }

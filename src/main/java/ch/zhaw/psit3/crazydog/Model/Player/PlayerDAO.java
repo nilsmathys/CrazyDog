@@ -193,7 +193,7 @@ public class PlayerDAO {
                 PreparedStatement ps = con.prepareStatement(query);
                 ps.setString(1, player.getUsername());
                 ps.setString(2, player.getEmail());
-                ps.setString(3, player.getPw());
+                ps.setString(3, player.getPassword());
                 i = ps.executeUpdate();
                 ps.close();
             } catch (Exception e) {
@@ -230,7 +230,7 @@ public class PlayerDAO {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, player.getUsername());
             ps.setString(2, player.getEmail());
-            ps.setString(3, player.getPw());
+            ps.setString(3, player.getPassword());
             ps.setInt(4, id);
             i = ps.executeUpdate();
             ps.close();

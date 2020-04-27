@@ -1,5 +1,6 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
+import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
@@ -9,11 +10,15 @@ import java.util.*;
 
 public class Round {
 
-    Team team1;
-    Team team2;
+    private static Team team1;
+    private static Team team2;
     CardDeck deck;
     private int nextPlayer;
     private static Map<Integer, CardsOnHand> playerAndHand = new HashMap<>();
+    private static Card exchangeCardP1 = null;
+    private static Card exchangeCardP2 = null;
+    private static Card exchangeCardP3 = null;
+    private static Card exchangeCardP4 = null;
 
     public Round(int roundNumber, CardDeck deck, Team team1, Team team2, int nextPlayer) {
         this.team1 = team1;
@@ -28,7 +33,7 @@ public class Round {
 
         distributeCards(roundNumber);
         // TODO: show countdown for players to select a card
-
+        // TODO: implement exchangeCards();
     }
 
     /**
@@ -77,6 +82,16 @@ public class Round {
 
     }
     /**
+     * Exchanges selected cards from teammembers
+     */
+    private void exchangeCards() {
+        playerAndHand.get(team1.getPlayer1().getId()).takeCard(exchangeCardP2);
+        playerAndHand.get(team1.getPlayer2().getId()).takeCard(exchangeCardP1);
+        playerAndHand.get(team2.getPlayer1().getId()).takeCard(exchangeCardP4);
+        playerAndHand.get(team2.getPlayer2().getId()).takeCard(exchangeCardP3);
+    }
+
+    /**
      * Handles a single round of the game. In case a team wins during a round, the round ends. If no team finishes,
      * the round ends when no player has a card left to play.
      * @return boolean value if a team has won or not.
@@ -106,5 +121,19 @@ public class Round {
 
     public static Map<Integer, CardsOnHand> getPlayerAndHand() {
         return playerAndHand;
+    }
+
+    public static void setExchangeCard(int playerId, int cardId) {
+        if (playerId == team1.getPlayer1().getId()) {
+            exchangeCardP1 = playerAndHand.get(team1.getPlayer1().getId()).discardCard(cardId);
+        } else if (playerId == team1.getPlayer2().getId()) {
+            exchangeCardP2 = playerAndHand.get(team1.getPlayer2().getId()).discardCard(cardId);
+        } else if (playerId == team2.getPlayer1().getId()) {
+            exchangeCardP3 = playerAndHand.get(team2.getPlayer1().getId()).discardCard(cardId);
+        } else if (playerId == team2.getPlayer2().getId()) {
+            exchangeCardP4 = playerAndHand.get(team2.getPlayer2().getId()).discardCard(cardId);
+        } else {
+
+        }
     }
 }
