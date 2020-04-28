@@ -6,6 +6,8 @@ import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 
 public class Round {
@@ -19,6 +21,7 @@ public class Round {
     private static Card exchangeCardP2 = null;
     private static Card exchangeCardP3 = null;
     private static Card exchangeCardP4 = null;
+    private static boolean roundStarted = false;
 
     public Round(int roundNumber, CardDeck deck, Team team1, Team team2, int nextPlayer) {
         this.team1 = team1;
@@ -32,8 +35,13 @@ public class Round {
         playerAndHand.put(team2.getPlayer2().getId(), new CardsOnHand());
 
         distributeCards(roundNumber);
-        // TODO: show countdown for players to select a card
-        // TODO: implement exchangeCards();
+        // wait for players to select a card
+        CompletableFuture.delayedExecutor(45, TimeUnit.SECONDS).execute(() -> {
+            exchangeCards();
+            roundStarted = true;
+        });
+
+
     }
 
     /**
@@ -82,13 +90,38 @@ public class Round {
 
     }
     /**
-     * Exchanges selected cards from teammembers
+     * Exchanges selected cards from teammembers.
+     * If a player has not selected a card within the time limit, the system picks one randomly.
      */
     private void exchangeCards() {
+        if (exchangeCardP1 == null) {
+            exchangeCardP1 = pickRandomCard(team1.getPlayer1().getId());
+        }
+        if (exchangeCardP2 == null) {
+            exchangeCardP2 = pickRandomCard(team1.getPlayer2().getId());
+        }
+        if (exchangeCardP3 == null) {
+            exchangeCardP3 = pickRandomCard(team2.getPlayer1().getId());
+        }
+        if (exchangeCardP4 == null) {
+            exchangeCardP4 = pickRandomCard(team2.getPlayer2().getId());
+        }
         playerAndHand.get(team1.getPlayer1().getId()).takeCard(exchangeCardP2);
         playerAndHand.get(team1.getPlayer2().getId()).takeCard(exchangeCardP1);
         playerAndHand.get(team2.getPlayer1().getId()).takeCard(exchangeCardP4);
         playerAndHand.get(team2.getPlayer2().getId()).takeCard(exchangeCardP3);
+    }
+
+    /**
+     * The system automatically chooses a random card from the players hand
+     * @param playerId
+     * @return Card
+     */
+    private Card pickRandomCard(int playerId) {
+        Random rand = new Random();
+        Card randomCard = playerAndHand.get(playerId).getHand()
+                .get(rand.nextInt(playerAndHand.get(playerId).getHand().size()));
+        return playerAndHand.get(playerId).discardCard(randomCard.getId());
     }
 
     /**
@@ -98,9 +131,11 @@ public class Round {
      */
     public boolean startRound () {
         boolean hasWinner = false;
-        while (!hasWinner || !playerOutOfCards()) {
+        while (!hasWinner) {
             // TODO output should later be displayed in browser
-
+            if (playerOutOfCards()) {
+                break;
+            }
             hasWinner = false;
         }
         return hasWinner;
@@ -112,8 +147,11 @@ public class Round {
      */
     private boolean playerOutOfCards() {
         boolean allPlayersOutOfCards = false;
-        if (playerAndHand.get(0).isHandEmpty() && playerAndHand.get(1).isHandEmpty()
-                && playerAndHand.get(2).isHandEmpty() && playerAndHand.get(3).isHandEmpty()) {
+        if (    playerAndHand.get(team1.getPlayer1().getId()).isHandEmpty() &&
+                playerAndHand.get(team1.getPlayer2().getId()).isHandEmpty() &&
+                playerAndHand.get(team2.getPlayer1().getId()).isHandEmpty() &&
+                playerAndHand.get(team2.getPlayer2().getId()).isHandEmpty()
+        ) {
             allPlayersOutOfCards = true;
         }
         return allPlayersOutOfCards;
@@ -123,6 +161,11 @@ public class Round {
         return playerAndHand;
     }
 
+    /**
+     * Sets the exchangeCard variable with the card the user selected to exchange with its teamplayer
+     * @param playerId
+     * @param cardId
+     */
     public static void setExchangeCard(int playerId, int cardId) {
         if (playerId == team1.getPlayer1().getId()) {
             exchangeCardP1 = playerAndHand.get(team1.getPlayer1().getId()).discardCard(cardId);
@@ -135,5 +178,9 @@ public class Round {
         } else {
 
         }
+    }
+
+    public static boolean isRoundStarted() {
+        return roundStarted;
     }
 }
