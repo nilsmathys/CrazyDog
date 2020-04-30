@@ -16,7 +16,6 @@ public class PlayCard {
     int IdCardToPlay;
     static List<Integer> pieceDestination;
     static List<String> targetDestination = new ArrayList<>();
-    //static List<Integer> targetDestination = new ArrayList<>();
     List<Piece> selectetPieces;
     static int direction;
     Card selectetCardQuestion;
@@ -159,8 +158,8 @@ public class PlayCard {
         if (!targetDestination.isEmpty()) {
             targetDestination.clear();
         }
-        String[] splittet = pieceDestination.split("field");
-        int pieceDestinationInt = Integer.parseInt(splittet[1]);
+        String[] splitted = pieceDestination.split("field");
+        int pieceDestinationInt = Integer.parseInt(splitted[1]);
         Card cardToPlay = playerAndHand.getHand().discardCard(idCardToPlay);
         if (ownPiecesFinished && colourIdPartner != selectetPiece.getColourId()) {
             throw new IllegalArgumentException("ungültige Figur ausgewählt: Figur des Partners auswählen");
@@ -198,7 +197,7 @@ public class PlayCard {
                                        List<Integer> fieldToGo, List<Piece> selectetPieces,
                                        int dir, Card selectetCardQuestion, int selectetAction, boolean ownPiecesFinished) {
         Card cardToPlay = playerAndHand.getHand().discardCard(idCardToPlay);
-        if (cardToPlay.getId() != 14 && cardToPlay.getId() != 15) { //id quetsionmark und id pieceExchange
+        if (cardToPlay.getName() != "questionmark" && cardToPlay.getName() != "pieceExchange") {
             for (int i = 0; i < selectetPieces.size(); i++) {
                 if (ownPiecesFinished) {
                     if (colourIdPartner != selectetPieces.get(i).getColourId()) {
@@ -259,8 +258,8 @@ public class PlayCard {
      * @return gibt die neue Spielrichtung zurück
      */
     private static int playCard3(String pieceDestination, Piece piece, int selectetAction) {
-        String[] splittet = pieceDestination.split("field");
-        int pieceDestinationInt = Integer.parseInt(splittet[1]);
+        String[] splitted = pieceDestination.split("field");
+        int pieceDestinationInt = Integer.parseInt(splitted[1]);
         if (selectetAction == 0) {
             if (checkValidturn(pieceDestinationInt, "standard", piece, 3)) {
                 fieldsToGo = 3;
@@ -284,8 +283,8 @@ public class PlayCard {
     }
 
     private static void playCard4(String pieceDestination, Piece piece) {
-        String[] splittet = pieceDestination.split("field");
-        int pieceDestinationInt = Integer.parseInt(splittet[1]);
+        String[] splitted = pieceDestination.split("field");
+        int pieceDestinationInt = Integer.parseInt(splitted[1]);
         if (direction == 0) {
             direction = 1;
             if (checkValidturn(pieceDestinationInt, "four", piece, Values.CARDVALUE4)) {
@@ -320,8 +319,8 @@ public class PlayCard {
             fieldsToGo = 0;
         }
         for(int i = 0; i < pieceDestinations.size(); i++) {
-            String[] splittet = pieceDestinations.get(i).split("field");
-            int pieceDestinationInt = Integer.parseInt(splittet[1]);
+            String[] splitted = pieceDestinations.get(i).split("field");
+            int pieceDestinationInt = Integer.parseInt(splitted[1]);
             if(checkValidturn(pieceDestinationInt, "seven", selectetPieces.get(i), fieldToGo.get(i))) {
                 int targetDestinationInt = calculateNewDestination(pieceDestinationInt,  fieldToGo.get(i), selectetPieces.get(i));
                 String targetDestinationString = "field" + targetDestinationInt;
@@ -362,8 +361,8 @@ public class PlayCard {
      * @param pieceDestination aktueller Standort der gewählten Figur
      */
     private static void playCardOneEleven(int selectetAction, Piece piece, String pieceDestination, int direction) {
-        String[] splittet = pieceDestination.split("field");
-        int pieceDestinationInt = Integer.parseInt(splittet[1]);
+        String[] splitted = pieceDestination.split("field");
+        int pieceDestinationInt = Integer.parseInt(splitted[1]);
         movePieceOnStartField(piece, pieceDestinationInt, "oneEleven");
         if (targetDestination.isEmpty()) {
             if (selectetAction == 0) {
@@ -404,8 +403,8 @@ public class PlayCard {
      * @param pieceDestination aktueller Standort der gewählten Figur
      */
     private static void playCard13(Piece piece, String pieceDestination, int direction) {
-        String[] splittet = pieceDestination.split("field");
-        int pieceDestinationInt = Integer.parseInt(splittet[1]);
+        String[] splitted = pieceDestination.split("field");
+        int pieceDestinationInt = Integer.parseInt(splitted[1]);
         movePieceOnStartField(piece, pieceDestinationInt, "thirteen");
         if (targetDestination.isEmpty()) {
             if (checkValidturn(pieceDestinationInt, null, piece, 13) && targetDestination.isEmpty()) {
