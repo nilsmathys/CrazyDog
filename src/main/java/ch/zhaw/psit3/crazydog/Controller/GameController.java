@@ -58,7 +58,9 @@ public class GameController {
 
             //model.addAttribute("sessionId", request.getSession().getAttribute("id"));
             model.addAttribute("userInstructions", UserInstructions.getUserInstructions());
+            model.addAttribute("currentPlayerID", Round.getNextPlayer());
             model.addAttribute("sessionId", request.getSession().getAttribute("id"));
+
             return "game";
         }
         else {

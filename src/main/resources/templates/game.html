@@ -19,8 +19,13 @@
             <div class="container-left">
                 <div>
                     <h3>Team 1</h3>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:each="player : ${team1}" th:id="${player.getPassword()}">
+                    <ul class="list-group">
+                        <li class="list-group-item"
+                            th:each="player : ${team1}" th:id="${player.getPassword()}"
+                            th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
+                            th:classappend="${player.getColor()}">
+
+
                             <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'" th:alt="${player.getUsername()}">
                             <span class="playername" th:text="${player.getUsername()}"></span>
                         </li>
@@ -28,8 +33,11 @@
                 </div>
               <div>
                   <h3>Team 2</h3>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item" th:each="player : ${team2}" th:id="${player.getPassword()}">
+                  <ul class="list-group">
+                      <li  th:each="player : ${team2}" th:id="${player.getPassword()}"
+                           th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
+                           th:classappend="${player.getColor()}">
+
                           <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'" th:alt="${player.getUsername()}">
                           <span class="playername" th:text="${player.getUsername()}"></span>
                       </li>
@@ -43,16 +51,11 @@
                 <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field" th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
             </div>
             <div class="container-right">
-
-                <div th:each="instruction : ${ userInstructions }" th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'" th:text="${'&#62; '+instruction}" style="background-color: #f1f3f4"></div>
-                <!--<div class="card-header" style="background-color:#fcf8e8">
-                    <h5 class="card-title">> Warte, bis Isabella eine Karte gespielt hat...</h5>
-                </div>
-                <div class="card-header" style="background-color: #f1f3f4">> Isabella ist am Zug.</div>
-                <div class="card-header" style="background-color: #fcf8e8">> Johannes hat Figur 4 um 9 Felder bewegt.</div>
-                <div class="card-header" style="background-color: #f1f3f4">> Warte bis Johannes seine Spielfigur bewegt hat...</div>
-                <div class="card-header" style="background-color: #fcf8e8">> Johannes hat die 9 ausgespielt.</div>
-                <div class="card-header" style="background-color: #f1f3f4">> Warte bis Johannes eine Karte gespielt hat...</div>-->
+                <!-- show the instructions on the right side of the page -->
+                <div th:each="instruction : ${ userInstructions }"
+                     th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'"
+                     th:text="${'&#62; '+instruction}"
+                     th:style="${(userInstructions.indexOf(instruction)%2) == 0} ? 'background-color: #f1f3f4' : 'background-color: #fcf8e8'"></div>
             </div>
         </div>
         <div class="container-bottom">

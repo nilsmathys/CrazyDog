@@ -70,7 +70,7 @@ h2 {
     position: relative;
 }
 #cardchangehover:hover:after {
-    content: url(/static/img/cards/karte_pieceExchange.png);
+    content: url(/static/img/cards/karte_15.png);
     display: block;
     position: absolute;
     top: -370px;
@@ -80,7 +80,7 @@ h2 {
     position: relative;
 }
 #cardjokerhover:hover:after {
-    content: url(/static/img/cards/karte_questionmark.png);
+    content: url(/static/img/cards/karte_14.png);
     display: block;
     position: absolute;
     top: -370px;
@@ -100,7 +100,7 @@ h2 {
     position: relative;
 }
 #card11hover:hover:after {
-    content: url(/static/img/cards/karte_oneEleven.png);
+    content: url(/static/img/cards/karte_11.png);
     display: block;
     position: absolute;
     top: -370px;
@@ -152,16 +152,16 @@ h2 {
 .playerimage {
     width: 80px;
 }
-#red {
+.red {
     background-color: #E41B13;
 }
-#yellow {
+.yellow {
     background-color: #D5BC00;
 }
-#green {
+.green {
     background-color: #0E8A12;
 }
-#blue {
+.blue {
     background-color: #0086B3;
 }
 
@@ -170,6 +170,9 @@ h2 {
     background-color: #fcf8e8;
 }
 
+.currentplayer {
+    border: 10px solid #f9ff07;
+}
 
 .field {
     display: inline-block;

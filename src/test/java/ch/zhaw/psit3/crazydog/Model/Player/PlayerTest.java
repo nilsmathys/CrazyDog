@@ -13,6 +13,7 @@ class PlayerTest {
     @BeforeEach
     void setup() {
         player = new Player(1, "Tester", "test@test.ch", "test123");
+        player.setColor("red");
     }
 
     @Test
@@ -66,5 +67,16 @@ class PlayerTest {
     void setPw() {
         player.setPassword("test1234");
         assertEquals("test1234", player.getPassword());
+    }
+
+    @Test
+    void setColor() {
+        player.setColor("green");
+        assertEquals("green", player.getColor());
+    }
+
+    @Test
+    void getColor() {
+        assertEquals("red", player.getColor());
     }
 }

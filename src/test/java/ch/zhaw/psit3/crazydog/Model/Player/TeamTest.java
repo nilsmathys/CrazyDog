@@ -16,7 +16,7 @@ class TeamTest {
     void setup() {
         player1 = new Player(1, "Player1", "player1@player.ch", "test123");
         player2 = new Player(2, "Player2", "player2@player.ch", "test123");
-        team = new Team(player1, player2, 1, 2);
+        team = new Team(player1, player2, "red", "blue");
     }
 
     @Test
@@ -45,23 +45,23 @@ class TeamTest {
 
     @Test
     void getColourIdPlayer1() {
-        assertEquals(1, team.getColourIdPlayer1());
+        assertEquals("red", team.getColourPlayer1());
     }
 
     @Test
     void setColourIdPlayer1() {
-        team.setColourIdPlayer1(5);
-        assertEquals(5, team.getColourIdPlayer1());
+        team.setColourPlayer1("yellow");
+        assertEquals("yellow", team.getColourPlayer1());
     }
 
     @Test
     void getColourIdPlayer2() {
-        team.setColourIdPlayer2(20);
-        assertEquals(20, team.getColourIdPlayer2());
+        team.setColourPlayer2("green");
+        assertEquals("green", team.getColourPlayer2());
     }
 
     @Test
     void setColourIdPlayer2() {
-        assertEquals(2, team.getColourIdPlayer2());
+        assertEquals("blue", team.getColourPlayer2());
     }
 }

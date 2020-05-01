@@ -15,7 +15,7 @@ public class Round {
     private static Team team1;
     private static Team team2;
     CardDeck deck;
-    private int nextPlayer;
+    private static int nextPlayer;
     private static Map<Integer, CardsOnHand> playerAndHand = new HashMap<>();
     private static Card exchangeCardP1 = null;
     private static Card exchangeCardP2 = null;
@@ -183,5 +183,9 @@ public class Round {
 
     public static boolean isRoundStarted() {
         return roundStarted;
+    }
+
+    public static int getNextPlayer() {
+        return nextPlayer;
     }
 }

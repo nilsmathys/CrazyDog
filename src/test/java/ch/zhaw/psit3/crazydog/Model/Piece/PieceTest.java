@@ -10,7 +10,7 @@ class PieceTest {
 
     @BeforeEach
     void setup() {
-        piece = new Piece(1, 2, 3, "testpic.png");
+        piece = new Piece(1, 2, "red", "testpic.png");
     }
 
     @Test
@@ -47,13 +47,13 @@ class PieceTest {
     }
 
     @Test
-    void getColourId() {
-        assertEquals(3, piece.getColourId());
+    void getColour() {
+        assertEquals("red", piece.getColor());
     }
 
     @Test
     void setColourId() {
-        piece.setColourId(10);
-        assertEquals(10, piece.getColourId());
+        piece.setColor("blue");
+        assertEquals("blue", piece.getColor());
     }
 }
