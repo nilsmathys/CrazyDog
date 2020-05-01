@@ -95,22 +95,27 @@ public class Round {
      * If a player has not selected a card within the time limit, the system picks one randomly.
      */
     private void exchangeCards() {
+        int playerOneId = team1.getPlayer1().getId();
+        int playerTwoId = team1.getPlayer2().getId();
+        int playerThreeId = team2.getPlayer1().getId();
+        int playerFourId = team2.getPlayer2().getId();
+
         if (exchangeCardP1 == null) {
-            exchangeCardP1 = pickRandomCard(team1.getPlayer1().getId());
+            exchangeCardP1 = pickRandomCard(playerOneId);
         }
         if (exchangeCardP2 == null) {
-            exchangeCardP2 = pickRandomCard(team1.getPlayer2().getId());
+            exchangeCardP2 = pickRandomCard(playerTwoId);
         }
         if (exchangeCardP3 == null) {
-            exchangeCardP3 = pickRandomCard(team2.getPlayer1().getId());
+            exchangeCardP3 = pickRandomCard(playerThreeId);
         }
         if (exchangeCardP4 == null) {
-            exchangeCardP4 = pickRandomCard(team2.getPlayer2().getId());
+            exchangeCardP4 = pickRandomCard(playerFourId);
         }
-        playerAndHand.get(team1.getPlayer1().getId()).takeCard(exchangeCardP2);
-        playerAndHand.get(team1.getPlayer2().getId()).takeCard(exchangeCardP1);
-        playerAndHand.get(team2.getPlayer1().getId()).takeCard(exchangeCardP4);
-        playerAndHand.get(team2.getPlayer2().getId()).takeCard(exchangeCardP3);
+        playerAndHand.get(playerOneId).takeCard(exchangeCardP2);
+        playerAndHand.get(playerTwoId).takeCard(exchangeCardP1);
+        playerAndHand.get(playerThreeId).takeCard(exchangeCardP4);
+        playerAndHand.get(playerFourId).takeCard(exchangeCardP3);
     }
 
     /**
