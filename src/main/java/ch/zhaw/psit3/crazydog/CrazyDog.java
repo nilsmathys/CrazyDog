@@ -79,6 +79,7 @@ public class CrazyDog {
         boolean playEnded = false;
         int roundNumber = 1;
         while (!playEnded) {
+            System.out.println("In play game loop");
             Round round = new Round(roundNumber, deck, team1, team2, nextPlayer);
             playEnded = round.startRound();
             roundNumber++;

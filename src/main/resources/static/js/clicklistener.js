@@ -73,6 +73,8 @@ function changeFrontend(data) {
     $('#'+data[1].field).attr('src', '/img/pieces/' + data[1].piece);
 }
 
+// This function is called by the onclick attribute on the playing cards
+// The function assigns values to the variables "chosenCardId" and "chosenCardValue"
 function chooseCard(id, value) {
     chosenCardId = id;
     if (value === 3) {}
