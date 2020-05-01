@@ -133,7 +133,8 @@ h2 {
     display: inline-block;
 }
 .grid {
-    left: 14px;
+    top: 3px;
+    left: 17px;
     z-index: 2;
     position: absolute;
 }
@@ -178,10 +179,15 @@ h2 {
     display: inline-block;
     position: absolute;
     z-index: 3;
+    height: 46px;
+}
+.highlight-field {
+    border-radius: 50%;
+    border: 5px solid lawngreen;
 }
 #field1 {
     top: 687px;
-    left: 122px;
+    left: 121px;
 }
 #field2 {
     top: 654px;
@@ -249,7 +255,7 @@ h2 {
 }
 #field18 {
     top: 80px;
-    left: 169px;
+    left: 168px;
 }
 #field19 {
     top: 55px;
@@ -257,7 +263,7 @@ h2 {
 }
 #field20 {
     top: 34px;
-    left: 243px;
+    left: 242px;
 }
 #field21 {
     top: 18px;
@@ -308,7 +314,7 @@ h2 {
     left: 674px;
 }
 #field33 {
-    top: 123px;
+    top: 124px;
     left: 711px;
 }
 #field34 {
@@ -321,18 +327,18 @@ h2 {
 }
 #field36 {
     top: 231px;
-    left: 785px;
+    left: 784px;
 }
 #field37 {
-    top: 271px;
+    top: 272px;
     left: 801px;
 }
 #field38 {
     top: 297px;
-    left: 763px;
+    left: 762px;
 }
 #field39 {
-    top: 321px;
+    top: 322px;
     left: 724px;
 }
 #field40 {
@@ -341,7 +347,7 @@ h2 {
 }
 #field41 {
     top: 371px;
-    left: 646px;
+    left: 645px;
 }
 #field42 {
     top: 436px;
@@ -349,7 +355,7 @@ h2 {
 }
 #field43 {
     top: 479px;
-    left: 635px;
+    left: 634px;
 }
 #field44 {
     top: 518px;
@@ -409,7 +415,7 @@ h2 {
 }
 #field58 {
     top: 634px;
-    left: 387px;
+    left: 386px;
 }
 #field59 {
     top: 623px;
@@ -417,7 +423,7 @@ h2 {
 }
 #field60 {
     top: 606px;
-    left: 305px;
+    left: 304px;
 }
 #field61 {
     top: 581px;
@@ -445,7 +451,7 @@ h2 {
 }
 #field67 {
     top: 761px;
-    left: 217px;
+    left: 216px;
 }
 #field68 {
     top: 738px;
@@ -472,15 +478,15 @@ h2 {
     left: 535px;
 }
 #field74 {
-    top: 29px;
-    left: 577px;
+    top: 30px;
+    left: 576px;
 }
 #field75 {
-    top: 49px;
-    left: 617px;
+    top: 50px;
+    left: 616px;
 }
 #field76 {
-    top: 73px;
+    top: 76px;
     left: 654px;
 }
 #field77 {
@@ -492,7 +498,7 @@ h2 {
     left: 791px;
 }
 #field79 {
-    top: 605px;
+    top: 606px;
     left: 771px;
 }
 #field80 {
@@ -505,11 +511,11 @@ h2 {
 }
 #field82 {
     top: 564px;
-    left: 139px;
+    left: 138px;
 }
 #field83 {
     top: 541px;
-    left: 177px;
+    left: 176px;
 }
 #field84 {
     top: 517px;
@@ -528,11 +534,11 @@ h2 {
     left: 282px;
 }
 #field88 {
-    top: 201px;
-    left: 306px;
+    top: 202px;
+    left: 305px;
 }
 #field89 {
-    top: 203px;
+    top: 204px;
     left: 701px;
 }
 #field90 {
@@ -541,7 +547,7 @@ h2 {
 }
 #field91 {
     top: 270px;
-    left: 657px;
+    left: 656px;
 }
 #field92 {
     top: 294px;
@@ -549,10 +555,10 @@ h2 {
 }
 #field93 {
     top: 690px;
-    left: 618px;
+    left: 617px;
 }
 #field94 {
-    top: 683px;
+    top: 684px;
     left: 574px;
 }
 #field95 {
@@ -560,7 +566,7 @@ h2 {
     left: 551px;
 }
 #field96 {
-    top: 608px;
+    top: 607px;
     left: 527px;
 }
 
