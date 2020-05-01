@@ -73,30 +73,6 @@ function changeFrontend(data) {
     $('#'+data[1].field).attr('src', '/img/pieces/' + data[1].piece);
 }
 
-// This function is called by the onclick attribute on the playing cards
-// The function assigns values to the variables "chosenCardId" and "chosenCardValue"
-function chooseCard(id, value) {
-    chosenCardId = id;
-    if (value === 3) {}
-    else if (value === 4) {}
-    else if (value === 7) {}
-    else if (value === 11) {
-       chosenCardValue = value;
-       //TODO: choose an action
-    }
-    else if (value === 12) {}
-    else if (value === 13) {}
-    else if (value === 14) {}
-    else if (value === 15) {}
-    else {
-       chosenCardValue = value;
-    }
-}
-
-function removeCardFromHand() {
-    $('img[id='+ chosenCardId + ']').remove();
-}
-
 //Set the value of the hidden input field
 $("img[data-card_id]").click(function(e){
     $("input[name='selectedCardId']").val($(this).data('card_id'));

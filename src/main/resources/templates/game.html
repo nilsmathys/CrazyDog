@@ -65,13 +65,12 @@
                 <div th:each="coh : ${ playerandhand }">
                     <img th:src="'/img/cards/karte_' + ${ coh.getValue() } + '.png'" class="playingcard"
                          th:id=" ${ coh.getId() }" id="card" th:alt="'Karte ' + ${ coh.getValue() }"
-                         th:data-card_id="${ coh.getId() }"
-                         th:onclick="|chooseCard(${ coh.getId() },  ${ coh.getValue() })|">
+                         th:onclick="|calculatePossibleMoves(${ coh.getValue() })|">
                 </div>
             </div>
         </div>
         <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
-        <script src="/js/clicklistener.js" th:href="@{/js/clicklistener.js}"></script>
+        <script src="/js/clicklistener2.js" th:href="@{/js/clicklistener2.js}"></script>
         <script src="/js/frontendupdater.js" th:href="@{/js/frontendupdater.js}"></script>
     </body>
 </html>
