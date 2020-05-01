@@ -155,12 +155,14 @@ $("img[data-card_id]").click(function(e){
 //Set the countdown for selecting a card to exchange
 var timeleft = 30;
 var countdownTimer = setInterval(function(){
-    if(timeleft <= 0){
-        clearInterval(countdownTimer);
-        document.getElementById("countdown").innerHTML = "";
-        document.getElementById("exchange-button").disabled = true;
-    } else {
-        document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
+    if (document.getElementById("countdown") != null) {
+        if (timeleft <= 0) {
+            clearInterval(countdownTimer);
+            document.getElementById("countdown").innerHTML = "";
+            document.getElementById("exchange-button").disabled = true;
+        } else {
+            document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
+        }
     }
     timeleft -= 1;
 }, 1000);
