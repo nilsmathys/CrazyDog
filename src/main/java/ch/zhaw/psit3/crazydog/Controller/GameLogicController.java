@@ -1,5 +1,6 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
+import ch.zhaw.psit3.crazydog.Model.Game.GameLogic;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
@@ -26,24 +27,18 @@ public class GameLogicController {
     public @ResponseBody ArrayList<GameField> calculateMoves(@RequestBody String json) {
         JSONObject jsonObj =new JSONObject(json);
         // Get the Choosen Card and the Players
-        int cardvalue = jsonObj.getInt("chosenCard"); // This value will be given to the gamelogic class
+        int cardValue = jsonObj.getInt("chosenCard"); // This value will be given to the gamelogic class
         int sessionId = jsonObj.getInt("sessionId"); // This value will be given to the gamelogic class
 
-        // This will be the objects that the Calculator class returns
-        gameField1 = new GameField("field1");
-        gameField2 = new GameField("field2");
-        gameField3 = new GameField("field3");
-        gameField4 = new GameField("field4");
-        gameFieldList.add(gameField1);
-        gameFieldList.add(gameField2);
-        gameFieldList.add(gameField3);
-        gameFieldList.add(gameField4);
+        // Calculate the Destinations in the GameLogic
+        GameLogic.calculateDestinations(cardValue, sessionId);
 
-        // We don0t have to update the game state yet, because the fields returned are not definitely choosen yet.
+        // We don't have to update the game state yet, because the fields returned are not definitely choosen yet.
+        // They just show where a user would land with his pieces.
         //GameBoard.put(source);      // Update the game state!
         //GameBoard.put(dest);        // Update the game state!
 
-        return gameFieldList;
+        return GameLogic.getDestinations();
     }
     /*
     // This method is reponsible for listening to the continous ajax frontend-updater.
