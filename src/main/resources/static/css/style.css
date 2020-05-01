@@ -563,3 +563,12 @@ h2 {
     top: 608px;
     left: 527px;
 }
+
+#logo {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.link-no-decoration {
+    text-decoration: none;
+}
