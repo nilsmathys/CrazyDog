@@ -16,15 +16,21 @@ function send() {
             contentType : 'application/json; charset=utf-8',
             dataType:'json',
             success : function(data) {
-                console.log('Field 1: ' + data[0].cssId);
-                console.log('Field 2: ' + data[1].cssId);
+                changeFrontend(data);
                 //reset(); // Sets Value of Variables back to 0
-                //changeFrontend(data);
             },
             error: function(data) {
                 console.log("failure");
                 console.log(data);
             },
         });
+    });
+}
+
+function changeFrontend(data) {
+    $.each(data, function(index) {
+        console.log(data[index].cssId);
+        //$('#' + data[index].cssId).css({"background-image": "url(/img/pieces/piece1green.png)"});
+        $('#' + data[index].cssId).css({"border-radius": "50%", "border": "3px solid red"});
     });
 }

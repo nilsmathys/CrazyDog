@@ -16,6 +16,8 @@ public class GameLogicController {
 
     GameField gameField1;
     GameField gameField2;
+    GameField gameField3;
+    GameField gameField4;
     ArrayList<GameField> gameFieldList = new ArrayList<>();
 
     // This method is reponsible for listening to ajax click events and handle their data.
@@ -29,9 +31,13 @@ public class GameLogicController {
 
         // This will be the objects that the Calculator class returns
         gameField1 = new GameField("field1");
-        gameField2 = new GameField("field2");;
+        gameField2 = new GameField("field2");
+        gameField3 = new GameField("field3");
+        gameField4 = new GameField("field4");
         gameFieldList.add(gameField1);
         gameFieldList.add(gameField2);
+        gameFieldList.add(gameField3);
+        gameFieldList.add(gameField4);
 
         // We don0t have to update the game state yet, because the fields returned are not definitely choosen yet.
         //GameBoard.put(source);      // Update the game state!
