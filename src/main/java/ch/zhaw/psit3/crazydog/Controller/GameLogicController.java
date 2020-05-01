@@ -15,14 +15,8 @@ import java.util.ArrayList;
 @Controller
 public class GameLogicController {
 
-    GameField gameField1;
-    GameField gameField2;
-    GameField gameField3;
-    GameField gameField4;
-    ArrayList<GameField> gameFieldList = new ArrayList<>();
-
-    // This method is reponsible for listening to ajax click events and handle their data.
-    // It returns an array containing two FieldAndPiece Objects: The source and destination.
+    // This method is reponsible for listening to clicks on cards and then return the fields the pieces would
+    // land on, if the player would play that card.
     @RequestMapping(value = "/calculatemoves", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ArrayList<GameField> calculateMoves(@RequestBody String json) {
         JSONObject jsonObj =new JSONObject(json);
