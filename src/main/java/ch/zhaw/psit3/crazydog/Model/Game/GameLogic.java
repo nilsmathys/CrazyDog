@@ -3,12 +3,14 @@ package ch.zhaw.psit3.crazydog.Model.Game;
 import ch.zhaw.psit3.crazydog.CrazyDog;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
+import ch.zhaw.psit3.crazydog.Model.Message.Message;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class GameLogic {
+    static Message successmessage;
     static ArrayList<GameField> gameFieldList = new ArrayList<>();
 
     // Is responsible for returning a list
@@ -27,11 +29,19 @@ public class GameLogic {
         // How to access the List with fields, which will be needed to calculate the destinations
         List<GameField> fields = CrazyDog.getGameBoard().getFields();
         for(GameField field : fields) {
-            System.out.println(field.getImageName());
+            //System.out.println(field.getImageName());
         }
     }
 
     public static ArrayList<GameField> getDestinations() {
         return gameFieldList;
+    }
+
+    public static void makeMove(int cardValue, int sessionId, String destinationfield) {
+        successmessage = new Message("Erfolgreicher Zug");
+    }
+
+    public static Message getSuccessMessage() {
+        return successmessage;
     }
 }
