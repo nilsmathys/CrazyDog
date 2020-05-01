@@ -21,7 +21,7 @@ import java.util.Map;
 @Controller
 public class GameController {
 
-    boolean roundStarted = false;
+    boolean buttonClicked = false;
 
     @ModelAttribute("team1")
     public List<Player> populateTeam1() {
@@ -49,7 +49,11 @@ public class GameController {
             Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
             model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
 
-            model.addAttribute("roundStarted", roundStarted);
+            if (buttonClicked) {
+                model.addAttribute("roundStarted", true);
+            } else {
+                model.addAttribute("roundStarted", Round.isRoundStarted());
+            }
             model.addAttribute("sessionId", request.getSession().getAttribute("id"));
             return "game";
         }
@@ -59,27 +63,13 @@ public class GameController {
             return "login";
         }
     }
-/*
-    @RequestMapping(value = { "/game" }, method = RequestMethod.GET)
-    public String foo(Model model) {
-        Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
-        model.addAttribute("fieldsandpieces", fieldsAndPieces);
 
-        int playerId = 1;
-        Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
-        model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
-
-        model.addAttribute("roundStarted", roundStarted);
-        System.out.println("Return to game");
-        return "game";
-    }
-*/
     @RequestMapping(value="exchangeCard")
     public ModelAndView exchangeCardService(@RequestParam(value = "selectedCardId") String selectedCardId,
                                             @RequestParam(value = "sessionId") String sessionId) {
 
         Round.setExchangeCard(Integer.parseInt(sessionId), Integer.parseInt(selectedCardId));
-
+        buttonClicked = true;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/game");
         return modelAndView;
