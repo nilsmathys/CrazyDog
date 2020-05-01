@@ -1,44 +1,43 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
+import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /* This controller is responsible for providing data to ajax calls. */
 @Controller
 public class GameLogicController {
 
-    FieldAndPiece source;
-    FieldAndPiece dest;
-    FieldAndPiece[] sourceAndDestination = new FieldAndPiece[1];
+    GameField gameField1;
+    GameField gameField2;
+    ArrayList<GameField> gameFieldList = new ArrayList<>();
 
     // This method is reponsible for listening to ajax click events and handle their data.
     // It returns an array containing two FieldAndPiece Objects: The source and destination.
     @RequestMapping(value = "/calculatemoves", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody FieldAndPiece[] listenToClicks(@RequestBody String json) {
-        System.out.println("/calculatemoves has been called");
+    public @ResponseBody ArrayList<GameField> calculateMoves(@RequestBody String json) {
         JSONObject jsonObj =new JSONObject(json);
-        System.out.println("JSON Object was created");
-        // FieldAndPiece Objects that store the original user values
-        System.out.println(jsonObj.getInt("chosenCard"));
-        System.out.println(jsonObj.getInt("sessionId"));
-        //source = new FieldAndPiece(jsonObj.getString("sourcefield"), jsonObj.getString("sourcepiece"));
-        //dest = new FieldAndPiece(jsonObj.getString("destfield"), jsonObj.getString("destpiece"));
-        //sourceAndDestination[0] = source;
-        //sourceAndDestination[1] = dest;
+        // Get the Choosen Card and the Players
+        int cardvalue = jsonObj.getInt("chosenCard"); // This value will be given to the gamelogic class
+        int sessionId = jsonObj.getInt("sessionId"); // This value will be given to the gamelogic class
 
-        // FieldAndPiece Objects that are returned and will change how the frontend looks
-        //String temp = source.getPiece();
-        //source.setPiece(dest.getPiece());
-        //dest.setPiece(temp);
+        // This will be the objects that the Calculator class returns
+        gameField1 = new GameField("field1");
+        gameField2 = new GameField("field2");;
+        gameFieldList.add(gameField1);
+        gameFieldList.add(gameField2);
 
+        // We don0t have to update the game state yet, because the fields returned are not definitely choosen yet.
         //GameBoard.put(source);      // Update the game state!
         //GameBoard.put(dest);        // Update the game state!
 
-        return sourceAndDestination;
+        return gameFieldList;
     }
     /*
     // This method is reponsible for listening to the continous ajax frontend-updater.
