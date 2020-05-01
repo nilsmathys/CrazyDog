@@ -4,6 +4,7 @@ import ch.zhaw.psit3.crazydog.CrazyDog;
 import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
+import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,6 +55,9 @@ public class GameController {
             } else {
                 model.addAttribute("roundStarted", Round.isRoundStarted());
             }
+
+            //model.addAttribute("sessionId", request.getSession().getAttribute("id"));
+            model.addAttribute("userInstructions", UserInstructions.getUserInstructions());
             model.addAttribute("sessionId", request.getSession().getAttribute("id"));
             return "game";
         }

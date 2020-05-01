@@ -42,14 +42,16 @@
                 <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field" th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
             </div>
             <div class="container-right">
-                <div class="card-header" style="background-color:#fcf8e8">
+
+                <div th:each="instruction : ${ userInstructions }" th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'" th:text="${'&#62; '+instruction}" style="background-color: #f1f3f4"></div>
+                <!--<div class="card-header" style="background-color:#fcf8e8">
                     <h5 class="card-title">> Warte, bis Isabella eine Karte gespielt hat...</h5>
                 </div>
                 <div class="card-header" style="background-color: #f1f3f4">> Isabella ist am Zug.</div>
                 <div class="card-header" style="background-color: #fcf8e8">> Johannes hat Figur 4 um 9 Felder bewegt.</div>
                 <div class="card-header" style="background-color: #f1f3f4">> Warte bis Johannes seine Spielfigur bewegt hat...</div>
                 <div class="card-header" style="background-color: #fcf8e8">> Johannes hat die 9 ausgespielt.</div>
-                <div class="card-header" style="background-color: #f1f3f4">> Warte bis Johannes eine Karte gespielt hat...</div>
+                <div class="card-header" style="background-color: #f1f3f4">> Warte bis Johannes eine Karte gespielt hat...</div>-->
             </div>
         </div>
         <div class="container-bottom">

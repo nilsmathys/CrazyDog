@@ -1,6 +1,7 @@
 package ch.zhaw.psit3.crazydog;
 
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
+import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
@@ -94,6 +95,7 @@ public class CrazyDog {
         Player player4 = PlayerDAO.getPlayerById(4);
 
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
+        UserInstructions.addNewInstruction("Game started now");
         crazyDog.playGame(crazyDog.team1, crazyDog.team2, crazyDog.nextPlayer);
 
     }

@@ -39,6 +39,7 @@ public class Round {
         CompletableFuture.delayedExecutor(45, TimeUnit.SECONDS).execute(() -> {
             exchangeCards();
             roundStarted = true;
+            UserInstructions.addNewInstruction("Round "+roundNumber +" started");
         });
 
 
@@ -87,7 +88,7 @@ public class Round {
             playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
-
+        UserInstructions.addNewInstruction("Cards distributed to players");
     }
     /**
      * Exchanges selected cards from teammembers.
