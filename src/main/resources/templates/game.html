@@ -6,6 +6,7 @@
 
         <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
         <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css" />
+        <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css" />
 
         <title>Crazy Dog</title>
     </head>
@@ -62,15 +63,21 @@
             </div>
             <div class="hand">
                 <div th:each="coh : ${ playerandhand }">
-                    <img th:src="'/img/cards/karte_' + ${ coh.getValue() } + '.png'" class="playingcard"
-                         th:id=" ${ coh.getId() }" id="card" th:alt="'Karte ' + ${ coh.getValue() }"
+                    <img th:src="'/img/cards/karte_' + ${ coh.getValue() > 0 ? coh.getValue() : coh.getName() } + '.png'" class="playingcard"
+                         th:id=" ${ coh.getId() }" id="card" th:alt="'Karte ' + ${ coh.getValue() > 0 ? coh.getValue() : coh.getName() }"
                          th:data-card_id="${ coh.getId() }"
-                         th:onclick="|chooseCard(${ coh.getId() },  ${ coh.getValue() })|">
+                         th:data-card_value="${ coh.getValue() }"
+                         th:data-card_name="${ coh.getName() }"
+                         onclick="chooseCard(this)">
                 </div>
             </div>
         </div>
-        <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
-        <script src="/js/clicklistener.js" th:href="@{/js/clicklistener.js}"></script>
-        <script src="/js/frontendupdater.js" th:href="@{/js/frontendupdater.js}"></script>
+        <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+        <script th:src="@{/js/clicklistener.js}"></script>
+        <script th:src="@{/js/frontendupdater.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <div th:insert="modals.html">
+    </div>
     </body>
 </html>
+

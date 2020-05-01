@@ -70,7 +70,7 @@ h2 {
     position: relative;
 }
 #cardchangehover:hover:after {
-    content: url(/static/img/cards/karte_15.png);
+    content: url(/static/img/cards/karte_pieceExchange.png);
     display: block;
     position: absolute;
     top: -370px;
@@ -80,7 +80,7 @@ h2 {
     position: relative;
 }
 #cardjokerhover:hover:after {
-    content: url(/static/img/cards/karte_14.png);
+    content: url(/static/img/cards/karte_questionmark.png);
     display: block;
     position: absolute;
     top: -370px;
@@ -100,7 +100,7 @@ h2 {
     position: relative;
 }
 #card11hover:hover:after {
-    content: url(/img/cards/karte_11.png);
+    content: url(/static/img/cards/karte_oneEleven.png);
     display: block;
     position: absolute;
     top: -370px;
