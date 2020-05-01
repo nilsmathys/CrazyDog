@@ -98,15 +98,14 @@ function chooseCard(el) {
         case 7:
             playSpecialCard(0);
             break;
-        case 0:
-
-            if(name === "oneEleven") {
-                $("#card11").modal();
-            } else if(name === "questionmark") {
-                $("#questionmark").modal();
-            } else if(name === "pieceExchange") {
-                playSpecialCard(0);
-            }
+        case 11:
+            $("#card11").modal();
+            break;
+        case 14:
+            $("#questionmark").modal();
+            break;
+        case 15:
+            playSpecialCard(0);
             break;
         default:
             playNormalCard();

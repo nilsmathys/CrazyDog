@@ -227,7 +227,7 @@ public class PlayCard {
                 //ToDo: 7 frontend umsetzen(mehrere Figuren anwählen)
                 break;
             case 11:
-
+                playCardOneEleven(selectetAction, selectetPieces.get(0), pieceDestinations.get(0), direction);
                 break;
 
             case 13:
@@ -235,21 +235,10 @@ public class PlayCard {
                 //ToDO: Card13 frontend umsetzen (falls figur auf homefiled ausgewählt wird keine Aktion)
                 break;
             case 14:
+                playQuestionCard(colourIdPlayer, colourIdPartner, playerAndHand, pieceDestinations, fieldToGo, selectetPieces, selectetCardQuestion, selectetAction, ownPiecesFinished);
                 break;
             case 15:
-                break;
-            case 0:
-                if (cardToPlay.getName() == "oneEleven") {
-                    //ToDo: oneEleven frontend umsetzen (falls figur auf homefield ausgewählt wird keine Aktion)
-                    playCardOneEleven(selectetAction, selectetPieces.get(0), pieceDestinations.get(0), direction);
-                } else if (cardToPlay.getName() == "questionmark") {
-                    //ToDo: questionmarkKarte frontend umsetzen
-                    playQuestionCard(colourIdPlayer, colourIdPartner, playerAndHand, pieceDestinations, fieldToGo, selectetPieces, selectetCardQuestion, selectetAction, ownPiecesFinished);
-                } else if (cardToPlay.getName() == "pieceExchange") {
-                    targetDestination = pieceExchange(pieceDestinations);
-                } else {
-                    throw new IllegalArgumentException("KartenId ist komisch");
-                }
+                targetDestination = pieceExchange(pieceDestinations);
                 break;
             default:
                 throw new IllegalArgumentException("Hoppla");
@@ -504,11 +493,11 @@ public class PlayCard {
         Card card8 = new Card(8, "standard", 8);
         Card card9 = new Card(9, "standard", 9);
         Card card10 = new Card(10, "standard", 10);
-        Card card11 = new Card(11, "oneEleven", 0);
+        Card card11 = new Card(11, "oneEleven", 11);
         Card card12 = new Card(12, "standard", 12);
         Card card13 = new Card(13, "thirteen", 13);
-        Card card14 = new Card(14, "questionmark", 0);
-        Card card15 = new Card(15, "pieceExchange", 0);
+        Card card14 = new Card(14, "questionmark", 14);
+        Card card15 = new Card(15, "pieceExchange", 15);
         CardsOnHand cardsOnHand = new CardsOnHand();
         List<String> pieceDestinations = new ArrayList<>();
         pieceDestinations.add("field10");
@@ -702,7 +691,6 @@ public class PlayCard {
         System.out.println("Handsize should be 5: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println();
-        System.out.println("Play Card 4 normal direction counterclockwise -> played clockwise");
         System.out.println();
         System.out.println();
         System.out.println("Play Card 4 normal direction clockwise action 0 normal fahren");
