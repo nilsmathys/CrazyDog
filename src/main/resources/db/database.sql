@@ -38,11 +38,11 @@ INSERT INTO dbo.Cards (name, value) VALUES ('seven',7);
 INSERT INTO dbo.Cards (name, value) VALUES ('standard',8);
 INSERT INTO dbo.Cards (name, value) VALUES ('standard',9);
 INSERT INTO dbo.Cards (name, value) VALUES ('standard',10);
-INSERT INTO dbo.Cards (name, value) VALUES ('oneEleven',NULL);
+INSERT INTO dbo.Cards (name, value) VALUES ('oneEleven',11);
 INSERT INTO dbo.Cards (name, value) VALUES ('standard',12);
 INSERT INTO dbo.Cards (name, value) VALUES ('thirteen',13);
-INSERT INTO dbo.Cards (name, value) VALUES ('questionmark',NULL);
-INSERT INTO dbo.Cards (name, value) VALUES ('pieceExchange',NULL);
+INSERT INTO dbo.Cards (name, value) VALUES ('questionmark',14);
+INSERT INTO dbo.Cards (name, value) VALUES ('pieceExchange',15);
 
 -- Tabelle für die Spieler
 CREATE TABLE dbo.Players
