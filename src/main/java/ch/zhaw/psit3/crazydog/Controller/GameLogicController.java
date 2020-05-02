@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /* This controller is responsible for providing data to ajax calls. */
 @Controller
@@ -19,7 +20,7 @@ public class GameLogicController {
     // This method is reponsible for listening to clicks on cards and then return the fields the pieces would
     // land on, if the player would play that card.
     @RequestMapping(value = "/calculatemoves", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ArrayList<GameField> calculateMoves(@RequestBody String json) {
+    public @ResponseBody List<GameField> calculateMoves(@RequestBody String json) {
         JSONObject jsonObj =new JSONObject(json);
         // Get the Choosen Card and the Players
         int cardValue = jsonObj.getInt("chosenCard"); // This value will be given to the gamelogic class
