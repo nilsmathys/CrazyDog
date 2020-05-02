@@ -22,10 +22,10 @@ class PlayerDAOTest {
 
     @BeforeAll
     static void beforeAll() {
-        firstPlayerDbLocal = new Player(1, "Spieler1", "spieler1@crazydog.ch", "test123");
-        secondPlayerDbLocal = new Player(2, "Spieler2", "spieler2@crazydog.ch", "test123");
-        thirdPlayerDbLocal = new Player(3, "Spieler3", "spieler3@crazydog.ch", "test123");
-        fourthPlayerDbLocal = new Player(4, "Spieler4", "spieler4@crazydog.ch", "test123");
+        firstPlayerDbLocal = new Player(1, "Spieler1", "Spieler1@crazydog.ch", "test123");
+        secondPlayerDbLocal = new Player(2, "Spieler2", "Spieler2@crazydog.ch", "test123");
+        thirdPlayerDbLocal = new Player(3, "Spieler3", "Spieler3@crazydog.ch", "test123");
+        fourthPlayerDbLocal = new Player(4, "Spieler4", "Spieler4@crazydog.ch", "test123");
         newPlayer = new Player("SpielerNeu", "spielerneu@spielerneu.ch", "New123");
         deletePlayer = new Player("SpielerDelete", "spieledelete@spielerdelete.ch", "Delete123");
         updatePlayer = new Player(5, "UpdateSpieler", "updatespieler@updatespieler.ch", "Update123");

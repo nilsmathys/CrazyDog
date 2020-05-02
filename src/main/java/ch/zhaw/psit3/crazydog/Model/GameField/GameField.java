@@ -1,16 +1,22 @@
 package ch.zhaw.psit3.crazydog.Model.GameField;
 
-public class GameField {
+import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
+
+public class GameField implements Comparable<GameField>{
     private String gameFieldName;
     private String imageName;
     private String cssId;
     private String color;
+    private int idForCalculation;
+    private Piece pieceOnField;
 
-    public GameField(String imageName,String cssId, String gameFieldName, String color) {
+    public GameField(String imageName,String cssId, String gameFieldName, String color, int idForCalculation) {
         setImageName(imageName);
         setCssId(cssId);
         setGameFieldName(gameFieldName);
         setColor(color);
+        setIdForCalculation(idForCalculation);
+        this.pieceOnField = null;
     }
 
     public GameField(String cssId) {
@@ -55,4 +61,25 @@ public class GameField {
     public void setCssId(String cssId) {
         this.cssId = cssId;
     }
+
+    public int getIdForCalculation() {
+        return idForCalculation;
+    }
+
+    public void setIdForCalculation(int idForCalculation) {
+        this.idForCalculation = idForCalculation;
+    }
+
+    public Piece getPieceOnField() {
+        return pieceOnField;
+    }
+    public void setPieceOnField(Piece pieceOnField) {
+        this.pieceOnField = pieceOnField;
+    }
+
+    @Override
+    public int compareTo(GameField d) {
+        return this.idForCalculation - d.getIdForCalculation();
+    }
+
 }

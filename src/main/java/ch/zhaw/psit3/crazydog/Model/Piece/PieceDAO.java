@@ -20,7 +20,7 @@ public class PieceDAO {
         try {
             con = DBConnectionFactory.getConnection();
 
-            String query = "SELECT pieceID, colourname, number, pictureName FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID WHERE pieceID=?";
+            String query = "SELECT pieceID, colourname, number, pictureName, homeFieldId FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID WHERE pieceID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -28,14 +28,15 @@ public class PieceDAO {
             String colour = "";
             int number = 0;
             String pictureName = null;
+            int homeFieldId =0;
             if (rs.next()) {
                 pieceId = rs.getInt("pieceID");
                 colour = rs.getString("colourname");
                 number = rs.getInt("number");
                 pictureName = rs.getString("pictureName");
-
+                homeFieldId = rs.getInt("homeFieldId");
             }
-            piece = new Piece(pieceId, number, colour, pictureName);
+            piece = new Piece(pieceId, number, colour, pictureName,homeFieldId);
             rs.close();
             ps.close();
         } catch (Exception e) {
@@ -61,7 +62,7 @@ public class PieceDAO {
         List<Piece> pieceList = new ArrayList<>();
         try {
             con = DBConnectionFactory.getConnection();
-            String query = "SELECT pieceID, number, colourname, pictureName FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID";
+            String query = "SELECT pieceID, number, colourname, pictureName, homeFieldId FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -69,7 +70,8 @@ public class PieceDAO {
                 int number = rs.getInt("number");
                 String colour = rs.getString("colourname");
                 String pictureName = rs.getString("pictureName");
-                Piece dbPiece = new Piece(pieceId, number, colour, pictureName);
+                int homeFieldId = rs.getInt("homeFieldId");
+                Piece dbPiece = new Piece(pieceId, number, colour, pictureName, homeFieldId);
                 pieceList.add(dbPiece);
             }
             rs.close();
@@ -102,7 +104,6 @@ public class PieceDAO {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            piece.setColor("");
             if (rs.next()) {
                 piece.setColor(rs.getString("colourname"));
             }

@@ -10,7 +10,7 @@ class PieceTest {
 
     @BeforeEach
     void setup() {
-        piece = new Piece(1, 2, "red", "testpic.png");
+        piece = new Piece(1, 2, "red", "testpic.png",1);
     }
 
     @Test
@@ -56,4 +56,16 @@ class PieceTest {
         piece.setColor("blue");
         assertEquals("blue", piece.getColor());
     }
+
+    @Test
+    void getHomeFieldId() {
+        assertEquals(1, piece.getHomeFieldId());
+    }
+
+    @Test
+    void setHomeFieldId() {
+        piece.setHomeFieldId(2);
+        assertEquals(2, piece.getHomeFieldId());
+    }
+
 }
