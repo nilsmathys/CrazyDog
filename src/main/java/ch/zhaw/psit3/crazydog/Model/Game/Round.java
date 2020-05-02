@@ -139,6 +139,7 @@ public class Round {
         boolean hasWinner = false;
         while (!hasWinner) {
             // TODO output should later be displayed in browser
+            //System.out.println("In startround loop");
             if (playerOutOfCards()) {
                 break;
             }

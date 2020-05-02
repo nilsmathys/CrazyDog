@@ -110,8 +110,8 @@ function chooseCard(el) {
         default:
             playNormalCard();
             break;
-
     }
+
     function playSpecialCard(selAction) {
         selectedAction = selAction;
     }
@@ -119,32 +119,6 @@ function chooseCard(el) {
     function playNormalCard() {
 
     }
-
-
-
-   // $(el).data('card_id', 1);
-   //
-   //  chosenCardId = id;
-   //  if (value === 3) {}
-   //  else if (value === 4) {}
-   //  else if (value === 7) {}
-   //  else if (value === 11) {
-   //     chosenCardValue = value;
-   //     //TODO: choose an action
-   //  }
-   //  else if (value === 12) {}
-   //  else if (value === 13) {}
-   //  else if (value === 14) {}
-   //  else if (value === 15) {}
-   //  else {
-   //     chosenCardValue = value;
-   //  }
-}
-
-
-
-function removeCardFromHand() {
-    $('img[id='+ chosenCardId + ']').remove();
 }
 
 //Set the value of the hidden input field

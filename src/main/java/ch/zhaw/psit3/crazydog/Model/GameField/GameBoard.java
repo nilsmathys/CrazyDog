@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class GameBoard {
 
-    private List<GameField> fields;
+    private static List<GameField> fields;
     private static Map<String, String> fieldsAndPieces = new HashMap<>();
 
     public GameBoard() {

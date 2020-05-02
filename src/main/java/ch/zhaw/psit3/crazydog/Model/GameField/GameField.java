@@ -13,6 +13,10 @@ public class GameField {
         setColor(color);
     }
 
+    public GameField(String cssId) {
+        setCssId(cssId);
+    }
+
     public String getGameFieldName() { return gameFieldName; }
 
     public String getImageName() {
