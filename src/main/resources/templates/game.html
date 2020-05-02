@@ -21,7 +21,7 @@
                     <h3>Team 1</h3>
                     <ul class="list-group">
                         <li class="list-group-item"
-                            th:each="player : ${team1}" th:id="${player.getPassword()}"
+                            th:each="player : ${team1}" th:id="'Player'+${player.getId()}"
                             th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
                             th:classappend="${player.getColor()}">
 
@@ -34,7 +34,7 @@
               <div>
                   <h3>Team 2</h3>
                   <ul class="list-group">
-                      <li  th:each="player : ${team2}" th:id="${player.getPassword()}"
+                      <li  th:each="player : ${team2}" th:id="'Player'+${player.getId()}"
                            th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
                            th:classappend="${player.getColor()}">
 
@@ -50,7 +50,7 @@
                 <img class="grid" src="/img/crazydog_grid.png" alt="Crazy Dog Grid" width="850px">
                 <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field" th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
             </div>
-            <div class="container-right">
+            <div class="container-right" id="instructionList">
                 <!-- show the instructions on the right side of the page -->
                 <div th:each="instruction : ${ userInstructions }"
                      th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'"

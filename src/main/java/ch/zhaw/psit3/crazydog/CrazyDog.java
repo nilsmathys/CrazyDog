@@ -19,7 +19,7 @@ public class CrazyDog {
     public int gameId;
     private static Team team1;
     private static Team team2;
-    public int nextPlayer; //Id des Spielrs der als nächster dran ist.
+    private static int nextPlayer; //Id des Spielrs der als nächster dran ist.
     public List<Piece> pieceList;
     public CardDeck deck;
     public static GameBoard gameBoard;
@@ -109,8 +109,11 @@ public class CrazyDog {
     public static Team getTeam2() {
         return team2;
     }
-    public int getNextPlayer() {
+    public static int getNextPlayer() {
         return nextPlayer;
+    }
+    public static void setNextPlayer(int player) {
+       nextPlayer = player;
     }
     public static GameBoard getGameBoard() {
         return gameBoard;

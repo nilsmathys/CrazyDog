@@ -88,7 +88,7 @@ public class Round {
             playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
-        UserInstructions.addNewInstruction("Cards distributed to players");
+        UserInstructions.addNewInstruction(totalCardsToDistribute + " Cards distributed to players");
     }
     /**
      * Exchanges selected cards from teammembers.
@@ -190,7 +190,4 @@ public class Round {
         return roundStarted;
     }
 
-    public static int getNextPlayer() {
-        return nextPlayer;
-    }
 }

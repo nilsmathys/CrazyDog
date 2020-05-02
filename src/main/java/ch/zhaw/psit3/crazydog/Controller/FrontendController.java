@@ -1,11 +1,16 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
+import ch.zhaw.psit3.crazydog.CrazyDog;
+import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /* This controller is responsible for providing data to ajax calls. */
 @Controller
@@ -14,6 +19,8 @@ public class FrontendController {
     FieldAndPiece source;
     FieldAndPiece dest;
     FieldAndPiece[] sourceAndDestination = new FieldAndPiece[2];
+    List<String> userInstructions;
+    int currentPlayerID;
 
     // This method is reponsible for listening to ajax click events and handle their data.
     // It returns an array containing two FieldAndPiece Objects: The source and destination.
@@ -51,4 +58,23 @@ public class FrontendController {
         System.out.println("/getchanges Controller was called");
         return sourceAndDestination;
     }
+
+    // This method is reponsible for listening to the continous ajax frontend-updater.
+    // It returns the data that was processed by the server
+    @RequestMapping(value = "/getchangesInstructions", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List returnChangesInstructions() {
+        System.out.println("/getchangesInstructions Controller was called");
+        userInstructions = UserInstructions.getUserInstructions();
+        return userInstructions;
+    }
+
+    // This method is reponsible for listening to the continous ajax frontend-updater.
+    // It returns the data that was processed by the server
+    @RequestMapping(value = "/getchangesCurrentPlayer", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody int returnChangesCurrentPlayer() {
+        System.out.println("/getchangesCurrentPlayer Controller was called");
+        currentPlayerID = CrazyDog.getNextPlayer();
+        return currentPlayerID;
+    }
+
 }
