@@ -29,11 +29,11 @@ $(function updateInstructions() {
         success: function(data) {
             if(data.length > 0) {
                 var innerText = "";
-                var cssClass = "card-header";
-                var background = "#fcf8e8"
-                var i;
+                var i=0;
                 for(i=0;i<data.length;i++) {
-                    if(i == 0) {
+                    var cssClass = "card-header";
+                    var background = "#fcf8e8"
+                    if(i === 0) {
                         cssClass = "card-title card-header firstinstruction";
                     }
                     if((i % 2) == 0) {
@@ -41,6 +41,7 @@ $(function updateInstructions() {
                     }
                     innerText += "<div class='"+cssClass+"' style='background-color: "+background+";'>"+data[i]+"</div>";
                 }
+                console.log(innerText);
                 document.getElementById('instructionList').innerHTML = innerText;
             }
             else {
