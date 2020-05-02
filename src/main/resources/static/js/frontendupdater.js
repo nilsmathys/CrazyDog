@@ -77,3 +77,22 @@ $(function updateCurrentPlayer() {
         }
     });
 });
+
+$(function updateCurrentDirection() {
+    $.ajax({
+        type: 'GET',
+        url: 'getchangesCurrentDirection',
+        success: function(data) {
+            if(data == "") {
+                $('#direction').attr("src","/img/"+data);
+            }
+            else {
+                console.log("Dom was not manipulated, because there is nothing to update.");
+            }
+        },
+        complete: function() {
+            // Schedule the next request when the current one's complete
+            setTimeout(updateCurrentDirection, 1000);
+        }
+    });
+});

@@ -41,6 +41,7 @@ public class Round {
             exchangeCards();
             roundStarted = true;
             UserInstructions.addNewInstruction("Round " + roundNumber + " started");
+            CrazyDog.changeDirection();
         });
 
 

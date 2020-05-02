@@ -3,6 +3,7 @@ package ch.zhaw.psit3.crazydog.Controller;
 import ch.zhaw.psit3.crazydog.CrazyDog;
 import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
+import ch.zhaw.psit3.crazydog.Model.Game.Direction;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
@@ -60,7 +61,9 @@ public class GameController {
             model.addAttribute("userInstructions", UserInstructions.getUserInstructions());
             model.addAttribute("currentPlayerID", CrazyDog.getNextPlayer());
             model.addAttribute("sessionId", request.getSession().getAttribute("id"));
-            model.addAttribute("gameDirection", CrazyDog.direction);
+
+            Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
+            model.addAttribute("gameDirection", directionMap.get(CrazyDog.getDirection()));
 
             return "game";
         }

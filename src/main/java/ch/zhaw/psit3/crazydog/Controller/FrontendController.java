@@ -23,7 +23,7 @@ public class FrontendController {
     FieldAndPiece[] sourceAndDestination = new FieldAndPiece[2];
     List<String> userInstructions;
     int currentPlayerID;
-    Map<Direction, String> map = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "clockwise");
+    Direction direction;
 
 
     // This method is reponsible for listening to ajax click events and handle their data.
@@ -79,6 +79,16 @@ public class FrontendController {
         System.out.println("/getchangesCurrentPlayer Controller was called");
         currentPlayerID = CrazyDog.getNextPlayer();
         return currentPlayerID;
+    }
+
+    // This method is reponsible for listening to the continous ajax frontend-updater.
+    // It returns the data that was processed by the server
+    @RequestMapping(value = "/getchangesCurrentDirection", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String returnChangesCurrentDirection() {
+        System.out.println("/getchangesCurrentDirection Controller was called");
+        direction = CrazyDog.getDirection();
+        Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
+        return directionMap.get(direction);
     }
 
 }
