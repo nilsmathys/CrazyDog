@@ -2,19 +2,50 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Login</title>
     <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/static/css/style.css}" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/login.css}" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/login.css}" type="text/css" />
 </head>
 <body>
-<h1>Login</h1>
-    <form action="#" th:action="@{/login}" th:object="${player}" method="post">
-        <label for="username"><b>Username</b></label>
+<!--<h1>Login</h1>
+    <form action="#" th:action="@{/login}" th:object="${player}" method="post">-->
+        <!--<label for="username"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="username" th:field="*{username}" required>
         <label for="password"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="password" th:field="*{password}" required>
         <button type="submit">Login</button>
-        <h4 th:text="${loginerror}"></h4>
-</form>
+        <h4 th:text="${loginerror}"></h4>-->
+
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+                <!-- Tabs Titles -->
+
+                <!-- Icon -->
+                <div class="fadeIn first">
+                    <img src="/img/Logo_ohne_hintergrund_bessere_qualität.png" id="icon" alt="Image Crazy Dog" />
+                </div>
+
+                <!-- Login Form -->
+                <form action="#" th:action="@{/login}" th:object="${player}" method="post">
+                    <input type="text" id="login" class="fadeIn second" name="username" placeholder="Enter Username" th:field="*{username}" required>
+                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" th:field="*{password}" required>
+                    <input type="submit" class="fadeIn fourth" value="Log In">
+                </form>
+
+                <!-- Remind Passowrd -->
+                <div id="formFooter">
+                    <h4 th:text="${loginerror}"></h4>
+                    <a class="underlineHover" href="#">Forgot Password?</a>
+                </div>
+
+            </div>
+        </div>
+
+        <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+
+<!--</form>-->
 </body>
 </html>

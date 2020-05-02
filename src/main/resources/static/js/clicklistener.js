@@ -7,6 +7,8 @@ var destpiece = 0;
 var chosenCardId = 0;
 var chosenCardValue = 0;
 
+var selectedAction = 0;
+
 function main(field, piecefullpath) {
     piece = piecefullpath.replace(/^.*[\\\/]/, '');     // This extracts the image name out of the image src
 
@@ -40,7 +42,7 @@ function send() {
         $.ajax({
             url : 'listenclicks',
             type:'POST',
-            data : JSON.stringify({sourcefield: sourcefield, sourcepiece:sourcepiece, destfield: destfield, destpiece:destpiece}),
+            data : JSON.stringify({sourcefield: sourcefield, sourcepiece:sourcepiece, destfield: destfield, destpiece:destpiece, selectedAction:selectedAction}),
             contentType : 'application/json; charset=utf-8',
             dataType:'json',
             success : function(data) {
@@ -73,6 +75,52 @@ function changeFrontend(data) {
     $('#'+data[1].field).attr('src', '/img/pieces/' + data[1].piece);
 }
 
+function chooseCard(el) {
+    let id = $(el).data('card_id');
+    let value = $(el).data('card_value');
+    let name = $(el).data('card_name');
+
+    //3: 3 fahren oder Richtungsänderung
+    //oneElven : 1 oder 11 fahren
+    //questionmark: irgendeine karte auswählen->
+
+
+    //7: mehrere figuren
+    //pieeExchange: Figurenstandort tauschen
+    switch(value) {
+        case 3:
+            $("#card3").modal();
+            break;
+        case 4:
+            $("#card4").modal();
+            playSpecialCard(0);
+            break;
+        case 7:
+            playSpecialCard(0);
+            break;
+        case 11:
+            $("#card11").modal();
+            break;
+        case 14:
+            $("#questionmark").modal();
+            break;
+        case 15:
+            playSpecialCard(0);
+            break;
+        default:
+            playNormalCard();
+            break;
+    }
+
+    function playSpecialCard(selAction) {
+        selectedAction = selAction;
+    }
+
+    function playNormalCard() {
+
+    }
+}
+
 //Set the value of the hidden input field
 $("img[data-card_id]").click(function(e){
     $("input[name='selectedCardId']").val($(this).data('card_id'));
@@ -81,12 +129,14 @@ $("img[data-card_id]").click(function(e){
 //Set the countdown for selecting a card to exchange
 var timeleft = 30;
 var countdownTimer = setInterval(function(){
-    if(timeleft <= 0){
-        clearInterval(countdownTimer);
-        document.getElementById("countdown").innerHTML = "";
-        document.getElementById("exchange-button").disabled = true;
-    } else {
-        document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
+    if (document.getElementById("countdown") != null) {
+        if (timeleft <= 0) {
+            clearInterval(countdownTimer);
+            document.getElementById("countdown").innerHTML = "";
+            document.getElementById("exchange-button").disabled = true;
+        } else {
+            document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
+        }
     }
     timeleft -= 1;
 }, 1000);

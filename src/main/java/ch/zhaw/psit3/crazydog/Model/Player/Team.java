@@ -5,14 +5,14 @@ public class Team {
 
     private Player player1;
     private Player player2;
-    private int colourIdPlayer1;
-    private int colourIdPlayer2;
+    private String colourPlayer1;
+    private String colourPlayer2;
 
-    public Team(Player player1, Player player2, int colourIdPlayer1, int colourIdPlayer2) {
+    public Team(Player player1, Player player2, String colourPlayer1, String colourPlayer2) {
         this.player1 = player1;
         this.player2 = player2;
-        this.colourIdPlayer1 = colourIdPlayer1;
-        this.colourIdPlayer2 = colourIdPlayer2;
+        this.colourPlayer1 = colourPlayer1;
+        this.colourPlayer2 = colourPlayer2;
 
     }
 
@@ -32,19 +32,19 @@ public class Team {
         this.player2 = player2;
     }
 
-    public int getColourIdPlayer1() {
-        return colourIdPlayer1;
+    public String getColourPlayer1() {
+        return colourPlayer1;
     }
 
-    public void setColourIdPlayer1(int colourIdPlayer1) {
-        this.colourIdPlayer1 = colourIdPlayer1;
+    public void setColourPlayer1(String colourPlayer1) {
+        this.colourPlayer1 = colourPlayer1;
     }
 
-    public int getColourIdPlayer2() {
-        return colourIdPlayer2;
+    public String getColourPlayer2() {
+        return colourPlayer2;
     }
 
-    public void setColourIdPlayer2(int colourIdPlayer2) {
-        this.colourIdPlayer2 = colourIdPlayer2;
+    public void setColourPlayer2(String colourPlayer2) {
+        this.colourPlayer2 = colourPlayer2;
     }
 }

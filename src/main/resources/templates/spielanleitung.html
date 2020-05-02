@@ -2,12 +2,98 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Spielanleitung</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/static/css/style.css}" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/manual.css}" type="text/css" />
+
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+
+    <title>User manual</title>
 </head>
 <body>
-<h1>Spielanleitung</h1>
+    <header>
+        <h2>HOME</h2>
+        <h2>Abmelden</h2>
+    </header>
+    <div class="container">
+        <h1>Spielanleitung</h1>
+        <h2>Spielmaterial</h2>
+        <ul>
+            <li>1 Spielfeld</li>
+            <li>110 Spielkarten (6 x Joker, alle anderen Karten jeweils 8 x)</li>
+            <li>16 Spielfiguren (4 Spielfiguren pro Farbe)</li>
+        </ul>
+        <h2>Spielzeit</h2>
+        <p>Jeweils zwei Personen spielen zusammen und bilden ein Team. Alle Spieler versuchen die eigenen vier Spielfiguren so schnell wie m&ouml;glich vom Start ins Ziel zu bringen. Bewegt werden die Spielfiguren durch das Ausspielen von Karten. Es ist nicht m&ouml;glich, als einzelner Spieler zu gewinnen. Wenn ein Spieler alle eigenen Spielfiguren im Ziel hat, hilft er seinem Partner dessen Spielfiguren ins Ziel zu bekommen. Erst wenn alle acht Spielfiguren eines Teams im Ziel sind, hat das Team gewonnen.</p>
+        <h2>Spielvorbereitung</h2>
+        <p>Das System stellt die Spielfiguren auf den der <em>Spielfarbe</em> entsprechende Start. Das System verteilt 6 Karten an alle Spieler.</p>
+        <h2>Spielablauf</h2>
+        <p>Nach dem Austeilen der Karten tauschen vor Beginn der Runde die Teampartner gegenseitig je eine Karte verdeckt aus. Dieses Tauschen sollten die Partner nutzen, um einander zu helfen. Wenn z. B. der Partner keine Spielfiguren auf der Laufbahn hat, kann ihm eine Start- oder Joker-Karte aufs Startfeld helfen.</p>
+        <p>Der Spieler, der vom System bestimmt wird, beginnt das Spiel, indem er eine Handkarte ausw&auml;hlt und seine Spielfigur sich entsprechend bewegt. Die Spielrichtung ist zu Beginn im Uhrzeigersinn. Der Spieler zieht keine Karte nach! Anschie&szlig;end ist der im Uhrzeigersinn n&auml;chste Spieler mit seinem Zug an der Reihe usw. Kann ein Spieler nicht starten oder eine seiner Spielfiguren bewegen, so scheidet er f&uuml;r diese Runde aus. Seine Karten verfallen und werden abgelegt. Eine Runde ist zu Ende, wenn alle Karten ausgespielt oder abgelegt wurden.</p>
+        <p>In der zweiten Runde verteilt das System an alle Spieler 5 Karten. Der Startspieler wechselt von Runde zu Runde im Uhrzeigersinn. Auch die Kartenanzahl &auml;ndert sich von Runde zu Runde. Wurden in der ersten Runde 6 und in der zweiten Runde 5 Karten an jeden Spieler ausgeteilt, so erh&auml;lt in der dritten Runde jeder 4 Karten, darauf jeder 3 Karten und dann jeder nur 2 Karten. Darauf beginnt es wieder mit 6 Karten, 5, 4, 3, 2, 6, 5, 4 usw.</p>
+        <p>Unabh&auml;ngig von der Kartenanzahl wird aber nach jedem Austeilen zun&auml;chst eine Karte verdeckt mit dem Partner getauscht.</p>
+        <h2>Startfeld</h2>
+        <p>Zu Spielbeginn (oder wenn alle Spielfiguren im Zuhause und Ziel stehen) muss zun&auml;chst eine Spielfigur vom Zuhause auf das Startfeld gezogen werden. Dazu wird eine Startkarte (Karte mit ) oder ein Joker (Karte mit dem Fragezeichen &laquo;?&raquo;) ben&ouml;tigt. Solange eine Spielfigur auf dem gleichfarbigen Startfeld steht, unabh&auml;ngig ob sie durch Herausziehen aus dem Zuhause oder durch Umrunden der Laufstrecke auf das Startfeld gezogen wurde, ist diese Spielfigur gesch&uuml;tzt und kann nicht geschlagen, getauscht oder &uuml;berholt werden. Auf dem gleichfarbigen Startfeld blockiert die Spielfigur andere aber auch eigene Spielfiguren.</p>
+        <h2>Bewegen und Schlagen</h2>
+        <p>Die Spielfiguren werden durch das Ausspielen von Karten bewegt. Spielt ein Spieler eine 5 aus, so darf er eine seiner Spielfiguren um 5 Felder vorw&auml;rts bewegen. Beim Bewegen d&uuml;rfen eigene und fremde Spielfiguren &uuml;bersprungen werden (Ausnahme: siehe Startfeld), wobei das &uuml;bersprungene Feld mitgez&auml;hlt wird.</p>
+        <p>Auf einem Feld darf immer nur eine Spielfigur stehen. Zieht ein Spieler mit seiner Spielfigur auf ein Feld, auf dem bereits eine Spielfigur steht, so wird diese Spielfigur (auch eigene) geschlagen und in das Zuhause zur&uuml;ckgestellt. Wird eine Spielfigur von einer anderen Spielfigur &uuml;berholt (egal ob eigene oder gegnerische), so muss diese ebenfalls in das Zuhause zur&uuml;ck (siehe Karten&uuml;bersicht).</p>
+        <h2>Zugzwang</h2>
+        <p>Jede Karte (auch die Sieben) muss komplett ausgef&uuml;hrt werden. Es ist nicht m&ouml;glich Punkte verfallen zu lassen. So kann es durchaus auch einmal passieren, dass ein Spieler, der z. B. mit 2 Schritten ins Ziel kommen w&uuml;rde, nur noch h&ouml;here Karten auf der Hand hat, somit am Ziel vorbeigeht und mit der Spielfigur eine erneute Runde drehen muss.</p>
+        <h2>Ziel</h2>
+        <p>Im Ziel sind die Spielfiguren sicher. Dort darf weder &uuml;bersprungen noch geschlagen oder r&uuml;ckw&auml;rts gelaufen werden. Das Ziel wird immer vorw&auml;rts &uuml;ber das Startfeld betreten. Allerdings darf das nicht direkt vom Startfeld (auch wenn die Spielfigur bereits eine Runde gelaufen ist) aus geschehen. Die Spielfigur muss &uuml;ber das Startfeld ins Ziel gezogen werden. Ausserdem sind die Felder im Ziel gleich nummeriert wie die Spielfiguren. Jede Spielfigur muss am Schluss auf dem Zielfeld stehen, welches seine Nummer tr&auml;gt. Ansonsten ist die Spielfigur noch nicht am richtigen Ort und somit auch nicht im Ziel.</p>
+        <h2>Spielbrettausschnitt</h2>
+        <p><img src="/img/SpielbrettaussschnittGame.jpg" alt="Spielbrettausschnitt" /></p>
+        <h2>Karten mit blauem Hintergrund</h2>
+        <p>Bei allen Karten mit einem blauen Hintergrund wird die Spielfigur entsprechend der Zahl vorw&auml;rtsbewegt.</p>
+        <h2>Karten mit rotem Hintergrund</h2>
+        <p><strong>Alle Karten mit einem roten Hintergrund sind Sonderkarten mit einer speziellen F&auml;higkeit:</strong></p>
 
+        <table class="table">
+            <!--<thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">t</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+            </thead>-->
+            <tbody>
+            <tr>
+                <td style="width: 25%;"><img class="images-cards" src="/img/cards/karte_14.png" alt="Karte Questionmark"/></td>
+                <td style="width: 25%;">Diese Karte kann die Funktion bzw. den Wert jeder anderen Karte (egal ob rot oder blau) annehmen.</td>
+                <td style="width: 25%;"><img class="images-cards" src="/img/cards/karte_13.png" alt="Karte 13"/></td>
+                <td style="width: 25%;">Dies ist eine Startkarte, mit der eine Spielfigur vom Zuhause auf das Startfeld gesetzt werden kann. Alternativ dazu kann mit dieser Karte auch eine Spielfigur um 13 Felder vorwärtsbewegt werden.</td>
+            </tr>
+            <tr>
+                <td style="width: 25%;"><img class="images-cards" src="/img/cards/karte_15.png" alt="Karte Tauschen"/></td>
+                <td style="width: 25%;">Mit dieser Karte muss eine eigene Spielfigur mit einer vom Gegner oder Partner getauscht werden, auch wenn das ein Nachteil sein kann. Geschützte Spielfiguren (Figuren auf dem gleichfarbigen Startfeld) oder Spielfiguren, die schon im Ziel sind, dürfen nicht getauscht werden. Sind nur eigene bzw. geschützte Spielfiguren auf dem Weg, wird die Karte ohne Wirkung abgelegt.</td>
+                <td style="width: 25%;"><img class="images-cards" src="/img/cards/karte_11.png" alt="Karte 11"/></td>
+                <td style="width: 25%;">Dies ist eine Startkarte, mit der eine Spielfigur vom Zuhause auf das Startfeld gesetzt werden kann. Alternativ dazu kann mit dieser Karte auch eine Spielfigur um 1 Feld oder um 11 Felder vorwärtsbewegt werden.</td>
+            </tr>
+            <tr>
+                <td style="width: 25%;"><img class="images-cards" src="/img/cards/karte_7.png" alt="Karte 7"/></td>
+                <td style="width: 25%;">Die 7 Punkte können auf beliebig viele eigene Spielfiguren aufgeteilt werden (z. B.: mit einer Spielfigur 5 Felder und mit einer anderen Spielfigur dann noch 2 Felder). Die Karte ist für den Zieleinlauf besonders nützlich, weil durch das beliebige Aufteilen in Einzelwerte Lücken geschlossen werden können. Alle 7 Punkte müssen komplett ausgeführt werden. Sollte dies nicht möglich sein, so kann die Karte nicht ausgespielt und muss ggf. mit den anderen Karten abgeworfen werden. Ausnahme: Braucht z.B. ein Spieler für seine letzte Spielfigur noch 4 Punkte, eine passende Karte fehlt ihm jedoch, so darf er dafür eine Sieben einsetzen (sofern er eine solche hat) und die restlichen 3 Punkte bereits mit der Spielfigur seines Partners ziehen.</td>
+                <td style="width: 25%;"><img class="images-cards" src="/img/cards/karte_4.png" alt="Karte 4"/></td>
+                <td style="width: 25%;">Beim Ausspielen kann der Spieler sich entscheiden, ob er 4 Felder vorwärts oder rückwärts ziehen möchte. Diese Karte ist die einzige Karte, mit der Spielfiguren rückwärts bewegt werden können. Besonders reizvoll ist es, eine Spielfigur, die auf dem Startfeld steht, um 4 Felder rückwärts zu ziehen. So kann die Spielfigur, wenn sie nicht von einem Mitspieler geschlagen wird, mit der nächsten Karte (eine 5, 6, 7, 8 oder ?) gleich ins Ziel gezogen werden.</td>
+            </tr>
+            <tr>
+                <td style="width: 25%;"><img class="images-cards" src="/img/cards/karte_3.png" alt="Karte 3"/></td>
+                <td style="width: 25%;">Beim Ausspielen kann sich der Spieler entscheiden, ob er 3 Felder vorwärts gehen möchte, oder ob die Spielrichtung für alle Spieler geändert wird. Das heisst, wenn sich die Spielfiguren bis anhin in Uhrzeigersinn bewegt haben, dann bewegen sie sich nach der Änderung im Gegenuhrzeigersinn oder umgekehrt.</td>
+                <td style="width: 25%;"></td>
+                <td style="width: 25%;"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Partnerspiel</h2>
+        <p>Nachdem ein Spieler alle Spielfiguren im Ziel hat, hilft er seinem Partner und bewegt dessen Spielfiguren ebenfalls. Der Spieler erh&auml;lt weiterhin Karten. Jetzt versucht das Team zusammen die letzten Spielfiguren ins Ziel zu bekommen.</p>
+        <p>Um die letzte Spielfigur eines Teams ins Ziel zu bringen, m&uuml;ssen nicht alle Karten aufgebraucht werden. Die zuletzt verwendetet Karte muss aber komplett ausgef&uuml;hrt werden. Es d&uuml;rfen keine Punkte verfallen. Deshalb kann es passieren, dass die letzte Spielfigur mehrere Runden drehen muss, bis sie ins Ziel kommt.</p>
+        <h2>Spezielle Felder</h2>
+        <p>Auf dem Spielbrett gibt es insgesamt 4 spezielle Felder, die sogenannten Wurml&ouml;cher. Landet eine Spielfigur direkt auf ein Wurmloch, wird er auf irgendein zuf&auml;lliges Feld auf dem Brett katapultiert, ausser auf die Startfelder der 4 Spielfarben.</p>
+        <h2>Spielende</h2>
+        <p>Das Team, das es als Erstes geschafft hat, alle 8 Spielfiguren ins Ziel zu bekommen, gewinnt das Spiel.</p>
+    </div>
 </body>
 </html>

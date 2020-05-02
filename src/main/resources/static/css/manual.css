@@ -1,0 +1,51 @@
+body {
+    color: #444444;
+}
+header {
+    background-color: #444444;
+    display: flex;
+    justify-content: space-between;
+}
+h2 {
+    color: black;
+    cursor: pointer;
+}
+header h2 {
+    color: azure;
+    padding: 20px;
+    cursor: pointer;
+}
+.container-top {
+    min-width: 1600px;
+    display: flex;
+    margin: 30px 50px 0;
+
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.container-left, .container-right {
+    width: 20%;
+}
+.container-center {
+    height: 890px;
+    width: 890px;
+    position: relative;
+}
+
+.container-bottom {
+    margin: 0 50px;
+}
+.select-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.link-no-decoration {
+    text-decoration: none;
+}
+
+.images-cards {
+    width: 150px;
+}

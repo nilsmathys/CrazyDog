@@ -27,22 +27,22 @@ class PieceDAOTest {
 
     @BeforeEach
     void setup() {
-        piece1 = new Piece(1, 1, 3, "piece1red.png");
-        piece2 = new Piece(2, 2, 3, "piece2red.png");
-        piece3 = new Piece(3, 3, 3, "piece3red.png");
-        piece4 = new Piece(4, 4, 3, "piece4red.png");
-        piece5 = new Piece(5, 1, 4, "piece1green.png");
-        piece6 = new Piece(6, 2, 4, "piece2green.png");
-        piece7 = new Piece(7, 3, 4, "piece3green.png");
-        piece8 = new Piece(8, 4, 4, "piece4green.png");
-        piece9 = new Piece(9, 1, 5, "piece1yellow.png");
-        piece10 = new Piece(10, 2, 5, "piece2yellow.png");
-        piece11 = new Piece(11, 3, 5, "piece3yellow.png");
-        piece12 = new Piece(12, 4, 5, "piece4yellow.png");
-        piece13 = new Piece(13, 1, 6, "piece1blue.png");
-        piece14 = new Piece(14, 2, 6, "piece2blue.png");
-        piece15 = new Piece(15, 3, 6, "piece3blue.png");
-        piece16 = new Piece(16, 4, 6, "piece4blue.png");
+        piece1 = new Piece(1, 1, "red", "piece1red.png");
+        piece2 = new Piece(2, 2, "red", "piece2red.png");
+        piece3 = new Piece(3, 3, "red", "piece3red.png");
+        piece4 = new Piece(4, 4, "red", "piece4red.png");
+        piece5 = new Piece(5, 1, "green", "piece1green.png");
+        piece6 = new Piece(6, 2, "green", "piece2green.png");
+        piece7 = new Piece(7, 3, "green", "piece3green.png");
+        piece8 = new Piece(8, 4, "green", "piece4green.png");
+        piece9 = new Piece(9, 1, "yellow", "piece1yellow.png");
+        piece10 = new Piece(10, 2, "yellow", "piece2yellow.png");
+        piece11 = new Piece(11, 3, "yellow", "piece3yellow.png");
+        piece12 = new Piece(12, 4, "yellow", "piece4yellow.png");
+        piece13 = new Piece(13, 1, "blue", "piece1blue.png");
+        piece14 = new Piece(14, 2, "blue", "piece2blue.png");
+        piece15 = new Piece(15, 3, "blue", "piece3blue.png");
+        piece16 = new Piece(16, 4, "blue", "piece4blue.png");
     }
 
     @Test
@@ -50,7 +50,7 @@ class PieceDAOTest {
         Piece dbPiece = PieceDAO.getPieceById(1);
         assertEquals(piece1.getId(), dbPiece.getId());
         assertEquals(piece1.getNumber(), dbPiece.getNumber());
-        assertEquals(piece1.getColourId(), dbPiece.getColourId());
+        assertEquals(piece1.getColor(), dbPiece.getColor());
         assertEquals(piece1.getPictureName(), dbPiece.getPictureName());
     }
 
@@ -77,7 +77,7 @@ class PieceDAOTest {
 
     @Test
     void getColourIdFromPeace() {
-        assertEquals(3, PieceDAO.getColourId(1));
+        assertEquals("red", PieceDAO.getColourName(1));
     }
 
     @Test

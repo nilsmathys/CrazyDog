@@ -79,4 +79,15 @@ public class Player {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setColor(String color) {
+        if(!(color.equals("green") || color.equals("yellow") || color.equals("red") || color.equals("blue")))
+        {
+            throw new IllegalArgumentException("Please use a right color.");
+        }
+        this.color = color;
+    }
+    public String getColor() {
+        return color;
+    }
 }

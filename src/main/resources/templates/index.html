@@ -3,15 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css" />
 
-    <script src="/js/jquery-3.4.1.min.js" th:href="@{/js/jquery-3.4.1.min.js}"></script>
-    <script src="/js/main.js" th:href="@{/js/main.js}"></script>
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
 
     <title>Crazy Dog - Startseite</title>
 </head>
 <body>
-    <p>Startseite</p>
+    <header>
+        <h2>HOME</h2>
+        <h2>Abmelden</h2>
+    </header>
+    <div class="container">
+        <div class="row">
+            <img src="/img/Logo_ohne_hintergrund_bessere_qualität.png" id="logo" alt="Image Crazy Dog" />
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <a href="/game" class="link-no-decoration">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="/img/start-game.png" alt="Start Game image">
+                        <div class="card-body">
+                            <p class="card-text">Start the game</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm">
+                <!-- for future purposes -->
+            </div>
+            <div class="col-sm">
+                <a href="/spielanleitung" class="link-no-decoration">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="/img/manual-icon.png" alt="Manual image">
+                        <div class="card-body">
+                            <p class="card-text">Show the user manual</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

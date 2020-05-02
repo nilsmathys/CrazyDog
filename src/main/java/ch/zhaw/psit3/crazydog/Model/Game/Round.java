@@ -15,7 +15,7 @@ public class Round {
     private static Team team1;
     private static Team team2;
     CardDeck deck;
-    private int nextPlayer;
+    private static int nextPlayer;
     private static Map<Integer, CardsOnHand> playerAndHand = new HashMap<>();
     private static Card exchangeCardP1 = null;
     private static Card exchangeCardP2 = null;
@@ -39,6 +39,7 @@ public class Round {
         CompletableFuture.delayedExecutor(45, TimeUnit.SECONDS).execute(() -> {
             exchangeCards();
             roundStarted = true;
+            UserInstructions.addNewInstruction("Round "+roundNumber +" started");
         });
 
 
@@ -87,29 +88,34 @@ public class Round {
             playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
-
+        UserInstructions.addNewInstruction("Cards distributed to players");
     }
     /**
      * Exchanges selected cards from teammembers.
      * If a player has not selected a card within the time limit, the system picks one randomly.
      */
     private void exchangeCards() {
+        int playerOneId = team1.getPlayer1().getId();
+        int playerTwoId = team1.getPlayer2().getId();
+        int playerThreeId = team2.getPlayer1().getId();
+        int playerFourId = team2.getPlayer2().getId();
+
         if (exchangeCardP1 == null) {
-            exchangeCardP1 = pickRandomCard(team1.getPlayer1().getId());
+            exchangeCardP1 = pickRandomCard(playerOneId);
         }
         if (exchangeCardP2 == null) {
-            exchangeCardP2 = pickRandomCard(team1.getPlayer2().getId());
+            exchangeCardP2 = pickRandomCard(playerTwoId);
         }
         if (exchangeCardP3 == null) {
-            exchangeCardP3 = pickRandomCard(team2.getPlayer1().getId());
+            exchangeCardP3 = pickRandomCard(playerThreeId);
         }
         if (exchangeCardP4 == null) {
-            exchangeCardP4 = pickRandomCard(team2.getPlayer2().getId());
+            exchangeCardP4 = pickRandomCard(playerFourId);
         }
-        playerAndHand.get(team1.getPlayer1().getId()).takeCard(exchangeCardP2);
-        playerAndHand.get(team1.getPlayer2().getId()).takeCard(exchangeCardP1);
-        playerAndHand.get(team2.getPlayer1().getId()).takeCard(exchangeCardP4);
-        playerAndHand.get(team2.getPlayer2().getId()).takeCard(exchangeCardP3);
+        playerAndHand.get(playerOneId).takeCard(exchangeCardP2);
+        playerAndHand.get(playerTwoId).takeCard(exchangeCardP1);
+        playerAndHand.get(playerThreeId).takeCard(exchangeCardP4);
+        playerAndHand.get(playerFourId).takeCard(exchangeCardP3);
     }
 
     /**
@@ -183,5 +189,9 @@ public class Round {
 
     public static boolean isRoundStarted() {
         return roundStarted;
+    }
+
+    public static int getNextPlayer() {
+        return nextPlayer;
     }
 }

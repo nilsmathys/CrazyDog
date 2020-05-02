@@ -1,6 +1,7 @@
 package ch.zhaw.psit3.crazydog;
 
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
+import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
@@ -15,11 +16,6 @@ import java.util.List;
 
 @SpringBootApplication
 public class CrazyDog {
-    static final int COLOURIDRED = 3;
-    static final int COLOURIDGREEN = 4;
-    static final int COLOURIDYELLOW = 5;
-    static final int COLOURIDBLUE = 6;
-
     public int gameId;
     private static Team team1;
     private static Team team2;
@@ -49,8 +45,12 @@ public class CrazyDog {
      * @param player4 vierter Spieler und Partner des dritten Spielers.
      */
     public CrazyDog(Player player1, Player player2, Player player3, Player player4) {
-        this.team1 = new Team(player1, player2, COLOURIDRED, COLOURIDGREEN);
-        this.team2 = new Team(player3, player4, COLOURIDYELLOW, COLOURIDBLUE);
+        this.team1 = new Team(player1, player2, "red", "green");
+        this.team2 = new Team(player3, player4, "yellow", "blue");
+        player1.setColor("red");
+        player2.setColor("green");
+        player3.setColor("yellow");
+        player4.setColor("blue");
         this.nextPlayer = player1.getId();
         this.gameBoard = new GameBoard();
         this.pieceList = PieceDAO.getAllPieces();
@@ -64,8 +64,12 @@ public class CrazyDog {
      */
     public CrazyDog(int gameId, Player player1, Player player2, Player player3, Player player4, int nextPlayer, GameBoard gameBoard) {
         this.gameId = gameId;
-        this.team1 = new Team(player1, player2, COLOURIDRED, COLOURIDGREEN);
-        this.team2 = new Team(player3, player4, COLOURIDYELLOW, COLOURIDBLUE);
+        this.team1 = new Team(player1, player2, "red", "green");
+        this.team2 = new Team(player3, player4, "yellow", "blue");
+        player1.setColor("red");
+        player2.setColor("green");
+        player3.setColor("yellow");
+        player4.setColor("blue");
         this.nextPlayer = nextPlayer;
         this.gameBoard = gameBoard;
         this.pieceList = PieceDAO.getAllPieces();
@@ -95,6 +99,7 @@ public class CrazyDog {
         Player player4 = PlayerDAO.getPlayerById(4);
 
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
+        UserInstructions.addNewInstruction("Game started now");
         crazyDog.playGame(crazyDog.team1, crazyDog.team2, crazyDog.nextPlayer);
 
     }
@@ -104,6 +109,9 @@ public class CrazyDog {
     }
     public static Team getTeam2() {
         return team2;
+    }
+    public int getNextPlayer() {
+        return nextPlayer;
     }
     public static GameBoard getGameBoard() {
         return gameBoard;

@@ -20,22 +20,22 @@ public class PieceDAO {
         try {
             con = DBConnectionFactory.getConnection();
 
-            String query = "SELECT pieceID, colourID, number, pictureName FROM Pieces WHERE pieceID=?";
+            String query = "SELECT pieceID, colourname, number, pictureName FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID WHERE pieceID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             int pieceId = 0;
-            int colourId = 0;
+            String colour = "";
             int number = 0;
             String pictureName = null;
             if (rs.next()) {
                 pieceId = rs.getInt("pieceID");
-                colourId = rs.getInt("colourID");
+                colour = rs.getString("colourname");
                 number = rs.getInt("number");
                 pictureName = rs.getString("pictureName");
 
             }
-            piece = new Piece(pieceId, number, colourId, pictureName);
+            piece = new Piece(pieceId, number, colour, pictureName);
             rs.close();
             ps.close();
         } catch (Exception e) {
@@ -61,15 +61,15 @@ public class PieceDAO {
         List<Piece> pieceList = new ArrayList<>();
         try {
             con = DBConnectionFactory.getConnection();
-            String query = "SELECT pieceID, number, colourID, pictureName FROM pieces";
+            String query = "SELECT pieceID, number, colourname, pictureName FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 int pieceId = rs.getInt("pieceID");
                 int number = rs.getInt("number");
-                int colourId = rs.getInt("colourId");
+                String colour = rs.getString("colourname");
                 String pictureName = rs.getString("pictureName");
-                Piece dbPiece = new Piece(pieceId, number, colourId, pictureName);
+                Piece dbPiece = new Piece(pieceId, number, colour, pictureName);
                 pieceList.add(dbPiece);
             }
             rs.close();
@@ -93,18 +93,18 @@ public class PieceDAO {
      * @param id FigurenId, bei der der man die Farbid wissen möchte
      * @return int mit der Colourid
      */
-    public static int getColourId(int id) {
+    public static String getColourName(int id) {
         Connection con = null;
         Piece piece = new Piece();
         try {
             con = DBConnectionFactory.getConnection();
-            String query = "SELECT colourID FROM pieces WHERE pieceID=?";
+            String query = "SELECT colourname FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID WHERE pieceID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            piece.setColourId(0);
+            piece.setColor("");
             if (rs.next()) {
-                piece.setColourId(rs.getInt("colourID"));
+                piece.setColor(rs.getString("colourname"));
             }
             rs.close();
             ps.close();
@@ -118,7 +118,7 @@ public class PieceDAO {
                 e.printStackTrace();
             }
         }
-        return piece.getColourId();
+        return piece.getColor();
     }
 
     /**
