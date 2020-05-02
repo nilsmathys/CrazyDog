@@ -8,11 +8,14 @@ import ch.zhaw.psit3.crazydog.Model.Player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 public class GameLogic {
     private static Message successmessage;
-    private static List<GameField> gameFieldList;       // This is a copy of List<GameField> from Gameboard
+    private static List<GameField> gameFieldList;                                        // This is a copy of List<GameField> from Gameboard
+
+    private static List<GameField> calculatedDestinations = new ArrayList<GameField>();  // This List contains the calculated destinations
 
     // Is responsible for returning a list
     public static void calculateDestinations(int cardValue, int sessionId) {
@@ -20,27 +23,19 @@ public class GameLogic {
         String color = getPlayersColorFromId(sessionId);
         List<GameField> GameFieldsWithThisColor = getGameFieldsWithPiecesOfPlayersColor(color);
         // Now we have all the fields with Pieces of the Player
-        for(GameField field : GameFieldsWithThisColor) {
-            System.out.println(field.getGameFieldName());
-            System.out.println(field.getImageName());
-            System.out.println(field.getCssId());
-            System.out.println(field.getColor());
-            System.out.println("----------------------------");
-        }
+        List<GameField> cleanedList = removeGameFieldsWithPiecesOnHomeFields(GameFieldsWithThisColor);
+        // Removed the GameFields with Pieces on HomeFields
 
-        /*
-        gameFieldList.clear();
+        calculatedDestinations.clear();
         Random rand = new Random();
         GameField gameField1 = new GameField("field" + rand.nextInt(96));
         GameField gameField2 = new GameField("field" + rand.nextInt(96));
         GameField gameField3 = new GameField("field" + rand.nextInt(96));
         GameField gameField4 = new GameField("field" + rand.nextInt(96));
-        gameFieldList.add(gameField1);
-        gameFieldList.add(gameField2);
-        gameFieldList.add(gameField3);
-        gameFieldList.add(gameField4);
-        *
-         */
+        calculatedDestinations.add(gameField1);
+        calculatedDestinations.add(gameField2);
+        calculatedDestinations.add(gameField3);
+        calculatedDestinations.add(gameField4);
 
         // How to access the List with fields, which will be needed to calculate the destinations
         //List<GameField> fields = CrazyDog.getGameBoard().getFields();
@@ -54,7 +49,7 @@ public class GameLogic {
     }
 
     public static List<GameField> getDestinations() {
-        return gameFieldList;
+        return calculatedDestinations;
     }
 
     public static void makeMove(int cardValue, int sessionId, String destinationfield) {
@@ -95,5 +90,18 @@ public class GameLogic {
             };
         }
         return GameFieldsWithAPieceOfPlayersColor;
+    }
+
+    private static List<GameField> removeGameFieldsWithPiecesOnHomeFields(List<GameField> gamefields) {
+        ListIterator<GameField> iter = gamefields.listIterator();
+        while(iter.hasNext()){
+            if(iter.next().getGameFieldName().equals("homefield")){
+                iter.remove();
+            }
+        }
+        if(gamefields.isEmpty()) {
+            System.out.println("Ist leer");
+        }
+        return gamefields;
     }
 }
