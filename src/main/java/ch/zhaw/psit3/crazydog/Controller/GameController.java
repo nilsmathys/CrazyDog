@@ -45,7 +45,9 @@ public class GameController {
     public String playGame(HttpServletRequest request, Model model) {
 
         if(request.getSession().getAttribute("id") != null) {
-            //Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
+            Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
+            model.addAttribute("fieldsandpieces", fieldsAndPieces);
+
             List<GameField> fields = CrazyDog.getGameBoard().getFields();
             model.addAttribute("fields", fields);
 
