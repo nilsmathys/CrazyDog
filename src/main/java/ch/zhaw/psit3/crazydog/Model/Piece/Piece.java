@@ -6,23 +6,22 @@ import javax.validation.constraints.Size;
 public class Piece {
     @NotNull
     private int id;
-
     @Size(min = 1, max = 4)
     private int number;
-
     private String color;
-
     private String pictureName;
+    private int homeFieldId;
 
     public Piece() {
 
     }
 
-    public Piece(int id, int number, String color, String pictureName) {
+    public Piece(int id, int number, String color, String pictureName, int homeFieldId) {
         this.id = id;
         this.number = number;
         this.color = color;
         this.pictureName = pictureName;
+        this.homeFieldId = homeFieldId;
     }
 
     public String getPictureName() {
@@ -59,6 +58,14 @@ public class Piece {
             throw new IllegalArgumentException("Please use a right color.");
         }
         this.color = color;
+    }
+
+    public int getHomeFieldId() {
+        return homeFieldId;
+    }
+
+    public void setHomeFieldId(int homeFieldId) {
+        this.homeFieldId = homeFieldId;
     }
 
 

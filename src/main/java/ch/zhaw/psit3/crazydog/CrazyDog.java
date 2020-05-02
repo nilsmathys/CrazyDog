@@ -1,5 +1,6 @@
 package ch.zhaw.psit3.crazydog;
 
+import ch.zhaw.psit3.crazydog.Model.Game.Direction;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
@@ -11,6 +12,7 @@ import ch.zhaw.psit3.crazydog.Model.Player.PlayerDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jmx.export.naming.IdentityNamingStrategy;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class CrazyDog {
     public List<Piece> pieceList;
     public CardDeck deck;
     public static GameBoard gameBoard;
-    public int direction;
+    private static Direction direction;
 
 
     /**
@@ -33,8 +35,10 @@ public class CrazyDog {
     {
         gameBoard = new GameBoard();
         pieceList = PieceDAO.getAllPieces();
+        positionFieldsInitial();
         deck = new CardDeck();
         deck.createDeck();
+        direction = Direction.COUNTERCLOCKWISE;
     }
 
     /**
@@ -54,8 +58,9 @@ public class CrazyDog {
         this.nextPlayer = player1.getId();
         this.gameBoard = new GameBoard();
         this.pieceList = PieceDAO.getAllPieces();
-        this.direction = 0;
+        positionFieldsInitial();
         this.deck = new CardDeck();
+        direction = Direction.COUNTERCLOCKWISE;
         deck.createDeck();
     }
 
@@ -72,7 +77,9 @@ public class CrazyDog {
         player4.setColor("blue");
         this.nextPlayer = nextPlayer;
         this.gameBoard = gameBoard;
+        direction = Direction.COUNTERCLOCKWISE;
         this.pieceList = PieceDAO.getAllPieces();
+        positionFieldsInitial();
     }
 
     private void playGame(Team team1, Team team2, int nextPlayer) {
@@ -104,6 +111,15 @@ public class CrazyDog {
 
     }
 
+    /**
+     * Position the piece on their home fields at the beginning of the game
+     */
+    private void positionFieldsInitial() {
+        for(Piece piece : pieceList) {
+            gameBoard.setPieceOnHomefield(piece.getHomeFieldId(),piece);
+        }
+    }
+
     public static Team getTeam1() {
         return team1;
     }
@@ -118,6 +134,27 @@ public class CrazyDog {
     }
     public static GameBoard getGameBoard() {
         return gameBoard;
+    }
+
+    /**
+     * Change Gamedirection and renumber all Destination Fields.
+     */
+    public static void changeDirection() {
+        if(direction == Direction.COUNTERCLOCKWISE)
+        {
+            direction = Direction.CLOCKWISE;
+        }
+        else {
+            direction = Direction.COUNTERCLOCKWISE;
+        }
+        gameBoard.renumberDestinationFields(direction);
+    }
+
+    /**
+     * get current direction
+     */
+    public static Direction getDirection() {
+        return direction;
     }
 
 }

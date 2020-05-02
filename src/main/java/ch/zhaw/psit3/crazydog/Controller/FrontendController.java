@@ -1,6 +1,7 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
 import ch.zhaw.psit3.crazydog.CrazyDog;
+import ch.zhaw.psit3.crazydog.Model.Game.Direction;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /* This controller is responsible for providing data to ajax calls. */
 @Controller
@@ -21,6 +23,8 @@ public class FrontendController {
     FieldAndPiece[] sourceAndDestination = new FieldAndPiece[2];
     List<String> userInstructions;
     int currentPlayerID;
+    Map<Direction, String> map = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "clockwise");
+
 
     // This method is reponsible for listening to ajax click events and handle their data.
     // It returns an array containing two FieldAndPiece Objects: The source and destination.

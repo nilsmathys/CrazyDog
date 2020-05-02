@@ -11,7 +11,7 @@ class GameFieldTest {
 
     @BeforeEach
     void setup() {
-        gameField = new GameField("imgName", "cssId", "standard", "white");
+        gameField = new GameField("imgName", "cssId", "standard", "white",2);
     }
 
     @Test
@@ -32,6 +32,11 @@ class GameFieldTest {
     @Test
     void getCssId() {
         assertEquals("cssId", gameField.getCssId());
+    }
+
+    @Test
+    void getIdForCalculation() {
+        assertEquals(2, gameField.getIdForCalculation());
     }
 
     @Test
@@ -70,5 +75,11 @@ class GameFieldTest {
     void setCssId() {
         gameField.setCssId("cssIdNew");
         assertEquals("cssIdNew", gameField.getCssId());
+    }
+
+    @Test
+    void setIdForCalculation() {
+        gameField.setIdForCalculation(1);
+        assertEquals(1, gameField.getIdForCalculation());
     }
 }

@@ -479,10 +479,10 @@ public class PlayCard {
      * @param args
      */
     public static void main(String[] args) {
-        Piece pieceRed = new Piece(1, 2, "red", "picname"); //red
-        Piece pieceGreen = new Piece(2, 2, "green", "picname"); //green
-        Piece pieceYellow = new Piece(3, 2, "yellow", "picname"); //yellow
-        Piece pieceBlue = new Piece(4, 2, "blue", "picname"); //green
+        Piece pieceRed = new Piece(1, 2, "red", "picname",1); //red
+        Piece pieceGreen = new Piece(2, 2, "green", "picname",2); //green
+        Piece pieceYellow = new Piece(3, 2, "yellow", "picname",2); //yellow
+        Piece pieceBlue = new Piece(4, 2, "blue", "picname",3); //green
         Player player = new Player(1, "Ted", "test@test.ch");
         Card card2 = new Card(2, "standard", 2);
         Card card3 = new Card(3, "changeDirection", 3);
