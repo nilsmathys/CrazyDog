@@ -147,6 +147,13 @@ h2 {
 .playingcard {
     width: 90%;
 }
+
+.direction {
+    width: 30%;
+    position: absolute;
+    top: 32.5%;
+    left: 34.5%;
+}
 .list-group-item {
     border: 3px solid white;
     border-radius:9px;
