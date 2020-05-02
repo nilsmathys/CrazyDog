@@ -23,7 +23,7 @@ public class CrazyDog {
     public List<Piece> pieceList;
     public CardDeck deck;
     public static GameBoard gameBoard;
-    public int direction;
+    public static String direction;
 
 
     /**
@@ -54,15 +54,16 @@ public class CrazyDog {
         this.nextPlayer = player1.getId();
         this.gameBoard = new GameBoard();
         this.pieceList = PieceDAO.getAllPieces();
-        this.direction = 0;
+        direction = "clockwise";
         this.deck = new CardDeck();
         deck.createDeck();
+
     }
 
     /**
      * Konstrutor falls bereits ein Spiel besteht.
      */
-    public CrazyDog(int gameId, Player player1, Player player2, Player player3, Player player4, int nextPlayer, GameBoard gameBoard) {
+    public CrazyDog(int gameId, Player player1, Player player2, Player player3, Player player4, int nextPlayer, GameBoard gameBoard, String dir) {
         this.gameId = gameId;
         this.team1 = new Team(player1, player2, "red", "green");
         this.team2 = new Team(player3, player4, "yellow", "blue");
@@ -72,6 +73,7 @@ public class CrazyDog {
         player4.setColor("blue");
         this.nextPlayer = nextPlayer;
         this.gameBoard = gameBoard;
+        direction = dir;
         this.pieceList = PieceDAO.getAllPieces();
     }
 
@@ -102,6 +104,18 @@ public class CrazyDog {
         crazyDog.playGame(crazyDog.team1, crazyDog.team2, crazyDog.nextPlayer);
 
     }
+
+    /**
+     * Changes acctual game direction,
+     */
+    public static void changeDirection()  {
+        if(direction.equals("clockwise")) {
+            direction = "counterclockwise";
+        } else {
+            direction = "clockwise";
+        }
+    }
+
 
     public static Team getTeam1() {
         return team1;

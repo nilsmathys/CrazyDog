@@ -60,6 +60,7 @@ public class GameController {
             model.addAttribute("userInstructions", UserInstructions.getUserInstructions());
             model.addAttribute("currentPlayerID", CrazyDog.getNextPlayer());
             model.addAttribute("sessionId", request.getSession().getAttribute("id"));
+            model.addAttribute("gameDirection", CrazyDog.direction);
 
             return "game";
         }

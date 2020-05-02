@@ -1,5 +1,6 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
+import ch.zhaw.psit3.crazydog.CrazyDog;
 import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
@@ -29,7 +30,6 @@ public class Round {
         this.team2 = team2;
         this.nextPlayer = nextPlayer;
         this.deck = deck;
-
         playerAndHand.put(team1.getPlayer1().getId(), new CardsOnHand());
         playerAndHand.put(team1.getPlayer2().getId(), new CardsOnHand());
         playerAndHand.put(team2.getPlayer1().getId(), new CardsOnHand());
