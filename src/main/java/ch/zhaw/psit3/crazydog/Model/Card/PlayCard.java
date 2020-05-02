@@ -1,5 +1,6 @@
 package ch.zhaw.psit3.crazydog.Model.Card;
 
+import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Game.Values;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
@@ -171,7 +172,7 @@ public class PlayCard {
         } else {
             fieldsToGo = 0;
         }
-        int targetDestinationInt = calculateNewDestination(pieceDestinationInt, fieldsToGo, selectetPiece);
+        int targetDestinationInt = Round.calcDestWhenPieceOnWomrhole(calculateNewDestination(pieceDestinationInt, fieldsToGo, selectetPiece));
         String targetDestinationString = "field" + targetDestinationInt;
         targetDestination.add(targetDestinationString);
         //ToDo: neuer Standort und neue Hand zurückgeben.(Piece, pieceDest)
@@ -263,7 +264,7 @@ public class PlayCard {
             } else {
                 playCard3(pieceDestination, piece, 1);
             }
-            int targetDestinationInt = calculateNewDestination(pieceDestinationInt, fieldsToGo, piece);
+            int targetDestinationInt = Round.calcDestWhenPieceOnWomrhole(calculateNewDestination(pieceDestinationInt, fieldsToGo, piece));
             String targetDestinationString = "field" + targetDestinationInt;
             targetDestination.add(targetDestinationString);
             return direction;
@@ -291,7 +292,7 @@ public class PlayCard {
             if (checkValidturn(pieceDestinationInt, "four", piece, Values.CARDVALUE4)) {
                 fieldsToGo = Values.CARDVALUE4;
             }
-            int targetDestinationInt = calculateNewDestination(pieceDestinationInt, fieldsToGo, piece);
+            int targetDestinationInt = Round.calcDestWhenPieceOnWomrhole(calculateNewDestination(pieceDestinationInt, fieldsToGo, piece));
             String targetDestinationString = "field" + targetDestinationInt;
             targetDestination.add(targetDestinationString);
         } else {
@@ -299,7 +300,7 @@ public class PlayCard {
                 direction = 1;
                 if (checkValidturn(pieceDestinationInt, "four", piece, Values.CARDVALUE4)) {
                     fieldsToGo = Values.CARDVALUE4;
-                    int targetDestinationInt = calculateNewDestination(pieceDestinationInt, fieldsToGo, piece);
+                    int targetDestinationInt = Round.calcDestWhenPieceOnWomrhole(calculateNewDestination(pieceDestinationInt, fieldsToGo, piece));
                     String targetDestinationString = "field" + targetDestinationInt;
                     targetDestination.add(targetDestinationString);
                 }
@@ -308,7 +309,7 @@ public class PlayCard {
                 direction = 0;
                 if (checkValidturn(pieceDestinationInt, "four", piece, Values.CARDVALUE4)) {
                     fieldsToGo = Values.CARDVALUE4;
-                    int targetDestinationInt = calculateNewDestination(pieceDestinationInt, fieldsToGo, piece);
+                    int targetDestinationInt = Round.calcDestWhenPieceOnWomrhole(calculateNewDestination(pieceDestinationInt, fieldsToGo, piece));
                     String targetDestinationString = "field" + targetDestinationInt;
                     targetDestination.add(targetDestinationString);
                 }
@@ -338,7 +339,7 @@ public class PlayCard {
             String[] splitted = pieceDestinations.get(i).split("field");
             int pieceDestinationInt = Integer.parseInt(splitted[1]);
             if (checkValidturn(pieceDestinationInt, "seven", selectetPieces.get(i), fieldToGo.get(i))) {
-                int targetDestinationInt = calculateNewDestination(pieceDestinationInt, fieldToGo.get(i), selectetPieces.get(i));
+                int targetDestinationInt = Round.calcDestWhenPieceOnWomrhole(calculateNewDestination(pieceDestinationInt, fieldToGo.get(i), selectetPieces.get(i)));
                 String targetDestinationString = "field" + targetDestinationInt;
                 targetDestination.add(targetDestinationString);
             }
@@ -395,7 +396,7 @@ public class PlayCard {
                 if (!targetDestination.isEmpty()) {
                     targetDestination.clear();
                 }
-                int targetDestinationInt = calculateNewDestination(pieceDestinationInt, fieldsToGo, piece);
+                int targetDestinationInt = Round.calcDestWhenPieceOnWomrhole(calculateNewDestination(pieceDestinationInt, fieldsToGo, piece));
                 String targetDestinationString = "field" + targetDestinationInt;
                 targetDestination.add(targetDestinationString);
             } else if (selectetAction == 1) {
@@ -407,7 +408,7 @@ public class PlayCard {
                 if (!targetDestination.isEmpty()) {
                     targetDestination.clear();
                 }
-                int targetDestinationInt = calculateNewDestination(pieceDestinationInt, fieldsToGo, piece);
+                int targetDestinationInt = Round.calcDestWhenPieceOnWomrhole(calculateNewDestination(pieceDestinationInt, fieldsToGo, piece));
                 String targetDestinationString = "field" + targetDestinationInt;
                 targetDestination.add(targetDestinationString);
             } else {
@@ -433,7 +434,7 @@ public class PlayCard {
             } else {
                 fieldsToGo = 0;
             }
-            int targetDestinationInt = calculateNewDestination(pieceDestinationInt, fieldsToGo, piece);
+            int targetDestinationInt = Round.calcDestWhenPieceOnWomrhole(calculateNewDestination(pieceDestinationInt, fieldsToGo, piece));
             String targetDestinationString = "field" + targetDestinationInt;
             targetDestination.add(targetDestinationString);
         }
