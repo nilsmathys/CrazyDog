@@ -54,7 +54,7 @@ public class CrazyDog {
         this.nextPlayer = player1.getId();
         this.gameBoard = new GameBoard();
         this.pieceList = PieceDAO.getAllPieces();
-        direction = "clockwise";
+        direction = "counterclockwise";
         this.deck = new CardDeck();
         deck.createDeck();
 

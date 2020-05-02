@@ -52,6 +52,7 @@
         <img class="grid" src="/img/crazydog_grid.png" alt="Crazy Dog Grid" width="850px">
         <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field"
              th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
+        <img th:src="'/img/' + ${gameDirection} + '.png'" class="direction">
     </div>
     <div class="container-right" id="instructionList">
         <!-- show the instructions on the right side of the page -->
@@ -59,11 +60,6 @@
              th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'"
              th:text="${'&#62; '+instruction}"
              th:style="${(userInstructions.indexOf(instruction)%2) == 0} ? 'background-color: #f1f3f4' : 'background-color: #fcf8e8'"></div>
-    </div>
-    <div class="gameDirection">
-        <div>
-            <img th:src="'/img/' + ${gameDirection} + '.png'" class="direction">
-        </div>
     </div>
 </div>
 <div class="container-bottom">
