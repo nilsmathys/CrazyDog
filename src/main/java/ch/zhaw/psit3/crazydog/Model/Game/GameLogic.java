@@ -17,11 +17,18 @@ public class GameLogic {
     // Is responsible for returning a list
     public static void calculateDestinations(int cardValue, int sessionId) {
         getGameFieldsFromGameBoard();
-        System.out.println(getPlayersColorFromId(1));
-        System.out.println(getPlayersColorFromId(2));
-        System.out.println(getPlayersColorFromId(3));
-        System.out.println(getPlayersColorFromId(4));
+        String color = getPlayersColorFromId(sessionId);
+        List<GameField> GameFieldsWithThisColor = getGameFieldsWithPiecesOfPlayersColor(color);
+        // Now we have all the fields with Pieces of the Player
+        for(GameField field : GameFieldsWithThisColor) {
+            System.out.println(field.getGameFieldName());
+            System.out.println(field.getImageName());
+            System.out.println(field.getCssId());
+            System.out.println(field.getColor());
+            System.out.println("----------------------------");
+        }
 
+        /*
         gameFieldList.clear();
         Random rand = new Random();
         GameField gameField1 = new GameField("field" + rand.nextInt(96));
@@ -32,6 +39,8 @@ public class GameLogic {
         gameFieldList.add(gameField2);
         gameFieldList.add(gameField3);
         gameFieldList.add(gameField4);
+        *
+         */
 
         // How to access the List with fields, which will be needed to calculate the destinations
         //List<GameField> fields = CrazyDog.getGameBoard().getFields();
@@ -73,5 +82,18 @@ public class GameLogic {
             }
         }
         return color;
+    }
+
+    // Get all the GameFields where there is a piece with a certain color on it
+    // This method does not change the gameFieldList
+    private static List<GameField> getGameFieldsWithPiecesOfPlayersColor(String color) {
+        List<GameField> GameFieldsWithAPieceOfPlayersColor = new ArrayList<GameField>();
+        for(GameField gamefield : gameFieldList) {
+            String imgName = gamefield.getImageName();
+            if(imgName.equals("piece1" + color + ".png") || imgName.equals("piece2" + color + ".png") || imgName.equals("piece3" + color + ".png") || imgName.equals("piece4" + color + ".png")) {
+                GameFieldsWithAPieceOfPlayersColor.add(gamefield);
+            };
+        }
+        return GameFieldsWithAPieceOfPlayersColor;
     }
 }
