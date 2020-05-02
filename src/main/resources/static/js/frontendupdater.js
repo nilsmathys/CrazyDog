@@ -4,7 +4,7 @@ $(function updateFrontend() {
         url: 'getchanges',
         success: function(data) {
             if(data[0] != null && data[1] != null) {
-                console.log("Calling /getchanges for updates.");
+                //console.log("Calling /getchanges for updates.");
                 $('#' + data[0].field).attr('src', '/img/pieces/' + data[0].piece);
                 $('#' + data[1].field).attr('src', '/img/pieces/' + data[1].piece);
             }
@@ -41,7 +41,7 @@ $(function updateInstructions() {
                     }
                     innerText += "<div class='"+cssClass+"' style='background-color: "+background+";'>"+data[i]+"</div>";
                 }
-                console.log(innerText);
+
                 document.getElementById('instructionList').innerHTML = innerText;
             }
             else {
@@ -61,7 +61,6 @@ $(function updateCurrentPlayer() {
         url: 'getchangesCurrentPlayer',
         success: function(data) {
             if(data >= 1 && data <= 4) {
-                console.log(data);
                 for(var i = 1;i <= 4; i++)
                 {
                     $('#Player'+i).removeClass("currentplayer");
@@ -84,7 +83,8 @@ $(function updateCurrentDirection() {
         type: 'GET',
         url: 'getchangesCurrentDirection',
         success: function(data) {
-            if(data == "") {
+            console.log("direction: "+data);
+            if(data != "") {
                 $('#direction').attr("src","/img/"+data);
             }
             else {
