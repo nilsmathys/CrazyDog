@@ -33,8 +33,7 @@ public class CrazyDog {
     /**
      * leerer Konstruktur um Webseite starten zu können von dieser Klasse aus.
      */
-    public CrazyDog()
-    {
+    public CrazyDog() {
         gameBoard = new GameBoard();
         pieceList = PieceDAO.getAllPieces();
         positionFieldsInitial();
@@ -45,6 +44,7 @@ public class CrazyDog {
 
     /**
      * Konstruktor falls neues Spiel
+     *
      * @param player1 erster Spieler, Initialisator und Partner des zweiten Spielers.
      * @param player2 zweiter Spieler und Partner des ersten Spielers.
      * @param player3 dritter Spieler und Partner der vierten Spielers.
@@ -120,23 +120,27 @@ public class CrazyDog {
      * Position the piece on their home fields at the beginning of the game
      */
     private void positionFieldsInitial() {
-        for(Piece piece : pieceList) {
-            gameBoard.setPieceOnHomefield(piece.getHomeFieldId(),piece);
+        for (Piece piece : pieceList) {
+            gameBoard.setPieceOnHomefield(piece.getHomeFieldId(), piece);
         }
     }
 
     public static Team getTeam1() {
         return team1;
     }
+
     public static Team getTeam2() {
         return team2;
     }
+
     public static int getNextPlayer() {
         return nextPlayer;
     }
+
     public static void setNextPlayer(int player) {
-       nextPlayer = player;
+        nextPlayer = player;
     }
+
     public static GameBoard getGameBoard() {
         return gameBoard;
     }
@@ -149,11 +153,9 @@ public class CrazyDog {
      * Change Gamedirection and renumber all Destination Fields.
      */
     public static void changeDirection() {
-        if(direction == Direction.COUNTERCLOCKWISE)
-        {
+        if (direction == Direction.COUNTERCLOCKWISE) {
             direction = Direction.CLOCKWISE;
-        }
-        else {
+        } else {
             direction = Direction.COUNTERCLOCKWISE;
         }
         gameBoard.renumberDestinationFields(direction);
@@ -166,3 +168,4 @@ public class CrazyDog {
         return direction;
     }
 
+}
