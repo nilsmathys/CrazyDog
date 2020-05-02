@@ -81,9 +81,12 @@ public class Round {
         if(deck.getDeckSize() < totalCardsToDistribute) {
             deck.createDeck();
         }
-
+        int value = 2;  // remove !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         for(int i=0; i<totalCardsToDistribute; i=i+4) {
-            playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
+            //playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
+            playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(1, "test", value));  // remove !!!!!
+            value++;        // remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
             playerAndHand.get(team1.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
