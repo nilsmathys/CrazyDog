@@ -12,6 +12,7 @@ import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -25,6 +26,7 @@ public class CrazyDog {
     public static GameBoard gameBoard;
     public int direction;
 
+    private static List<Player> playerList = new ArrayList<Player>();
 
     /**
      * leerer Konstruktur um Webseite starten zu können von dieser Klasse aus.
@@ -94,9 +96,13 @@ public class CrazyDog {
         SpringApplication.run(CrazyDog.class, args);
 
         Player player1 = PlayerDAO.getPlayerById(1);
+        playerList.add(player1);
         Player player2 = PlayerDAO.getPlayerById(2);
+        playerList.add(player2);
         Player player3 = PlayerDAO.getPlayerById(3);
+        playerList.add(player3);
         Player player4 = PlayerDAO.getPlayerById(4);
+        playerList.add(player4);
 
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
         UserInstructions.addNewInstruction("Game started now");
@@ -116,6 +122,8 @@ public class CrazyDog {
     public static GameBoard getGameBoard() {
         return gameBoard;
     }
-
+    public static List<Player> getPlayerList() {
+        return playerList;
+    }
 }
 
