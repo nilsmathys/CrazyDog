@@ -15,6 +15,7 @@ import java.util.Random;
 import static ch.zhaw.psit3.crazydog.Model.Game.Direction.CLOCKWISE;
 
 public class GameLogic {
+    private static boolean isLegalMoveMade = false;     // If a legal move is made, i set this to true in the gameLogic
     private static Message successmessage;
     private static List<GameField> gameFieldList;                                        // This is a copy of List<GameField> from Gameboard
 
@@ -24,17 +25,33 @@ public class GameLogic {
     public static void calculateDestinations(int cardValue, int sessionId) {
         calculatedDestinations = null;      // Reset the calculated destinations
         getGameFieldsFromGameBoard();
+
+        // ------------------------ nur zum Testen, Positionen der GamePieces ändern
+        CrazyDog.setDirection(CLOCKWISE);
+        GameField gameFieldWithPiece3Red = gameFieldList.get(4);
+        GameField gameFieldWithPiece2Red = gameFieldList.get(7);
+
+        // Set Piece1red to GameField with calculationId 14. Set Null Piece to the homefield after swap.
+        GameField gameFieldWithPiece1Red = gameFieldList.get(10);       // Get GameField containing piece1red
+        GameField gameFieldWithCalcId14 = gameFieldList.get(21);        // Get GameField where i want to put piece1red
+
+        gameFieldWithCalcId14.setPieceOnField(gameFieldWithPiece1Red.getPieceOnField());
+        gameFieldList.set(21, gameFieldWithCalcId14);
+
+        gameFieldWithPiece1Red.setPieceOnField(null);
+        gameFieldList.set(10, gameFieldWithPiece1Red);
+
+        // ------------------------ nur zum Testen
+
         String playerColor = getPlayersColorFromId(sessionId);
         List<GameField> GameFieldsWithThisColor = getGameFieldsWithPiecesOfPlayersColor(playerColor);
         // Now we have all the fields with Pieces of the Player
         List<GameField> cleanedList = removeGameFieldsWithPiecesOnHomeFields(GameFieldsWithThisColor);
         // Removed the GameFields with Pieces on HomeFields
 
-        // Jetzt haben wir eigentlich alle GameFields in der Liste, die Spielfiguren ausserhalb des HomeFields beinhalten
-        // Jetzt müssen wir die neuen Werte berechnen
-
-        // Abfrage der direction
-        // Berücksichtigen, das es einen Sprung bei 64 gibt
+        // Now we have all the GameFields in cleanedList, which are not on home fields
+        // Now we can start calculating the destination fields
+        /*
         if(cleanedList.isEmpty()) {
             // do nothing
         }
@@ -94,17 +111,7 @@ public class GameLogic {
                 }
             }
         }
-
-        //calculatedDestinations.clear();
-        //Random rand = new Random();
-        //GameField gameField1 = new GameField("field" + rand.nextInt(96));
-        //GameField gameField2 = new GameField("field" + rand.nextInt(96));
-        //GameField gameField3 = new GameField("field" + rand.nextInt(96));
-        //GameField gameField4 = new GameField("field" + rand.nextInt(96));
-        //calculatedDestinations.add(gameField1);
-        //calculatedDestinations.add(gameField2);
-        //calculatedDestinations.add(gameField3);
-        //calculatedDestinations.add(gameField4);
+        */
     }
 
     public static List<GameField> getDestinations() {
@@ -238,5 +245,13 @@ public class GameLogic {
             }
         }
         return piecesAreBlockingDestinationFields;
+    }
+
+    public static boolean isLegalMoveMade() {
+        return isLegalMoveMade;
+    }
+
+    public static void resetLegalMoveStatus() {
+        isLegalMoveMade = false;
     }
 }

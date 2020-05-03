@@ -168,4 +168,11 @@ public class CrazyDog {
         return direction;
     }
 
+    /**
+     * get current direction
+     */
+    public static void setDirection(Direction newDirection) {
+        direction = newDirection;
+    }
+
 }
