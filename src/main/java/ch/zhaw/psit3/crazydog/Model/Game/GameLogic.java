@@ -25,9 +25,10 @@ public class GameLogic {
     public static void calculateDestinations(int cardValue, int sessionId) {
         calculatedDestinations = new ArrayList<GameField>();
         getGameFieldsFromGameBoard();
+
+        // ------------------------ nur zum Testen, Positionen der GamePieces ändern
         if(index == 1) {
             index++;
-            // ------------------------ nur zum Testen, Positionen der GamePieces ändern
             CrazyDog.setDirection(CLOCKWISE);
             // Set Piece1red to GameField with calculationId 14. Set Null Piece to the homefield after swap.
             GameField gameFieldWithPiece1Red = gameFieldList.get(10);       // Get GameField containing piece1red
@@ -80,14 +81,13 @@ public class GameLogic {
             gameFieldWithPiece4Red.setPieceOnField(null);
             gameFieldList.set(1, gameFieldWithPiece4Red);
         }
-
-
         // ------------------------ nur zum Testen fertig
 
         String playerColor = getPlayersColorFromId(sessionId);
         // Get all the fields with Pieces of the player
         List<GameField> GameFieldsWithThisColor = getGameFieldsWithPiecesOfPlayersColor(playerColor);
 
+        // Calculate "normal" Card Values
         if(cardValue == 2 || cardValue == 5 || cardValue == 6 || cardValue == 8 || cardValue == 9 || cardValue == 10 || cardValue == 12) {
             // Remove the GameFields with Pieces on HomeFields
             List<GameField> GameFieldsWithNoPiecesOnHomeFields = removeGameFieldsWithPiecesOnHomeFields(GameFieldsWithThisColor);
@@ -98,25 +98,20 @@ public class GameLogic {
                 calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);
             }
         }
-        /*
-        if(cardvalue == 11) {
-            calculateValuesOnHomeFields():
-            calcualteNormalfieldValues(1);
-            calcualteNormalfieldValues(11);
+
+        if(cardValue == 13) {
+            // get a List of Pieces with Pieces on HomeField
+            // calculate the Destination for that list (only one destination is possible) -> add it to HashMap
+            // calculate List with PiecesOnNoHomeFields
+            // calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);
         }
-        if(cardvalue == 13) {
-            calculateValuesOnHomeFields():
-            calcualteNormalfieldValues(1);
-            calcualteNormalfieldValues(11);
+        if(cardValue == 11) {
+            // get a List of Pieces with Pieces on HomeField
+            // calculate the Destination for that list (only one destination is possible) -> add it to HashMap
+            // calculate List with PiecesOnNoHomeFields
+            // calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, 1, playerColor);       // Cardvalue 1 !!!!
+            // calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, 11, playerColor);      // Cardvalue 11 !!!!
         }
-        */
-
-
-        // Now we have all the GameFields in cleanedList, which are not on home fields
-        // Now we can start calculating the destination fields
-
-
-
     }
 
     public static void calculateNormalFields(List<GameField> GameFieldsWithNoPiecesOnHomeFields, int cardValue, String playerColor ) {
