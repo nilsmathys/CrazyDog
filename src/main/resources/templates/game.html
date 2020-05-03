@@ -15,51 +15,53 @@
             <h2>HOME</h2>
             <h2>Abmelden</h2>
         </header>
-        <div class="container-top">
-            <div class="container-left">
-                <div>
-                    <h3>Team 1</h3>
-                    <ul class="list-group">
-                        <li class="list-group-item"
-                            th:each="player : ${team1}" th:id="'Player'+${player.getId()}"
-                            th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
-                            th:classappend="${player.getColor()}">
+        <div class="playarea">
+            <div class="container-top">
+                <div class="container-left">
+                    <div>
+                        <h3>Team 1</h3>
+                        <ul class="list-group">
+                            <li class="list-group-item"
+                                th:each="player : ${team1}" th:id="'Player'+${player.getId()}"
+                                th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
+                                th:classappend="${player.getColor()}">
 
 
-                            <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'"
-                                 th:alt="${player.getUsername()}">
-                            <span class="playername" th:text="${player.getUsername()}"></span>
-                        </li>
-                    </ul>
+                                <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'"
+                                     th:alt="${player.getUsername()}">
+                                <span class="playername" th:text="${player.getUsername()}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Team 2</h3>
+                        <ul class="list-group">
+                            <li th:each="player : ${team2}" th:id="'Player'+${player.getId()}"
+                                th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
+                                th:classappend="${player.getColor()}">
+
+                                <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'"
+                                     th:alt="${player.getUsername()}">
+                                <span class="playername" th:text="${player.getUsername()}"></span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h3>Team 2</h3>
-                    <ul class="list-group">
-                        <li th:each="player : ${team2}" th:id="'Player'+${player.getId()}"
-                            th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
-                            th:classappend="${player.getColor()}">
-
-                            <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'"
-                                 th:alt="${player.getUsername()}">
-                            <span class="playername" th:text="${player.getUsername()}"></span>
-                        </li>
-                    </ul>
+                <div class="container-center">
+                    <span id="board"></span>
+                    <span id="boardhole"></span>
+                    <img class="grid" src="/img/crazydog_grid.png" alt="Crazy Dog Grid" width="850px">
+                    <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field"
+                         th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
+                    <img th:src="'/img/' + ${gameDirection} + '.png'" class="direction">
                 </div>
-            </div>
-            <div class="container-center">
-                <span id="board"></span>
-                <span id="boardhole"></span>
-                <img class="grid" src="/img/crazydog_grid.png" alt="Crazy Dog Grid" width="850px">
-                <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field"
-                     th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
-                <img th:src="'/img/' + ${gameDirection} + '.png'" class="direction">
-            </div>
-            <div class="container-right" id="instructionList">
-                <!-- show the instructions on the right side of the page -->
-                <div th:each="instruction : ${ userInstructions }"
-                     th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'"
-                     th:text="${'&#62; '+instruction}"
-                     th:style="${(userInstructions.indexOf(instruction)%2) == 0} ? 'background-color: #f1f3f4' : 'background-color: #fcf8e8'"></div>
+                <div class="container-right" id="instructionList">
+                    <!-- show the instructions on the right side of the page -->
+                    <div th:each="instruction : ${ userInstructions }"
+                         th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'"
+                         th:text="${'&#62; '+instruction}"
+                         th:style="${(userInstructions.indexOf(instruction)%2) == 0} ? 'background-color: #f1f3f4' : 'background-color: #fcf8e8'"></div>
+                </div>
             </div>
         </div>
         <div class="container-bottom">
