@@ -6,6 +6,7 @@ import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Game.Direction;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
+import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +47,9 @@ public class GameController {
         if(request.getSession().getAttribute("id") != null) {
             Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
             model.addAttribute("fieldsandpieces", fieldsAndPieces);
+
+            List<GameField> fields = CrazyDog.getGameBoard().getFields();
+            model.addAttribute("fields", fields);
 
             int playerId = Integer.parseInt(request.getSession().getAttribute("id").toString());
             Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();

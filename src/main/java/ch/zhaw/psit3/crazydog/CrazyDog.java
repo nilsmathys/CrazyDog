@@ -26,7 +26,7 @@ public class CrazyDog {
     public List<Piece> pieceList;
     public CardDeck deck;
     public static GameBoard gameBoard;
-    private static Direction direction;
+    private static Direction direction = Direction.COUNTERCLOCKWISE;
 
     private static List<Player> playerList = new ArrayList<Player>();
 
@@ -39,7 +39,6 @@ public class CrazyDog {
         positionFieldsInitial();
         deck = new CardDeck();
         deck.createDeck();
-        direction = Direction.COUNTERCLOCKWISE;
     }
 
     /**
@@ -62,8 +61,9 @@ public class CrazyDog {
         this.pieceList = PieceDAO.getAllPieces();
         positionFieldsInitial();
         this.deck = new CardDeck();
-        direction = Direction.COUNTERCLOCKWISE;
         deck.createDeck();
+        //im JSON ist COUNTERCLOCKWISE abgespeichert, deshalb muss die Direction geändert werden
+        changeDirection();
     }
 
     /**
@@ -79,7 +79,8 @@ public class CrazyDog {
         player4.setColor("blue");
         this.nextPlayer = nextPlayer;
         this.gameBoard = gameBoard;
-        direction = Direction.COUNTERCLOCKWISE;
+        //im JSON ist COUNTERCLOCKWISE abgespeichert, deshalb muss die Direction geändert werden
+        changeDirection();
         this.pieceList = PieceDAO.getAllPieces();
         positionFieldsInitial();
     }
