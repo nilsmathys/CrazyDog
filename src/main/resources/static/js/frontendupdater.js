@@ -77,3 +77,29 @@ $(function updateCurrentPlayer() {
         }
     });
 });
+
+$(function retrieveHand() {
+    $.ajax({
+        type: 'GET',
+        url: 'getchangesCardsOnHand',
+        success: function(fragment) {
+            $("#handBlock").replaceWith(fragment);
+        },
+        complete: function() {
+            setTimeout(retrieveHand, 10000);
+        }
+    });
+});
+
+$(function updateButtonBlock() {
+    $.ajax({
+        type: 'GET',
+        url: 'getChangesForButton',
+        success: function(fragment) {
+            $("#buttonBlock").replaceWith(fragment);
+        },
+        complete: function() {
+            setTimeout(updateButtonBlock, 5000);
+        }
+    });
+});

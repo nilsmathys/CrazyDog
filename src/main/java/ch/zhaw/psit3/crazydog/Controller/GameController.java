@@ -1,7 +1,6 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
 import ch.zhaw.psit3.crazydog.CrazyDog;
-import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
@@ -22,7 +21,7 @@ import java.util.Map;
 @Controller
 public class GameController {
 
-    boolean buttonClicked = false;
+    boolean roundStarted = false;
 
     @ModelAttribute("team1")
     public List<Player> populateTeam1() {
@@ -50,7 +49,7 @@ public class GameController {
             Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
             model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
 
-            if (buttonClicked) {
+            if (roundStarted) {
                 model.addAttribute("roundStarted", true);
             } else {
                 model.addAttribute("roundStarted", Round.isRoundStarted());
@@ -73,10 +72,10 @@ public class GameController {
 
     @RequestMapping(value="exchangeCard")
     public ModelAndView exchangeCardService(@RequestParam(value = "selectedCardId") String selectedCardId,
-                                            @RequestParam(value = "sessionId") String sessionId) {
-
+                                            HttpServletRequest request) {
+        String sessionId = request.getSession().getAttribute("id").toString();
         Round.setExchangeCard(Integer.parseInt(sessionId), Integer.parseInt(selectedCardId));
-        buttonClicked = true;
+        roundStarted = true;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/game");
         return modelAndView;

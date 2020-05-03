@@ -1,98 +1,97 @@
 <!doctype html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css"/>
-    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css"/>
+        <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css"/>
+        <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css"/>
 
-    <title>Crazy Dog</title>
-</head>
-<body>
-<header>
-    <h2>HOME</h2>
-    <h2>Abmelden</h2>
-</header>
-<div class="container-top">
-    <div class="container-left">
-        <div>
-            <h3>Team 1</h3>
-            <ul class="list-group">
-                <li class="list-group-item"
-                    th:each="player : ${team1}" th:id="'Player'+${player.getId()}"
-                    th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
-                    th:classappend="${player.getColor()}">
+        <title>Crazy Dog</title>
+    </head>
+    <body>
+        <header>
+            <h2>HOME</h2>
+            <h2>Abmelden</h2>
+        </header>
+        <div class="container-top">
+            <div class="container-left">
+                <div>
+                    <h3>Team 1</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item"
+                            th:each="player : ${team1}" th:id="'Player'+${player.getId()}"
+                            th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
+                            th:classappend="${player.getColor()}">
 
 
-                    <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'"
-                         th:alt="${player.getUsername()}">
-                    <span class="playername" th:text="${player.getUsername()}"></span>
-                </li>
-            </ul>
+                            <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'"
+                                 th:alt="${player.getUsername()}">
+                            <span class="playername" th:text="${player.getUsername()}"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Team 2</h3>
+                    <ul class="list-group">
+                        <li th:each="player : ${team2}" th:id="'Player'+${player.getId()}"
+                            th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
+                            th:classappend="${player.getColor()}">
+
+                            <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'"
+                                 th:alt="${player.getUsername()}">
+                            <span class="playername" th:text="${player.getUsername()}"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container-center">
+                <span id="board"></span>
+                <span id="boardhole"></span>
+                <img class="grid" src="/img/crazydog_grid.png" alt="Crazy Dog Grid" width="850px">
+                <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field"
+                     th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
+                <img th:src="'/img/' + ${gameDirection} + '.png'" class="direction">
+            </div>
+            <div class="container-right" id="instructionList">
+                <!-- show the instructions on the right side of the page -->
+                <div th:each="instruction : ${ userInstructions }"
+                     th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'"
+                     th:text="${'&#62; '+instruction}"
+                     th:style="${(userInstructions.indexOf(instruction)%2) == 0} ? 'background-color: #f1f3f4' : 'background-color: #fcf8e8'"></div>
+            </div>
         </div>
-        <div>
-            <h3>Team 2</h3>
-            <ul class="list-group">
-                <li th:each="player : ${team2}" th:id="'Player'+${player.getId()}"
-                    th:class="${currentPlayerID == player.getId()} ? 'currentplayer list-group-item' : 'list-group-item'"
-                    th:classappend="${player.getColor()}">
-
-                    <img class="playerimage" th:src=" '/img/players/player' + ${player.getId()} + '.png'"
-                         th:alt="${player.getUsername()}">
-                    <span class="playername" th:text="${player.getUsername()}"></span>
-                </li>
-            </ul>
+        <div class="container-bottom">
+            <div class="select-buttons" th:if="${ !roundStarted }" id="buttonBlock">
+                <p id="countdown" style="margin-right: 30px"></p>
+                <form th:action="@{exchangeCard}">
+                    <input type="hidden" th:name="sessionId" th:value="${sessionId}">
+                    <input type="hidden" th:name="selectedCardId" value=""/>
+                    <button type="submit" id="exchange-button">Karte tauschen</button>
+                </form>
+            </div>
+            <div class="hand" id="handBlock">
+                <div th:each="coh : ${ playerandhand }">
+                    <img th:src="'/img/cards/karte_' + ${ coh.getValue() } + '.png'"
+                         class="playingcard"
+                         th:id=" ${ coh.getId() }" id="card"
+                         th:alt="'Karte ' + ${ coh.getValue() }"
+                         th:data-card_id="${ coh.getId() }"
+                         th:data-card_value="${ coh.getValue() }"
+                         th:data-card_name="${ coh.getName() }"
+                         onclick="chooseCard(this)">
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="container-center">
-        <span id="board"></span>
-        <span id="boardhole"></span>
-        <img class="grid" src="/img/crazydog_grid.png" alt="Crazy Dog Grid" width="850px">
-        <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field"
-             th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="main(this.id, this.src)">
-        <img th:src="'/img/' + ${gameDirection} + '.png'" class="direction">
-    </div>
-    <div class="container-right" id="instructionList">
-        <!-- show the instructions on the right side of the page -->
-        <div th:each="instruction : ${ userInstructions }"
-             th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'"
-             th:text="${'&#62; '+instruction}"
-             th:style="${(userInstructions.indexOf(instruction)%2) == 0} ? 'background-color: #f1f3f4' : 'background-color: #fcf8e8'"></div>
-    </div>
-</div>
-<div class="container-bottom">
-    <div class="select-buttons" th:if="${ !roundStarted }">
-        <p id="countdown" style="margin-right: 30px"></p>
-        <form th:action="@{exchangeCard}">
-            <input type="hidden" th:name="sessionId" th:value="${sessionId}">
-            <input type="hidden" th:name="selectedCardId" value=""/>
-            <button type="submit" id="exchange-button">Karte tauschen</button>
-        </form>
-    </div>
-    <div class="hand">
-        <div th:each="coh : ${ playerandhand }">
-            <img th:src="'/img/cards/karte_' + ${ coh.getValue() > 0 ? coh.getValue() : coh.getName() } + '.png'"
-                 class="playingcard"
-                 th:id=" ${ coh.getId() }" id="card"
-                 th:alt="'Karte ' + ${ coh.getValue() > 0 ? coh.getValue() : coh.getName() }"
-                 th:data-card_id="${ coh.getId() }"
-                 th:data-card_value="${ coh.getValue() }"
-                 th:data-card_name="${ coh.getName() }"
-                 onclick="chooseCard(this)">
+
+
+        <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+        <script th:src="@{/js/clicklistener.js}"></script>
+        <script th:src="@{/js/frontendupdater.js}"></script>
+        <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+        <div th:insert="modals.html">
         </div>
-    </div>
-
-</div>
-
-
-<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
-<script th:src="@{/js/clicklistener.js}"></script>
-<script th:src="@{/js/frontendupdater.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
-<div th:insert="modals.html">
-</div>
-</body>
+    </body>
 </html>
 
