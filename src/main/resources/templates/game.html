@@ -19,6 +19,7 @@
         <span id="sessionId" style="display: none;" th:text="${sessionId}"></span>
         <div class="container-top">
             <div class="container-left">
+                <h3><span id="roundNumber" th:text="'Round '+${roundNr}"></span></h3>
                 <div>
                     <h3>Team 1</h3>
                     <ul class="list-group">
@@ -77,13 +78,18 @@
                 <form th:action="@{exchangeCard}">
                     <input type="hidden" th:name="sessionId" th:value="${sessionId}">
                     <input type="hidden" th:name="selectedCardId" value=""/>
-                    <button type="submit" id="exchange-button" >Karte tauschen</button>
+                    <button class="btn btn-primary" type="submit" id="exchange-button" >Karte tauschen</button>
                 </form>
             </div>
             <div class="hand">
                 <div th:each="coh : ${ playerandhand }">
-                    <img th:src="'/img/cards/karte_' + ${ coh.getValue() } + '.png'" class="playingcard"
-                         th:id=" ${ coh.getId() }" id="card" th:alt="'Karte ' + ${ coh.getValue() }"
+                    <img th:src="'/img/cards/karte_' + ${ coh.getValue() } + '.png'"
+                         class="playingcard"
+                         th:id=" ${ coh.getId() }" id="card"
+                         th:alt="'Karte ' + ${ coh.getValue() }"
+                         th:data-card_id="${ coh.getId() }"
+                         th:data-card_value="${ coh.getValue() }"
+                         th:data-card_name="${ coh.getName() }"
                          th:onclick="|calculatePossibleMoves(${ coh.getValue() })|">
                 </div>
             </div>

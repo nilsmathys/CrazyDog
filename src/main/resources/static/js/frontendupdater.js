@@ -94,3 +94,23 @@ $(function updateCurrentDirection() {
         }
     });
 });
+
+$(function updateRoundNr() {
+    $.ajax({
+        type: 'GET',
+        url: 'getchangesRoundNr',
+        success: function(data) {
+            if(data > 0) {
+                var innerText = "Round "+data;
+                document.getElementById('roundNumber').innerHTML = innerText;
+            }
+            else {
+                console.log("Dom was not manipulated, because there is nothing to update.");
+            }
+        },
+        complete: function() {
+            // Schedule the next request when the current one's complete
+            setTimeout(updateRoundNr, 1000);
+        }
+    });
+});

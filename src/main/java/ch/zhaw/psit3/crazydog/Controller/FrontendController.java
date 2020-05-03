@@ -97,4 +97,12 @@ public class FrontendController {
         return CrazyDog.getGameBoard().getFields();
     }
 
+    // This method is reponsible for listening to the continous ajax frontend-updater.
+    // It returns the data that was processed by the server, when the listenToClicks-Controller was called.
+    @RequestMapping(value = "/getchangesRoundNr", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody int returnRoundNr() {
+        //System.out.println("/getchangesRoundNr Controller was called");
+        return CrazyDog.getRoundNumber();
+    }
+
 }

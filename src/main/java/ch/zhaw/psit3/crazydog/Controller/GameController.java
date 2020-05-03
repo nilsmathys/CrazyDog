@@ -64,6 +64,7 @@ public class GameController {
             //model.addAttribute("sessionId", request.getSession().getAttribute("id"));
             model.addAttribute("userInstructions", UserInstructions.getUserInstructions());
             model.addAttribute("currentPlayerID", CrazyDog.getNextPlayer());
+            model.addAttribute("roundNr", CrazyDog.getNextPlayer());
             model.addAttribute("sessionId", request.getSession().getAttribute("id"));
 
             Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
