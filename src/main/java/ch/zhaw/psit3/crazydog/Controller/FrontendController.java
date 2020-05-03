@@ -59,7 +59,7 @@ public class FrontendController {
     // It returns the data that was processed by the server, when the listenToClicks-Controller was called.
     @RequestMapping(value = "/getchanges", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody FieldAndPiece[] returnChanges() {
-        System.out.println("/getchanges Controller was called");
+        //System.out.println("/getchanges Controller was called");
         return sourceAndDestination;
     }
 
@@ -67,7 +67,7 @@ public class FrontendController {
     // It returns the data that was processed by the server
     @RequestMapping(value = "/getchangesInstructions", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List returnChangesInstructions() {
-        System.out.println("/getchangesInstructions Controller was called");
+        //System.out.println("/getchangesInstructions Controller was called");
         userInstructions = UserInstructions.getUserInstructions();
         return userInstructions;
     }
@@ -76,7 +76,7 @@ public class FrontendController {
     // It returns the data that was processed by the server
     @RequestMapping(value = "/getchangesCurrentPlayer", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody int returnChangesCurrentPlayer() {
-        System.out.println("/getchangesCurrentPlayer Controller was called");
+        //System.out.println("/getchangesCurrentPlayer Controller was called");
         currentPlayerID = CrazyDog.getNextPlayer();
         return currentPlayerID;
     }
@@ -85,7 +85,7 @@ public class FrontendController {
     // It returns the data that was processed by the server
     @RequestMapping(value = "/getchangesCurrentDirection", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody String returnChangesCurrentDirection() {
-        System.out.println("/getchangesCurrentDirection Controller was called");
+        //System.out.println("/getchangesCurrentDirection Controller was called");
         direction = CrazyDog.getDirection();
         Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
         return directionMap.get(direction);
