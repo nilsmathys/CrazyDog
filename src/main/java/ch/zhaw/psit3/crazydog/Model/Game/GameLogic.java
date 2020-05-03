@@ -110,8 +110,8 @@ public class GameLogic {
                     // Do the whole logic counterclockwise
                 }
             }
-        }
-        */
+        }*/
+
     }
 
     public static List<GameField> getDestinations() {
@@ -120,6 +120,7 @@ public class GameLogic {
 
     public static void makeMove(int cardValue, int sessionId, String destinationfield) {
         successmessage = new Message("Erfolgreicher Zug");
+        isLegalMoveMade = true;
     }
 
     public static Message getSuccessMessage() {

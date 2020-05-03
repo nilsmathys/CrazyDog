@@ -185,7 +185,7 @@ h2 {
 }
 
 .currentplayer {
-    border: 10px solid #f9ff07;
+    border: 10px solid #f9ff07 !important;
 }
 
 .field {

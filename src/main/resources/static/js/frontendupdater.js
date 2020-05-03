@@ -17,9 +17,6 @@ $(function updateFrontend() {
             setTimeout(updateFrontend, 1000);
         }
     });
-
-
-
 });
 
 $(function updateInstructions() {
@@ -39,7 +36,7 @@ $(function updateInstructions() {
                     if((i % 2) == 0) {
                         background = "#f1f3f4";
                     }
-                    innerText += "<div class='"+cssClass+"' style='background-color: "+background+";'>"+data[i]+"</div>";
+                    innerText += "<div class='"+cssClass+"' style='background-color: "+background+";'>&#62; "+data[i]+"</div>";
                 }
 
                 document.getElementById('instructionList').innerHTML = innerText;

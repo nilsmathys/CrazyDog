@@ -138,8 +138,16 @@ public class CrazyDog {
         return nextPlayer;
     }
 
-    public static void setNextPlayer(int player) {
-        nextPlayer = player;
+    /**
+     * increase player by one, or start by 1 again
+     */
+    public static void increaseNextPlayer() {
+        if (nextPlayer == 4) {
+            nextPlayer = 1;
+        } else {
+            nextPlayer++;
+        }
+
     }
 
     public static GameBoard getGameBoard() {
@@ -170,10 +178,11 @@ public class CrazyDog {
     }
 
     /**
-     * get current direction
+     * set current direction
      */
     public static void setDirection(Direction newDirection) {
         direction = newDirection;
     }
 
 }
+
