@@ -85,41 +85,54 @@ public class GameLogic {
         // ------------------------ nur zum Testen fertig
 
         String playerColor = getPlayersColorFromId(sessionId);
+        // Get all the fields with Pieces of the player
         List<GameField> GameFieldsWithThisColor = getGameFieldsWithPiecesOfPlayersColor(playerColor);
-        // Now we have all the fields with Pieces of the Player
-        List<GameField> cleanedList = removeGameFieldsWithPiecesOnHomeFields(GameFieldsWithThisColor);
-        // Removed the GameFields with Pieces on HomeFields
+
+        if(cardValue == 2 || cardValue == 5 || cardValue == 6 || cardValue == 8 || cardValue == 9 || cardValue == 10 || cardValue == 12) {
+            // Remove the GameFields with Pieces on HomeFields
+            List<GameField> GameFieldsWithNoPiecesOnHomeFields = removeGameFieldsWithPiecesOnHomeFields(GameFieldsWithThisColor);
+            if(GameFieldsWithNoPiecesOnHomeFields.isEmpty()) {
+                // do nothing
+            }
+            else {
+                calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);
+            }
+        }
+        /*
+        if(cardvalue == 11) {
+            calculateValuesOnHomeFields():
+            calcualteNormalfieldValues(1);
+            calcualteNormalfieldValues(11);
+        }
+        if(cardvalue == 13) {
+            calculateValuesOnHomeFields():
+            calcualteNormalfieldValues(1);
+            calcualteNormalfieldValues(11);
+        }
+        */
+
 
         // Now we have all the GameFields in cleanedList, which are not on home fields
         // Now we can start calculating the destination fields
 
-        if(cleanedList.isEmpty()) {
-            // do nothing
-        }
-        else {
-            // Calculate each destination field
-            for(GameField gamefield : cleanedList) {
-                int sourceId = gamefield.getIdForCalculation();
-                System.out.println(gamefield.getPieceOnField().getPictureName() + " is on Field with calcID " + gamefield.getIdForCalculation());
-                int destinationId = getDestinationId(sourceId, cardValue);
-                int calculationIdOfPassedStartField = getStartFieldIfStartFieldIsPassed(sourceId, destinationId);
-                // No StartField was passed, everything is ok, we can simply add the card value
-                if(calculationIdOfPassedStartField == 0) {
-                    System.out.println("The piece doesn't pass a startfield");
-                    // Case for destinationfields
-                    if(gamefield.getGameFieldName().equals("destinationfield")) {
-                        GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "destinationfield");
-                        if(calculatedGameField != null && !calculatedGameField.getGameFieldName().equals("wormhole")) {
-                            if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
-                                System.out.println("No Piece of the Player is already on the calculated field");
-                                calculatedDestinations.add(calculatedGameField);
-                                System.out.println("The piece lands on the field" + destinationId);
-                            }
-                        }
-                    }
-                    // Case for regular fields
-                    else {
-                        GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "standard");
+
+
+    }
+
+    public static void calculateNormalFields(List<GameField> GameFieldsWithNoPiecesOnHomeFields, int cardValue, String playerColor ) {
+        // Calculate each destination field
+        for(GameField gamefield : GameFieldsWithNoPiecesOnHomeFields) {
+            int sourceId = gamefield.getIdForCalculation();
+            System.out.println(gamefield.getPieceOnField().getPictureName() + " is on Field with calcID " + gamefield.getIdForCalculation());
+            int destinationId = getDestinationId(sourceId, cardValue);
+            int calculationIdOfPassedStartField = getStartFieldIfStartFieldIsPassed(sourceId, destinationId);
+            // No StartField was passed, everything is ok, we can simply add the card value
+            if(calculationIdOfPassedStartField == 0) {
+                System.out.println("The piece doesn't pass a startfield");
+                // Case for destinationfields
+                if(gamefield.getGameFieldName().equals("destinationfield")) {
+                    GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "destinationfield");
+                    if(calculatedGameField != null && !calculatedGameField.getGameFieldName().equals("wormhole")) {
                         if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
                             System.out.println("No Piece of the Player is already on the calculated field");
                             calculatedDestinations.add(calculatedGameField);
@@ -127,62 +140,60 @@ public class GameLogic {
                         }
                     }
                 }
-                // A Startfield was passed we have to check some things
+                // Case for regular fields
                 else {
-                    System.out.println("The piece passes or lands on the startfield with the calcID" + calculationIdOfPassedStartField);
-                    GameField startField = getGameFieldWithCalculationId(calculationIdOfPassedStartField, "startfield");
-                    // First check if there is a piece on the startfield of same color as startfield (if there is, we can't continue)
-                    // There is no ELSE -  we can NOT move with this piece.
-                    if(!isStartFieldOccupiedByPieceOfSameColor(startField)) {
-                        System.out.println("The startfield with calcID " + calculationIdOfPassedStartField + " has no piece with same color on it. No Block.");
-                        if(destinationId == calculationIdOfPassedStartField) {
-                            GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "startfield");
-                            if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
-                                System.out.println("No Piece of the Player is already on the calculated field");
-                                calculatedDestinations.add(calculatedGameField);
-                                System.out.println("The piece lands exactly on the startfield with calcID" + calculationIdOfPassedStartField);
-                            }
+                    GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "standard");
+                    if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
+                        System.out.println("No Piece of the Player is already on the calculated field");
+                        calculatedDestinations.add(calculatedGameField);
+                        System.out.println("The piece lands on the field" + destinationId);
+                    }
+                }
+            }
+            // A Startfield was passed we have to check some things
+            else {
+                System.out.println("The piece passes or lands on the startfield with the calcID" + calculationIdOfPassedStartField);
+                GameField startField = getGameFieldWithCalculationId(calculationIdOfPassedStartField, "startfield");
+                // First check if there is a piece on the startfield of same color as startfield (if there is, we can't continue)
+                // There is no ELSE -  we can NOT move with this piece.
+                if(!isStartFieldOccupiedByPieceOfSameColor(startField)) {
+                    System.out.println("The startfield with calcID " + calculationIdOfPassedStartField + " has no piece with same color on it. No Block.");
+                    if(destinationId == calculationIdOfPassedStartField) {
+                        GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "startfield");
+                        if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
+                            System.out.println("No Piece of the Player is already on the calculated field");
+                            calculatedDestinations.add(calculatedGameField);
+                            System.out.println("The piece lands exactly on the startfield with calcID" + calculationIdOfPassedStartField);
                         }
-                        // Now we know that we pass the startfield and don't land on it
-                        else {
-                            System.out.println("The piece doesn't land on the startfield.");
-                            // So we check if the Field after the StartField is a Destinationfield of the player
-                            // We also need to check if the destinationfield is out of range (bigger than the calculationId's of the destination fields)
-                            GameField destinationFieldNextToStartField = getGameFieldWithCalculationId(calculationIdOfPassedStartField + 1, "destinationfield");
-                            if(destinationFieldNextToStartField.getColor().equals(playerColor) && (destinationId <= calculationIdOfPassedStartField + 4)) {
-                                System.out.println("The destination fields belong to the players color. The piece could land on a destination field.");
-                                // Now we know that we could move a piece into player's destination fields.
-                                // But only if there are no Pieces blocking (we can't move past pieces in destination fields)
-                                if(!arePiecesBlockingOnDestinationFields(destinationId, destinationFieldNextToStartField)) {
-                                    System.out.println("No own pieces are blocking the destination fields!");
-                                    GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "destinationfield");
-                                    if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
-                                        System.out.println("No Piece of the Player is already on the calculated destination field");
-                                        calculatedDestinations.add(calculatedGameField);
-                                        System.out.println("The piece can land on the destinationfield  with calcId" + destinationId);
-                                    }
-                                    GameField calculatedGameField2 = getGameFieldWithCalculationId(destinationId, "standard");
-                                    if(!isPieceOfPlayerOnField(calculatedGameField2, playerColor)) {
-                                        System.out.println("No Piece of the Player is already on the calculated standard field");
-                                        calculatedDestinations.add(calculatedGameField2);
-                                        System.out.println("The piece can land on the standard field with calcId" + destinationId);
-                                    }
+                    }
+                    // Now we know that we pass the startfield and don't land on it
+                    else {
+                        System.out.println("The piece doesn't land on the startfield.");
+                        // So we check if the Field after the StartField is a Destinationfield of the player
+                        // We also need to check if the destinationfield is out of range (bigger than the calculationId's of the destination fields)
+                        GameField destinationFieldNextToStartField = getGameFieldWithCalculationId(calculationIdOfPassedStartField + 1, "destinationfield");
+                        if(destinationFieldNextToStartField.getColor().equals(playerColor) && (destinationId <= calculationIdOfPassedStartField + 4)) {
+                            System.out.println("The destination fields belong to the players color. The piece could land on a destination field.");
+                            // Now we know that we could move a piece into player's destination fields.
+                            // But only if there are no Pieces blocking (we can't move past pieces in destination fields)
+                            if(!arePiecesBlockingOnDestinationFields(destinationId, destinationFieldNextToStartField)) {
+                                System.out.println("No own pieces are blocking the destination fields!");
+                                GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "destinationfield");
+                                if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
+                                    System.out.println("No Piece of the Player is already on the calculated destination field");
+                                    calculatedDestinations.add(calculatedGameField);
+                                    System.out.println("The piece can land on the destinationfield  with calcId" + destinationId);
                                 }
-                                // Some pieces are blocking, so we can only move to a standard field
-                                else {
-                                    System.out.println("Some pieces in the destination field is blocking - piece can not move past them.");
-                                    GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "standard");
-                                    if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
-                                        System.out.println("No Piece of the Player is already on the calculated field");
-                                        calculatedDestinations.add(calculatedGameField);
-                                        System.out.println("The piece can land on the standard field with calcId " + destinationId);
-                                    }
+                                GameField calculatedGameField2 = getGameFieldWithCalculationId(destinationId, "standard");
+                                if(!isPieceOfPlayerOnField(calculatedGameField2, playerColor)) {
+                                    System.out.println("No Piece of the Player is already on the calculated standard field");
+                                    calculatedDestinations.add(calculatedGameField2);
+                                    System.out.println("The piece can land on the standard field with calcId" + destinationId);
                                 }
                             }
-                            // We can't move the Piece into the Destination Fields. But we can move past the Destination Fields,
-                            // and just place it on a standard field.
+                            // Some pieces are blocking, so we can only move to a standard field
                             else {
-                                System.out.println("The destination fields do not belong to the players color. The piece moves past them.");
+                                System.out.println("Some pieces in the destination field is blocking - piece can not move past them.");
                                 GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "standard");
                                 if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
                                     System.out.println("No Piece of the Player is already on the calculated field");
@@ -191,12 +202,24 @@ public class GameLogic {
                                 }
                             }
                         }
+                        // We can't move the Piece into the Destination Fields. But we can move past the Destination Fields,
+                        // and just place it on a standard field.
+                        else {
+                            System.out.println("The destination fields do not belong to the players color. The piece moves past them.");
+                            GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "standard");
+                            if(!isPieceOfPlayerOnField(calculatedGameField, playerColor)) {
+                                System.out.println("No Piece of the Player is already on the calculated field");
+                                calculatedDestinations.add(calculatedGameField);
+                                System.out.println("The piece can land on the standard field with calcId " + destinationId);
+                            }
+                        }
                     }
                 }
-                System.out.println("------------------");
             }
+            System.out.println("------------------");
         }
     }
+
 
     public static List<GameField> getDestinations() {
         return calculatedDestinations;
