@@ -4,7 +4,8 @@ var highlightedFields;
 var destinationField;
 var exchangeCards = false;
 
-function calculatePossibleMoves(cardvalue) {
+function calculatePossibleMoves(cardvalue, cardId) {
+    $("input[name='selectedCardId']").val(cardId);
     chosenCard = cardvalue;
     sessionId = $('#sessionId').html();
     sendCardAndId();
@@ -123,7 +124,7 @@ function updateGameFields() {
         },
         complete: function () {
             // Schedule the next request when the current one's complete
-            setTimeout(updateFrontend, 1000);
+            //setTimeout(updateFrontend, 1000);
         }
     });
 }

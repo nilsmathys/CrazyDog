@@ -17,6 +17,9 @@ $(function updateFrontend() {
             setTimeout(updateFrontend, 1000);
         }
     });
+
+
+
 });
 
 $(function updateInstructions() {
@@ -38,7 +41,6 @@ $(function updateInstructions() {
                     }
                     innerText += "<div class='"+cssClass+"' style='background-color: "+background+";'>&#62; "+data[i]+"</div>";
                 }
-
                 document.getElementById('instructionList').innerHTML = innerText;
             }
             else {
@@ -113,4 +115,55 @@ $(function updateRoundNr() {
             setTimeout(updateRoundNr, 1000);
         }
     });
+});
+
+$(function retrieveHand() {
+    $.ajax({
+        type: 'GET',
+        url: 'getchangesCardsOnHand',
+        success: function(fragment) {
+            $("#handBlock").replaceWith(fragment);
+        },
+        complete: function() {
+            setTimeout(retrieveHand, 10000);
+        }
+    });
+});
+
+$(function updateButtonBlock() {
+    $.ajax({
+        type: 'GET',
+        url: 'getChangesForButton',
+        success: function(fragment) {
+            $("#buttonBlock").replaceWith(fragment);
+        },
+        complete: function() {
+            setTimeout(updateButtonBlock, 40000);
+        }
+    });
+});
+
+jQuery(document).ready(function($){
+    zoom();
+
+    $( window ).resize(function() {
+        zoom();
+    });
+
+    function zoom() {
+        let htmlWidth = $('html').innerWidth();
+        let bodyWidth = 900;
+
+        let scale;
+        let height;
+        if (htmlWidth > bodyWidth) {
+            scale = 0.5;
+            height = 450;
+        } else {
+            scale = htmlWidth / bodyWidth / 2;
+            height = 900 * scale;
+        }
+        $('.container-top').css('transform', 'scale(' + scale + ')');
+        $('.playarea').css('height', height +'px' )
+    }
 });
