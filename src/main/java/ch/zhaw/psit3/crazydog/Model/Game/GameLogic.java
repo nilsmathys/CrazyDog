@@ -197,6 +197,7 @@ public class GameLogic {
             successmessage = new Message("Erfolgreicher Zug");
             // TODO: Check if the destinationfield is of type wormhole. Create Logic for this case.
             // TODO: Check if a player is on Destinationfield. Create Logic for this case.
+            // TODO: Update the boolean flag that player made his move
             GameField sourceField = getGameFieldWithCSSId(sourceFieldCSSId);
             GameField destinationField = getGameFieldWithCSSId(destinationFieldCSSId);
             destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField

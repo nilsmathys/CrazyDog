@@ -57,8 +57,6 @@
                      th:src="${field.getPieceOnField() != null} ? ${'/img/pieces/'+field.getPieceOnField().getPictureName()} : '/img/pieces/empty.png'" class="field"
                      th:id="${field.getCssId()}" th:alt="${field.getCssId()}"
                      onclick="getPossibleDestinationFieldsOrMakeMove(this.id)">
-                <!--<img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field"
-                     th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="getPossibleDestinationFieldsOrMakeMove(this.id)">-->
                 <img th:src="${gameDirection.equals('clockwise')} ? '/img/clockwise.png' : '/img/counterclockwise.png'" class="direction" id="direction">
             </div>
             <div class="container-right" id="instructionList">
