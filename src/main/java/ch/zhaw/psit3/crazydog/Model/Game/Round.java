@@ -90,7 +90,7 @@ public class Round {
             deck.createDeck();
         }
 
-        int value = 2;  // remove !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        int value = 8;  // remove !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         for(int i=0; i<totalCardsToDistribute; i=i+4) {
             //playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(1, "test", value));  // remove !!!!!
