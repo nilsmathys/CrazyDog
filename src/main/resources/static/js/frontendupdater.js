@@ -31,7 +31,7 @@ $(function updateInstructions() {
                 var innerText = "";
                 var i=0;
                 for(i=0;i<data.length;i++) {
-                    var cssClass = "card-header";
+                    var cssClass = "card-header instructions";
                     var background = "#fcf8e8"
                     if(i === 0) {
                         cssClass = "card-title card-header firstinstruction";

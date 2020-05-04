@@ -607,3 +607,7 @@ h2 {
 .link-no-decoration {
     text-decoration: none;
 }
+
+.instructions {
+    font-size: 23px;
+}

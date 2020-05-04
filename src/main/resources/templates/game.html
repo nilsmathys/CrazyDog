@@ -70,7 +70,7 @@
                 <div class="container-right" id="instructionList">
                     <!-- show the instructions on the right side of the page -->
                     <div th:each="instruction : ${ userInstructions }"
-                         th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header'"
+                         th:class="${userInstructions.indexOf(instruction) == 0} ? 'card-title card-header firstinstruction' : 'card-header instructions'"
                          th:text="${'&#62; '+instruction}"
                          th:style="${(userInstructions.indexOf(instruction)%2) == 0} ? 'background-color: #f1f3f4' : 'background-color: #fcf8e8'"></div>
                 </div>
