@@ -79,7 +79,7 @@ function chooseCard(el) {
     let id = $(el).data('card_id');
     let value = $(el).data('card_value');
     let name = $(el).data('card_name');
-
+    $("input[name='selectedCardId']").val(id);
     //3: 3 fahren oder Richtungsänderung
     //oneElven : 1 oder 11 fahren
     //questionmark: irgendeine karte auswählen->
@@ -110,6 +110,7 @@ function chooseCard(el) {
         default:
             playNormalCard();
             break;
+
     }
 
     function playSpecialCard(selAction) {
@@ -119,12 +120,31 @@ function chooseCard(el) {
     function playNormalCard() {
 
     }
+
+
+
+   // $(el).data('card_id', 1);
+   //
+   //  chosenCardId = id;
+   //  if (value === 3) {}
+   //  else if (value === 4) {}
+   //  else if (value === 7) {}
+   //  else if (value === 11) {
+   //     chosenCardValue = value;
+   //     //TODO: choose an action
+   //  }
+   //  else if (value === 12) {}
+   //  else if (value === 13) {}
+   //  else if (value === 14) {}
+   //  else if (value === 15) {}
+   //  else {
+   //     chosenCardValue = value;
+   //  }
 }
 
-//Set the value of the hidden input field
-$("img[data-card_id]").click(function(e){
-    $("input[name='selectedCardId']").val($(this).data('card_id'));
-});
+function removeCardFromHand() {
+    $('img[id='+ chosenCardId + ']').remove();
+}
 
 //Set the countdown for selecting a card to exchange
 var timeleft = 30;

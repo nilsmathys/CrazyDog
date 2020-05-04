@@ -87,6 +87,14 @@ public class Values {
         }
     };
 
+    //wormhole
+    public static final int Wormhole1 = 9;
+    public static final int Wormhole2 = 25;
+    public static final int Wormhole3 = 41;
+    public static final int Wormhole4 = 57;
+
+
+
 
 
     public static final Map<Integer, Map> HOMEANDDESTFIELDS = new HashMap<>() {

@@ -77,3 +77,54 @@ $(function updateCurrentPlayer() {
         }
     });
 });
+
+$(function retrieveHand() {
+    $.ajax({
+        type: 'GET',
+        url: 'getchangesCardsOnHand',
+        success: function(fragment) {
+            $("#handBlock").replaceWith(fragment);
+        },
+        complete: function() {
+            setTimeout(retrieveHand, 10000);
+        }
+    });
+});
+
+$(function updateButtonBlock() {
+    $.ajax({
+        type: 'GET',
+        url: 'getChangesForButton',
+        success: function(fragment) {
+            $("#buttonBlock").replaceWith(fragment);
+        },
+        complete: function() {
+            setTimeout(updateButtonBlock, 40000);
+        }
+    });
+});
+
+jQuery(document).ready(function($){
+    zoom();
+
+    $( window ).resize(function() {
+        zoom();
+    });
+
+    function zoom() {
+        let htmlWidth = $('html').innerWidth();
+        let bodyWidth = 900;
+
+        let scale;
+        let height;
+        if (htmlWidth > bodyWidth) {
+            scale = 0.5;
+            height = 450;
+        } else {
+            scale = htmlWidth / bodyWidth / 2;
+            height = 900 * scale;
+        }
+        $('.container-top').css('transform', 'scale(' + scale + ')');
+        $('.playarea').css('height', height +'px' )
+    }
+});

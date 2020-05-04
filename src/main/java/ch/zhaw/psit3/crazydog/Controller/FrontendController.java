@@ -1,16 +1,20 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
 import ch.zhaw.psit3.crazydog.CrazyDog;
+import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
+import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /* This controller is responsible for providing data to ajax calls. */
 @Controller
@@ -75,6 +79,22 @@ public class FrontendController {
         System.out.println("/getchangesCurrentPlayer Controller was called");
         currentPlayerID = CrazyDog.getNextPlayer();
         return currentPlayerID;
+    }
+
+    @RequestMapping(value = "/getchangesCardsOnHand")
+    public String returnChangesCardsOnHand(HttpServletRequest request, Model model) {
+        if(request.getSession().getAttribute("id") != null) {
+            int playerId = Integer.parseInt(request.getSession().getAttribute("id").toString());
+            Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
+            model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
+        }
+        return "game :: #handBlock";
+    }
+
+    @RequestMapping(value = "/getChangesForButton")
+    public String returnChangesForButton(Model model) {
+        model.addAttribute("roundStarted", Round.isRoundStarted());
+        return "game :: #buttonBlock";
     }
 
 }
