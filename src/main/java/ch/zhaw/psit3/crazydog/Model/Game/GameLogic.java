@@ -191,7 +191,7 @@ public class GameLogic {
         return moves;
     }
 
-    public static void makeMove(int cardValue, int sessionId, String destinationfield) {
+    public static void makeMove(int cardValue, int sessionId, String sourceField, String destinationField) {
         successmessage = new Message("Erfolgreicher Zug");
     }
 

@@ -56,9 +56,9 @@
                 <!--<img th:each="field : ${fields}"
                      th:src="${field.getPieceOnField() != null} ? ${'/img/pieces/'+field.getPieceOnField().getPictureName()} : '/img/pieces/empty.png'" class="field"
                      th:id="${field.getCssId()}" th:alt="${field.getCssId()}"
-                     onclick="makeMove(this.id)">-->
+                     onclick="getPossibleDestinationFieldsOrMakeMove(this.id)">-->
                 <img th:each="mapentry : ${fieldsandpieces}" th:src=" '/img/pieces/' + ${mapentry.value}" class="field"
-                     th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="makeMove(this.id)">
+                     th:id="${mapentry.key}" th:alt="${mapentry.key}" onclick="getPossibleDestinationFieldsOrMakeMove(this.id)">
                 <img th:src="${gameDirection.equals('clockwise')} ? '/img/clockwise.png' : '/img/counterclockwise.png'" class="direction" id="direction">
             </div>
             <div class="container-right" id="instructionList">
@@ -82,7 +82,7 @@
                 <div th:each="coh : ${ playerandhand }">
                     <img th:src="'/img/cards/karte_' + ${ coh.getValue() } + '.png'" class="playingcard"
                          th:id=" ${ coh.getId() }" id="card" th:alt="'Karte ' + ${ coh.getValue() }"
-                         th:onclick="|calculatePossibleMoves(${ coh.getValue() })|">
+                         th:onclick="|getPossibleSourceFields(${ coh.getValue() })|">
                 </div>
             </div>
         </div>
