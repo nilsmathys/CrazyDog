@@ -76,12 +76,4 @@ public class GameLogicController {
 
         return GameLogic.getSuccessMessage();
     }
-
-    // This method is reponsible for listening to the continous ajax frontend-updater.
-    // It returns the data that was processed by the server
-    @RequestMapping(value = "/getchanges", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<GameField> getChanges() {
-        List<GameField> gameFieldList = CrazyDog.getGameBoard().getFields();
-        return gameFieldList;
-    }
 }
