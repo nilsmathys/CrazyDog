@@ -129,11 +129,6 @@ function updateGameFields() {
     });
 }
 
-//Set the value of the hidden input field
-$("img[data-card_id]").click(function(e){
-    $("input[name='selectedCardId']").val($(this).data('card_id'));
-});
-
 //Set the countdown for selecting a card to exchange
 var timeleft = 30;
 var countdownTimer = setInterval(function(){
