@@ -89,7 +89,7 @@ function makeMove() {
                 showSuccessMessage(data);
                 if(data.message == "Erfolgreicher Zug") {
                     sourcefields = 0;               // Muss nicht unbedingt sein, aber sicherheitshalber reseten
-                    correctSourceField = 0;     // Reset the variable
+                    correctSourceField = 0;         // Reset the variable
                     reset();
                     removeHighlight(highlightedSourceFields);
                     removeHighlight(highlightedDestinationFields);
@@ -109,7 +109,7 @@ function makeMove() {
 // Highlight the source fields
 function showSourceFields(data) {
     $.each(data, function(index) {
-        $('#' + data[index].cssId).css({"border-radius": "50%", "border": "3px solid red"});
+        $('#' + data[index].cssId).css({"border-radius": "50%", "border": "6px solid #f2ff00"});
     });
     highlightedSourceFields = data;       // Store the data in a variable, so we can remove the highlighting later.
 }
@@ -117,7 +117,7 @@ function showSourceFields(data) {
 // Highlight the source fields
 function showDestinationFields(data) {
     $.each(data, function(index) {
-        $('#' + data[index].cssId).css({"border-radius": "50%", "border": "3px solid green"});
+        $('#' + data[index].cssId).css({"border-radius": "50%", "border": "6px solid #f700ff"});
     });
     highlightedDestinationFields = data;       // Store the data in a variable, so we can remove the highlighting later.
 }

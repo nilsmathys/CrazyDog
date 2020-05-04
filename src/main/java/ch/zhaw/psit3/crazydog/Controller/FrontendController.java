@@ -55,6 +55,7 @@ public class FrontendController {
         return sourceAndDestination;
     }
 
+    /*
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server, when the listenToClicks-Controller was called.
     @RequestMapping(value = "/getchanges", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
@@ -62,6 +63,7 @@ public class FrontendController {
         //System.out.println("/getchanges Controller was called");
         return sourceAndDestination;
     }
+     */
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server

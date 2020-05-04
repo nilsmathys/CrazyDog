@@ -1,5 +1,6 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
+import ch.zhaw.psit3.crazydog.CrazyDog;
 import ch.zhaw.psit3.crazydog.Model.Game.GameLogic;
 import ch.zhaw.psit3.crazydog.Model.Game.Move;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
@@ -70,23 +71,17 @@ public class GameLogicController {
         String sourceFieldCSSId = jsonObj.getString("correctSourceField"); // This value will be given to the gamelogic class
         String destinationFieldCSSId = jsonObj.getString("destinationField"); // This value will be given to the gamelogic class
 
-        // Give these values to the GameLogic to check if this is a legal move
+        // Give these values to the GameLogic to make the move
         GameLogic.makeMove(cardValue, sessionId, sourceFieldCSSId, destinationFieldCSSId);
 
         return GameLogic.getSuccessMessage();
     }
 
-
-
-
-
-    /*
     // This method is reponsible for listening to the continous ajax frontend-updater.
-    // It returns the data that was processed by the server, when the listenToClicks-Controller was called.
+    // It returns the data that was processed by the server
     @RequestMapping(value = "/getchanges", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody FieldAndPiece[] returnChanges() {
-        System.out.println("/getchanges Controller was called");
-        return sourceAndDestination;
+    public @ResponseBody List<GameField> getChanges() {
+        List<GameField> gameFieldList = CrazyDog.getGameBoard().getFields();
+        return gameFieldList;
     }
-    */
 }

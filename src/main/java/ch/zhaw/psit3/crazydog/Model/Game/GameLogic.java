@@ -192,6 +192,10 @@ public class GameLogic {
     }
 
     public static void makeMove(int cardValue, int sessionId, String sourceField, String destinationField) {
+        calculateMoves(cardValue, sessionId);       // Calculate all the possible moves
+        // Check if the sourceField and destinationField are saved in a move in the list
+        // If they are, get the Gamefields via their CSSID's out of the GameFieldList
+        // Manipute this List (don't forget to think about the wormhole Logic and if I land on another players Piece)
         successmessage = new Message("Erfolgreicher Zug");
     }
 
