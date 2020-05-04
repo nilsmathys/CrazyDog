@@ -26,8 +26,8 @@ public class FrontendController {
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server
-    @RequestMapping(value = "/getchanges", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<GameField> getChanges() {
+    @RequestMapping(value = "/getchangesPieces", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<GameField> getChangesPieces() {
         List<GameField> gameFieldList = CrazyDog.getGameBoard().getFields();
         // TODO: Improve performance by only returning the fields that actually changed!!!
         // TODO: We can get all the fields that changed by asking the GameLogic

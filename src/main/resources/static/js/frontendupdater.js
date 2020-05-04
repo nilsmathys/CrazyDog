@@ -1,7 +1,7 @@
 $(function updatePieces() {
     $.ajax({
         type: 'GET',
-        url: 'getchanges',
+        url: 'getchangesPieces',
         success: function(data) {
             $.each(data, function(index) {
                 $('#' + data[index].cssId).attr('src', '/img/pieces/' + ((data[index].pieceOnField == null) ? "empty.png" : data[index].pieceOnField.pictureName));
