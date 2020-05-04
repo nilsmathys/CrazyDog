@@ -88,15 +88,11 @@ function makeMove() {
             success : function(data) {
                 showSuccessMessage(data);
                 if(data.message == "Erfolgreicher Zug") {
-                    sourcefields = 0;               // Muss nicht unbedingt sein, aber sicherheitshalber reseten
+                    sourcefields = 0;               // Muss nicht unbedingt sein, aber sicherheitshalber zurücksetzen
                     correctSourceField = 0;         // Reset the variable
                     reset();
                     removeHighlight(highlightedSourceFields);
                     removeHighlight(highlightedDestinationFields);
-                }
-                else {
-                    // evt. setze auch alles zurück....
-                    // oder möglich auch rot und grünes highlight zu behalten
                 }
             },
             error: function(data) {

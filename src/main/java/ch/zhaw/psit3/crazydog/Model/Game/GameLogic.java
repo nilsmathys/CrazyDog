@@ -191,12 +191,20 @@ public class GameLogic {
         return moves;
     }
 
-    public static void makeMove(int cardValue, int sessionId, String sourceField, String destinationField) {
+    public static void makeMove(int cardValue, int sessionId, String sourceFieldCSSId, String destinationFieldCSSId) {
         calculateMoves(cardValue, sessionId);       // Calculate all the possible moves
-        // Check if the sourceField and destinationField are saved in a move in the list
-        // If they are, get the Gamefields via their CSSID's out of the GameFieldList
-        // Manipute this List (don't forget to think about the wormhole Logic and if I land on another players Piece)
-        successmessage = new Message("Erfolgreicher Zug");
+        if(isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
+            successmessage = new Message("Erfolgreicher Zug");
+            // TODO: Check if the destinationfield is of type wormhole. Create Logic for this case.
+            // TODO: Check if a player is on Destinationfield. Create Logic for this case.
+            GameField sourceField = getGameFieldWithCSSId(sourceFieldCSSId);
+            GameField destinationField = getGameFieldWithCSSId(destinationFieldCSSId);
+            destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
+            sourceField.setPieceOnField(null);
+        }
+        else {
+            successmessage = new Message("Ungültiger Zug");
+        }
     }
 
     public static Message getSuccessMessage() {
@@ -275,6 +283,28 @@ public class GameLogic {
                     }
                 }
                 i++;
+        }
+        return gamefield;
+    }
+
+    // Returns a gamefield if we know its CSS-Id
+    private static GameField getGameFieldWithCSSId(String cssId) {
+        GameField gamefield = null;
+        boolean stop = false;
+        boolean notFound = true;
+        int i = 0;
+        while(notFound && !stop) {
+            gamefield = gameFieldList.get(i);
+            if (gamefield.getCssId().equals(cssId)) {
+                notFound = false;   // The Gamefield is found!
+            }
+            if(i == 95) { // gameFieldList has a maximum of 96 Pieces. (0-95)
+                stop = true;
+                if(notFound) {
+                    gamefield = null;
+                }
+            }
+            i++;
         }
         return gamefield;
     }
@@ -412,5 +442,22 @@ public class GameLogic {
         }
 
         return biggestHomeField;
+    }
+
+    // This method checks if the sourceField and the destinationField are in List<Move> moves
+    // If a move is legal, the method returns true
+    private static boolean isMoveIsLegal(String sourceField, String destinationField) {
+        boolean moveIsLegal = false;
+        if(moves.isEmpty()) {
+            // do nothing
+        }
+        else {
+            for(Move move : moves) {
+                if(move.getSourceField().getCssId().equals(sourceField) && move.getDestinationField().getCssId().equals(destinationField)) {
+                    moveIsLegal = true;
+                }
+            }
+        }
+        return moveIsLegal;
     }
 }
