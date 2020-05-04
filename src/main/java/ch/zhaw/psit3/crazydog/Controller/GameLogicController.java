@@ -1,6 +1,7 @@
 package ch.zhaw.psit3.crazydog.Controller;
 
 import ch.zhaw.psit3.crazydog.Model.Game.GameLogic;
+import ch.zhaw.psit3.crazydog.Model.Game.Move;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Message.Message;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /* This controller is responsible for providing data to ajax calls. */
@@ -26,9 +28,18 @@ public class GameLogicController {
         int cardValue = jsonObj.getInt("chosenCard"); // This value will be given to the gamelogic class
         int sessionId = jsonObj.getInt("sessionId"); // This value will be given to the gamelogic class
         // Calculate the Destinations in the GameLogic
-        GameLogic.calculateDestinations(cardValue, sessionId);
+        GameLogic.calculateMoves(cardValue, sessionId);
+        List<Move> moves = GameLogic.getMoves();
 
-        return GameLogic.getDestinations();
+        List<GameField> sourceFields = new ArrayList<>();
+        System.out.println("Wichtig!!!");
+        for ( Move move : moves) {
+            System.out.println("Standort source Field: " + move.getSourceField().getIdForCalculation());
+            System.out.println("Standort destination Field: " + move.getDestinationField().getIdForCalculation());
+            sourceFields.add(move.getSourceField());      // Momentan wird nur die Source zurückgegeben.
+        }
+
+        return sourceFields;
     }
 
     // This method is reponsible for taking JSON objects from javascript function sendCardAndIdAndDestination()
