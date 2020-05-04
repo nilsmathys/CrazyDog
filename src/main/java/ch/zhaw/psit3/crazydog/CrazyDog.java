@@ -19,6 +19,7 @@ public class CrazyDog {
     public int gameId;
     private static Team team1;
     private static Team team2;
+    private static Team winnerTeam;
     private static int nextPlayer; //Id des Spielrs der als nächster dran ist.
     public List<Piece> pieceList;
     public CardDeck deck;
@@ -89,6 +90,7 @@ public class CrazyDog {
             playEnded = round.startRound();
             roundNumber++;
         }
+        //TODO show winner team
     }
 
     public static void main(String[] args) {
@@ -132,6 +134,7 @@ public class CrazyDog {
     public static GameBoard getGameBoard() {
         return gameBoard;
     }
+    public static void setWinnerTeam(Team team) { winnerTeam = team; }
 
 }
 

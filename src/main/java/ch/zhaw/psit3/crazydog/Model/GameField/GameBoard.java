@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class GameBoard {
 
-    private List<GameField> fields;
+    private static List<GameField> fields;
     private static Map<String, String> fieldsAndPieces = new HashMap<>();
 
     public GameBoard() {
@@ -47,6 +47,21 @@ public class GameBoard {
     // Put one relationship between a field and a piece
     public static void put(FieldAndPiece fap) {
         fieldsAndPieces.put(fap.getField(), fap.getPiece());
+    }
+
+    /**
+     * Gives current position of the player's four pieces back according to its color
+     * @param color of specific player
+     * @return map with 4 objects (Key: Piece number, Value: cssId)
+     */
+    public static Map<Integer, String> getPlacesOfPiecesByColor(String color) {
+        Map<Integer, String> allPieces = new HashMap<>();
+        for(GameField gf : fields) {
+            if (gf.getImageName().contains(color)) {
+                allPieces.put(Integer.parseInt(gf.getImageName().substring(5,6)), gf.getCssId());
+            }
+        }
+        return allPieces;
     }
 
 }

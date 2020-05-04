@@ -4,7 +4,8 @@ import ch.zhaw.psit3.crazydog.CrazyDog;
 import ch.zhaw.psit3.crazydog.Model.Card.Card;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
-import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
+import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
+import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
 
 import java.util.*;
@@ -150,20 +151,115 @@ public class Round {
         boolean hasWinner = false;
         while (!hasWinner) {
             // TODO output should later be displayed in browser
-            if (playerOutOfCards()) {
+
+            // SPIELZUG nextPlayer
+
+            if (allPiecesOfTeamAtDestination()) {
+                if (team1.getPlayer1().getId() == nextPlayer || team1.getPlayer2().getId() == nextPlayer) {
+                    CrazyDog.setWinnerTeam(team1);
+                } else {
+                    CrazyDog.setWinnerTeam(team2);
+                }
+                hasWinner = true;
                 break;
             }
-            hasWinner = false;
+
+            // nextPlayer +1
+
+            if (allPlayerOutOfCards()) {
+                break;
+            }
         }
         return hasWinner;
     }
 
     /**
+     * Checks if all pieces of current player and its teamplayer are on the destined destinationfield.
+     * @return true if all pieces are at their destinationfields
+     */
+    private boolean allPiecesOfTeamAtDestination() {
+        boolean allTeamPiecesAtDestination = false;
+        Player currentPlayer;
+        Player teamPlayer;
+        if (nextPlayer == CrazyDog.getTeam1().getPlayer1().getId()) {
+            currentPlayer = CrazyDog.getTeam1().getPlayer1();
+            teamPlayer = CrazyDog.getTeam1().getPlayer2();
+        } else if (nextPlayer == CrazyDog.getTeam1().getPlayer2().getId()) {
+            currentPlayer = CrazyDog.getTeam1().getPlayer2();
+            teamPlayer = CrazyDog.getTeam1().getPlayer1();
+        } else if (nextPlayer == CrazyDog.getTeam2().getPlayer1().getId()) {
+            currentPlayer = CrazyDog.getTeam2().getPlayer1();
+            teamPlayer = CrazyDog.getTeam2().getPlayer2();
+        } else {
+            currentPlayer = CrazyDog.getTeam2().getPlayer2();
+            teamPlayer = CrazyDog.getTeam2().getPlayer1();
+        }
+
+        Map<Integer, String> currentPiecesPlayer = GameBoard.getPlacesOfPiecesByColor(currentPlayer.getColor());
+        Map<Integer, String> destFieldsPlayer = getDestinationFieldsByPlayerColor(currentPlayer.getColor());
+        Map<Integer, String> currentPiecesTeamPlayer = GameBoard.getPlacesOfPiecesByColor(teamPlayer.getColor());
+        Map<Integer, String> destFielsTeamPlayer = getDestinationFieldsByPlayerColor(teamPlayer.getColor());
+
+        if (arePiecesOfPlayerAtDestination(currentPiecesPlayer, destFieldsPlayer) &&
+            arePiecesOfPlayerAtDestination(currentPiecesTeamPlayer, destFielsTeamPlayer)) {
+            allTeamPiecesAtDestination = true;
+        }
+        return allTeamPiecesAtDestination;
+    }
+
+    /**
+     * Gets the cssIds of the four destinationfields of a certain color
+     * @param playerColor
+     * @return List with 4 cssIds
+     */
+    private Map<Integer, String> getDestinationFieldsByPlayerColor(String playerColor) {
+        Map<Integer, String> destFieldMap = new HashMap<>();
+        if (playerColor.equals("red")) {
+            destFieldMap.put(1, "field92");
+            destFieldMap.put(2,"field91");
+            destFieldMap.put(3, "field90");
+            destFieldMap.put(4, "field89");
+        } else if (playerColor.equals("yellow")) {
+            destFieldMap.put(1, "field96");
+            destFieldMap.put(2,"field95");
+            destFieldMap.put(3, "field94");
+            destFieldMap.put(4, "field93");
+        } else if (playerColor.equals("green")) {
+            destFieldMap.put(1, "field84");
+            destFieldMap.put(2,"field83");
+            destFieldMap.put(3, "field82");
+            destFieldMap.put(4, "field81");
+        } else {
+            destFieldMap.put(1, "field88");
+            destFieldMap.put(2,"field87");
+            destFieldMap.put(3, "field86");
+            destFieldMap.put(4, "field85");
+        }
+        return destFieldMap;
+    }
+
+    /**
+     * checks if all pieces of a certain player are at the destined destinationfield
+     * @param currentPieces cssId of current piece positions
+     * @param destFields cssId of destinationfield
+     * @return true if all pieces are on their specific destinationfield
+     */
+    private boolean arePiecesOfPlayerAtDestination(Map<Integer,String> currentPieces, Map<Integer,String> destFields) {
+        boolean allPiecesAtDestination = false;
+        if (currentPieces.get(1).equals(destFields.get(1)) &&
+            currentPieces.get(2).equals(destFields.get(2)) &&
+            currentPieces.get(3).equals(destFields.get(3)) &&
+            currentPieces.get(4).equals(destFields.get(4))) {
+            allPiecesAtDestination = true;
+        }
+        return allPiecesAtDestination;
+    }
+
+    /**
      * Evaluates if one of the players still has a card to play.
-     *
      * @return
      */
-    private boolean playerOutOfCards() {
+    private boolean allPlayerOutOfCards() {
         boolean allPlayersOutOfCards = false;
         if (playerAndHand.get(team1.getPlayer1().getId()).isHandEmpty() &&
                 playerAndHand.get(team1.getPlayer2().getId()).isHandEmpty() &&
