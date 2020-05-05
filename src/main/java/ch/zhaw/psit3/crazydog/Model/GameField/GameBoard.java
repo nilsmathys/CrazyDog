@@ -52,7 +52,6 @@ public class GameBoard {
         fieldsAndPieces.put(fap.getField(), fap.getPiece());
     }
 
-
     /**
      * Sets the Piece on a specific Home Field
      * @param idForCalculation     ID of the Gamefield which is used for  the Calculation
@@ -336,7 +335,21 @@ public class GameBoard {
         for(GameField field: fields) {
             System.out.println(field.getIdForCalculation() + " " + field.getGameFieldName() + " " + field.getColor());
         }
+    }
 
+     /**
+     * Gives current position of the player's four pieces back according to its color
+     * @param color of specific player
+     * @return map with 4 objects (Key: Piece number, Value: cssId)
+     */
+    public static Map<Integer, String> getPlacesOfPiecesByColor(String color) {
+        Map<Integer, String> allPieces = new HashMap<>();
+        for(GameField gf : fields) {
+            if (gf.getImageName().contains(color)) {
+                allPieces.put(Integer.parseInt(gf.getImageName().substring(5,6)), gf.getCssId());
+            }
+        }
+        return allPieces;
     }
 
 }
