@@ -7,8 +7,10 @@ var highlightedSourceFields;
 var highlightedDestinationFields;
 var sourcefields;
 
+var exchangeCards = false;
 
-function getPossibleSourceFields(cardvalue) {
+function getPossibleSourceFields(cardvalue, cardId) {
+    $("input[name='selectedCardId']").val(cardId);
     chosenCard = cardvalue;
     sessionId = $('#sessionId').html();
     getSourceFields();
@@ -93,6 +95,7 @@ function makeMove() {
                     reset();
                     removeHighlight(highlightedSourceFields);
                     removeHighlight(highlightedDestinationFields);
+                    // updateGameFields(); TODO: Check if we want to update the gamefields via this way or via getchanges API
                 }
             },
             error: function(data) {
@@ -113,7 +116,8 @@ function showSourceFields(data) {
 // Highlight the source fields
 function showDestinationFields(data) {
     $.each(data, function(index) {
-        $('#' + data[index].cssId).css({"border-radius": "50%", "border": "6px solid #f700ff"});
+        $('#' + data[index].cssId).css({"border-radius": "50%", "border": "6px solid #f700ff"});		// Solution of Remo
+        // $('#' + data[index].cssId).addClass("highlight-field");										// Solution of Riccardo. TODO: Test better solution
     });
     highlightedDestinationFields = data;       // Store the data in a variable, so we can remove the highlighting later.
 }
@@ -121,7 +125,8 @@ function showDestinationFields(data) {
 // Remove Highlight from fields
 function removeHighlight(data) {
     $.each(data, function(index) {
-        $('#' + data[index].cssId).css({"border-radius": "0", "border": "medium none"});
+        $('#' + data[index].cssId).css({"border-radius": "0", "border": "medium none"});			// Solution of Remo
+        //$('#' + data[index].cssId).removeClass("highlight-field");									// Solution of Riccardo. TODO: Test better solution
     });
 }
 
@@ -145,3 +150,50 @@ function showSuccessMessage(data) {
     $("#gamemessage").text(data.message);
     $("#gamemessage").show().delay(5000).fadeOut();     // Show the message for 5 seconds
 }
+
+function updateGameFields() {
+    $.ajax({
+        type: 'GET',
+        url: 'getchangesAllGamefields',
+        success: function (data) {
+            if (data.length > 0) {
+                var innerText = "";
+                var i = 0;
+                for (i = 0; i < data.length; i++) {
+                    var src = "/img/pieces/empty.png";
+                    var background = "#fcf8e8"
+                    console.log(data.pieceOnField);
+                    if (data[i].pieceOnField != null) {
+                        src = "/img/pieces/" + data[i].pieceOnField.pictureName;
+                        console.log(data[i].pieceOnField.pictureName);
+                    }
+                    innerText += "<img src='" + src + "' class='field' id='" + data[i].cssId + "' alt='" + data[i].cssId + "' onclick='makeMove(this.id)'/>";
+                }
+                document.getElementById('gameboard').innerHTML = innerText;
+            } else {
+                console.log("Dom was not manipulated, because there is nothing to update.");
+            }
+
+        },
+        complete: function () {
+            // Schedule the next request when the current one's complete
+            //setTimeout(updateFrontend, 1000);
+        }
+    });
+}
+
+//Set the countdown for selecting a card to exchange
+var timeleft = 30;
+var countdownTimer = setInterval(function(){
+    if (document.getElementById("countdown") != null) {
+        if (timeleft <= 0) {
+            clearInterval(countdownTimer);
+            document.getElementById("countdown").innerHTML = "";
+            document.getElementById("exchange-button").disabled = true;
+            exchangeCards = true;
+        } else {
+            document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
+        }
+    }
+    timeleft -= 1;
+}, 1000);

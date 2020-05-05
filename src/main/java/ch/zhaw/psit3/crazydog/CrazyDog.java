@@ -19,14 +19,15 @@ import java.util.List;
 
 @SpringBootApplication
 public class CrazyDog {
-    public int gameId;
+    private int gameId;
     private static Team team1;
     private static Team team2;
     private static int nextPlayer; //Id des Spielrs der als nächster dran ist.
-    public List<Piece> pieceList;
-    public CardDeck deck;
-    public static GameBoard gameBoard;
+    private List<Piece> pieceList;
+    private CardDeck deck;
+    private static GameBoard gameBoard;
     private static Direction direction = Direction.COUNTERCLOCKWISE;
+    private static int roundNumber = 1;
 
     private static List<Player> playerList = new ArrayList<Player>();
 
@@ -85,15 +86,15 @@ public class CrazyDog {
         positionFieldsInitial();
     }
 
-    private void playGame(Team team1, Team team2, int nextPlayer) {
+    private void playGame(Team team1, Team team2) {
         CardDeck deck = new CardDeck();
         deck.createDeck();
         deck.getCardDeck();
 
         boolean playEnded = false;
-        int roundNumber = 1;
+
         while (!playEnded) {
-            Round round = new Round(roundNumber, deck, team1, team2, nextPlayer);
+            Round round = new Round(roundNumber, deck, team1, team2);
             playEnded = round.startRound();
             roundNumber++;
         }
@@ -113,7 +114,7 @@ public class CrazyDog {
 
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
         UserInstructions.addNewInstruction("Game started now");
-        crazyDog.playGame(crazyDog.team1, crazyDog.team2, crazyDog.nextPlayer);
+        crazyDog.playGame(crazyDog.team1, crazyDog.team2);
 
     }
 
@@ -138,8 +139,16 @@ public class CrazyDog {
         return nextPlayer;
     }
 
-    public static void setNextPlayer(int player) {
-        nextPlayer = player;
+    /**
+     * increase player by one, or start by 1 again
+     */
+    public static void increaseNextPlayer() {
+        if (nextPlayer == 4) {
+            nextPlayer = 1;
+        } else {
+            nextPlayer++;
+        }
+
     }
 
     public static GameBoard getGameBoard() {
@@ -170,10 +179,19 @@ public class CrazyDog {
     }
 
     /**
-     * get current direction
+     * set current direction
      */
     public static void setDirection(Direction newDirection) {
         direction = newDirection;
     }
 
+    public static int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public static void setRoundNumber(int roundNumber) {
+        CrazyDog.roundNumber = roundNumber;
+    }
+
 }
+

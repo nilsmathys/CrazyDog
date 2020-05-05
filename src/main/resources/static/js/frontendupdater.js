@@ -23,7 +23,7 @@ $(function updateInstructions() {
                 var innerText = "";
                 var i=0;
                 for(i=0;i<data.length;i++) {
-                    var cssClass = "card-header";
+                    var cssClass = "card-header instructions";
                     var background = "#fcf8e8"
                     if(i === 0) {
                         cssClass = "card-title card-header firstinstruction";
@@ -31,9 +31,8 @@ $(function updateInstructions() {
                     if((i % 2) == 0) {
                         background = "#f1f3f4";
                     }
-                    innerText += "<div class='"+cssClass+"' style='background-color: "+background+";'>"+data[i]+"</div>";
+                    innerText += "<div class='"+cssClass+"' style='background-color: "+background+";'>&#62; "+data[i]+"</div>";
                 }
-
                 document.getElementById('instructionList').innerHTML = innerText;
             }
             else {
@@ -88,4 +87,75 @@ $(function updateCurrentDirection() {
             setTimeout(updateCurrentDirection, 1000);
         }
     });
+});
+
+$(function updateRoundNr() {
+    $.ajax({
+        type: 'GET',
+        url: 'getchangesRoundNr',
+        success: function(data) {
+            if(data > 0) {
+                var innerText = "Round "+data;
+                document.getElementById('roundNumber').innerHTML = innerText;
+            }
+            else {
+                console.log("Dom was not manipulated, because there is nothing to update.");
+            }
+        },
+        complete: function() {
+            // Schedule the next request when the current one's complete
+            setTimeout(updateRoundNr, 1000);
+        }
+    });
+});
+
+$(function retrieveHand() {
+    $.ajax({
+        type: 'GET',
+        url: 'getchangesCardsOnHand',
+        success: function(fragment) {
+            $("#handBlock").replaceWith(fragment);
+        },
+        complete: function() {
+            setTimeout(retrieveHand, 10000);
+        }
+    });
+});
+
+$(function updateButtonBlock() {
+    $.ajax({
+        type: 'GET',
+        url: 'getChangesForButton',
+        success: function(fragment) {
+            $("#buttonBlock").replaceWith(fragment);
+        },
+        complete: function() {
+            setTimeout(updateButtonBlock, 40000);
+        }
+    });
+});
+
+jQuery(document).ready(function($){
+    zoom();
+
+    $( window ).resize(function() {
+        zoom();
+    });
+
+    function zoom() {
+        let htmlWidth = $('html').innerWidth();
+        let bodyWidth = 900;
+
+        let scale;
+        let height;
+        if (htmlWidth > bodyWidth) {
+            scale = 0.5;
+            height = 450;
+        } else {
+            scale = htmlWidth / bodyWidth / 2;
+            height = 900 * scale;
+        }
+        $('.container-top').css('transform', 'scale(' + scale + ')');
+        $('.playarea').css('height', height +'px' )
+    }
 });

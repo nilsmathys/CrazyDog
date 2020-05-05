@@ -90,15 +90,15 @@ INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (2,3,'
 INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (3,3,'piece3red.png',2);
 INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (4,3,'piece4red.png',1);
 --grün
-INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (1,4,'piece1green.png',20);
-INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (2,4,'piece2green.png',19);
-INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (3,4,'piece3green.png',18);
-INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (4,4,'piece4green.png',17);
+INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (1,4,'piece1green.png',36);
+INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (2,4,'piece2green.png',35);
+INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (3,4,'piece3green.png',34);
+INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (4,4,'piece4green.png',33);
 -- gelb
-INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (1,5,'piece1yellow.png',36);
-INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (2,5,'piece2yellow.png',35);
-INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (3,5,'piece3yellow.png',34);
-INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (4,5,'piece4yellow.png',33);
+INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (1,5,'piece1yellow.png',20);
+INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (2,5,'piece2yellow.png',19);
+INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (3,5,'piece3yellow.png',18);
+INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (4,5,'piece4yellow.png',17);
 -- blau
 INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (1,6,'piece1blue.png',52);
 INSERT INTO dbo.Pieces (number, colourID, pictureName,homeFieldId) VALUES (2,6,'piece2blue.png',51);

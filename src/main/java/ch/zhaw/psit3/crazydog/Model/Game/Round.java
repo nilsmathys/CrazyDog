@@ -16,19 +16,18 @@ public class Round {
 
     private static Team team1;
     private static Team team2;
-    CardDeck deck;
-    private static int nextPlayer;
+    private CardDeck deck;
     private static Map<Integer, CardsOnHand> playerAndHand = new HashMap<>();
     private static Card exchangeCardP1 = null;
     private static Card exchangeCardP2 = null;
     private static Card exchangeCardP3 = null;
     private static Card exchangeCardP4 = null;
     private static boolean roundStarted = false;
+    private final int MAXIMUMTIMEROUND = 30000; //in milli seconds
 
-    public Round(int roundNumber, CardDeck deck, Team team1, Team team2, int nextPlayer) {
+    public Round(int roundNumber, CardDeck deck, Team team1, Team team2) {
         this.team1 = team1;
         this.team2 = team2;
-        this.nextPlayer = nextPlayer;
         this.deck = deck;
         playerAndHand.put(team1.getPlayer1().getId(), new CardsOnHand());
         playerAndHand.put(team1.getPlayer2().getId(), new CardsOnHand());
@@ -37,6 +36,7 @@ public class Round {
 
         distributeCards(roundNumber);
         // wait for players to select a card
+        UserInstructions.addNewInstruction("Please choose a card to exchange with your Team mate and klick on the button");
         CompletableFuture.delayedExecutor(45, TimeUnit.SECONDS).execute(() -> {
             exchangeCards();
             roundStarted = true;
@@ -90,17 +90,13 @@ public class Round {
             deck.createDeck();
         }
 
-        int value = 2;  // remove !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        for(int i=0; i<totalCardsToDistribute; i=i+4) {
-            //playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
-            playerAndHand.get(team1.getPlayer1().getId()).takeCard(new Card(1, "test", value));  // remove !!!!!
-            value++;        // remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+        for (int i = 0; i < totalCardsToDistribute; i = i + 4) {
+            playerAndHand.get(team1.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team1.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
-        UserInstructions.addNewInstruction(totalCardsToDistribute + " Cards distributed to players");
+        UserInstructions.addNewInstruction(totalCardsToDistribute/4 + " Cards distributed to players");
     }
 
     /**
@@ -129,6 +125,7 @@ public class Round {
         playerAndHand.get(playerTwoId).takeCard(exchangeCardP1);
         playerAndHand.get(playerThreeId).takeCard(exchangeCardP4);
         playerAndHand.get(playerFourId).takeCard(exchangeCardP3);
+        UserInstructions.addNewInstruction("Cards exchanged");
     }
 
     /**
@@ -145,19 +142,71 @@ public class Round {
     }
 
     /**
+     * make a new turn for one player
+     */
+    private void makeTurn() {
+        long startTime = System.currentTimeMillis();
+        long currentTime;
+
+        CardsOnHand cards = playerAndHand.get(CrazyDog.getNextPlayer());
+
+        //wait for the flag to be set in the Game Logic that a legal move was made.
+        //CardsOnHand must not be empty otherwise there will be nothing to do
+        if(!cards.isHandEmpty())
+        {
+            while(!GameLogic.isLegalMoveMade()) {
+                currentTime = System.currentTimeMillis();
+
+                //exit loop after maximum time of the Round has elapsed.
+                if(currentTime>=(startTime+MAXIMUMTIMEROUND)) {
+                    UserInstructions.addNewInstruction("Player " + CrazyDog.getNextPlayer() + " elapsed maximum time of a turn.");
+                    //discard a random card from the player's hand
+                    pickRandomCard(CrazyDog.getNextPlayer());
+                    break;
+                }
+            }
+        }
+        else {
+            UserInstructions.addNewInstruction("Player " + CrazyDog.getNextPlayer() + " has no cards left and will be skipped");
+        }
+        //reset Flag
+        GameLogic.resetLegalMoveStatus();
+        //set next player
+        CrazyDog.increaseNextPlayer();
+    }
+
+    /**
      * Handles a single round of the game. In case a team wins during a round, the round ends. If no team finishes,
      * the round ends when no player has a card left to play.
      *
      * @return boolean value if a team has won or not.
      */
     public boolean startRound() {
+
+        //wait for the round to start
+        //this means, that the user need to exchange their cards first.
+        while(!isRoundStarted()) {
+            try {
+                //go to sleep for a second
+                Thread.sleep(1000);
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         boolean hasWinner = false;
         while (!hasWinner) {
             // TODO output should later be displayed in browser
-            //System.out.println("In startround loop");
+
+            //if all players are out of cards, then the loop will break
             if (playerOutOfCards()) {
                 break;
             }
+
+            UserInstructions.addNewInstruction("It's Player " + CrazyDog.getNextPlayer() + "'s turn. Please play a card");
+            makeTurn();
+            System.out.println("Turn OK");
+
             hasWinner = false;
         }
         return hasWinner;
