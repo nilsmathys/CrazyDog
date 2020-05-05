@@ -183,20 +183,13 @@ public class GameLogic {
                 }
                 System.out.println("------------------");
             }
-<<<<<<< HEAD
         }
-=======
-        }*/
-
->>>>>>> 452b5ba685d9cde1ee22aed7928e559c31079ed7
     }
-
 
     public static List<Move> getMoves() {
         return moves;
     }
 
-<<<<<<< HEAD
     public static void makeMove(int cardValue, int sessionId, String sourceFieldCSSId, String destinationFieldCSSId) {
         calculateMoves(cardValue, sessionId);       // Calculate all the possible moves
         if(isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {

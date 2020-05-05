@@ -5,7 +5,6 @@ import ch.zhaw.psit3.crazydog.Model.Game.Direction;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
-import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import org.springframework.http.MediaType;
