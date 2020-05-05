@@ -198,24 +198,15 @@ public class Round {
         boolean hasWinner = false;
         while (!hasWinner) {
             // TODO output should later be displayed in browser
-
-			/******************************************************************************** Note RB: Note sure if needed during merge....
             //if all players are out of cards, then the loop will break
-            if (playerOutOfCards()) {
+            if (allPlayerOutOfCards()) {
                 break;
             }
 
-            UserInstructions.addNewInstruction("It's Player " + CrazyDog.getNextPlayer() + "'s turn. Please play a card");
-            makeTurn();
-            System.out.println("Turn OK");
-
-            hasWinner = false;
-            ********************************************************************************/
-            
             // SPIELZUG nextPlayer
 
             if (allPiecesOfTeamAtDestination()) {
-                if (team1.getPlayer1().getId() == nextPlayer || team1.getPlayer2().getId() == nextPlayer) {
+                if (team1.getPlayer1().getId() == CrazyDog.getNextPlayer() || team1.getPlayer2().getId() == CrazyDog.getNextPlayer()) {
                     CrazyDog.setWinnerTeam(team1);
                 } else {
                     CrazyDog.setWinnerTeam(team2);
@@ -223,6 +214,10 @@ public class Round {
                 hasWinner = true;
                 break;
             }
+
+            UserInstructions.addNewInstruction("It's Player " + CrazyDog.getNextPlayer() + "'s turn. Please play a card");
+            makeTurn();
+            System.out.println("Turn OK");
 
             // nextPlayer +1
 
@@ -241,13 +236,13 @@ public class Round {
         boolean allTeamPiecesAtDestination = false;
         Player currentPlayer;
         Player teamPlayer;
-        if (nextPlayer == CrazyDog.getTeam1().getPlayer1().getId()) {
+        if (CrazyDog.getNextPlayer() == CrazyDog.getTeam1().getPlayer1().getId()) {
             currentPlayer = CrazyDog.getTeam1().getPlayer1();
             teamPlayer = CrazyDog.getTeam1().getPlayer2();
-        } else if (nextPlayer == CrazyDog.getTeam1().getPlayer2().getId()) {
+        } else if (CrazyDog.getNextPlayer() == CrazyDog.getTeam1().getPlayer2().getId()) {
             currentPlayer = CrazyDog.getTeam1().getPlayer2();
             teamPlayer = CrazyDog.getTeam1().getPlayer1();
-        } else if (nextPlayer == CrazyDog.getTeam2().getPlayer1().getId()) {
+        } else if (CrazyDog.getNextPlayer() == CrazyDog.getTeam2().getPlayer1().getId()) {
             currentPlayer = CrazyDog.getTeam2().getPlayer1();
             teamPlayer = CrazyDog.getTeam2().getPlayer2();
         } else {

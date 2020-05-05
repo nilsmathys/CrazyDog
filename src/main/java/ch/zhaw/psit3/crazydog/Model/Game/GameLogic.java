@@ -25,65 +25,6 @@ public class GameLogic {
         moves = new ArrayList<Move>();
         getGameFieldsFromGameBoard();
 
-        // ------------------------ nur zum Testen, Positionen der GamePieces ändern
-        if(index == 1) {
-            index++;
-            CrazyDog.setDirection(CLOCKWISE);
-            // Set Piece1red to GameField with calculationId 14. Set Null Piece to the homefield after swap.
-            GameField gameFieldWithPiece1Red = gameFieldList.get(10);       // Get GameField containing piece1red
-            GameField gameFieldWithCalcId35 = gameFieldList.get(54);        // Get GameField where i want to put piece1red
-
-            gameFieldWithCalcId35.setPieceOnField(gameFieldWithPiece1Red.getPieceOnField());
-            gameFieldList.set(54, gameFieldWithCalcId35);
-
-            gameFieldWithPiece1Red.setPieceOnField(null);
-            gameFieldList.set(10, gameFieldWithPiece1Red);
-
-            // Set Piece2red to GameField with calculationId 14. Set Null Piece to the homefield after swap.
-            GameField gameFieldWithPiece2Red = gameFieldList.get(7);       // Get GameField containing piece2red
-            GameField gameFieldWithCalcId49 = gameFieldList.get(72);        // Get GameField where i want to put piece1red
-
-            gameFieldWithCalcId49.setPieceOnField(gameFieldWithPiece2Red.getPieceOnField());
-            gameFieldList.set(72, gameFieldWithCalcId49);
-
-            gameFieldWithPiece2Red.setPieceOnField(null);
-            gameFieldList.set(7, gameFieldWithPiece2Red);
-
-            /*
-            // Set Piece3red to GameField with calculationId 14. Set Null Piece to the homefield after swap.
-            GameField gameFieldWithPiece3Red = gameFieldList.get(4);       // Get GameField containing piece2red
-            GameField gameFieldWithCalcId53 = gameFieldList.get(84);        // Get GameField where i want to put piece1red
-
-            gameFieldWithCalcId53.setPieceOnField(gameFieldWithPiece3Red.getPieceOnField());
-            gameFieldList.set(84, gameFieldWithCalcId53);
-
-            gameFieldWithPiece3Red.setPieceOnField(null);
-            gameFieldList.set(4, gameFieldWithPiece3Red);
-            */
-
-            // Move Piece1yellow to StartField with calculationId 21. Set Null Piece to the homefield after swap.
-            GameField gameFieldWithPiece1Yellow = gameFieldList.get(34);       // Get GameField containing piece1yellow
-            GameField gameFieldWithCalcId21 = gameFieldList.get(36);        // Get GameField where i want to put piece1red
-
-            gameFieldWithPiece1Yellow.setPieceOnField(new Piece(5, 1, "yellow", "piece1yellow.png", 10));
-            gameFieldWithCalcId21.setPieceOnField(gameFieldWithPiece1Yellow.getPieceOnField());
-            gameFieldList.set(36, gameFieldWithCalcId21);
-
-            gameFieldWithPiece1Yellow.setPieceOnField(null);
-            gameFieldList.set(34, gameFieldWithPiece1Yellow);
-
-            // Move Piece4red to DestinationField with calculationId 37. Set Null Piece to the homefield after swap.
-            GameField gameFieldWithPiece4Red = gameFieldList.get(1);       // Get GameField containing piece4Red
-            GameField gameFieldWithCalcId39 = gameFieldList.get(56);        // Get GameField where i want to put piece4Red
-
-            gameFieldWithCalcId39.setPieceOnField(gameFieldWithPiece4Red.getPieceOnField());
-            gameFieldList.set(56, gameFieldWithCalcId39);
-
-            gameFieldWithPiece4Red.setPieceOnField(null);
-            gameFieldList.set(1, gameFieldWithPiece4Red);
-        }
-        // ------------------------ nur zum Testen fertig
-
         // Get players color
         String playerColor = getPlayersColorFromId(sessionId);
         // Get all the fields with Pieces of the player
