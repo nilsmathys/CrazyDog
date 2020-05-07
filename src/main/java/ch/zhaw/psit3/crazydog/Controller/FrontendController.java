@@ -6,7 +6,6 @@ import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
-//import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,14 +17,6 @@ import java.util.Map;
 /* This controller is responsible for providing data to ajax calls. */
 @Controller
 public class FrontendController {
-
-    /*FieldAndPiece source;
-    FieldAndPiece dest;
-    FieldAndPiece[] sourceAndDestination = new FieldAndPiece[2];*/
-    List<String> userInstructions;
-    int currentPlayerID;
-    Direction direction;
-
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server
