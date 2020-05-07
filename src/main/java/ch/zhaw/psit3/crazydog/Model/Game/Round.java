@@ -356,22 +356,6 @@ public class Round {
         }
     }
 
-    /**
-     * Calculates the new Destination if the piece is on a wormhole
-     *
-     * @param acctualDest
-     * @return new Destination
-     */
-    public static int calcDestWhenPieceOnWomrhole(int acctualDest) {
-        Random r = new Random();
-        int destInt = acctualDest;
-        while (acctualDest == Values.Wormhole1 || acctualDest == Values.Wormhole2 || acctualDest == Values.Wormhole3 || acctualDest == Values.Wormhole4) {
-            destInt = r.nextInt(64) + 1;
-        }
-        return destInt;
-    }
-
-
     public static boolean isRoundStarted() {
         return roundStarted;
     }

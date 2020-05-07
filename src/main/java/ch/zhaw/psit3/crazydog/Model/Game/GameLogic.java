@@ -136,11 +136,18 @@ public class GameLogic {
         if(isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
             successmessage = new Message("Erfolgreicher Zug");
             chosenCardId = cardId;
-            // TODO: Check if the destinationfield is of type wormhole. Create Logic for this case.
+            // TODO: Check if the current player has made the move and not another player
             // TODO: Check if a player is on Destinationfield. Create Logic for this case.
-            // TODO: Update the boolean flag that player made his move
+
             GameField sourceField = getGameFieldWithCSSId(sourceFieldCSSId);
             GameField destinationField = getGameFieldWithCSSId(destinationFieldCSSId);
+
+            //if Destination is a wormhole, then the new desination should be a random GameField
+            while(destinationField.getGameFieldName().equals("wormhole"))
+            {
+                destinationField = calcDestWhenPieceOnWomrhole();
+            }
+
             destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
             sourceField.setPieceOnField(null);
             isLegalMoveMade = true;
@@ -410,4 +417,36 @@ public class GameLogic {
         }
         return moveIsLegal;
     }
+
+    /**
+     * Get the the Game Field object with the idForCalculation and the gameFieldName must be 'standard' or 'wormhole'
+     * @param idForCalculation  idForCalculation for which we have to search in the list
+     * @return GameField with the idForCalculation and name standard or wormhole
+     */
+    private static GameField getStandardGameFieldOrWormholeByIdForCalculation(int idForCalculation) {
+        GameField returnField = null;
+        for(GameField field: gameFieldList) {
+            if(field.getIdForCalculation() == idForCalculation &&
+                    (field.getGameFieldName().equals("standard") || field.getGameFieldName().equals("wormhole")))
+            {
+                returnField = field;
+            }
+        }
+        return returnField;
+    }
+
+    /**
+     * Calculates the new Destination if the piece would land on a wormhole
+     *
+     * @return new Destination GameField
+     */
+    public static GameField calcDestWhenPieceOnWomrhole() {
+        Random r = new Random();
+        //get a random number between 1 and 64
+        int destinationIdForCalculation = r.nextInt(64 - 1 + 1) + 1; // (max - min + 1) + 1
+        GameField newDestination = null;
+        newDestination = getStandardGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
+        return newDestination;
+    }
+
 }
