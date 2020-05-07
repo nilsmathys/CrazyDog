@@ -13,7 +13,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/* This controller is responsible for providing data to ajax calls. */
+/**
+ *  This controller is responsible for providing data to ajax calls.
+ *  **/
 @Controller
 public class GameLogicController {
 

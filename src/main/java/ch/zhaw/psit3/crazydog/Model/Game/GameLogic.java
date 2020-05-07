@@ -1,15 +1,12 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
 import ch.zhaw.psit3.crazydog.CrazyDog;
-import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Message.Message;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 
 import java.util.*;
-
-import static ch.zhaw.psit3.crazydog.Model.Game.Direction.CLOCKWISE;
 
 public class GameLogic {
     private static List<GameField> gameFieldList;         // This is a copy of List<GameField> from Gameboard
@@ -145,7 +142,7 @@ public class GameLogic {
             //if Destination is a wormhole, then the new desination should be a random GameField
             while(destinationField.getGameFieldName().equals("wormhole"))
             {
-                destinationField = calcDestWhenPieceOnWomrhole();
+                destinationField = calcDestWhenPieceOnWormhole();
             }
 
             destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
@@ -440,7 +437,7 @@ public class GameLogic {
      *
      * @return new Destination GameField
      */
-    public static GameField calcDestWhenPieceOnWomrhole() {
+    public static GameField calcDestWhenPieceOnWormhole() {
         Random r = new Random();
         //get a random number between 1 and 64
         int destinationIdForCalculation = r.nextInt(64 - 1 + 1) + 1; // (max - min + 1) + 1
