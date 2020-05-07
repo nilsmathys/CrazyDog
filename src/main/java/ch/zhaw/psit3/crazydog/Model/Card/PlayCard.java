@@ -53,7 +53,7 @@ public class PlayCard {
     private static int calculateNewDestination(int pieceDestination, int fieldsToGo, Piece piece) {
         int newDest;
         Map<String, Integer> vals = Values.STARTANDDESTFIELDS.get(piece.getColor());
-        if (CrazyDog.direction.equals("clockwise")) {
+        if (CrazyDog.getDirection().equals("clockwise")) {
             newDest = (pieceDestination + fieldsToGo) % 64;
             if (piece.getColor().equals("green")) {
                 if (pieceDestination > 50 && newDest < Values.STARTFIELDRED + 5) {
@@ -461,10 +461,10 @@ public class PlayCard {
      * @param args
      */
     public static void main(String[] args) {
-        Piece pieceRed = new Piece(1, 2, "red", "picname"); //red
-        Piece pieceGreen = new Piece(2, 2, "green", "picname"); //green
-        Piece pieceYellow = new Piece(3, 2, "yellow", "picname"); //yellow
-        Piece pieceBlue = new Piece(4, 2, "blue", "picname"); //green
+        Piece pieceRed = new Piece(1, 2, "red", "picname",1); //red
+        Piece pieceGreen = new Piece(2, 2, "green", "picname",2); //green
+        Piece pieceYellow = new Piece(3, 2, "yellow", "picname",2); //yellow
+        Piece pieceBlue = new Piece(4, 2, "blue", "picname",3); //green
         Player player = new Player(1, "Ted", "test@test.ch");
         Card card2 = new Card(2, "standard", 2);
         Card card3 = new Card(3, "changeDirection", 3);
@@ -636,15 +636,15 @@ public class PlayCard {
         System.out.println("Handsize should be 11: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 3 Aktion dir ändern");
-        System.out.println("Richtung sollte clockwise sein: " + CrazyDog.direction);
+        System.out.println("Richtung sollte clockwise sein: " + CrazyDog.getDirection());
         playSpecialCard("red", "green", playerAndHand, 3, pieceDestinations, null, selectetPieces,  card2, 1, false);
-        System.out.println("Richtung sollte counterclockwise sein: " + CrazyDog.direction);
+        System.out.println("Richtung sollte counterclockwise sein: " + CrazyDog.getDirection());
         System.out.println("Handsize should be 10: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play card 3 Aktion 0 gewählt aber Richtung ändern, weil ungültiger Zug");
-        System.out.println("Richtung sollte counterclockwise sein: " + CrazyDog.direction);
+        System.out.println("Richtung sollte counterclockwise sein: " + CrazyDog.getDirection());
         playSpecialCard("red", "green", playerAndHand, 3, pieceDestinations11, null, selectetPieces,  card2, 0, false);
-        System.out.println("Richtung sollte clockwise sein: " + CrazyDog.direction);
+        System.out.println("Richtung sollte clockwise sein: " + CrazyDog.getDirection());
         System.out.println("Handsize should be 9: " + playerAndHand.getHand().getHand().size());
         System.out.println();
         System.out.println("Play Card PieceExchange");

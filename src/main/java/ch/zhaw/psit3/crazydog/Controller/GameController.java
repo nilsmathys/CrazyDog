@@ -2,8 +2,10 @@ package ch.zhaw.psit3.crazydog.Controller;
 
 import ch.zhaw.psit3.crazydog.CrazyDog;
 import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
+import ch.zhaw.psit3.crazydog.Model.Game.Direction;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
+import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +47,9 @@ public class GameController {
             Map<String, String> fieldsAndPieces = CrazyDog.getGameBoard().getFieldsAndPieces();
             model.addAttribute("fieldsandpieces", fieldsAndPieces);
 
+            List<GameField> fields = CrazyDog.getGameBoard().getFields();
+            model.addAttribute("fields", fields);
+
             int playerId = Integer.parseInt(request.getSession().getAttribute("id").toString());
             Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
             model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
@@ -58,8 +63,11 @@ public class GameController {
             //model.addAttribute("sessionId", request.getSession().getAttribute("id"));
             model.addAttribute("userInstructions", UserInstructions.getUserInstructions());
             model.addAttribute("currentPlayerID", CrazyDog.getNextPlayer());
+            model.addAttribute("roundNr", CrazyDog.getNextPlayer());
             model.addAttribute("sessionId", request.getSession().getAttribute("id"));
-            model.addAttribute("gameDirection", CrazyDog.direction);
+
+            Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
+            model.addAttribute("gameDirection", directionMap.get(CrazyDog.getDirection()));
 
             return "game";
         }

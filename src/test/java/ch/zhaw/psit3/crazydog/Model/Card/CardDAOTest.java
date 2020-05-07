@@ -23,9 +23,9 @@ class CardDAOTest {
         card3 = new Card(3, "changeDirection", 3);
         card4 = new Card(4, "four", 4);
         card5 = new Card(5, "standard", 5);
-        card1or11 = new Card(11, "oneEleven", 0);
-        cardQuestion = new Card(14, "questionmark", 0);
-        cardPieceExchange = new Card(15, "pieceExchange", 0);
+        card1or11 = new Card(11, "oneEleven", 11);
+        cardQuestion = new Card(14, "questionmark", 14);
+        cardPieceExchange = new Card(15, "pieceExchange", 15);
     }
 
     @Test

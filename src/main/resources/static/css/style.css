@@ -120,10 +120,13 @@ h2 {
 }
 
 #gamemessage {
-    position: absolute;
-    top: 520px;
-    left: 1180px;
-    z-index: 8;
+    /*position: absolute;
+    top: 670px;
+    left: 190px;
+    z-index: 8;*/
+    margin-top: 30px;
+    font-size: 28px;
+    color: black;
 }
 
 #empty {
@@ -174,6 +177,7 @@ h2 {
     margin-left: 40px;
     font-size: 28px;
     vertical-align: middle;
+    color: black;
 }
 .playerimage {
     width: 80px;
@@ -197,7 +201,7 @@ h2 {
 }
 
 .currentplayer {
-    border: 10px solid #f9ff07;
+    border: 10px solid #f9ff07 !important;
 }
 
 .field {
@@ -602,4 +606,8 @@ h2 {
 
 .link-no-decoration {
     text-decoration: none;
+}
+
+.instructions {
+    font-size: 23px;
 }

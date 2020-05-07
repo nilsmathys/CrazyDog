@@ -27,22 +27,22 @@ class PieceDAOTest {
 
     @BeforeEach
     void setup() {
-        piece1 = new Piece(1, 1, "red", "piece1red.png");
-        piece2 = new Piece(2, 2, "red", "piece2red.png");
-        piece3 = new Piece(3, 3, "red", "piece3red.png");
-        piece4 = new Piece(4, 4, "red", "piece4red.png");
-        piece5 = new Piece(5, 1, "green", "piece1green.png");
-        piece6 = new Piece(6, 2, "green", "piece2green.png");
-        piece7 = new Piece(7, 3, "green", "piece3green.png");
-        piece8 = new Piece(8, 4, "green", "piece4green.png");
-        piece9 = new Piece(9, 1, "yellow", "piece1yellow.png");
-        piece10 = new Piece(10, 2, "yellow", "piece2yellow.png");
-        piece11 = new Piece(11, 3, "yellow", "piece3yellow.png");
-        piece12 = new Piece(12, 4, "yellow", "piece4yellow.png");
-        piece13 = new Piece(13, 1, "blue", "piece1blue.png");
-        piece14 = new Piece(14, 2, "blue", "piece2blue.png");
-        piece15 = new Piece(15, 3, "blue", "piece3blue.png");
-        piece16 = new Piece(16, 4, "blue", "piece4blue.png");
+        piece1 = new Piece(1, 1, "red", "piece1red.png",4);
+        piece2 = new Piece(2, 2, "red", "piece2red.png",3);
+        piece3 = new Piece(3, 3, "red", "piece3red.png",2);
+        piece4 = new Piece(4, 4, "red", "piece4red.png",1);
+        piece5 = new Piece(5, 1, "green", "piece1green.png",20);
+        piece6 = new Piece(6, 2, "green", "piece2green.png",19);
+        piece7 = new Piece(7, 3, "green", "piece3green.png",18);
+        piece8 = new Piece(8, 4, "green", "piece4green.png",17);
+        piece9 = new Piece(9, 1, "yellow", "piece1yellow.png",36);
+        piece10 = new Piece(10, 2, "yellow", "piece2yellow.png",35);
+        piece11 = new Piece(11, 3, "yellow", "piece3yellow.png",34);
+        piece12 = new Piece(12, 4, "yellow", "piece4yellow.png",33);
+        piece13 = new Piece(13, 1, "blue", "piece1blue.png",52);
+        piece14 = new Piece(14, 2, "blue", "piece2blue.png",51);
+        piece15 = new Piece(15, 3, "blue", "piece3blue.png",50);
+        piece16 = new Piece(16, 4, "blue", "piece4blue.png",49);
     }
 
     @Test
@@ -76,7 +76,7 @@ class PieceDAOTest {
     }
 
     @Test
-    void getColourIdFromPeace() {
+    void getColourIdFromPiece() {
         assertEquals("red", PieceDAO.getColourName(1));
     }
 
