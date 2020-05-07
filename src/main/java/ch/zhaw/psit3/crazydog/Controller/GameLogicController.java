@@ -70,9 +70,9 @@ public class GameLogicController {
         int sessionId = jsonObj.getInt("sessionId"); // This value will be given to the gamelogic class
         String sourceFieldCSSId = jsonObj.getString("correctSourceField"); // This value will be given to the gamelogic class
         String destinationFieldCSSId = jsonObj.getString("destinationField"); // This value will be given to the gamelogic class
-
+        int chosenCardId = jsonObj.getInt("chosenCardId"); // This value will be given to the gamelogic class
         // Give these values to the GameLogic to make the move
-        GameLogic.makeMove(cardValue, sessionId, sourceFieldCSSId, destinationFieldCSSId);
+        GameLogic.makeMove(cardValue, sessionId, sourceFieldCSSId, destinationFieldCSSId, chosenCardId);
 
         return GameLogic.getSuccessMessage();
     }

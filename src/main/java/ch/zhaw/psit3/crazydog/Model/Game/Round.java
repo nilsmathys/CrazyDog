@@ -170,6 +170,12 @@ public class Round {
         else {
             UserInstructions.addNewInstruction("Player " + CrazyDog.getNextPlayer() + " has no cards left and will be skipped");
         }
+        //remove selected card
+        if(GameLogic.getChosenCardId() != 0) {
+            cards.discardCard(GameLogic.getChosenCardId());
+            GameLogic.resetChosenCardId();
+        }
+
         //reset Flag
         GameLogic.resetLegalMoveStatus();
         //set next player

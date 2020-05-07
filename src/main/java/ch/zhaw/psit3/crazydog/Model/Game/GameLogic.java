@@ -17,7 +17,7 @@ public class GameLogic {
 
     private static boolean isLegalMoveMade = false;       // If a legal move is made, set this to true in the gameLogic
     private static Message successmessage;
-
+    private static int chosenCardId;
     private static int index = 1;
 
     // Is responsible for returning a list
@@ -131,10 +131,11 @@ public class GameLogic {
         return moves;
     }
 
-    public static void makeMove(int cardValue, int sessionId, String sourceFieldCSSId, String destinationFieldCSSId) {
+    public static void makeMove(int cardValue, int sessionId, String sourceFieldCSSId, String destinationFieldCSSId, int cardId) {
         calculateMoves(cardValue, sessionId);       // Calculate all the possible moves
         if(isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
             successmessage = new Message("Erfolgreicher Zug");
+            chosenCardId = cardId;
             // TODO: Check if the destinationfield is of type wormhole. Create Logic for this case.
             // TODO: Check if a player is on Destinationfield. Create Logic for this case.
             // TODO: Update the boolean flag that player made his move
@@ -148,6 +149,12 @@ public class GameLogic {
             successmessage = new Message("Ungültiger Zug");
             isLegalMoveMade = false;
         }
+    }
+    public static int getChosenCardId() {
+        return chosenCardId;
+    }
+    public static void resetChosenCardId() {
+        chosenCardId = 0;
     }
 
     public static Message getSuccessMessage() {

@@ -1,4 +1,5 @@
 var chosenCard = 0;
+var chosenCardId = 0;
 var sessionId;
 var sourceField;
 var correctSourceField = 0;     // The field which will be sent to the Backend for making a move
@@ -12,6 +13,7 @@ var exchangeCards = false;
 function getPossibleSourceFields(cardvalue, cardId) {
     $("input[name='selectedCardId']").val(cardId);
     chosenCard = cardvalue;
+    chosenCardId = cardId;
     sessionId = $('#sessionId').html();
     getSourceFields();
 }
@@ -84,7 +86,7 @@ function makeMove() {
         $.ajax({
             url : 'makemove',
             type:'POST',
-            data : JSON.stringify({chosenCard: chosenCard, sessionId: sessionId, correctSourceField: correctSourceField, destinationField: destinationField}),
+            data : JSON.stringify({chosenCard: chosenCard, sessionId: sessionId, correctSourceField: correctSourceField, destinationField: destinationField, chosenCardId: chosenCardId}),
             contentType : 'application/json; charset=utf-8',
             dataType:'json',
             success : function(data) {
@@ -144,6 +146,7 @@ function isNotOneOfTheSourceFields(field) {
 
 function reset() {
     chosenCard = 0;
+    chosenCardId = 0;
 }
 
 function showSuccessMessage(data) {
