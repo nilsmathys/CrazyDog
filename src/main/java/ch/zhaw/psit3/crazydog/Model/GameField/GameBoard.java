@@ -3,7 +3,7 @@ package ch.zhaw.psit3.crazydog.Model.GameField;
 import ch.zhaw.psit3.crazydog.Model.Game.DestinationFieldsClockwise;
 import ch.zhaw.psit3.crazydog.Model.Game.DestinationFieldsCounterclockwise;
 import ch.zhaw.psit3.crazydog.Model.Game.Direction;
-import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
+//import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 
 import java.util.*;
@@ -12,14 +12,14 @@ import java.util.*;
 public class GameBoard {
 
     private static List<GameField> fields;
-    private static Map<String, String> fieldsAndPieces = new HashMap<>();
+    //private static Map<String, String> fieldsAndPieces = new HashMap<>();
 
     public GameBoard() {
         this.fields = GameFieldDAO.getFieldsFromJSON();
         Collections.sort(fields);
-        for(GameField field : fields) {
+        /*for(GameField field : fields) {
             fieldsAndPieces.put(field.getCssId(),field.getImageName());
-        }
+        }*/
     }
 
     public void changePictureOnField(int index, String pictureName) {
@@ -43,14 +43,14 @@ public class GameBoard {
         return fields.get(index);
     }
 
-    public Map<String, String> getFieldsAndPieces() {
+    /*public Map<String, String> getFieldsAndPieces() {
         return fieldsAndPieces;
     }
 
     // Put one relationship between a field and a piece
     public static void put(FieldAndPiece fap) {
         fieldsAndPieces.put(fap.getField(), fap.getPiece());
-    }
+    }*/
 
     /**
      * Sets the Piece on a specific Home Field

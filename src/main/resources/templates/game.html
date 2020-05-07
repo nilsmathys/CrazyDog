@@ -84,8 +84,8 @@
             <div class="hand" id="handBlock">
                 <div th:each="coh : ${ playerandhand }">
                     <img th:src="'/img/cards/karte_' + ${ coh.getValue() } + '.png'" class="playingcard"
-                         th:id=" ${ coh.getId() }" id="card" th:alt="'Karte ' + ${ coh.getValue() }"
-                         th:onclick="|getPossibleSourceFields(${ coh.getValue() })|">
+                         th:id=" ${ coh.getId() }" th:alt="'Karte ' + ${ coh.getValue() }"
+                         th:onclick="|getPossibleSourceFields(${ coh.getValue() }, ${ coh.getId() })|">
                 </div>
             </div>
         </div>

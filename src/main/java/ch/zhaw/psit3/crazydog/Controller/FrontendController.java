@@ -6,7 +6,7 @@ import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
-import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
+//import ch.zhaw.psit3.crazydog.Model.Piece.FieldAndPiece;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +19,9 @@ import java.util.Map;
 @Controller
 public class FrontendController {
 
-    FieldAndPiece source;
+    /*FieldAndPiece source;
     FieldAndPiece dest;
-    FieldAndPiece[] sourceAndDestination = new FieldAndPiece[2];
+    FieldAndPiece[] sourceAndDestination = new FieldAndPiece[2];*/
     List<String> userInstructions;
     int currentPlayerID;
     Direction direction;

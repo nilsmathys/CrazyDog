@@ -142,9 +142,11 @@ public class GameLogic {
             GameField destinationField = getGameFieldWithCSSId(destinationFieldCSSId);
             destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
             sourceField.setPieceOnField(null);
+            isLegalMoveMade = true;
         }
         else {
             successmessage = new Message("Ungültiger Zug");
+            isLegalMoveMade = false;
         }
     }
 
