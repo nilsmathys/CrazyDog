@@ -32,4 +32,10 @@ public class CardsOnHand {
         return hand.isEmpty();
     }
 
+    /**
+     * Remove all cards from the hand
+     */
+    public void discardAllCards() {
+        hand.clear();
+    }
 }

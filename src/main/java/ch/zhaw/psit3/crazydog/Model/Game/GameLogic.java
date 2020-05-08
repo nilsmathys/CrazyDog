@@ -129,33 +129,43 @@ public class GameLogic {
     }
 
     public static void makeMove(int cardValue, int sessionId, String sourceFieldCSSId, String destinationFieldCSSId, int cardId) {
-        calculateMoves(cardValue, sessionId);       // Calculate all the possible moves
-        // Get players color
-        String playerColor = getPlayersColorFromId(sessionId);
-        if(isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
-            successmessage = new Message("Erfolgreicher Zug");
-            chosenCardId = cardId;
-            // TODO: Check if the current player has made the move and not another player
-            // TODO: Check if a player is on Destinationfield. Create Logic for this case.
-            // TODO: if there is a piece from another color on the dstField, send it to home field
-            GameField sourceField = getGameFieldWithCSSId(sourceFieldCSSId);
-            GameField destinationField = getGameFieldWithCSSId(destinationFieldCSSId);
+        //check if the move was made by the current user, if not - the user will be informed
+        if(sessionId == CrazyDog.getNextPlayer())
+        {
+            calculateMoves(cardValue, sessionId);       // Calculate all the possible moves
+            // Get players color
+            String playerColor = getPlayersColorFromId(sessionId);
+            if(isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
+                successmessage = new Message("Erfolgreicher Zug");
+                chosenCardId = cardId;
+                // TODO: Check if the current player has made the move and not another player
+                // TODO: Check if a player is on Destinationfield. Create Logic for this case.
+                // TODO: if there is a piece from another color on the dstField, send it to home field
+                GameField sourceField = getGameFieldWithCSSId(sourceFieldCSSId);
+                GameField destinationField = getGameFieldWithCSSId(destinationFieldCSSId);
 
-            //if Destination is a wormhole, then the new desination should be a random GameField
-            //it is not allowed, that a piece of the same color is on the destination field
-            while(destinationField.getGameFieldName().equals("wormhole") || isPieceOfPlayerOnField(destinationField, playerColor))
-            {
-                destinationField = calcDestWhenPieceOnWormhole();
+                //if Destination is a wormhole, then the new desination should be a random GameField
+                //it is not allowed, that a piece of the same color is on the destination field
+                while(destinationField.getGameFieldName().equals("wormhole") || isPieceOfPlayerOnField(destinationField, playerColor))
+                {
+                    destinationField = calcDestWhenPieceOnWormhole();
+                }
+
+                destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
+                sourceField.setPieceOnField(null);
+                isLegalMoveMade = true;
             }
-
-            destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
-            sourceField.setPieceOnField(null);
-            isLegalMoveMade = true;
+            else {
+                successmessage = new Message("Ungültiger Zug");
+                isLegalMoveMade = false;
+            }
         }
-        else {
-            successmessage = new Message("Ungültiger Zug");
+        else
+        {
+            successmessage = new Message("Warten Sie mit dem Zug, bis sie an der Reihe sind");
             isLegalMoveMade = false;
         }
+
     }
     public static int getChosenCardId() {
         return chosenCardId;
