@@ -130,17 +130,20 @@ public class GameLogic {
 
     public static void makeMove(int cardValue, int sessionId, String sourceFieldCSSId, String destinationFieldCSSId, int cardId) {
         calculateMoves(cardValue, sessionId);       // Calculate all the possible moves
+        // Get players color
+        String playerColor = getPlayersColorFromId(sessionId);
         if(isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
             successmessage = new Message("Erfolgreicher Zug");
             chosenCardId = cardId;
             // TODO: Check if the current player has made the move and not another player
             // TODO: Check if a player is on Destinationfield. Create Logic for this case.
-
+            // TODO: if there is a piece from another color on the dstField, send it to home field
             GameField sourceField = getGameFieldWithCSSId(sourceFieldCSSId);
             GameField destinationField = getGameFieldWithCSSId(destinationFieldCSSId);
 
             //if Destination is a wormhole, then the new desination should be a random GameField
-            while(destinationField.getGameFieldName().equals("wormhole"))
+            //it is not allowed, that a piece of the same color is on the destination field
+            while(destinationField.getGameFieldName().equals("wormhole") || isPieceOfPlayerOnField(destinationField, playerColor))
             {
                 destinationField = calcDestWhenPieceOnWormhole();
             }
@@ -416,15 +419,15 @@ public class GameLogic {
     }
 
     /**
-     * Get the the Game Field object with the idForCalculation and the gameFieldName must be 'standard' or 'wormhole'
+     * Get the the Game Field object with the idForCalculation and the gameFieldName must be 'standard', 'startfield' or 'wormhole'
      * @param idForCalculation  idForCalculation for which we have to search in the list
      * @return GameField with the idForCalculation and name standard or wormhole
      */
-    private static GameField getStandardGameFieldOrWormholeByIdForCalculation(int idForCalculation) {
+    private static GameField getStandardStartfieldGameFieldOrWormholeByIdForCalculation(int idForCalculation) {
         GameField returnField = null;
         for(GameField field: gameFieldList) {
             if(field.getIdForCalculation() == idForCalculation &&
-                    (field.getGameFieldName().equals("standard") || field.getGameFieldName().equals("wormhole")))
+                    (field.getGameFieldName().equals("standard") || field.getGameFieldName().equals("wormhole")|| field.getGameFieldName().equals("startfield")))
             {
                 returnField = field;
             }
@@ -442,7 +445,7 @@ public class GameLogic {
         //get a random number between 1 and 64
         int destinationIdForCalculation = r.nextInt(64 - 1 + 1) + 1; // (max - min + 1) + 1
         GameField newDestination = null;
-        newDestination = getStandardGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
+        newDestination = getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
         return newDestination;
     }
 
