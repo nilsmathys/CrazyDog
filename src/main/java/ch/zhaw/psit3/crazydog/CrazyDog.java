@@ -12,7 +12,6 @@ import ch.zhaw.psit3.crazydog.Model.Player.PlayerDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.jmx.export.naming.IdentityNamingStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class CrazyDog {
     private int gameId;
     private static Team team1;
     private static Team team2;
-    private static Team winnerTeam;
+    private static Team winnerTeam = null;
     private static int nextPlayer; //Id des Spielrs der als nächster dran ist.
     private List<Piece> pieceList;
     private CardDeck deck;
@@ -59,6 +58,7 @@ public class CrazyDog {
         player3.setColor("yellow");
         player4.setColor("blue");
         this.nextPlayer = player1.getId();
+        this.winnerTeam = null;
         this.gameBoard = new GameBoard();
         this.pieceList = PieceDAO.getAllPieces();
         positionFieldsInitial();
@@ -80,6 +80,7 @@ public class CrazyDog {
         player3.setColor("yellow");
         player4.setColor("blue");
         this.nextPlayer = nextPlayer;
+        this.winnerTeam = null;
         this.gameBoard = gameBoard;
         //im JSON ist COUNTERCLOCKWISE abgespeichert, deshalb muss die Direction geändert werden
         changeDirection();
@@ -99,7 +100,6 @@ public class CrazyDog {
             playEnded = round.startRound();
             roundNumber++;
         }
-        //TODO show winner team
     }
 
     public static void main(String[] args) {
@@ -157,6 +157,7 @@ public class CrazyDog {
         return gameBoard;
     }
     public static void setWinnerTeam(Team team) { winnerTeam = team; }
+    public static Team getWinnerTeam() { return winnerTeam; }
 
     public static List<Player> getPlayerList() {
         return playerList;

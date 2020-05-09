@@ -6,6 +6,7 @@ import ch.zhaw.psit3.crazydog.Model.Card.CardsOnHand;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
+import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,4 +86,10 @@ public class FrontendController {
         return "game :: #buttonBlock";
     }
 
+    // This method is reponsible for listening to the continous ajax frontend-updater.
+    // It returns the data that was processed by the server.
+    @RequestMapping(value = "/getWinningTeam", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Team returnWinningTeam() {
+        return CrazyDog.getWinnerTeam();
+    }
 }

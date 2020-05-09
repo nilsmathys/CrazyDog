@@ -90,8 +90,20 @@
             </div>
         </div>
 
+        <!-- The Winning Dialog -->
+        <div id="winningDialog" style="display:none" class="dialog">
+            <!-- Dialog content -->
+            <div class="dialog-content">
+                <h2>Spiel beendet</h2>
+                <p id="winner"></p>
+                <input type="button" id="close-dialog" class="btn btn-light" value="zurück zur Startseite">
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
         <script th:src="@{/js/frontendupdater.js}"></script>
+        <script th:src="@{/js/winnerdialog.js}"></script>
         <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
         <script src="/js/clicklistener2.js" th:href="@{/js/clicklistener2.js}"></script><!-- IMPORTANT: I changed script to clicklistener2 for (refactoring) -->
         <div th:insert="modals.html">
