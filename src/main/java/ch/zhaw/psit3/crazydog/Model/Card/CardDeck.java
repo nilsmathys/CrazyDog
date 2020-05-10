@@ -2,6 +2,15 @@ package ch.zhaw.psit3.crazydog.Model.Card;
 
 import java.util.*;
 
+/**
+ * <h1>CardDeck</h1>
+ * The CardDeck creates a shuffled deck of 110 cards (6x questionmark, 8x other cards).<br>
+ * During the game this deck is used for distributing cards to the players.
+ *
+ * @author S. Werlin
+ * @version 1.0
+ * @since April 2020
+ */
 public class CardDeck {
     private static List<Card> cardDeck;
 
@@ -31,6 +40,11 @@ public class CardDeck {
         Collections.shuffle(cardDeck);
     }
 
+    /**
+     * Evaluates how many cards are left in the current deck
+     *
+     * @return number of remaining deck cards
+     */
     public int getDeckSize() {
         return cardDeck.size();
     }
@@ -39,6 +53,11 @@ public class CardDeck {
         return cardDeck;
     }
 
+    /**
+     * Gets the first card of the current card deck to distribute to a player
+     *
+     * @return Card object
+     */
     public Card getCardFromDeck() {
         if (cardDeck.isEmpty()) {
             createDeck();

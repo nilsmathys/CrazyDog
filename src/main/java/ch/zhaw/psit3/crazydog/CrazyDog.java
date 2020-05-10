@@ -16,6 +16,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1>CrazyDog</h1>
+ * It initiates a new Crazy Dog game and starts a round. As long as no winner is set a new round will be started as soon as the previous one is over.
+ *
+ * @author R. Bertschinger, N. Mathys, R. Somma, S. Werlin
+ * @version 1.0
+ * @since March 2020
+ */
 @SpringBootApplication
 public class CrazyDog {
     private int gameId;
@@ -32,7 +40,7 @@ public class CrazyDog {
     private static List<Player> playerList = new ArrayList<Player>();
 
     /**
-     * leerer Konstruktur um Webseite starten zu können von dieser Klasse aus.
+     * Empty constructor to start the website.
      */
     public CrazyDog() {
         gameBoard = new GameBoard();
@@ -43,12 +51,12 @@ public class CrazyDog {
     }
 
     /**
-     * Konstruktor falls neues Spiel
+     * Constructor for a new game.
      *
-     * @param player1 erster Spieler, Initialisator und Partner des zweiten Spielers.
-     * @param player2 zweiter Spieler und Partner des ersten Spielers.
-     * @param player3 dritter Spieler und Partner der vierten Spielers.
-     * @param player4 vierter Spieler und Partner des dritten Spielers.
+     * @param player1 first player, initiator of the game and team member of second player
+     * @param player2 second player and team member of first player
+     * @param player3 third player and team member of fourth player
+     * @param player4 fourth player and team member of third player
      */
     public CrazyDog(Player player1, Player player2, Player player3, Player player4) {
         this.team1 = new Team(player1, player2, "red", "green");
@@ -69,7 +77,15 @@ public class CrazyDog {
     }
 
     /**
-     * Konstrutor falls bereits ein Spiel besteht.
+     * Constructor if a game already exits and needs to be continued.
+     *
+     * @param gameId     the id this game was stored under
+     * @param player1    first player and team member of second player
+     * @param player2    second player and team member of first player
+     * @param player3    third player and team member of fourth player
+     * @param player4    fourth player and team member of third player
+     * @param nextPlayer player id of the one who's turn it is
+     * @param gameBoard  the whole game board at the time the game was paused (including the last place of each piece)
      */
     public CrazyDog(int gameId, Player player1, Player player2, Player player3, Player player4, int nextPlayer, GameBoard gameBoard) {
         this.gameId = gameId;
@@ -88,6 +104,13 @@ public class CrazyDog {
         positionFieldsInitial();
     }
 
+    /**
+     * Start the round with two teams in a while loop. As long as there is no winner and the round has ended due to
+     * the circumstance that no player has a card left to play a new round will be started.
+     *
+     * @param team1 a team consisting of player 1 and player 2
+     * @param team2 a team consisting of player 3 and player 4
+     */
     private void playGame(Team team1, Team team2) {
         CardDeck deck = new CardDeck();
         deck.createDeck();
@@ -102,6 +125,10 @@ public class CrazyDog {
         }
     }
 
+    /**
+     * This is the main method which makes use of playGame method.
+     * @param args unused
+     */
     public static void main(String[] args) {
         SpringApplication.run(CrazyDog.class, args);
 
@@ -117,7 +144,6 @@ public class CrazyDog {
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
         UserInstructions.addNewInstruction("Game started now");
         crazyDog.playGame(crazyDog.team1, crazyDog.team2);
-
     }
 
     /**
@@ -150,7 +176,6 @@ public class CrazyDog {
         } else {
             nextPlayer++;
         }
-
     }
 
     public static GameBoard getGameBoard() {
@@ -164,7 +189,7 @@ public class CrazyDog {
     }
 
     /**
-     * Change Gamedirection and renumber all Destination Fields.
+     * Change game direction and renumber all Destination Fields.
      */
     public static void changeDirection() {
         if (direction == Direction.COUNTERCLOCKWISE) {

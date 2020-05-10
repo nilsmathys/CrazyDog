@@ -8,6 +8,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * <h1>CardDAO</h1>
+ * The CardDAO queries the database to get all of the stores cards.
+ *
+ * @author S. Werlin
+ * @version 1.0
+ * @since April 2020
+ */
 public class CardDAO {
     private static final Logger LOGGER = Logger.getLogger(CardDAO.class.getName());
     /**

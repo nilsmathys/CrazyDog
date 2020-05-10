@@ -14,7 +14,20 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * <h1>Round</h1>
+ * The Round handles a single round in the game. <br>
+ * <ol>
+ *     <li>It calculates the amount of cards needed in a certain round and distributes them from the deck.</li>
+ *     <li>It waits for the players to select a card to exchange and hands it (or a random card if none is selected)
+ *         over to its teammember.</li>
+ *     <li>It controls the flow of the game and checks after every turn if a team has won in order to end the game.</li>
+ * </ol>
+ *
+ * @author R. Somma, S. Werlin
+ * @version 1.0
+ * @since April 2020
+ */
 public class Round {
     private static final Logger LOGGER = Logger.getLogger(Round.class.getName());
 
@@ -29,6 +42,16 @@ public class Round {
     private static boolean roundStarted = false;
     private final int MAXIMUMTIMEROUND = 30000; //in milli seconds
 
+    /**
+     * Constructor to create new round
+     * Resets static values back to its default value.
+     * Distributes cards and exchanges selected cards among team members.
+     *
+     * @param roundNumber current round number
+     * @param deck        deck of cards left from the previous round
+     * @param team1       a team consisting of player 1 and player 2
+     * @param team2       a team consisting of player 3 and player 4
+     */
     public Round(int roundNumber, CardDeck deck, Team team1, Team team2) {
         this.team1 = team1;
         this.team2 = team2;
@@ -108,7 +131,7 @@ public class Round {
     }
 
     /**
-     * Exchanges selected cards from teammembers.
+     * Exchanges selected cards from team members.
      * If a player has not selected a card within the time limit, the system picks one randomly.
      */
     private void exchangeCards() {
@@ -139,8 +162,8 @@ public class Round {
     /**
      * The system automatically chooses a random card from the players hand
      *
-     * @param playerId
-     * @return Card
+     * @param playerId id of certain player
+     * @return a Card from this player's hand
      */
     private Card pickRandomCard(int playerId) {
         Random rand = new Random();
@@ -236,8 +259,9 @@ public class Round {
     }
 
     /**
-     * Checks if all pieces of current player and its teamplayer are on the destined destinationfield.
-     * @return true if all pieces are at their destinationfields
+     * Checks if all pieces of current player and its team member are on the destined destination field.
+     *
+     * @return true if all pieces are at their destination fields
      */
     private boolean allPiecesOfTeamAtDestination() {
         boolean allTeamPiecesAtDestination = false;
@@ -270,9 +294,10 @@ public class Round {
     }
 
     /**
-     * Gets the cssIds of the four destinationfields of a certain color
-     * @param playerColor
-     * @return List with 4 cssIds
+     * Gets the cssIds of the four destination fields of a certain color.
+     *
+     * @param playerColor color of a certain player
+     * @return Map with 4 values (key: number (order of destination field); value: cssId of destination field)
      */
     private Map<Integer, String> getDestinationFieldsByPlayerColor(String playerColor) {
         Map<Integer, String> destFieldMap = new HashMap<>();
@@ -301,10 +326,11 @@ public class Round {
     }
 
     /**
-     * checks if all pieces of a certain player are at the destined destinationfield
+     * Checks if all pieces of a certain player are at the destined destination field.
+     *
      * @param currentPieces cssId of current piece positions
-     * @param destFields cssId of destinationfield
-     * @return true if all pieces are on their specific destinationfield
+     * @param destFields    cssId of destination field
+     * @return true if all pieces are on their specific destination field
      */
     private boolean arePiecesOfPlayerAtDestination(Map<Integer,String> currentPieces, Map<Integer,String> destFields) {
         boolean allPiecesAtDestination = false;
@@ -319,7 +345,8 @@ public class Round {
 
     /**
      * Evaluates if one of the players still has a card to play.
-     * @return
+     *
+     * @return true if no player has a card left to play
      */
     private boolean allPlayerOutOfCards() {
         boolean allPlayersOutOfCards = false;
@@ -338,10 +365,10 @@ public class Round {
     }
 
     /**
-     * Sets the exchangeCard variable with the card the user selected to exchange with its teamplayer
+     * Sets the exchangeCard variable with the card the user selected to exchange with its team member
      *
-     * @param playerId
-     * @param cardId
+     * @param playerId id of a certain player
+     * @param cardId id of selected card to exchange with team member
      */
     public static void setExchangeCard(int playerId, int cardId) {
         if (playerId == team1.getPlayer1().getId()) {
@@ -350,13 +377,16 @@ public class Round {
             exchangeCardP2 = playerAndHand.get(team1.getPlayer2().getId()).discardCard(cardId);
         } else if (playerId == team2.getPlayer1().getId()) {
             exchangeCardP3 = playerAndHand.get(team2.getPlayer1().getId()).discardCard(cardId);
-        } else if (playerId == team2.getPlayer2().getId()) {
-            exchangeCardP4 = playerAndHand.get(team2.getPlayer2().getId()).discardCard(cardId);
         } else {
-
+            exchangeCardP4 = playerAndHand.get(team2.getPlayer2().getId()).discardCard(cardId);
         }
     }
 
+    /**
+     * Retrieves the information whether or not a round has started
+     *
+     * @return true if round has started
+     */
     public static boolean isRoundStarted() {
         return roundStarted;
     }
