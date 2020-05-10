@@ -11,9 +11,12 @@ import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Round {
+    private static final Logger LOGGER = Logger.getLogger(Round.class.getName());
 
     private static Team team1;
     private static Team team2;
@@ -201,7 +204,7 @@ public class Round {
                 //go to sleep for a second
                 Thread.sleep(1000);
             }catch(Exception e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Round could not start.");
             }
         }
 
@@ -211,7 +214,8 @@ public class Round {
             // SPIELZUG nextPlayer
             UserInstructions.addNewInstruction("It's Player " + CrazyDog.getNextPlayer() + "'s turn. Please play a card");
             makeTurn();
-            System.out.println("Turn OK");
+
+            LOGGER.info("Turn  ok.");
 
             if (allPiecesOfTeamAtDestination()) {
                 if (team1.getPlayer1().getId() == CrazyDog.getNextPlayer() || team1.getPlayer2().getId() == CrazyDog.getNextPlayer()) {

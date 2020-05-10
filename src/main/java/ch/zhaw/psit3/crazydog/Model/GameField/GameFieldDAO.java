@@ -9,8 +9,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameFieldDAO {
+    private static final Logger LOGGER = Logger.getLogger(GameFieldDAO.class.getName());
 
     private static GameField parseFieldObject(JSONObject field)
     {
@@ -36,20 +39,20 @@ public class GameFieldDAO {
             );
 
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Couldn't load fields from JSON.", e);
         }
 
         return fieldList;
     }
 
-    public static void main(String[] args) {
-        List<GameField> fieldListAll = getFieldsFromJSON();
-        int i = 0;
-        for(GameField field : fieldListAll) {
-            System.out.println(i + " "+ field.getImageName() + " " + field.getIdForCalculation());
-            i++;
-        }
-
-
-    }
+//    public static void main(String[] args) {
+//        List<GameField> fieldListAll = getFieldsFromJSON();
+//        int i = 0;
+//        for(GameField field : fieldListAll) {
+//            System.out.println(i + " "+ field.getImageName() + " " + field.getIdForCalculation());
+//            i++;
+//        }
+//
+//
+//    }
 }

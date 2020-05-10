@@ -5,8 +5,11 @@ import ch.zhaw.psit3.crazydog.db.DBConnectionFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PieceDAO {
+    private static final Logger LOGGER = Logger.getLogger(PieceDAO.class.getName());
 
     /**
      * Methode um die Spielfigur von der Datenbank auszulesen anhand der ID.
@@ -40,13 +43,13 @@ public class PieceDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Couldn't load piece by ID.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Connection error", e);
             }
         }
         return piece;
@@ -77,49 +80,16 @@ public class PieceDAO {
             rs.close();
             stmt.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Couldn't load all pieces.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Connection error", e);
             }
         }
         return pieceList;
-    }
-
-    /**
-     * Gibt die ColourId der gewünschten Figur zurück
-     *
-     * @param id FigurenId, bei der der man die Farbid wissen möchte
-     * @return int mit der Colourid
-     */
-    public static String getColourName(int id) {
-        Connection con = null;
-        Piece piece = new Piece();
-        try {
-            con = DBConnectionFactory.getConnection();
-            String query = "SELECT colourname FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID WHERE pieceID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                piece.setColor(rs.getString("colourname"));
-            }
-            rs.close();
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (con != null)
-                    con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return piece.getColor();
     }
 
     /**
@@ -142,13 +112,13 @@ public class PieceDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Couldn't load colour from piece.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Connection error", e);
             }
         }
         return colour;
@@ -176,13 +146,13 @@ public class PieceDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Couldn't load number of piece.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Connection error", e);
             }
         }
         return piece.getNumber();
@@ -209,13 +179,13 @@ public class PieceDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Couldn't load picturename from piece.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Connection error", e);
             }
         }
         return piece.getPictureName();

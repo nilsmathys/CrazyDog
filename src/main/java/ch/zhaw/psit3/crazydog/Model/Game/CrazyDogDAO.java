@@ -9,8 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CrazyDogDAO {
+    private static final Logger LOGGER = Logger.getLogger(CrazyDogDAO.class.getName());
 
     /**
      * Lädt Spiel anhand der gameId
@@ -53,13 +56,13 @@ public class CrazyDogDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Couldn't load game.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Connection error.", e);
             }
         }
         return null;

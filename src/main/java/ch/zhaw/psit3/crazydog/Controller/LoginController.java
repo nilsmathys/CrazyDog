@@ -6,13 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.logging.Logger;
 
 @Controller
 public class LoginController {
+    private static final Logger LOGGER = Logger.getLogger(LoginController.class.getName());
 
     @GetMapping("/login")
     public String loginForm(Model model) {
@@ -40,7 +41,7 @@ public class LoginController {
             return "redirect:/index";   // redirect is necessary to change to URL to /index
         }
         else {
-            System.out.println("This user doesn't exist.");
+            LOGGER.warning("This user doesn't exist. Email or Password was wrong.");
             model.addAttribute("loginerror", "Email or Password was wrong");
             model.addAttribute("player", new Player()); // Return empty player to reset the HTML form
             return "login";

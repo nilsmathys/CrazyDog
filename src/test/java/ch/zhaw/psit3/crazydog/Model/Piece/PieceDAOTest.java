@@ -75,10 +75,7 @@ class PieceDAOTest {
         assertEquals(piece16.getId(), dbPieces.get(15).getId());
     }
 
-    @Test
-    void getColourIdFromPiece() {
-        assertEquals("red", PieceDAO.getColourName(1));
-    }
+
 
     @Test
     void getColourFromPiece() {

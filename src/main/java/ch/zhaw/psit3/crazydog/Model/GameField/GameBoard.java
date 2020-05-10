@@ -315,14 +315,14 @@ public class GameBoard {
         }
     }
 
-    public static void main(String[] args) {
-        GameBoard gameBoard = new GameBoard();
-        List<GameField> fields = gameBoard.getFields();
-        gameBoard.renumberDestinationFields(Direction.CLOCKWISE);
-        for(GameField field: fields) {
-            System.out.println(field.getIdForCalculation() + " " + field.getGameFieldName() + " " + field.getColor());
-        }
-    }
+//    public static void main(String[] args) {
+//        GameBoard gameBoard = new GameBoard();
+//        List<GameField> fields = gameBoard.getFields();
+//        gameBoard.renumberDestinationFields(Direction.CLOCKWISE);
+//        for(GameField field: fields) {
+//            System.out.println(field.getIdForCalculation() + " " + field.getGameFieldName() + " " + field.getColor());
+//        }
+//    }
 
      /**
      * Gives current position of the player's four pieces back according to its color

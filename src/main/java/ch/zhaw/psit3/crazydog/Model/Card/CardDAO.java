@@ -5,8 +5,11 @@ import ch.zhaw.psit3.crazydog.db.DBConnectionFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CardDAO {
+    private static final Logger LOGGER = Logger.getLogger(CardDAO.class.getName());
     /**
      * Queries the database for a card with a given id
      * @param id of the card
@@ -34,13 +37,13 @@ public class CardDAO {
             rs.close();
             st.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Couldn't load card by id.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Connection Error.", e);
             }
         }
         return card;
@@ -67,12 +70,14 @@ public class CardDAO {
             rs.close();
             st.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Couldn't load all Cards.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
-            } catch (SQLException e) { e.printStackTrace(); }
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Connection Error.", e);
+            }
         }
         return cardList;
     }

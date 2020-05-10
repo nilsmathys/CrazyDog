@@ -42,13 +42,13 @@ public class PlayerDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aus Datenbank ausgelesen werden.", e);
+            LOGGER.log(Level.SEVERE, "Couldn't load player by ID.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
+                LOGGER.log(Level.SEVERE, "Connection error", e);
             }
         }
         return player;
@@ -81,13 +81,13 @@ public class PlayerDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aus Datenbank ausgelesen werden.", e);
+            LOGGER.log(Level.SEVERE, "Couldn't load player by username.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
+                LOGGER.log(Level.SEVERE, "Connection error.", e);
             }
         }
         return player;
@@ -116,13 +116,13 @@ public class PlayerDAO {
             rs.close();
             stmt.close();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Spieler konnten nicht aus Datenbank ausgelesen werden.", e);
+            LOGGER.log(Level.SEVERE, "Couldn't load all players.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
+                LOGGER.log(Level.SEVERE, "Connection error.", e);
             }
         }
         return playerList;
@@ -159,13 +159,13 @@ public class PlayerDAO {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aus Datenbank ausgelesen werden.", e);
+            LOGGER.log(Level.SEVERE, "Couldn't load player by username and password.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
+                LOGGER.log(Level.SEVERE, "Connection error.", e);
             }
         }
         return player;
@@ -197,13 +197,13 @@ public class PlayerDAO {
                 i = ps.executeUpdate();
                 ps.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Couln't insert a player in the db.", e);
             } finally {
                 try {
                     if (con != null)
                         con.close();
                 } catch (SQLException e) {
-                    LOGGER.log(Level.SEVERE, "Spieler konnte nicht in Datenbank gespeichert werden.", e);
+                    LOGGER.log(Level.SEVERE, "Connection error.", e);
                 }
             }
         }
@@ -235,13 +235,13 @@ public class PlayerDAO {
             i = ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aktualisiert werden.", e);
+            LOGGER.log(Level.SEVERE, "Couldn't update the player in db.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
+                LOGGER.log(Level.SEVERE, "Connection error.", e);
             }
         }
         if (i == 1) {
@@ -268,13 +268,13 @@ public class PlayerDAO {
             i = ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Spieler konnte nicht aus Datenbank gelöscht werden.", e);
+            LOGGER.log(Level.SEVERE, "Couldn't delete the player from db.", e);
         } finally {
             try {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                LOGGER.log(Level.SEVERE, "Datenbankverbindung schliessen fehlgeschlagen.", e);
+                LOGGER.log(Level.SEVERE, "Connection errror.", e);
             }
         }
         if (i == 1) {

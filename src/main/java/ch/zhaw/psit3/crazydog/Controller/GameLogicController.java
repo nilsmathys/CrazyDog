@@ -12,12 +12,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *  This controller is responsible for providing data to ajax calls.
  *  **/
 @Controller
 public class GameLogicController {
+    private static final Logger LOGGER = Logger.getLogger(GameLogicController.class.getName());
 
     // This method is reponsible for listening to clicks on cards and then return the fields the pieces would
     // land on, if the player would play that card.
@@ -65,7 +67,7 @@ public class GameLogicController {
     // It creates new Objects from the JSON and gives these Objects to the GameLogic Class.
     @RequestMapping(value = "/makemove", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Message makeMove(@RequestBody String json) {
-        System.out.println("/makemove was called");
+        LOGGER.fine("/makemove was called.");
         JSONObject jsonObj =new JSONObject(json);
         // Get all the Values
         int cardValue = jsonObj.getInt("chosenCard"); // This value will be given to the gamelogic class

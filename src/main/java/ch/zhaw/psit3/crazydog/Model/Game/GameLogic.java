@@ -1,5 +1,6 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
+import ch.zhaw.psit3.crazydog.Controller.GameLogicController;
 import ch.zhaw.psit3.crazydog.CrazyDog;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Message.Message;
@@ -7,8 +8,12 @@ import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameLogic {
+    private static final Logger LOGGER = Logger.getLogger(GameLogic.class.getName());
+
     private static List<GameField> gameFieldList;         // This is a copy of List<GameField> from Gameboard
     private static List<Move> moves;                      // This List containss all the calculated Sources and Destinations in Move Objects
 
@@ -54,12 +59,18 @@ public class GameLogic {
             // Calculate each destination field
             for (GameField sourceField : GameFieldsWithNoPiecesOnHomeFields) {
                 int sourceId = sourceField.getIdForCalculation();
-                System.out.println(sourceField.getPieceOnField().getPictureName() + " is on Field with calcID " + sourceField.getIdForCalculation());
+                Object[] loggerArray = new Object[2];
+                loggerArray[0] = sourceField.getPieceOnField().getPictureName();
+                loggerArray[1] = sourceField.getIdForCalculation();
+                //LOGGER.log(Level.INFO, "{0} is on Field with calcID {1}", sourceField.getPieceOnField().getPictureName(), sourceField.getIdForCalculation());
+                //TODO: Überprüfen ob es anders geht zu Loggen
+                LOGGER.log(Level.INFO, "{0} is on field with calcID {1}.", loggerArray);
+                //System.out.println(sourceField.getPieceOnField().getPictureName() + " is on Field with calcID " + sourceField.getIdForCalculation());
                 int destinationId = getDestinationId(sourceId, cardValue);
                 int calculationIdOfPassedStartField = getStartFieldIfStartFieldIsPassed(sourceId, destinationId);
                 // No StartField was passed, everything is ok, we can simply add the card value
                 if (calculationIdOfPassedStartField == 0) {
-                    System.out.println("The piece doesn't pass a startfield");
+                    LOGGER.info("The piece doesn't pass a startfield.");
                     // Case for destinationfields
                     if (sourceField.getGameFieldName().equals("destinationfield")) {
                         GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "destinationfield");
@@ -75,28 +86,28 @@ public class GameLogic {
                 }
                 // A Startfield was passed we have to check some things
                 else {
-                    System.out.println("The piece passes or lands on the startfield with the calcID" + calculationIdOfPassedStartField);
+                    LOGGER.log(Level.INFO, "The piece passes or lands on the startfield with the calcID {0}.", calculationIdOfPassedStartField);
                     GameField startField = getGameFieldWithCalculationId(calculationIdOfPassedStartField, "startfield");
                     // First check if there is a piece on the startfield of same color as startfield (if there is, we can't continue)
                     // There is no ELSE -  we can NOT move with this piece.
                     if (!isStartFieldOccupiedByPieceOfSameColor(startField)) {
-                        System.out.println("The startfield with calcID " + calculationIdOfPassedStartField + " has no piece with same color on it. No Block.");
+                        LOGGER.log(Level.INFO, "The startfield with calcID {0} has no piece with the same color on it. No block." , calculationIdOfPassedStartField);
                         if (destinationId == calculationIdOfPassedStartField) {
                             GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "startfield");
                             addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
                         }
                         // Now we know that we pass the startfield and don't land on it
                         else {
-                            System.out.println("The piece doesn't land on the startfield.");
+                            LOGGER.info("the piece doesn't land on the startfield.");
                             // So we check if the Field after the StartField is a Destinationfield of the player
                             // We also need to check if the destinationfield is out of range (bigger than the calculationId's of the destination fields)
                             GameField destinationFieldNextToStartField = getGameFieldWithCalculationId(calculationIdOfPassedStartField + 1, "destinationfield");
                             if (destinationFieldNextToStartField.getColor().equals(playerColor) && (destinationId <= calculationIdOfPassedStartField + 4)) {
-                                System.out.println("The destination fields belong to the players color. The piece could land on a destination field.");
+                                LOGGER.info("The destination fields belong to the players color. The piece could land on a destination field.");
                                 // Now we know that we could move a piece into player's destination fields.
                                 // But only if there are no Pieces blocking (we can't move past pieces in destination fields)
                                 if (!arePiecesBlockingOnDestinationFields(destinationId, destinationFieldNextToStartField)) {
-                                    System.out.println("No own pieces are blocking the destination fields!");
+                                    LOGGER.info("No own pieces are blocking the destination fields!");
                                     GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "destinationfield");
                                     addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
                                     GameField calculatedGameField2 = getGameFieldWithCalculationId(destinationId, "standard");
@@ -104,7 +115,7 @@ public class GameLogic {
                                 }
                                 // Some pieces are blocking, so we can only move to a standard field
                                 else {
-                                    System.out.println("Some pieces in the destination field is blocking - piece can not move past them.");
+                                    LOGGER.info("Some pieces in the destination field is blocking - piece can not move past them.");
                                     GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "standard");
                                     addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
                                 }
@@ -112,14 +123,13 @@ public class GameLogic {
                             // We can't move the Piece into the Destination Fields. But we can move past the Destination Fields,
                             // and just place it on a standard field.
                             else {
-                                System.out.println("The destination fields do not belong to the players color. The piece moves past them.");
+                                LOGGER.info("The destination fields do not belong to the players color. The piece moves past them.");
                                 GameField calculatedGameField = getGameFieldWithCalculationId(destinationId, "standard");
                                 addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
                             }
                         }
                     }
                 }
-                System.out.println("------------------");
             }
         }
     }
@@ -169,7 +179,7 @@ public class GameLogic {
     }
     public static int getChosenCardId() {
         return chosenCardId;
-    }
+}
     public static void resetChosenCardId() {
         chosenCardId = 0;
     }
@@ -183,10 +193,9 @@ public class GameLogic {
     // Responsible for adding the calculated Sources and Destinations to the HashMap
     private static void addToSourcesAndDestinations(GameField sourceField, GameField destinationField, String playerColor) {
         if (!isPieceOfPlayerOnField(destinationField, playerColor)) {
-            System.out.println("No Piece of the Player is already on the calculated field");
+            LOGGER.info("No piece of the player is already on the calculated field.");
             Move move = new Move(sourceField, destinationField);
             moves.add(move);
-            System.out.println("Piece lands on field with calcId " + destinationField.getPieceOnField());
         }
     }
 
@@ -325,7 +334,7 @@ public class GameLogic {
             String pieceColor = gamefield.getPieceOnField().getColor();
             if(gameFieldColor.equals(pieceColor)) {
                 isOccupied = true;
-                System.out.println("A piece of the same color as the startfield is on the startfield.");
+                LOGGER.info("A piece of the same color as the startfield is on the startfield.");
             }
         }
         return isOccupied;
@@ -360,7 +369,7 @@ public class GameLogic {
         boolean isPieceOfPlayerOnField = false;
         if(calculatedGameField.getPieceOnField() != null) {
             if(calculatedGameField.getPieceOnField().getColor().equals(playerColor)) {
-                System.out.println("Piece can not be moved to destination. Player already has a piece there.");
+                LOGGER.info("Piece can not be moved to destination. Player already has a piece there.");
                 isPieceOfPlayerOnField = true;
             }
         }
