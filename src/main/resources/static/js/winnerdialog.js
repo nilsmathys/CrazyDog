@@ -5,7 +5,7 @@ $(function displayPopUp() {
         success: function(data) {
             if(data != "") {
                 var innerText = data.player1.username + " & " + data.player2.username + " haben gewonnen!";
-                $('#winningDialog').attr("style","display:block")
+                $('#winningDialog').attr("style","display:block");
                 document.getElementById('winner').innerHTML = innerText;
             }
         },

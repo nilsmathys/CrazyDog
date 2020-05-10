@@ -187,16 +187,48 @@ function updateGameFields() {
 
 //Set the countdown for selecting a card to exchange
 var timeleft = 30;
-var countdownTimer = setInterval(function(){
-    if (document.getElementById("countdown") != null) {
-        if (timeleft <= 0) {
-            clearInterval(countdownTimer);
-            document.getElementById("countdown").innerHTML = "";
-            document.getElementById("exchange-button").disabled = true;
-            exchangeCards = true;
-        } else {
-            document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
+
+$("#exchange-button").click(function() {
+    $.ajax({
+        url : 'exchangeCard',
+        type:'POST',
+        data : JSON.stringify({sessionId: sessionId, chosenCardId: chosenCardId}),
+        contentType : 'application/json; charset=utf-8',
+        dataType:'json',
+    });
+    // when card set for exchange, stop countdown and disable button
+    timeleft = 0;
+    document.getElementById("countdown").innerHTML = "";
+    document.getElementById("exchange-button").disabled = true;
+});
+
+$(function updateButtonBlock() {
+    $.ajax({
+        type: 'GET',
+        url: 'getChangesForButton',
+        success: function(data) {
+            if(data) {
+                // if round started hide button and reset countdown up to 30 and enable button for next round
+                $('#buttonBlock').attr("style", "display:none");
+                timeleft = 30;
+                document.getElementById("exchange-button").disabled = false;
+            } else {
+                // if round not yet started display button and show countdown until times up
+                $('#buttonBlock').attr("style", "display:flex");
+                if (document.getElementById("countdown") != null) {
+                    if (timeleft <= 0) {
+                        document.getElementById("countdown").innerHTML = "";
+                        document.getElementById("exchange-button").disabled = true;
+                        exchangeCards = true;
+                    } else {
+                        document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
+                    }
+                }
+                timeleft -= 1;
+            }
+        },
+        complete: function() {
+            setTimeout(updateButtonBlock, 1000);
         }
-    }
-    timeleft -= 1;
-}, 1000);
+    });
+});

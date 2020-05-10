@@ -160,7 +160,8 @@ h2 {
     position: absolute;
 }
 .playingcard {
-    width: 90%;
+    height: 150px;
+    margin: 0 5px
 }
 
 .direction {

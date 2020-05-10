@@ -70,6 +70,8 @@ public class FrontendController {
         return CrazyDog.getRoundNumber();
     }
 
+    // This method is reponsible for listening to the continous ajax frontend-updater.
+    // It returns the hand for a specific player.
     @RequestMapping(value = "/getchangesCardsOnHand")
     public String returnChangesCardsOnHand(HttpServletRequest request, Model model) {
         if(request.getSession().getAttribute("id") != null) {
@@ -80,14 +82,15 @@ public class FrontendController {
         return "game :: #handBlock";
     }
 
-    @RequestMapping(value = "/getChangesForButton")
-    public String returnChangesForButton(Model model) {
-        model.addAttribute("roundStarted", Round.isRoundStarted());
-        return "game :: #buttonBlock";
+    // This method is reponsible for listening to the continous ajax frontend-updater.
+    // It returns the boolean value whether or not the round has started. If so the button will be hidden.
+    @RequestMapping(value = "/getChangesForButton", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Boolean returnChangesForButton() {
+        return Round.isRoundStarted();
     }
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
-    // It returns the data that was processed by the server.
+    // It returns the winner team if there is already one, otherwise null.
     @RequestMapping(value = "/getWinningTeam", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Team returnWinningTeam() {
         return CrazyDog.getWinnerTeam();

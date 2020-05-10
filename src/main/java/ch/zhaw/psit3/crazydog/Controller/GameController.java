@@ -7,10 +7,11 @@ import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
+import org.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -23,8 +24,6 @@ import java.util.Map;
 @Controller
 public class GameController {
 
-    boolean roundStarted = false;
-
     @ModelAttribute("team1")
     public List<Player> populateTeam1() {
         List<Player> team1 = new ArrayList<>();
@@ -32,6 +31,7 @@ public class GameController {
         team1.add(CrazyDog.getTeam1().getPlayer2());
         return team1;
     }
+
     @ModelAttribute("team2")
     public List<Player> populateTeam2() {
         List<Player> team2 = new ArrayList<>();
@@ -43,7 +43,7 @@ public class GameController {
     @GetMapping("/game")
     public String playGame(HttpServletRequest request, Model model) {
 
-        if(request.getSession().getAttribute("id") != null) {
+        if (request.getSession().getAttribute("id") != null) {
 
             List<GameField> fields = CrazyDog.getGameBoard().getFields();
             model.addAttribute("fields", fields);
@@ -52,40 +52,30 @@ public class GameController {
             Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
             model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
 
-            if (roundStarted) {
-                model.addAttribute("roundStarted", true);
-            } else {
-                model.addAttribute("roundStarted", Round.isRoundStarted());
-            }
-
-            //model.addAttribute("sessionId", request.getSession().getAttribute("id"));
             model.addAttribute("userInstructions", UserInstructions.getUserInstructions());
             model.addAttribute("currentPlayerID", CrazyDog.getNextPlayer());
             model.addAttribute("roundNr", CrazyDog.getNextPlayer());
             model.addAttribute("sessionId", request.getSession().getAttribute("id"));
 
-            Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
+            Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE, "clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
             model.addAttribute("gameDirection", directionMap.get(CrazyDog.getDirection()));
 
             return "game";
-        }
-        else {
+        } else {
             model.addAttribute("player", new Player());
             model.addAttribute("loginerror", "Please login to play a game");
             return "login";
         }
     }
 
-    @RequestMapping(value="exchangeCard")
-    public ModelAndView exchangeCardService(@RequestParam(value = "selectedCardId") String selectedCardId,
-                                            HttpServletRequest request) {
-        String sessionId = request.getSession().getAttribute("id").toString();
-        Round.setExchangeCard(Integer.parseInt(sessionId), Integer.parseInt(selectedCardId));
-        roundStarted = true;
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/game");
-        return modelAndView;
+    //Set the selected card as the exchange card for specific player in Round
+    @RequestMapping(value = "/exchangeCard", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody void exchangeCardService(@RequestBody String json) {
+        System.out.println("/exchangeCard was called");
+        JSONObject jsonObj =new JSONObject(json);
+        int sessionId = jsonObj.getInt("sessionId");
+        int chosenCardId = jsonObj.getInt("chosenCardId");
+        Round.setExchangeCard(sessionId, chosenCardId);
     }
-
 }
 

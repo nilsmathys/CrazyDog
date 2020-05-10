@@ -122,19 +122,6 @@ $(function retrieveHand() {
     });
 });
 
-$(function updateButtonBlock() {
-    $.ajax({
-        type: 'GET',
-        url: 'getChangesForButton',
-        success: function(fragment) {
-            $("#buttonBlock").replaceWith(fragment);
-        },
-        complete: function() {
-            setTimeout(updateButtonBlock, 40000);
-        }
-    });
-});
-
 jQuery(document).ready(function($){
     zoom();
 

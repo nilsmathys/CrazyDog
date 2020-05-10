@@ -30,6 +30,12 @@ public class Round {
         this.team1 = team1;
         this.team2 = team2;
         this.deck = deck;
+        this.playerAndHand = new HashMap<>();
+        this.exchangeCardP1 = null;
+        this.exchangeCardP2 = null;
+        this.exchangeCardP3 = null;
+        this.exchangeCardP4 = null;
+        this.roundStarted = false;
         playerAndHand.put(team1.getPlayer1().getId(), new CardsOnHand());
         playerAndHand.put(team1.getPlayer2().getId(), new CardsOnHand());
         playerAndHand.put(team2.getPlayer1().getId(), new CardsOnHand());
@@ -43,8 +49,6 @@ public class Round {
             roundStarted = true;
             UserInstructions.addNewInstruction("Round " + roundNumber + " started");
         });
-
-
     }
 
     /**
@@ -203,13 +207,11 @@ public class Round {
 
         boolean hasWinner = false;
         while (!hasWinner) {
-            // TODO output should later be displayed in browser
-            //if all players are out of cards, then the loop will break
-            if (allPlayerOutOfCards()) {
-                break;
-            }
 
             // SPIELZUG nextPlayer
+            UserInstructions.addNewInstruction("It's Player " + CrazyDog.getNextPlayer() + "'s turn. Please play a card");
+            makeTurn();
+            System.out.println("Turn OK");
 
             if (allPiecesOfTeamAtDestination()) {
                 if (team1.getPlayer1().getId() == CrazyDog.getNextPlayer() || team1.getPlayer2().getId() == CrazyDog.getNextPlayer()) {
@@ -221,12 +223,7 @@ public class Round {
                 break;
             }
 
-            UserInstructions.addNewInstruction("It's Player " + CrazyDog.getNextPlayer() + "'s turn. Please play a card");
-            makeTurn();
-            System.out.println("Turn OK");
-
-            // nextPlayer +1
-
+            //if all players are out of cards, then the loop will break
             if (allPlayerOutOfCards()) {
                 break;
             }

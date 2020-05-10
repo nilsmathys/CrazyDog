@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="container-bottom">
-            <div class="select-buttons" th:if="${ !roundStarted }" id="buttonBlock">
+            <div class="select-buttons" id="buttonBlock">
                 <p id="countdown" style="margin-right: 30px"></p>
                 <form th:action="@{exchangeCard}">
                     <input type="hidden" th:name="sessionId" th:value="${sessionId}">
@@ -100,7 +100,6 @@
             </div>
         </div>
 
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
         <script th:src="@{/js/frontendupdater.js}"></script>
         <script th:src="@{/js/winnerdialog.js}"></script>
