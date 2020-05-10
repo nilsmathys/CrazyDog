@@ -12,9 +12,9 @@ public class PieceDAO {
     private static final Logger LOGGER = Logger.getLogger(PieceDAO.class.getName());
 
     /**
-     * Methode um die Spielfigur von der Datenbank auszulesen anhand der ID.
+     * get piece from db with id
      *
-     * @param id Integer der Id der Spielfigur
+     * @param id id from piece
      * @return piece
      */
     public static Piece getPieceById(int id) {
@@ -56,9 +56,9 @@ public class PieceDAO {
     }
 
     /**
-     * Methode um alle Figuren der Datenbank auszulesen und in eine Liste abzuspeichern.
+     * get all pieces from db
      *
-     * @return pieceList, Liste der Figuren in der Datenbank
+     * @return pieceList, list with all pieces
      */
     public static List<Piece> getAllPieces() {
         Connection con = null;
@@ -93,9 +93,9 @@ public class PieceDAO {
     }
 
     /**
-     * Methode um die Farbe einer Figur zu ermitteln anhand ihrer Id.
-     * @param id FigurenId, bei der der man die Farbe wissen möchte
-     * @return String mit der Farbe
+     * get colour from piece
+     * @param id id from piece
+     * @return colour as String
      */
     public static String getColourFromPiece(int id) {
         Connection con = null;
@@ -125,10 +125,10 @@ public class PieceDAO {
     }
 
     /**
-     * Gibt die Nummer der gewünschten Figur zurück
+     * get number from piece
      *
-     * @param id FigurenId, bei der der man die Nummer wissen möchte
-     * @return int mit der Nummer
+     * @param id from piece
+     * @return number as int
      */
     public static int getNumberOfPiece(int id) {
         Connection con = null;
@@ -159,9 +159,9 @@ public class PieceDAO {
     }
 
     /**
-     * Methode um den PictureName der Figur zu ermitteln
-     * @param id FigurenId, bei der der man die PictureId wissen möchte
-     * @return String mit dem PictureName
+     * get pictureName from piece
+     * @param id id from piece
+     * @return pictureName as String
      */
     public static String getPictureName(int id) {
         Connection con = null;

@@ -16,7 +16,7 @@ public class CrazyDogDAO {
     private static final Logger LOGGER = Logger.getLogger(CrazyDogDAO.class.getName());
 
     /**
-     * Lädt Spiel anhand der gameId
+     * loads the game based on the gameID
      * @param gameId int
      */
     public static CrazyDog loadGame(int gameId) {
@@ -69,10 +69,10 @@ public class CrazyDogDAO {
     }
 
     /**
-     * Speichert das Spiel anhand der GameId.
-     * Falls kein Spiel existiert ist die GameId = 0 und es wird ein neues Spiel in die Datenbank gespeichert.
+     * saves the game based on the gameID
+     * if the game doesn't exist in the db, gameId = 0 and the game will be saved as a new one.
      * @param gameId int
-     * @return true falls das Speichern funktioniert hat, ansonsten false.
+     * @return true if the game is successfully been saved, else false
      */
 //    public static boolean saveGame(int gameId, int playerId1, int PlayerId2, int PlayerId3, int PlayerId4, int nextPlayer,
 //                                   int positionRed1, int positionRed2, int PositionRed3, int positionRed4, int positionGreen1,

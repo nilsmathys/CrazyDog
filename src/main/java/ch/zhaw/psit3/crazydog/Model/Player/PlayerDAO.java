@@ -13,10 +13,10 @@ public class PlayerDAO {
     private static final Logger LOGGER = Logger.getLogger(PlayerDAO.class.getName());
 
     /**
-     * Methode um einen Spieler von der Datenbank auszulesen anhand der ID.
+     * get player by id from db
      *
-     * @param id Integer der Id der Spielfigur
-     * @return player
+     * @param id id from player
+     * @return searched player
      */
     public static Player getPlayerById(int id) {
         Connection con = null;
@@ -55,10 +55,10 @@ public class PlayerDAO {
     }
 
     /**
-     * Gibt einen Spieler anhand seines Benutzernamens zurück
+     * get player by username from db
      *
-     * @param username String Username des Spielers
-     * @return gewünschter Spieler
+     * @param username username from player
+     * @return searched player
      */
     public static Player getPlayerByUsername(String username) {
         Connection con = null;
@@ -94,7 +94,7 @@ public class PlayerDAO {
     }
 
     /**
-     * Methode um alle Spieler der Datenbank auszulesen und in eine Liste abzuspeichern.
+     * get all players from db
      *
      * @return playerList, Liste der Spieler in der Datenbank
      */
@@ -129,11 +129,11 @@ public class PlayerDAO {
     }
 
     /**
-     * Methode um einen Spieler von der Datenbank auszulesen anhand des Usernamens und des Passwortes.
+     * get player by username and pw from db
      *
-     * @param username Username des Spielers
-     * @param pw       Passwort des Spielers
-     * @return player
+     * @param username username from player
+     * @param pw       password from player
+     * @return searched player
      */
     public static Player getPlayerByUsernameAndPw(String username, String pw) {
         Connection con = null;
@@ -172,16 +172,16 @@ public class PlayerDAO {
     }
 
     /**
-     * Methode um einen Spieler der Datenbank hinzuzufügen
+     * insert player in db
      *
-     * @param player Spieler der hinzugefügt werden soll
-     * @return true, falls der Spieler der Datenbank hinzugefügt werden konnte, ansonsten false
+     * @param player player who should be inserted
+     * @return true, if the player is succesfull inserted, else false
      */
     public static boolean inserPlayer(Player player) {
         Connection con = null;
         int i = 0;
 
-        if(player.getEmail().contains("@") && player.getEmail().contains(".")) {
+        if (player.getEmail().contains("@") && player.getEmail().contains(".")) {
             player.setEmail(player.getEmail().toLowerCase());
         } else {
             throw new IllegalArgumentException("Emailaddresse überprüfen");
@@ -215,11 +215,11 @@ public class PlayerDAO {
     }
 
     /**
-     * Überschreibt einen gewünschten Spieler mit einem neuen Spieler
+     * update player in db
      *
-     * @param player der neue Spieler
-     * @param id     die Id, an der der neue Spieler den alten Spieler ersetzen soll
-     * @return true, falls der Spieler der Datenbank hinzugefügt werden konnte, ansonsten false
+     * @param player new player
+     * @param id     id from the player who will be updated
+     * @return true, if the player is successfully been updated, else false
      */
     public static boolean updatePlayer(Player player, int id) {
         Connection con = null;
@@ -252,10 +252,10 @@ public class PlayerDAO {
     }
 
     /**
-     * Löscht ein gewünschten Spieler aus der Datenbank anhand der ID.
+     * delets a player based on the id
      *
-     * @param player Spieler der gelöscht werden soll
-     * @return true, falls der Spieler gelöscht werden konnte, ansonsten false
+     * @param player player who should be deleted
+     * @return true, if the player is been successfully deleted, else false
      */
     public static boolean deletePlayer(Player player) {
         Connection con = null;

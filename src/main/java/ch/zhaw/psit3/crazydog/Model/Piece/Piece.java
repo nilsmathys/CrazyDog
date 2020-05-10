@@ -52,6 +52,10 @@ public class Piece {
         return color;
     }
 
+    /**
+     * Set a new color, must be green, yellow, red or blue
+     * @param color
+     */
     public void setColor(String color) {
         if(!(color.equals("green") || color.equals("yellow") || color.equals("red") || color.equals("blue")))
         {

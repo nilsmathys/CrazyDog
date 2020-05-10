@@ -64,6 +64,10 @@ public class Player {
         return email;
     }
 
+    /**
+     * set email, email must contains "@" and "."
+     * @param email
+     */
     public void setEmail(String email) {
         if(email.contains("@") && email.contains(".")) {
             this.email = email;
@@ -80,6 +84,10 @@ public class Player {
         this.password = password;
     }
 
+    /**
+     * set color, color must be green, yellow, red or blue
+     * @param color
+     */
     public void setColor(String color) {
         if(!(color.equals("green") || color.equals("yellow") || color.equals("red") || color.equals("blue")))
         {
