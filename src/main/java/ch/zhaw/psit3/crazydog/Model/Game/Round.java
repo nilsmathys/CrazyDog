@@ -131,6 +131,24 @@ public class Round {
     }
 
     /**
+     * Sets the exchangeCard variable with the card the user selected to exchange with its team member
+     *
+     * @param playerId id of a certain player
+     * @param cardId id of selected card to exchange with team member
+     */
+    public static void setExchangeCard(int playerId, int cardId) {
+        if (playerId == team1.getPlayer1().getId()) {
+            exchangeCardP1 = playerAndHand.get(team1.getPlayer1().getId()).discardCard(cardId);
+        } else if (playerId == team1.getPlayer2().getId()) {
+            exchangeCardP2 = playerAndHand.get(team1.getPlayer2().getId()).discardCard(cardId);
+        } else if (playerId == team2.getPlayer1().getId()) {
+            exchangeCardP3 = playerAndHand.get(team2.getPlayer1().getId()).discardCard(cardId);
+        } else {
+            exchangeCardP4 = playerAndHand.get(team2.getPlayer2().getId()).discardCard(cardId);
+        }
+    }
+
+    /**
      * Exchanges selected cards from team members.
      * If a player has not selected a card within the time limit, the system picks one randomly.
      */
@@ -259,70 +277,50 @@ public class Round {
     }
 
     /**
+     * Retrieves the information whether or not a round has started
+     *
+     * @return true if round has started
+     */
+    public static boolean isRoundStarted() {
+        return roundStarted;
+    }
+
+    private Player getTeamPlayer(int playerId) {
+        Player teamPlayer;
+        if (playerId == CrazyDog.getTeam1().getPlayer1().getId()) {
+            teamPlayer = CrazyDog.getTeam1().getPlayer2();
+        } else if (playerId == CrazyDog.getTeam1().getPlayer2().getId()) {
+            teamPlayer = CrazyDog.getTeam1().getPlayer1();
+        } else if (playerId == CrazyDog.getTeam2().getPlayer1().getId()) {
+            teamPlayer = CrazyDog.getTeam2().getPlayer2();
+        } else if (playerId == CrazyDog.getTeam2().getPlayer2().getId()) {
+            teamPlayer = CrazyDog.getTeam2().getPlayer1();
+        } else {
+            throw new IllegalArgumentException("No team member for this player id available.");
+        }
+        return teamPlayer;
+    }
+
+    /**
      * Checks if all pieces of current player and its team member are on the destined destination field.
      *
      * @return true if all pieces are at their destination fields
      */
     private boolean allPiecesOfTeamAtDestination() {
         boolean allTeamPiecesAtDestination = false;
-        Player currentPlayer;
-        Player teamPlayer;
-        if (CrazyDog.getNextPlayer() == CrazyDog.getTeam1().getPlayer1().getId()) {
-            currentPlayer = CrazyDog.getTeam1().getPlayer1();
-            teamPlayer = CrazyDog.getTeam1().getPlayer2();
-        } else if (CrazyDog.getNextPlayer() == CrazyDog.getTeam1().getPlayer2().getId()) {
-            currentPlayer = CrazyDog.getTeam1().getPlayer2();
-            teamPlayer = CrazyDog.getTeam1().getPlayer1();
-        } else if (CrazyDog.getNextPlayer() == CrazyDog.getTeam2().getPlayer1().getId()) {
-            currentPlayer = CrazyDog.getTeam2().getPlayer1();
-            teamPlayer = CrazyDog.getTeam2().getPlayer2();
-        } else {
-            currentPlayer = CrazyDog.getTeam2().getPlayer2();
-            teamPlayer = CrazyDog.getTeam2().getPlayer1();
-        }
+        String currentPlayerColor = CrazyDog.getPlayerColorById(CrazyDog.getNextPlayer());
+        String teamPlayerColor = getTeamPlayer(CrazyDog.getNextPlayer()).getColor();
 
-        Map<Integer, String> currentPiecesPlayer = GameBoard.getPlacesOfPiecesByColor(currentPlayer.getColor());
-        Map<Integer, String> destFieldsPlayer = getDestinationFieldsByPlayerColor(currentPlayer.getColor());
-        Map<Integer, String> currentPiecesTeamPlayer = GameBoard.getPlacesOfPiecesByColor(teamPlayer.getColor());
-        Map<Integer, String> destFielsTeamPlayer = getDestinationFieldsByPlayerColor(teamPlayer.getColor());
+        Map<Integer, String> currentPiecesPlayer = GameBoard.getPlacesOfPiecesByColor(currentPlayerColor);
+        Map<Integer, String> destFieldsPlayer = GameBoard.getMapOfDestinationFieldsByColor(currentPlayerColor);
+        Map<Integer, String> currentPiecesTeamPlayer = GameBoard.getPlacesOfPiecesByColor(teamPlayerColor);
+        Map<Integer, String> destFieldsTeamPlayer = GameBoard.getMapOfDestinationFieldsByColor(teamPlayerColor);
 
         if (arePiecesOfPlayerAtDestination(currentPiecesPlayer, destFieldsPlayer) &&
-            arePiecesOfPlayerAtDestination(currentPiecesTeamPlayer, destFielsTeamPlayer)) {
+            arePiecesOfPlayerAtDestination(currentPiecesTeamPlayer, destFieldsTeamPlayer)) {
             allTeamPiecesAtDestination = true;
         }
         return allTeamPiecesAtDestination;
-    }
-
-    /**
-     * Gets the cssIds of the four destination fields of a certain color.
-     *
-     * @param playerColor color of a certain player
-     * @return Map with 4 values (key: number (order of destination field); value: cssId of destination field)
-     */
-    private Map<Integer, String> getDestinationFieldsByPlayerColor(String playerColor) {
-        Map<Integer, String> destFieldMap = new HashMap<>();
-        if (playerColor.equals("red")) {
-            destFieldMap.put(1, "field92");
-            destFieldMap.put(2,"field91");
-            destFieldMap.put(3, "field90");
-            destFieldMap.put(4, "field89");
-        } else if (playerColor.equals("yellow")) {
-            destFieldMap.put(1, "field96");
-            destFieldMap.put(2,"field95");
-            destFieldMap.put(3, "field94");
-            destFieldMap.put(4, "field93");
-        } else if (playerColor.equals("green")) {
-            destFieldMap.put(1, "field84");
-            destFieldMap.put(2,"field83");
-            destFieldMap.put(3, "field82");
-            destFieldMap.put(4, "field81");
-        } else {
-            destFieldMap.put(1, "field88");
-            destFieldMap.put(2,"field87");
-            destFieldMap.put(3, "field86");
-            destFieldMap.put(4, "field85");
-        }
-        return destFieldMap;
     }
 
     /**
@@ -362,33 +360,6 @@ public class Round {
 
     public static Map<Integer, CardsOnHand> getPlayerAndHand() {
         return playerAndHand;
-    }
-
-    /**
-     * Sets the exchangeCard variable with the card the user selected to exchange with its team member
-     *
-     * @param playerId id of a certain player
-     * @param cardId id of selected card to exchange with team member
-     */
-    public static void setExchangeCard(int playerId, int cardId) {
-        if (playerId == team1.getPlayer1().getId()) {
-            exchangeCardP1 = playerAndHand.get(team1.getPlayer1().getId()).discardCard(cardId);
-        } else if (playerId == team1.getPlayer2().getId()) {
-            exchangeCardP2 = playerAndHand.get(team1.getPlayer2().getId()).discardCard(cardId);
-        } else if (playerId == team2.getPlayer1().getId()) {
-            exchangeCardP3 = playerAndHand.get(team2.getPlayer1().getId()).discardCard(cardId);
-        } else {
-            exchangeCardP4 = playerAndHand.get(team2.getPlayer2().getId()).discardCard(cardId);
-        }
-    }
-
-    /**
-     * Retrieves the information whether or not a round has started
-     *
-     * @return true if round has started
-     */
-    public static boolean isRoundStarted() {
-        return roundStarted;
     }
 
 }

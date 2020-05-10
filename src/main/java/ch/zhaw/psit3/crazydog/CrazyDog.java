@@ -27,6 +27,7 @@ import java.util.List;
 @SpringBootApplication
 public class CrazyDog {
     private int gameId;
+    private static List<Player> playerList = new ArrayList<Player>();
     private static Team team1;
     private static Team team2;
     private static Team winnerTeam = null;
@@ -36,8 +37,6 @@ public class CrazyDog {
     private static GameBoard gameBoard;
     private static Direction direction = Direction.COUNTERCLOCKWISE;
     private static int roundNumber = 1;
-
-    private static List<Player> playerList = new ArrayList<Player>();
 
     /**
      * Empty constructor to start the website.
@@ -186,6 +185,22 @@ public class CrazyDog {
 
     public static List<Player> getPlayerList() {
         return playerList;
+    }
+
+    /**
+     * Get a player's color by its id
+     *
+     * @param id player id
+     * @return player's color
+     */
+    public static String getPlayerColorById(int id) {
+        String color = "";
+        for(Player player : playerList) {
+            if(player.getId() == id) {
+                color = player.getColor();
+            }
+        }
+        return color;
     }
 
     /**
