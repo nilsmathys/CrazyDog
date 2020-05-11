@@ -74,9 +74,8 @@ $(function updateCurrentDirection() {
         type: 'GET',
         url: 'getchangesCurrentDirection',
         success: function(data) {
-            console.log("direction: "+data);
             if(data != "") {
-                $('#direction').attr("src","/img/"+data);
+                $('#direction').attr("src","/img/"+data+".png");
             }
             else {
                 console.log("Dom was not manipulated, because there is nothing to update.");

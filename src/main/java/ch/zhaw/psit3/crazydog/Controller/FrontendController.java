@@ -47,7 +47,7 @@ public class FrontendController {
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server
-    @RequestMapping(value = "/getchangesCurrentDirection", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getchangesCurrentDirection", method = RequestMethod.GET)
     public @ResponseBody String returnChangesCurrentDirection() {
         //System.out.println("/getchangesCurrentDirection Controller was called");
         Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
