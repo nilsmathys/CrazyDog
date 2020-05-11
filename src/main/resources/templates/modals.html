@@ -13,47 +13,8 @@
                 <p>Wähle eine Aktion</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="playSpecialCard(1)">Spielrichtung ändern</button>
-                <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="playSpecialCard(0)">3 Felder fahren</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal" tabindex="-1" role="dialog" id="card4">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Aktion Karte 4</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Wähle eine Aktion</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="playSpecialCard(1)">4 Felder in entgegengesetzte Richtung fahren</button>
-                <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="playSpecialCard(0)">4 Felder in aktuelle Spielrichtung fahren</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal" tabindex="-1" role="dialog" id="card11">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Aktion Karte 11</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Wähle eine Aktion.
-                Wenn du eine Figur vom zuhause auf das Startfeld setzen willst, kannst du eine beliebige Aktion wählen und dann eine Figur von deinem zuhause auswählen.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="playSpecialCard(0)">1 Feld fahren</button>
-                <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="playSpecialCard(11)">11 Felder fahren</button>
+                <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="changeDirection()">Spielrichtung ändern</button>
+                <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="getPossibleSourceFields(3, 33)">3 Felder fahren</button>
             </div>
         </div>
     </div>
