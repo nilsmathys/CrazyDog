@@ -86,6 +86,7 @@ function getPossibleDestinationFields() {
                 else {
                     correctSourceField = sourceField;
                     removeHighlight(highlightedDestinationFields);
+                    showSourceFields(highlightedSourceFields);
                     showDestinationFields(data);
                 }
             },
