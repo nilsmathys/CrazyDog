@@ -112,10 +112,10 @@ public class GameLogic {
                             // We also need to check if the destinationfield is out of range (bigger than the calculationId's of the destination fields)
                             GameField destinationFieldNextToStartField;
                             if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
-                                destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId(calculationIdOfPassedStartField + 1, "destinationfield");
+                                destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId((calculationIdOfPassedStartField + 1), "destinationfield");
                             }
                             else {
-                                destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId(calculationIdOfPassedStartField - 1, "destinationfield");
+                                destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId((calculationIdOfPassedStartField - 1), "destinationfield");
                             }
                             if (destinationFieldNextToStartField.getColor().equals(playerColor) && canPlayerLandOnDestinationField(destinationId, calculationIdOfPassedStartField)) {
                                 LOGGER.info("The destination fields belong to the players color. The piece could land on a destination field.");
@@ -202,13 +202,19 @@ public class GameLogic {
     }
     public static int getChosenCardId() {
         return chosenCardId;
-}
+    }
     public static void resetChosenCardId() {
         chosenCardId = 0;
     }
 
     public static Message getSuccessMessage() {
         return successmessage;
+    }
+
+    public static void changeDirection() {
+        CrazyDog.changeDirection();
+        isLegalMoveMade = true;
+        successmessage = new Message("Sie haben die Richtung geändert.");
     }
 
     // INTERNAL METHODS ONLY USED BY GAMELOGIC (private)
