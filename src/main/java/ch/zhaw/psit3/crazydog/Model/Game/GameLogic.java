@@ -369,7 +369,13 @@ public class GameLogic {
         boolean piecesAreBlockingDestinationFields = false;
         int diff = Math.abs(destinationId - firstDestinationField.getIdForCalculation());
         for(int i = 0; i <= diff; i++) {
-            GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() + i, "destinationfield");
+            GameField calculatedGameField;
+            if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
+                calculatedGameField = GameBoard.getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() + i, "destinationfield");
+            }
+            else {
+                calculatedGameField = GameBoard.getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() - i, "destinationfield");
+            }
             if(calculatedGameField.getPieceOnField() != null) {
                 piecesAreBlockingDestinationFields = true;
             }
