@@ -95,52 +95,55 @@ public class GameLogic {
                 }
                 // A Startfield was passed we have to check some things
                 else {
-                    LOGGER.log(Level.INFO, "The piece passes or lands on the startfield with the calcID {0}.", calculationIdOfPassedStartField);
-                    GameField startField = GameBoard.getGameFieldByCalculationId(calculationIdOfPassedStartField, "startfield");
-                    // First check if there is a piece on the startfield of same color as startfield (if there is, we can't continue)
-                    // There is no ELSE -  we can NOT move with this piece.
-                    if (!isStartFieldOccupiedByPieceOfSameColor(startField)) {
-                        LOGGER.log(Level.INFO, "The startfield with calcID {0} has no piece with the same color on it. No block." , calculationIdOfPassedStartField);
-                        if (destinationId == calculationIdOfPassedStartField) {
-                            GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "startfield");
-                            addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
-                        }
-                        // Now we know that we pass the startfield and don't land on it
-                        else {
-                            LOGGER.info("the piece doesn't land on the startfield.");
-                            // So we check if the Field after the StartField is a Destinationfield of the player
-                            // We also need to check if the destinationfield is out of range (bigger than the calculationId's of the destination fields)
-                            GameField destinationFieldNextToStartField;
-                            if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
-                                destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId((calculationIdOfPassedStartField + 1), "destinationfield");
+                    // Important: If the sourcefield is a destinationField, it is not possible to make the move.
+                    // We can't pass a startfield when the source piece is on a destinationfield
+                    if(!sourceField.getGameFieldName().equals("destinationfield")) {
+                        LOGGER.log(Level.INFO, "The piece passes or lands on the startfield with the calcID {0}.", calculationIdOfPassedStartField);
+                        GameField startField = GameBoard.getGameFieldByCalculationId(calculationIdOfPassedStartField, "startfield");
+                        // First check if there is a piece on the startfield of same color as startfield (if there is, we can't continue)
+                        // There is no ELSE -  we can NOT move with this piece.
+                        if (!isStartFieldOccupiedByPieceOfSameColor(startField)) {
+                            LOGGER.log(Level.INFO, "The startfield with calcID {0} has no piece with the same color on it. No block.", calculationIdOfPassedStartField);
+                            if (destinationId == calculationIdOfPassedStartField) {
+                                GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "startfield");
+                                addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
                             }
+                            // Now we know that we pass the startfield and don't land on it
                             else {
-                                destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId((calculationIdOfPassedStartField - 1), "destinationfield");
-                            }
-                            if (destinationFieldNextToStartField.getColor().equals(playerColor) && canPlayerLandOnDestinationField(destinationId, calculationIdOfPassedStartField)) {
-                                LOGGER.info("The destination fields belong to the players color. The piece could land on a destination field.");
-                                // Now we know that we could move a piece into player's destination fields.
-                                // But only if there are no Pieces blocking (we can't move past pieces in destination fields)
-                                if (!arePiecesBlockingOnDestinationFields(destinationId, destinationFieldNextToStartField)) {
-                                    LOGGER.info("No own pieces are blocking the destination fields!");
-                                    GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "destinationfield");
-                                    addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
-                                    GameField calculatedGameField2 = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
-                                    addToSourcesAndDestinations(sourceField, calculatedGameField2,playerColor);
+                                LOGGER.info("the piece doesn't land on the startfield.");
+                                // So we check if the Field after the StartField is a Destinationfield of the player
+                                // We also need to check if the destinationfield is out of range (bigger than the calculationId's of the destination fields)
+                                GameField destinationFieldNextToStartField;
+                                if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
+                                    destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId((calculationIdOfPassedStartField + 1), "destinationfield");
+                                } else {
+                                    destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId((calculationIdOfPassedStartField - 1), "destinationfield");
                                 }
-                                // Some pieces are blocking, so we can only move to a standard field
+                                if (destinationFieldNextToStartField.getColor().equals(playerColor) && canPlayerLandOnDestinationField(destinationId, calculationIdOfPassedStartField)) {
+                                    LOGGER.info("The destination fields belong to the players color. The piece could land on a destination field.");
+                                    // Now we know that we could move a piece into player's destination fields.
+                                    // But only if there are no Pieces blocking (we can't move past pieces in destination fields)
+                                    if (!arePiecesBlockingOnDestinationFields(destinationId, destinationFieldNextToStartField)) {
+                                        LOGGER.info("No own pieces are blocking the destination fields!");
+                                        GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "destinationfield");
+                                        addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
+                                        GameField calculatedGameField2 = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
+                                        addToSourcesAndDestinations(sourceField, calculatedGameField2, playerColor);
+                                    }
+                                    // Some pieces are blocking, so we can only move to a standard field
+                                    else {
+                                        LOGGER.info("Some pieces in the destination field is blocking - piece can not move past them.");
+                                        GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
+                                        addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
+                                    }
+                                }
+                                // We can't move the Piece into the Destination Fields. But we can move past the Destination Fields,
+                                // and just place it on a standard field.
                                 else {
-                                    LOGGER.info("Some pieces in the destination field is blocking - piece can not move past them.");
+                                    LOGGER.info("The destination fields do not belong to the players color. The piece moves past them.");
                                     GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
-                                    addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
+                                    addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
                                 }
-                            }
-                            // We can't move the Piece into the Destination Fields. But we can move past the Destination Fields,
-                            // and just place it on a standard field.
-                            else {
-                                LOGGER.info("The destination fields do not belong to the players color. The piece moves past them.");
-                                GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
-                                addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
                             }
                         }
                     }
