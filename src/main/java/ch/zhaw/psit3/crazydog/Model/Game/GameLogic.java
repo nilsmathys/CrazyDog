@@ -110,8 +110,14 @@ public class GameLogic {
                             LOGGER.info("the piece doesn't land on the startfield.");
                             // So we check if the Field after the StartField is a Destinationfield of the player
                             // We also need to check if the destinationfield is out of range (bigger than the calculationId's of the destination fields)
-                            GameField destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId(calculationIdOfPassedStartField + 1, "destinationfield");
-                            if (destinationFieldNextToStartField.getColor().equals(playerColor) && (destinationId <= calculationIdOfPassedStartField + 4)) {
+                            GameField destinationFieldNextToStartField;
+                            if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
+                                destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId(calculationIdOfPassedStartField + 1, "destinationfield");
+                            }
+                            else {
+                                destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId(calculationIdOfPassedStartField - 1, "destinationfield");
+                            }
+                            if (destinationFieldNextToStartField.getColor().equals(playerColor) && canPlayerLandOnDestinationField(destinationId, calculationIdOfPassedStartField)) {
                                 LOGGER.info("The destination fields belong to the players color. The piece could land on a destination field.");
                                 // Now we know that we could move a piece into player's destination fields.
                                 // But only if there are no Pieces blocking (we can't move past pieces in destination fields)
@@ -205,7 +211,7 @@ public class GameLogic {
         return successmessage;
     }
 
-    // INTERNAL CLASSES ONLY USED BY GAMELOGIC (private)
+    // INTERNAL METHODS ONLY USED BY GAMELOGIC (private)
 
     /**
      * Responsible for adding the calculated Sources and Destinations to the HashMap
@@ -244,9 +250,18 @@ public class GameLogic {
      * @return
      */
     private static int getDestinationId(int sourceId, int cardValue) {
-        int destinationId = sourceId + cardValue;
-        if(destinationId > 64) {
-            destinationId = destinationId - 64;
+        int destinationId;
+        if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
+            destinationId = sourceId + cardValue;
+            if (destinationId > 64) {
+                destinationId = destinationId - 64;
+            }
+        }
+        else {
+            destinationId = sourceId - cardValue;
+            if (destinationId < 1) {
+                destinationId = destinationId + 64;
+            }
         }
         return destinationId;
     }
@@ -261,32 +276,60 @@ public class GameLogic {
      */
     private static int getStartFieldIfStartFieldIsPassed(int sourceId, int destinationId) {
         int passedStartField = 0;
-        // Check if we passed the Startfield with idForCalculation 21
-        if((sourceId >= 8 && sourceId <= 20) && (destinationId >= 21 && destinationId <= 33)) {
-            passedStartField = 21;
+        if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
+            // TODO: Logic for CrazyDog.getDirection() == Direction.CLOCKWISE can be a bit simplified -> (like it is in the ELSE case)
+            // Check if we passed the Startfield with idForCalculation 21
+            if ((sourceId >= 8 && sourceId <= 20) && (destinationId >= 21 && destinationId <= 33)) {
+                passedStartField = 21;
+            }
+            // Check if we passed the Startfield with idForCalculation 37
+            if ((sourceId >= 24 && sourceId <= 36) && (destinationId >= 37 && destinationId <= 49)) {
+                passedStartField = 37;
+            }
+            // Check if we passed the Startfield with idForCalculation 53
+            if ((sourceId >= 40 && sourceId <= 52) && (destinationId >= 53 && destinationId <= 64)) {
+                passedStartField = 53;
+            }
+            // Check if we passed the Startfield with idForCalculation 53
+            // This is a special case, which happens if the Piece is on idForCalculation 52 and the Player plays Card 13
+            if ((sourceId == 52) && (destinationId == 1)) {
+                passedStartField = 53;
+            }
+            // Check if we passed the Startfield with idForCalculation 5
+            if ((sourceId >= 56 && sourceId <= 64) && (destinationId >= 5 && destinationId <= 13)) {
+                passedStartField = 5;
+            }
+            // Check if we passed the Startfield with idForCalculation 5
+            if ((sourceId >= 1 && sourceId <= 4) && (destinationId >= 5 && destinationId <= 17)) {
+                passedStartField = 5;
+            }
         }
-        // Check if we passed the Startfield with idForCalculation 37
-        if((sourceId >= 24 && sourceId <= 36) && (destinationId >= 37 && destinationId <= 49)) {
-            passedStartField = 37;
+        else {
+            // Check if we passed YELLOW startfield
+            if (sourceId > 21 && destinationId <= 21) {
+                passedStartField = 21;
+            }
+            // Check if we passed RED startfield
+            if (sourceId > 5 && destinationId <= 5) {
+                passedStartField = 5;
+            }
+            // Check if we passed RED startfield
+            if ((sourceId >= 6 && sourceId <= 12) && (destinationId >= 57 && destinationId <= 64)){
+                passedStartField = 5;
+            }
+            // Check if we passed BLUE startfield
+            if (sourceId > 53 && destinationId <= 53) {
+                passedStartField = 53;
+            }
+            // Check if we passed BLUE startfield
+            if ((sourceId >= 1 && sourceId <= 2) && (destinationId >= 52 && destinationId <= 53)) {
+                passedStartField = 53;
+            }
+            // Check if we passed GREEN startfield
+            if (sourceId > 37 && destinationId <= 37) {
+                passedStartField = 37;
+            }
         }
-        // Check if we passed the Startfield with idForCalculation 53
-        if((sourceId >= 40 && sourceId <= 52) && (destinationId >= 53 && destinationId <= 64)) {
-            passedStartField = 53;
-        }
-        // Check if we passed the Startfield with idForCalculation 53
-        // This is a special case, which happens if the Piece is on idForCalculation 52 and the Player plays Card 13
-        if((sourceId == 52) && (destinationId == 1)) {
-            passedStartField = 53;
-        }
-        // Check if we passed the Startfield with idForCalculation 5
-        if((sourceId >= 56 && sourceId <= 64) && (destinationId >= 5 && destinationId <= 13)) {
-            passedStartField = 5;
-        }
-        // Check if we passed the Startfield with idForCalculation 5
-        if((sourceId >= 1 && sourceId <= 4) && (destinationId >= 5 && destinationId <= 17)) {
-            passedStartField = 5;
-        }
-
         return passedStartField;
     }
 
@@ -318,7 +361,7 @@ public class GameLogic {
      */
     private static boolean arePiecesBlockingOnDestinationFields( int destinationId, GameField firstDestinationField) {
         boolean piecesAreBlockingDestinationFields = false;
-        int diff = destinationId - firstDestinationField.getIdForCalculation();
+        int diff = Math.abs(destinationId - firstDestinationField.getIdForCalculation());
         for(int i = 0; i <= diff; i++) {
             GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() + i, "destinationfield");
             if(calculatedGameField.getPieceOnField() != null) {
@@ -454,6 +497,27 @@ public class GameLogic {
         GameField newDestination = null;
         newDestination = getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
         return newDestination;
+    }
+
+    private static boolean canPlayerLandOnDestinationField(int destinationId, int idOfPassedStartField) {
+        boolean playerCanLandOnDestinationField;
+        if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
+            if(destinationId <= idOfPassedStartField + 4) {
+                playerCanLandOnDestinationField = true;
+            }
+            else {
+                playerCanLandOnDestinationField = false;
+            }
+        }
+        else {
+            if(destinationId >= idOfPassedStartField - 4) {
+                playerCanLandOnDestinationField = true;
+            }
+            else {
+                playerCanLandOnDestinationField = false;
+            }
+        }
+        return playerCanLandOnDestinationField;
     }
 
 }
