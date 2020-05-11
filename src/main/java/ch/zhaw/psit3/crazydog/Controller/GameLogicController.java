@@ -80,4 +80,12 @@ public class GameLogicController {
 
         return GameLogic.getSuccessMessage();
     }
+
+    // Is responsible for telling the GameLogic to change Direction
+    @RequestMapping(value = "/changedirection", method = RequestMethod.POST)
+    public @ResponseBody Message changedirection() {
+        LOGGER.fine("/changedirection was called.");
+        GameLogic.changeDirection();
+        return GameLogic.getSuccessMessage();
+    }
 }
