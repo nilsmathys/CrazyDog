@@ -1,57 +1,65 @@
-var sourcefield = 0;
-var sourcepiece = 0;
-
-var destfield = 0;
-var destpiece = 0;
-
+var chosenCard = 0;
 var chosenCardId = 0;
-var chosenCardValue = 0;
+var sessionId;
+var sourceField;
+var correctSourceField = 0;     // The field which will be sent to the Backend for making a move
+var destinationField;
+var highlightedSourceFields;
+var highlightedDestinationFields;
+var sourcefields;
 
-var selectedAction = 0;
+var exchangeCards = false;
 
-function main(field, piecefullpath) {
-    piece = piecefullpath.replace(/^.*[\\\/]/, '');     // This extracts the image name out of the image src
-
-    if (chosenCardValue == 2 || chosenCardValue == 5 || chosenCardValue == 6 || chosenCardValue == 8 || chosenCardValue == 9 || chosenCardValue == 10) {
-        var fieldId = (parseInt(field.substring(5)) + parseInt(chosenCardValue)) % 64 !== 0?
-            (parseInt(field.substring(5)) + parseInt(chosenCardValue)) % 64 : 64;
-        console.log(fieldId);
-        var fieldToGoTo = 'field' + fieldId;
-        sourcefield = field;
-        sourcepiece = piece;
-        destfield = fieldToGoTo;
-        destpiece = 'empty.png';
-        send();
-        removeCardFromHand();
-    } else {
-        if(sourcefield != 0) {
-            destfield = field;
-            destpiece = piece;
-            send();
-            removeCardFromHand();
-        }
-        else {
-            sourcefield = field;
-            sourcepiece = piece;
-        }
+function main(cardvalue, cardId) {
+    switch (cardvalue) {
+        case 3:
+            console.log("card3");
+            $("#card3").modal();
+            break;
+        case 14:
+            console.log("cardquestion");
+            $("#questionmark").modal();
+            break;
+        default:
+            getPossibleSourceFields(cardvalue, cardId);
+            break;
     }
 }
 
-function send() {
+function getPossibleSourceFields(cardvalue, cardId) {
+    $("input[name='selectedCardId']").val(cardId);
+    chosenCard = cardvalue;
+    chosenCardId = cardId;
+    sessionId = $('#sessionId').html();
+    getSourceFields();
+}
+
+function getPossibleDestinationFieldsOrMakeMove(field) {
+        if(chosenCard != 0 && correctSourceField != 0 && isNotOneOfTheSourceFields(field)) {
+            destinationField = field;
+            makeMove();
+        }
+        else if(chosenCard != 0) {
+            sourceField = field;
+            getPossibleDestinationFields();
+        }
+}
+
+// This is used for calculating all the possible destinations
+function getSourceFields() {
     $(document).ready(function() {
         $.ajax({
-            url : 'listenclicks',
+            url : 'getsourcefields',
             type:'POST',
-            data : JSON.stringify({sourcefield: sourcefield, sourcepiece:sourcepiece, destfield: destfield, destpiece:destpiece, selectedAction:selectedAction}),
+            data : JSON.stringify({chosenCard: chosenCard, sessionId:sessionId}),
             contentType : 'application/json; charset=utf-8',
             dataType:'json',
             success : function(data) {
-                console.log('Source field: ' + data[0].field);
-                console.log('Source piece: ' + data[0].piece);
-                console.log('Destination field: ' + data[1].field);
-                console.log('Destination piece: ' + data[1].piece);
-                reset(); // Sets Value of Variables back to 0
-                changeFrontend(data);
+                sourcefields = data;        // Save the data of source fields into variable, because we need it later.
+                correctSourceField = 0;     // Reset the variable
+                removeHighlight(highlightedSourceFields);
+                removeHighlight(highlightedDestinationFields);
+                showSourceFields(data);
             },
             error: function(data) {
                 console.log("failure");
@@ -61,102 +69,197 @@ function send() {
     });
 }
 
+// This is used for getting possible destination fields
+function getPossibleDestinationFields() {
+    $(document).ready(function() {
+        $.ajax({
+            url : 'getdestinationfields',
+            type:'POST',
+            data : JSON.stringify({chosenCard: chosenCard, sessionId:sessionId, sourceField: sourceField}),
+            contentType : 'application/json; charset=utf-8',
+            dataType:'json',
+            success : function(data) {
+                if (!$.trim(data)){             // if the data is empty, user clicked on a field with no piece
+                    correctSourceField = 0;     // Reset the variable
+                    console.log("There is no piece on this field");
+                }
+                else {
+                    correctSourceField = sourceField;
+                    removeHighlight(highlightedDestinationFields);
+                    showDestinationFields(data);
+                }
+            },
+            error: function(data) {
+                console.log("failure");
+            },
+        });
+    });
+}
+
+// This is used for actually making a move
+function makeMove() {
+    $(document).ready(function() {
+        $.ajax({
+            url : 'makemove',
+            type:'POST',
+            data : JSON.stringify({chosenCard: chosenCard, sessionId: sessionId, correctSourceField: correctSourceField, destinationField: destinationField, chosenCardId: chosenCardId}),
+            contentType : 'application/json; charset=utf-8',
+            dataType:'json',
+            success : function(data) {
+                showSuccessMessage(data);
+                if(data.message == "Erfolgreicher Zug") {
+                    sourcefields = 0;               // Muss nicht unbedingt sein, aber sicherheitshalber zurücksetzen
+                    correctSourceField = 0;         // Reset the variable
+                    reset();
+                    removeHighlight(highlightedSourceFields);
+                    removeHighlight(highlightedDestinationFields);
+                    // updateGameFields(); TODO: Check if we want to update the gamefields via this way or via getchanges API
+                }
+            },
+            error: function(data) {
+                console.log("failure");
+            },
+        });
+    });
+}
+
+// Highlight the source fields
+function showSourceFields(data) {
+    $.each(data, function(index) {
+        $('#' + data[index].cssId).css({"border-radius": "50%", "border": "6px solid #f2ff00"});
+    });
+    highlightedSourceFields = data;       // Store the data in a variable, so we can remove the highlighting later.
+}
+
+// Highlight the source fields
+function showDestinationFields(data) {
+    $.each(data, function(index) {
+        $('#' + data[index].cssId).css({"border-radius": "50%", "border": "6px solid #f700ff"});		// Solution of Remo
+        // $('#' + data[index].cssId).addClass("highlight-field");										// Solution of Riccardo. TODO: Test better solution
+    });
+    highlightedDestinationFields = data;       // Store the data in a variable, so we can remove the highlighting later.
+}
+
+// Remove Highlight from fields
+function removeHighlight(data) {
+    $.each(data, function(index) {
+        $('#' + data[index].cssId).css({"border-radius": "0", "border": "medium none"});			// Solution of Remo
+        //$('#' + data[index].cssId).removeClass("highlight-field");									// Solution of Riccardo. TODO: Test better solution
+    });
+}
+
+// returns true if the Field is not one of the source Fields
+function isNotOneOfTheSourceFields(field) {
+    var isNotOneOfTheSourceFields = true;
+    var arrayLength = sourcefields.length;
+    for (var i = 0; i < arrayLength; i++) {
+        if(sourcefields[i].cssId === field) {
+            isNotOneOfTheSourceFields = false;
+        }
+    }
+    return isNotOneOfTheSourceFields;
+}
+
 function reset() {
-    sourcefield = 0;
-    sourcepiece = 0;
-    destfield = 0;
-    destpiece = 0;
+    chosenCard = 0;
     chosenCardId = 0;
-    chosenCardValue = 0;
 }
 
-function changeFrontend(data) {
-    $('#'+data[0].field).attr('src', '/img/pieces/' + data[0].piece);
-    $('#'+data[1].field).attr('src', '/img/pieces/' + data[1].piece);
+// Tells the GameLogic on Serverside to change Direction
+function changeDirection() {
+    $(document).ready(function() {
+        $.ajax({
+            url : 'changedirection',
+            type:'POST',
+            success : function(data) {
+            },
+            error: function(data) {
+                console.log("failure");
+            },
+        });
+    });
 }
 
-function chooseCard(el) {
-    let id = $(el).data('card_id');
-    let value = $(el).data('card_value');
-    let name = $(el).data('card_name');
-    $("input[name='selectedCardId']").val(id);
-    //3: 3 fahren oder Richtungsänderung
-    //oneElven : 1 oder 11 fahren
-    //questionmark: irgendeine karte auswählen->
-
-
-    //7: mehrere figuren
-    //pieeExchange: Figurenstandort tauschen
-    switch(value) {
-        case 3:
-            $("#card3").modal();
-            break;
-        case 4:
-            $("#card4").modal();
-            playSpecialCard(0);
-            break;
-        case 7:
-            playSpecialCard(0);
-            break;
-        case 11:
-            $("#card11").modal();
-            break;
-        case 14:
-            $("#questionmark").modal();
-            break;
-        case 15:
-            playSpecialCard(0);
-            break;
-        default:
-            playNormalCard();
-            break;
-
-    }
-
-    function playSpecialCard(selAction) {
-        selectedAction = selAction;
-    }
-
-    function playNormalCard() {
-
-    }
-
-
-
-   // $(el).data('card_id', 1);
-   //
-   //  chosenCardId = id;
-   //  if (value === 3) {}
-   //  else if (value === 4) {}
-   //  else if (value === 7) {}
-   //  else if (value === 11) {
-   //     chosenCardValue = value;
-   //     //TODO: choose an action
-   //  }
-   //  else if (value === 12) {}
-   //  else if (value === 13) {}
-   //  else if (value === 14) {}
-   //  else if (value === 15) {}
-   //  else {
-   //     chosenCardValue = value;
-   //  }
+function showSuccessMessage(data) {
+    $("#gamemessage").text(data.message);
+    $("#gamemessage").show().delay(5000).fadeOut();     // Show the message for 5 seconds
 }
 
-function removeCardFromHand() {
-    $('img[id='+ chosenCardId + ']').remove();
+function updateGameFields() {
+    $.ajax({
+        type: 'GET',
+        url: 'getchangesAllGamefields',
+        success: function (data) {
+            if (data.length > 0) {
+                var innerText = "";
+                var i = 0;
+                for (i = 0; i < data.length; i++) {
+                    var src = "/img/pieces/empty.png";
+                    var background = "#fcf8e8"
+                    console.log(data.pieceOnField);
+                    if (data[i].pieceOnField != null) {
+                        src = "/img/pieces/" + data[i].pieceOnField.pictureName;
+                        console.log(data[i].pieceOnField.pictureName);
+                    }
+                    innerText += "<img src='" + src + "' class='field' id='" + data[i].cssId + "' alt='" + data[i].cssId + "' onclick='makeMove(this.id)'/>";
+                }
+                document.getElementById('gameboard').innerHTML = innerText;
+            } else {
+                console.log("Dom was not manipulated, because there is nothing to update.");
+            }
+
+        },
+        complete: function () {
+            // Schedule the next request when the current one's complete
+            //setTimeout(updateFrontend, 1000);
+        }
+    });
 }
 
 //Set the countdown for selecting a card to exchange
 var timeleft = 30;
-var countdownTimer = setInterval(function(){
-    if (document.getElementById("countdown") != null) {
-        if (timeleft <= 0) {
-            clearInterval(countdownTimer);
-            document.getElementById("countdown").innerHTML = "";
-            document.getElementById("exchange-button").disabled = true;
-        } else {
-            document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
+
+$("#exchange-button").click(function() {
+    $.ajax({
+        url : 'exchangeCard',
+        type:'POST',
+        data : JSON.stringify({sessionId: sessionId, chosenCardId: chosenCardId}),
+        contentType : 'application/json; charset=utf-8',
+        dataType:'json',
+    });
+    // when card set for exchange, stop countdown and disable button
+    timeleft = 0;
+    document.getElementById("countdown").innerHTML = "";
+    document.getElementById("exchange-button").disabled = true;
+});
+
+$(function updateButtonBlock() {
+    $.ajax({
+        type: 'GET',
+        url: 'getChangesForButton',
+        success: function(data) {
+            if(data) {
+                // if round started hide button and reset countdown up to 30 and enable button for next round
+                $('#buttonBlock').attr("style", "display:none");
+                timeleft = 30;
+                document.getElementById("exchange-button").disabled = false;
+            } else {
+                // if round not yet started display button and show countdown until times up
+                $('#buttonBlock').attr("style", "display:flex");
+                if (document.getElementById("countdown") != null) {
+                    if (timeleft <= 0) {
+                        document.getElementById("countdown").innerHTML = "";
+                        document.getElementById("exchange-button").disabled = true;
+                        exchangeCards = true;
+                    } else {
+                        document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
+                    }
+                }
+                timeleft -= 1;
+            }
+        },
+        complete: function() {
+            setTimeout(updateButtonBlock, 1000);
         }
-    }
-    timeleft -= 1;
-}, 1000);
+    });
+});
