@@ -82,10 +82,12 @@ public class GameLogicController {
     }
 
     // Is responsible for telling the GameLogic to change Direction
-    @RequestMapping(value = "/changedirection", method = RequestMethod.POST)
-    public @ResponseBody Message changedirection() {
+    @RequestMapping(value = "/changedirection", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Message changedirection(@RequestBody String json) {
         LOGGER.fine("/changedirection was called.");
-        GameLogic.changeDirection();
+        JSONObject jsonObj = new JSONObject(json);
+        int chosenCardId = jsonObj.getInt("chosenCardId"); // This value will be given to the gamelogic class
+        GameLogic.changeDirection(chosenCardId);
         return GameLogic.getSuccessMessage();
     }
 }

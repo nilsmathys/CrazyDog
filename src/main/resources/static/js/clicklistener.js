@@ -15,6 +15,8 @@ function main(cardvalue, cardId) {
         case 3:
             console.log("card3");
             $("#card3").modal();
+            $("#card3Go3").attr('onclick', 'getPossibleSourceFields('+cardvalue+', '+cardId+')');
+            $("#card3ChangeDirection").attr('onclick', 'changeDirection('+cardId+')');
             break;
         case 14:
             console.log("cardquestion");
@@ -167,11 +169,14 @@ function reset() {
 }
 
 // Tells the GameLogic on Serverside to change Direction
-function changeDirection() {
+function changeDirection(cardId) {
     $(document).ready(function() {
         $.ajax({
             url : 'changedirection',
+            data : JSON.stringify({chosenCardId: cardId}),
             type:'POST',
+            contentType : 'application/json; charset=utf-8',
+            dataType:'json',
             success : function(data) {
             },
             error: function(data) {

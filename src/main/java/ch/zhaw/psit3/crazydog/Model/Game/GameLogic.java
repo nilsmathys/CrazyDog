@@ -236,8 +236,9 @@ public class GameLogic {
     /**
      * change Direction of the Game and give a message back to GUI
      */
-    public static void changeDirection() {
+    public static void changeDirection(int cardId) {
         CrazyDog.changeDirection();
+        chosenCardId = cardId;
         isLegalMoveMade = true;
         successmessage = new Message("Sie haben die Richtung geändert.");
     }
