@@ -110,10 +110,10 @@ public class GameBoard {
 
     /**
      * Sets the Piece on a specific Home Field
-     * @param idForCalculation     ID of the Gamefield which is used for  the Calculation
+     * @param idForCalculation      ID of the Gamefield which is used for the Calculation
      * @param piece                 piece which should be placed on that field
      */
-    public void setPieceOnHomefield(int idForCalculation, Piece piece) {
+    public static void setPieceOnHomefield(int idForCalculation, Piece piece) {
         for(GameField field: fields) {
             if(field.getGameFieldName().equals("homefield") && field.getIdForCalculation() == idForCalculation)
             {
@@ -341,6 +341,22 @@ public class GameBoard {
         return destFieldMap;
     }
 
+    /**
+     * Get the the Game Field object with the idForCalculation and the gameFieldName must be 'standard', 'startfield' or 'wormhole'
+     *
+     * @param idForCalculation idForCalculation for which we have to search in the list
+     * @return GameField with the idForCalculation and name standard or wormhole
+     */
+    public static GameField getStandardStartfieldGameFieldOrWormholeByIdForCalculation(int idForCalculation) {
+        GameField returnField = null;
+        for (GameField field : fields) {
+            if (field.getIdForCalculation() == idForCalculation &&
+                    (field.getGameFieldName().equals("standard") || field.getGameFieldName().equals("wormhole") || field.getGameFieldName().equals("startfield"))) {
+                returnField = field;
+            }
+        }
+        return returnField;
+    }
 
     // *** PIECES ***
 

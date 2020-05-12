@@ -22,6 +22,7 @@ public class GameLogic {
 
     /**
      * Is responsible for returning a list
+     *
      * @param cardValue
      * @param sessionId
      */
@@ -38,16 +39,16 @@ public class GameLogic {
         List<GameField> GameFieldsWithNoPiecesOnHomeFields = removeGameFieldsWithPiecesOnHomeFields(GameFieldsWithThisColor);
 
         // Calculate "normal" Card Values
-        if(cardValue == 2 || cardValue == 3 || cardValue == 5 || cardValue == 6 || cardValue == 8 || cardValue == 9 || cardValue == 10 || cardValue == 12) {
+        if (cardValue == 2 || cardValue == 3 || cardValue == 5 || cardValue == 6 || cardValue == 8 || cardValue == 9 || cardValue == 10 || cardValue == 12) {
             calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);
         }
         // Calculate Card 13
-        if(cardValue == 13) {
+        if (cardValue == 13) {
             calculateIfAPieceCanMoveFromHomeToStartField(playerColor);
             calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);
         }
         // Calculate Card 11
-        if(cardValue == 11) {
+        if (cardValue == 11) {
             calculateIfAPieceCanMoveFromHomeToStartField(playerColor);
             calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, 1, playerColor);  // Calculate for CardValue 1
             calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);  // Calculate for CardValue 11
@@ -56,12 +57,11 @@ public class GameLogic {
     }
 
     /**
-     *
      * @param GameFieldsWithNoPiecesOnHomeFields
      * @param cardValue
      * @param playerColor
      */
-    public static void calculateNormalFields(List<GameField> GameFieldsWithNoPiecesOnHomeFields, int cardValue, String playerColor ) {
+    public static void calculateNormalFields(List<GameField> GameFieldsWithNoPiecesOnHomeFields, int cardValue, String playerColor) {
         if (GameFieldsWithNoPiecesOnHomeFields.isEmpty()) {
             // do nothing
         } else {
@@ -84,20 +84,20 @@ public class GameLogic {
                     if (sourceField.getGameFieldName().equals("destinationfield")) {
                         GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "destinationfield");
                         if (calculatedGameField != null && !calculatedGameField.getGameFieldName().equals("wormhole")) {
-                            addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
+                            addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
                         }
                     }
                     // Case for regular fields
                     else {
                         GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
-                        addToSourcesAndDestinations(sourceField, calculatedGameField,playerColor);
+                        addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
                     }
                 }
                 // A Startfield was passed we have to check some things
                 else {
                     // Important: If the sourcefield is a destinationField, it is not possible to make the move.
                     // We can't pass a startfield when the source piece is on a destinationfield
-                    if(!sourceField.getGameFieldName().equals("destinationfield")) {
+                    if (!sourceField.getGameFieldName().equals("destinationfield")) {
                         LOGGER.log(Level.INFO, "The piece passes or lands on the startfield with the calcID {0}.", calculationIdOfPassedStartField);
                         GameField startField = GameBoard.getGameFieldByCalculationId(calculationIdOfPassedStartField, "startfield");
                         // First check if there is a piece on the startfield of same color as startfield (if there is, we can't continue)
@@ -158,20 +158,20 @@ public class GameLogic {
 
     /**
      * This functions makes the real move and saves the changes in the backend game status
-     * @param cardValue                 Value of the card which was played
-     * @param sessionId                 Session ID from the current player
-     * @param sourceFieldCSSId          CSS Id from the Source Field where the piece is actually
-     * @param destinationFieldCSSId     CSS Id from the destination Field where the piece should go
-     * @param cardId                    card ID from the played card, to remove it from the list of cards.
+     *
+     * @param cardValue             Value of the card which was played
+     * @param sessionId             Session ID from the current player
+     * @param sourceFieldCSSId      CSS Id from the Source Field where the piece is actually
+     * @param destinationFieldCSSId CSS Id from the destination Field where the piece should go
+     * @param cardId                card ID from the played card, to remove it from the list of cards.
      */
     public static void makeMove(int cardValue, int sessionId, String sourceFieldCSSId, String destinationFieldCSSId, int cardId) {
         //check if the move was made by the current user, if not - the user will be informed
-        if(sessionId == CrazyDog.getNextPlayer())
-        {
+        if (sessionId == CrazyDog.getNextPlayer()) {
             calculateMoves(cardValue, sessionId);       // Calculate all the possible moves
             // Get players color
             String playerColor = CrazyDog.getPlayerColorById(sessionId);
-            if(isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
+            if (isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
                 successmessage = new Message("Erfolgreicher Zug");
                 chosenCardId = cardId;
                 // TODO: Check if a player is on Destinationfield. Create Logic for this case.
@@ -179,33 +179,40 @@ public class GameLogic {
                 GameField sourceField = GameBoard.getGameFieldByCSSId(sourceFieldCSSId);
                 GameField destinationField = GameBoard.getGameFieldByCSSId(destinationFieldCSSId);
 
-                //if Destination is a wormhole, then the new desination should be a random GameField
+                //if Destination is a wormhole, then the new destination should be a random GameField
                 //it is not allowed, that a piece of the same color is on the destination field
-                while(destinationField.getGameFieldName().equals("wormhole") || isPieceOfPlayerOnField(destinationField, playerColor))
-                {
+                while (destinationField.getGameFieldName().equals("wormhole") || isPieceOfPlayerOnField(destinationField, playerColor)) {
                     destinationField = calcDestWhenPieceOnWormhole();
+                }
+
+                //check if there is another piece on the field:
+                if (checkIfOpponentPieceOnField(destinationField, playerColor)) {
+                    //move field to its home field
+                    UserInstructions.addNewInstruction("Spielfigur "+ destinationField.getPieceOnField().getNumber()+
+                            " der Farbe "+destinationField.getPieceOnField().getColor()+" wurde nach Hause geschickt");
+                    GameBoard.setPieceOnHomefield(destinationField.getPieceOnField().getHomeFieldId(),destinationField.getPieceOnField());
+                    destinationField.setPieceOnField(null);
                 }
 
                 destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
                 sourceField.setPieceOnField(null);
                 isLegalMoveMade = true;
                 UserInstructions.addNewInstruction("Spieler " + sessionId + " hat die Karte " + cardValue + " gespielt");
-            }
-            else {
+            } else {
                 successmessage = new Message("Ungültiger Zug");
                 isLegalMoveMade = false;
             }
-        }
-        else
-        {
+        } else {
             successmessage = new Message("Warten Sie mit dem Zug, bis sie an der Reihe sind");
             isLegalMoveMade = false;
         }
 
     }
+
     public static int getChosenCardId() {
         return chosenCardId;
     }
+
     public static void resetChosenCardId() {
         chosenCardId = 0;
     }
@@ -214,6 +221,9 @@ public class GameLogic {
         return successmessage;
     }
 
+    /**
+     * change Direction of the Game and give a message back to GUI
+     */
     public static void changeDirection() {
         CrazyDog.changeDirection();
         isLegalMoveMade = true;
@@ -221,6 +231,22 @@ public class GameLogic {
     }
 
     // INTERNAL METHODS ONLY USED BY GAMELOGIC (private)
+
+    /**
+     * check if there is a Piece from an opponent on the destination Field and return true or false
+     *
+     * @param dstField      Destination Field where the Piece should land
+     * @param color         Color of the current player
+     */
+    private static boolean checkIfOpponentPieceOnField(GameField dstField, String color) {
+        boolean opponentOnField = false;
+        if (dstField.getPieceOnField() != null) {
+            if (dstField.getPieceOnField().getColor() != color) {
+                opponentOnField = true;
+            }
+        }
+        return opponentOnField;
+    }
 
     /**
      * Responsible for adding the calculated Sources and Destinations to the HashMap
@@ -238,14 +264,13 @@ public class GameLogic {
     }
 
     /**
-     *
      * @param gamefields
      * @return
      */
     private static List<GameField> removeGameFieldsWithPiecesOnHomeFields(List<GameField> gamefields) {
         ListIterator<GameField> iter = gamefields.listIterator();
-        while(iter.hasNext()){
-            if(iter.next().getGameFieldName().equals("homefield")){
+        while (iter.hasNext()) {
+            if (iter.next().getGameFieldName().equals("homefield")) {
                 iter.remove();
             }
         }
@@ -254,19 +279,19 @@ public class GameLogic {
 
     /**
      * Calculates the destinationID, where a piece would land
+     *
      * @param sourceId
      * @param cardValue
      * @return
      */
     private static int getDestinationId(int sourceId, int cardValue) {
         int destinationId;
-        if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
+        if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
             destinationId = sourceId + cardValue;
             if (destinationId > 64) {
                 destinationId = destinationId - 64;
             }
-        }
-        else {
+        } else {
             destinationId = sourceId - cardValue;
             if (destinationId < 1) {
                 destinationId = destinationId + 64;
@@ -285,7 +310,7 @@ public class GameLogic {
      */
     private static int getStartFieldIfStartFieldIsPassed(int sourceId, int destinationId) {
         int passedStartField = 0;
-        if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
+        if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
             // TODO: Logic for CrazyDog.getDirection() == Direction.CLOCKWISE can be a bit simplified -> (like it is in the ELSE case)
             // Check if we passed the Startfield with idForCalculation 21
             if ((sourceId >= 8 && sourceId <= 20) && (destinationId >= 21 && destinationId <= 33)) {
@@ -312,8 +337,7 @@ public class GameLogic {
             if ((sourceId >= 1 && sourceId <= 4) && (destinationId >= 5 && destinationId <= 17)) {
                 passedStartField = 5;
             }
-        }
-        else {
+        } else {
             // Check if we passed YELLOW startfield
             if (sourceId > 21 && destinationId <= 21) {
                 passedStartField = 21;
@@ -323,7 +347,7 @@ public class GameLogic {
                 passedStartField = 5;
             }
             // Check if we passed RED startfield
-            if ((sourceId >= 6 && sourceId <= 12) && (destinationId >= 57 && destinationId <= 64)){
+            if ((sourceId >= 6 && sourceId <= 12) && (destinationId >= 57 && destinationId <= 64)) {
                 passedStartField = 5;
             }
             // Check if we passed BLUE startfield
@@ -343,16 +367,15 @@ public class GameLogic {
     }
 
     /**
-     *
      * @param gamefield
      * @return
      */
     private static boolean isStartFieldOccupiedByPieceOfSameColor(GameField gamefield) {
         boolean isOccupied = false;
-        if(gamefield.getPieceOnField() != null) {
+        if (gamefield.getPieceOnField() != null) {
             String gameFieldColor = gamefield.getColor();
             String pieceColor = gamefield.getPieceOnField().getColor();
-            if(gameFieldColor.equals(pieceColor)) {
+            if (gameFieldColor.equals(pieceColor)) {
                 isOccupied = true;
                 LOGGER.info("A piece of the same color as the startfield is on the startfield.");
             }
@@ -364,22 +387,22 @@ public class GameLogic {
      * In this method with receive a gamefield which is the first destinationField of the player. We also receive the
      * destinationId. Starting from the destinationField, we check if a Piece of the Player is already on the Field,
      * and do this for each destinationfield up to the destinationid.
+     *
      * @param destinationId
      * @param firstDestinationField
      * @return true if there is a piece found on a destinationField
      */
-    private static boolean arePiecesBlockingOnDestinationFields( int destinationId, GameField firstDestinationField) {
+    private static boolean arePiecesBlockingOnDestinationFields(int destinationId, GameField firstDestinationField) {
         boolean piecesAreBlockingDestinationFields = false;
         int diff = Math.abs(destinationId - firstDestinationField.getIdForCalculation());
-        for(int i = 0; i <= diff; i++) {
+        for (int i = 0; i <= diff; i++) {
             GameField calculatedGameField;
-            if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
+            if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
                 calculatedGameField = GameBoard.getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() + i, "destinationfield");
-            }
-            else {
+            } else {
                 calculatedGameField = GameBoard.getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() - i, "destinationfield");
             }
-            if(calculatedGameField.getPieceOnField() != null) {
+            if (calculatedGameField.getPieceOnField() != null) {
                 piecesAreBlockingDestinationFields = true;
             }
         }
@@ -396,14 +419,15 @@ public class GameLogic {
 
     /**
      * Checks if a GameField contains a Piece with the color of the Player.
+     *
      * @param calculatedGameField
      * @param playerColor
      * @return
      */
     private static boolean isPieceOfPlayerOnField(GameField calculatedGameField, String playerColor) {
         boolean isPieceOfPlayerOnField = false;
-        if(calculatedGameField.getPieceOnField() != null) {
-            if(calculatedGameField.getPieceOnField().getColor().equals(playerColor)) {
+        if (calculatedGameField.getPieceOnField() != null) {
+            if (calculatedGameField.getPieceOnField().getColor().equals(playerColor)) {
                 LOGGER.info("Piece can not be moved to destination. Player already has a piece there.");
                 isPieceOfPlayerOnField = true;
             }
@@ -414,6 +438,7 @@ public class GameLogic {
     /**
      * Checks if a player has Pieces on his HomeFields. If he has at least one Piece on a HomeField, and the startfield
      * is not occupied by himself, then a new calculated Destination is added.
+     *
      * @param playerColor
      */
     private static void calculateIfAPieceCanMoveFromHomeToStartField(String playerColor) {
@@ -423,15 +448,15 @@ public class GameLogic {
         boolean stop = false;
         boolean notFound = true;
         int i = 0;
-        while(notFound && !stop) {
+        while (notFound && !stop) {
             biggestHomeField = GameBoard.getGameFieldByCalculationId(calculationIdOfBiggestHomeField - i, "homefield");
-            if(biggestHomeField.getPieceOnField() != null) {
+            if (biggestHomeField.getPieceOnField() != null) {
                 notFound = false;   // We found the Piece on the biggest homefield!
                 // Calculate DestinationField
                 GameField startField = GameBoard.getGameFieldByCalculationId(calculationIdOfBiggestHomeField + 1, "startfield");
                 addToSourcesAndDestinations(biggestHomeField, startField, playerColor);
             }
-            if(i == 3) {
+            if (i == 3) {
                 stop = true;
             }
             i++;
@@ -440,22 +465,23 @@ public class GameLogic {
 
     /**
      * Returns the GameField with the biggest CalculationId of the Player
+     *
      * @param playerColor
      * @return
      */
     private static GameField calculateBiggestHomeField(String playerColor) {
         GameField biggestHomeField = null;
 
-        if(playerColor == "red") {
+        if (playerColor == "red") {
             biggestHomeField = GameBoard.getGameFieldByCalculationId(4, "homefield");  // 4 is calcID of biggest red homefield
         }
-        if(playerColor == "yellow") {
+        if (playerColor == "yellow") {
             biggestHomeField = GameBoard.getGameFieldByCalculationId(20, "homefield"); // 20 is calcID of biggest yellow homefield
         }
-        if(playerColor == "green") {
+        if (playerColor == "green") {
             biggestHomeField = GameBoard.getGameFieldByCalculationId(36, "homefield"); // 36 is calcID of biggest green homefield
         }
-        if(playerColor == "blue") {
+        if (playerColor == "blue") {
             biggestHomeField = GameBoard.getGameFieldByCalculationId(52, "homefield"); // 52 is calcID of biggest blue homefield
         }
 
@@ -464,40 +490,23 @@ public class GameLogic {
 
     /**
      * This method checks if the sourceField and the destinationField are in List<Move> moves
+     *
      * @param sourceField
      * @param destinationField
      * @return true if a move is legal
      */
     private static boolean isMoveIsLegal(String sourceField, String destinationField) {
         boolean moveIsLegal = false;
-        if(moves.isEmpty()) {
+        if (moves.isEmpty()) {
             // do nothing
-        }
-        else {
-            for(Move move : moves) {
-                if(move.getSourceField().getCssId().equals(sourceField) && move.getDestinationField().getCssId().equals(destinationField)) {
+        } else {
+            for (Move move : moves) {
+                if (move.getSourceField().getCssId().equals(sourceField) && move.getDestinationField().getCssId().equals(destinationField)) {
                     moveIsLegal = true;
                 }
             }
         }
         return moveIsLegal;
-    }
-
-    /**
-     * Get the the Game Field object with the idForCalculation and the gameFieldName must be 'standard', 'startfield' or 'wormhole'
-     * @param idForCalculation  idForCalculation for which we have to search in the list
-     * @return GameField with the idForCalculation and name standard or wormhole
-     */
-    private static GameField getStandardStartfieldGameFieldOrWormholeByIdForCalculation(int idForCalculation) {
-        GameField returnField = null;
-        for(GameField field: gameFieldList) {
-            if(field.getIdForCalculation() == idForCalculation &&
-                    (field.getGameFieldName().equals("standard") || field.getGameFieldName().equals("wormhole")|| field.getGameFieldName().equals("startfield")))
-            {
-                returnField = field;
-            }
-        }
-        return returnField;
     }
 
     /**
@@ -510,25 +519,22 @@ public class GameLogic {
         //get a random number between 1 and 64
         int destinationIdForCalculation = r.nextInt(64 - 1 + 1) + 1; // (max - min + 1) + 1
         GameField newDestination = null;
-        newDestination = getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
+        newDestination = GameBoard.getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
         return newDestination;
     }
 
     private static boolean canPlayerLandOnDestinationField(int destinationId, int idOfPassedStartField) {
         boolean playerCanLandOnDestinationField;
-        if(CrazyDog.getDirection() == Direction.CLOCKWISE) {
-            if(destinationId <= idOfPassedStartField + 4) {
+        if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
+            if (destinationId <= idOfPassedStartField + 4) {
                 playerCanLandOnDestinationField = true;
-            }
-            else {
+            } else {
                 playerCanLandOnDestinationField = false;
             }
-        }
-        else {
-            if(destinationId >= idOfPassedStartField - 4) {
+        } else {
+            if (destinationId >= idOfPassedStartField - 4) {
                 playerCanLandOnDestinationField = true;
-            }
-            else {
+            } else {
                 playerCanLandOnDestinationField = false;
             }
         }
