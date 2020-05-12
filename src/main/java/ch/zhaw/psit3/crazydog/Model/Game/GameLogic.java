@@ -43,6 +43,13 @@ public class GameLogic {
         if (cardValue == 2 || cardValue == 3 || cardValue == 5 || cardValue == 6 || cardValue == 8 || cardValue == 9 || cardValue == 10 || cardValue == 12) {
             calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);
         }
+        // Calculate Card 4
+        if (cardValue == 4) {
+            calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);
+            CrazyDog.changeDirection();
+            calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);
+            CrazyDog.changeDirection();
+        }
         // Calculate Card 13
         if (cardValue == 13) {
             calculateIfAPieceCanMoveFromHomeToStartField(playerColor);
@@ -555,9 +562,9 @@ public class GameLogic {
     }
 
     /**
-     * calculate all moves that are possible with the
-     * @param sourceFields
-     * @param color
+     * calculate all moves that are possible with the piece exchange card
+     * @param sourceFields      sourceField that are possible with that card
+     * @param color             colour of the current player
      */
     private static void calculateDestinationFieldForExchangeCard(List<GameField> sourceFields, String color) {
         for(GameField sourceField: sourceFields)
