@@ -1,3 +1,9 @@
+var round = 1;
+var direction = "clockwise";
+var currentPlayer = 1;
+var userInstructions = "";
+var cardsOnHand;
+
 $(function updatePieces() {
     $.ajax({
         type: 'GET',
@@ -19,7 +25,7 @@ $(function updateInstructions() {
         type: 'GET',
         url: 'getchangesInstructions',
         success: function(data) {
-            if(data.length > 0) {
+            if(data.length > 0 && JSON.stringify(data) != JSON.stringify(userInstructions)) {
                 var innerText = "";
                 var i=0;
                 for(i=0;i<data.length;i++) {
@@ -32,11 +38,13 @@ $(function updateInstructions() {
                         background = "#f1f3f4";
                     }
                     innerText += "<div class='"+cssClass+"' style='background-color: "+background+";'>&#62; "+data[i]+"</div>";
+
                 }
                 document.getElementById('instructionList').innerHTML = innerText;
+                userInstructions = data;
             }
             else {
-                console.log("Dom was not manipulated, because there is nothing to update.");
+                console.log("Dom was not manipulated, because there is nothing to update - UserInstructions.");
             }
         },
         complete: function() {
@@ -51,12 +59,13 @@ $(function updateCurrentPlayer() {
         type: 'GET',
         url: 'getchangesCurrentPlayer',
         success: function(data) {
-            if(data >= 1 && data <= 4) {
+            if(data >= 1 && data <= 4 && currentPlayer != data) {
                 for(var i = 1;i <= 4; i++)
                 {
                     $('#Player'+i).removeClass("currentplayer");
                 }
                 $('#Player'+data).addClass("currentplayer");
+                currentPlayer = data;
             }
             else {
                 console.log("Dom was not manipulated, because there is nothing to update.");
@@ -74,8 +83,9 @@ $(function updateCurrentDirection() {
         type: 'GET',
         url: 'getchangesCurrentDirection',
         success: function(data) {
-            if(data != "") {
+            if(data != "" && data != direction) {
                 $('#direction').attr("src","/img/"+data+".png");
+                direction = data;
             }
             else {
                 console.log("Dom was not manipulated, because there is nothing to update.");
@@ -93,9 +103,10 @@ $(function updateRoundNr() {
         type: 'GET',
         url: 'getchangesRoundNr',
         success: function(data) {
-            if(data > 0) {
+            if(data > 0 && data != round) {
                 var innerText = "Runde "+data;
                 document.getElementById('roundNumber').innerHTML = innerText;
+                round = data;
             }
             else {
                 console.log("Dom was not manipulated, because there is nothing to update.");
@@ -113,10 +124,17 @@ $(function retrieveHand() {
         type: 'GET',
         url: 'getchangesCardsOnHand',
         success: function(fragment) {
-            $("#handBlock").replaceWith(fragment);
+            if(fragment != cardsOnHand)
+            {
+                $("#handBlock").replaceWith(fragment);
+                cardsOnHand = fragment;
+            }
+            else {
+                console.log("CardOnHand not updated");
+            }
         },
         complete: function() {
-            setTimeout(retrieveHand, 10000);
+            setTimeout(retrieveHand, 1000);
         }
     });
 });

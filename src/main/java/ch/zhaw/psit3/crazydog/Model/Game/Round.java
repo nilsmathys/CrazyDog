@@ -380,7 +380,8 @@ public class Round {
         for (Card card : cards.getHand()) {
             GameLogic.calculateMoves(card.getValue(), playerID);       // Calculate all the possible moves
             List<Move> moves = GameLogic.getMoves();
-            if (!moves.isEmpty()) {
+            //if card is 3 or questionmark, their is always a move that is possible.
+            if (!moves.isEmpty() || card.getValue() == 3 || card.getValue() == 14) {
                 anyMovePossible = true;
                 break;
             }
