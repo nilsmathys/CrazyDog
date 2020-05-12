@@ -196,8 +196,13 @@ public class Round {
     private void makeTurn() {
         long startTime = System.currentTimeMillis();
         long currentTime;
+        int playerId = CrazyDog.getNextPlayer();
+        CardsOnHand cards = playerAndHand.get(playerId);
 
-        CardsOnHand cards = playerAndHand.get(CrazyDog.getNextPlayer());
+        //if no valid turn is available with the cards on hand, then discard all cards on hand.
+        if (!isThereAnyMovePossibleWithCardsOnHand(cards, playerId)) {
+            cards.discardAllCards();
+        }
 
         //wait for the flag to be set in the Game Logic that a legal move was made.
         //CardsOnHand must not be empty otherwise there will be nothing to do
@@ -360,6 +365,27 @@ public class Round {
 
     public static Map<Integer, CardsOnHand> getPlayerAndHand() {
         return playerAndHand;
+    }
+
+
+    /**
+     * Check if the cards on the Hand, if any move is possible or not
+     *
+     * @param cards    CardsOnHand object, for the associated player
+     * @param playerID PlayerId of the current Player which cards we have
+     * @return return true if there is any move possible, otherwise return false
+     */
+    private boolean isThereAnyMovePossibleWithCardsOnHand(CardsOnHand cards, int playerID) {
+        boolean anyMovePossible = false;
+        for (Card card : cards.getHand()) {
+            GameLogic.calculateMoves(card.getValue(), playerID);       // Calculate all the possible moves
+            List<Move> moves = GameLogic.getMoves();
+            if (!moves.isEmpty()) {
+                anyMovePossible = true;
+                break;
+            }
+        }
+        return anyMovePossible;
     }
 
 }
