@@ -94,7 +94,7 @@ $(function updateRoundNr() {
         url: 'getchangesRoundNr',
         success: function(data) {
             if(data > 0) {
-                var innerText = "Round "+data;
+                var innerText = "Runde "+data;
                 document.getElementById('roundNumber').innerHTML = innerText;
             }
             else {

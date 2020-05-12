@@ -141,7 +141,7 @@ public class CrazyDog {
         playerList.add(player4);
 
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
-        UserInstructions.addNewInstruction("Game started now");
+        UserInstructions.addNewInstruction("Spiel startet jetzt");
         crazyDog.playGame(crazyDog.team1, crazyDog.team2);
     }
 

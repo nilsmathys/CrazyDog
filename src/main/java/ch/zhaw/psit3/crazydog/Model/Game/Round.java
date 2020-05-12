@@ -69,11 +69,11 @@ public class Round {
 
         distributeCards(roundNumber);
         // wait for players to select a card
-        UserInstructions.addNewInstruction("Please choose a card to exchange with your Team mate and klick on the button");
+        UserInstructions.addNewInstruction("Bitte Karte auswählen, welche mit dem Team-Spieler getauscht wird.");
         CompletableFuture.delayedExecutor(45, TimeUnit.SECONDS).execute(() -> {
             exchangeCards();
             roundStarted = true;
-            UserInstructions.addNewInstruction("Round " + roundNumber + " started");
+            UserInstructions.addNewInstruction("Runde " + roundNumber + " gestartet");
         });
     }
 
@@ -127,7 +127,7 @@ public class Round {
             playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
-        UserInstructions.addNewInstruction(totalCardsToDistribute/4 + " Cards distributed to players");
+        UserInstructions.addNewInstruction(totalCardsToDistribute/4 + " Karten an die Spieler ausgeteilt");
     }
 
     /**
@@ -174,7 +174,7 @@ public class Round {
         playerAndHand.get(playerTwoId).takeCard(exchangeCardP1);
         playerAndHand.get(playerThreeId).takeCard(exchangeCardP4);
         playerAndHand.get(playerFourId).takeCard(exchangeCardP3);
-        UserInstructions.addNewInstruction("Cards exchanged");
+        UserInstructions.addNewInstruction("Karten wurden getauscht");
     }
 
     /**
@@ -213,7 +213,7 @@ public class Round {
 
                 //exit loop after maximum time of the Round has elapsed.
                 if(currentTime>=(startTime+MAXIMUMTIMEROUND)) {
-                    UserInstructions.addNewInstruction("Player " + CrazyDog.getNextPlayer() + " elapsed maximum time of a turn.");
+                    UserInstructions.addNewInstruction("Spieler " + CrazyDog.getNextPlayer() + " hat die Zeit für einen Zug überschritten");
                     //discard a random card from the player's hand
                     pickRandomCard(CrazyDog.getNextPlayer());
                     break;
@@ -221,7 +221,7 @@ public class Round {
             }
         }
         else {
-            UserInstructions.addNewInstruction("Player " + CrazyDog.getNextPlayer() + " has no cards left and will be skipped");
+            UserInstructions.addNewInstruction("Spieler " + CrazyDog.getNextPlayer() + " hat keine Karte mehr in der Hand und wird ausgelassen");
         }
         //remove selected card
         if(GameLogic.getChosenCardId() != 0) {
@@ -258,10 +258,10 @@ public class Round {
         while (!hasWinner) {
 
             // SPIELZUG nextPlayer
-            UserInstructions.addNewInstruction("It's Player " + CrazyDog.getNextPlayer() + "'s turn. Please play a card");
+            UserInstructions.addNewInstruction("Spieler " + CrazyDog.getNextPlayer() + " ist dran. Spiele eine Karte");
             makeTurn();
 
-            LOGGER.info("Turn  ok.");
+            LOGGER.info("Turn ok.");
 
             if (allPiecesOfTeamAtDestination()) {
                 if (team1.getPlayer1().getId() == CrazyDog.getNextPlayer() || team1.getPlayer2().getId() == CrazyDog.getNextPlayer()) {

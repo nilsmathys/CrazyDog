@@ -157,12 +157,12 @@ public class GameLogic {
     }
 
     /**
-     *
-     * @param cardValue
-     * @param sessionId
-     * @param sourceFieldCSSId
-     * @param destinationFieldCSSId
-     * @param cardId
+     * This functions makes the real move and saves the changes in the backend game status
+     * @param cardValue                 Value of the card which was played
+     * @param sessionId                 Session ID from the current player
+     * @param sourceFieldCSSId          CSS Id from the Source Field where the piece is actually
+     * @param destinationFieldCSSId     CSS Id from the destination Field where the piece should go
+     * @param cardId                    card ID from the played card, to remove it from the list of cards.
      */
     public static void makeMove(int cardValue, int sessionId, String sourceFieldCSSId, String destinationFieldCSSId, int cardId) {
         //check if the move was made by the current user, if not - the user will be informed
@@ -174,7 +174,6 @@ public class GameLogic {
             if(isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
                 successmessage = new Message("Erfolgreicher Zug");
                 chosenCardId = cardId;
-                // TODO: Check if the current player has made the move and not another player
                 // TODO: Check if a player is on Destinationfield. Create Logic for this case.
                 // TODO: if there is a piece from another color on the dstField, send it to home field
                 GameField sourceField = GameBoard.getGameFieldByCSSId(sourceFieldCSSId);
@@ -190,6 +189,7 @@ public class GameLogic {
                 destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
                 sourceField.setPieceOnField(null);
                 isLegalMoveMade = true;
+                UserInstructions.addNewInstruction("Spieler " + sessionId + " hat die Karte " + cardValue + " gespielt");
             }
             else {
                 successmessage = new Message("Ungültiger Zug");
