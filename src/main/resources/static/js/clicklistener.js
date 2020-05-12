@@ -21,6 +21,12 @@ function main(cardvalue, cardId) {
         case 14:
             console.log("cardquestion");
             $("#questionmark").modal();
+            for(var i = 2;i <= 15;i++) {
+                if(i != 14) {
+                    $('#modalFragezeichenKarte'+i).attr('onclick', 'main('+i+', '+cardId+')');
+                }
+
+            }
             break;
         default:
             getPossibleSourceFields(cardvalue, cardId);
