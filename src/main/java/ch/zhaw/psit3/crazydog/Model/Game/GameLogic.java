@@ -4,6 +4,7 @@ import ch.zhaw.psit3.crazydog.CrazyDog;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Message.Message;
+import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -52,7 +53,10 @@ public class GameLogic {
             calculateIfAPieceCanMoveFromHomeToStartField(playerColor);
             calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, 1, playerColor);  // Calculate for CardValue 1
             calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, cardValue, playerColor);  // Calculate for CardValue 11
-
+        }
+        //Calculate Exchange Card 15
+        if (cardValue == 15) {
+            calculateDestinationFieldForExchangeCard(GameFieldsWithNoPiecesOnHomeFields, playerColor);
         }
     }
 
@@ -174,28 +178,36 @@ public class GameLogic {
             if (isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
                 successmessage = new Message("Erfolgreicher Zug");
                 chosenCardId = cardId;
-                // TODO: Check if a player is on Destinationfield. Create Logic for this case.
-                // TODO: if there is a piece from another color on the dstField, send it to home field
                 GameField sourceField = GameBoard.getGameFieldByCSSId(sourceFieldCSSId);
                 GameField destinationField = GameBoard.getGameFieldByCSSId(destinationFieldCSSId);
+                //if exchange card was played, exchange cards, not make a normal move
+                if(cardValue == 15) {
+                    //exchange the Pieces
+                    Piece sourcePiece = sourceField.getPieceOnField(); //temporary save source field
+                    sourceField.setPieceOnField(destinationField.getPieceOnField()); //set destination Piece on Source Field
+                    destinationField.setPieceOnField(sourcePiece); //set source Piece on Destination Field
 
-                //if Destination is a wormhole, then the new destination should be a random GameField
-                //it is not allowed, that a piece of the same color is on the destination field
-                while (destinationField.getGameFieldName().equals("wormhole") || isPieceOfPlayerOnField(destinationField, playerColor)) {
-                    destinationField = calcDestWhenPieceOnWormhole();
+                }
+                else {
+                    //if Destination is a wormhole, then the new destination should be a random GameField
+                    //it is not allowed, that a piece of the same color is on the destination field
+                    while (destinationField.getGameFieldName().equals("wormhole") || isPieceOfPlayerOnField(destinationField, playerColor)) {
+                        destinationField = calcDestWhenPieceOnWormhole();
+                    }
+
+                    //check if there is another piece on the field:
+                    if (checkIfOpponentPieceOnField(destinationField, playerColor)) {
+                        //move field to its home field
+                        UserInstructions.addNewInstruction("Spielfigur "+ destinationField.getPieceOnField().getNumber()+
+                                " der Farbe "+destinationField.getPieceOnField().getColor()+" wurde nach Hause geschickt");
+                        GameBoard.setPieceOnHomefield(destinationField.getPieceOnField().getHomeFieldId(),destinationField.getPieceOnField());
+                        destinationField.setPieceOnField(null);
+                    }
+
+                    destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
+                    sourceField.setPieceOnField(null);
                 }
 
-                //check if there is another piece on the field:
-                if (checkIfOpponentPieceOnField(destinationField, playerColor)) {
-                    //move field to its home field
-                    UserInstructions.addNewInstruction("Spielfigur "+ destinationField.getPieceOnField().getNumber()+
-                            " der Farbe "+destinationField.getPieceOnField().getColor()+" wurde nach Hause geschickt");
-                    GameBoard.setPieceOnHomefield(destinationField.getPieceOnField().getHomeFieldId(),destinationField.getPieceOnField());
-                    destinationField.setPieceOnField(null);
-                }
-
-                destinationField.setPieceOnField(sourceField.getPieceOnField());        // Set Piece of sourceField to destinationField
-                sourceField.setPieceOnField(null);
                 isLegalMoveMade = true;
                 UserInstructions.addNewInstruction("Spieler " + sessionId + " hat die Karte " + cardValue + " gespielt");
             } else {
@@ -539,6 +551,30 @@ public class GameLogic {
             }
         }
         return playerCanLandOnDestinationField;
+    }
+
+    /**
+     * calculate all moves that are possible with the
+     * @param sourceFields
+     * @param color
+     */
+    private static void calculateDestinationFieldForExchangeCard(List<GameField> sourceFields, String color) {
+        for(GameField sourceField: sourceFields)
+        {
+            List<GameField> destinationFields = GameBoard.getFieldsWithPieces();
+            for(GameField dstField: destinationFields) {
+                if(!sourceField.getPieceOnField().equals(dstField.getPieceOnField()) &&
+                        !dstField.getGameFieldName().equals("homefield") &&
+                        !dstField.getGameFieldName().equals("destinationfield")
+                )
+                {
+                    addToSourcesAndDestinations(sourceField,dstField,color);
+                }
+
+            }
+        }
+
+
     }
 
 }

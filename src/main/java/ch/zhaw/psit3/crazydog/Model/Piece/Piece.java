@@ -72,5 +72,26 @@ public class Piece {
         this.homeFieldId = homeFieldId;
     }
 
+    @Override
+    public boolean equals(Object p) {
+        Piece o = (Piece) p;
+        if(this.getColor().equals(o.getColor()) && this.getNumber() == o.getNumber() && this.getHomeFieldId() == o.getHomeFieldId() &&
+            this.getId() == o.getId() && this.getPictureName().equals(o.getPictureName()) )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 1;
+        hash = hash * 13 + (getColor().hashCode());
+        hash = hash * 17 + (getNumber());
+        hash = hash * 31 + (getHomeFieldId());
+        hash = hash * 31 + (getId());
+        hash = hash * 31 + (getPictureName().hashCode());
+        return hash;
+    }
 
 }

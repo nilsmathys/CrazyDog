@@ -122,6 +122,7 @@ public class CrazyDog {
             Round round = new Round(roundNumber, deck, team1, team2);
             playEnded = round.startRound();
             roundNumber++;
+            nextPlayer = 1; //reset player to player 1
         }
     }
 

@@ -376,6 +376,19 @@ public class GameBoard {
         return allPieces;
     }
 
+    /**
+     *
+     * @return   a list of all GameFields with a piece
+     */
+    public static List<GameField> getFieldsWithPieces() {
+        List<GameField> fieldsWithPieces = new ArrayList<>();
+        for(GameField field : fields) {
+            if (field.getPieceOnField() != null) {
+                fieldsWithPieces.add(field);
+            }
+        }
+        return fieldsWithPieces;
+    }
 
 
     // Currently    U N U S E D
