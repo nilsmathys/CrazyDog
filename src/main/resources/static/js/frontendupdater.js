@@ -43,9 +43,9 @@ $(function updateInstructions() {
                 document.getElementById('instructionList').innerHTML = innerText;
                 userInstructions = data;
             }
-            else {
-                console.log("Dom was not manipulated, because there is nothing to update - UserInstructions.");
-            }
+            //else {
+            //    console.log("Dom was not manipulated, because there is nothing to update - UserInstructions.");
+            //}
         },
         complete: function() {
             // Schedule the next request when the current one's complete
@@ -67,9 +67,9 @@ $(function updateCurrentPlayer() {
                 $('#Player'+data).addClass("currentplayer");
                 currentPlayer = data;
             }
-            else {
-                console.log("Dom was not manipulated, because there is nothing to update.");
-            }
+            //else {
+            //    console.log("Dom was not manipulated, because there is nothing to update.");
+            //}
         },
         complete: function() {
             // Schedule the next request when the current one's complete
@@ -87,9 +87,9 @@ $(function updateCurrentDirection() {
                 $('#direction').attr("src","/img/"+data+".png");
                 direction = data;
             }
-            else {
-                console.log("Dom was not manipulated, because there is nothing to update.");
-            }
+            //else {
+            //    console.log("Dom was not manipulated, because there is nothing to update.");
+            //}
         },
         complete: function() {
             // Schedule the next request when the current one's complete
@@ -108,9 +108,9 @@ $(function updateRoundNr() {
                 document.getElementById('roundNumber').innerHTML = innerText;
                 round = data;
             }
-            else {
-                console.log("Dom was not manipulated, because there is nothing to update.");
-            }
+            //else {
+            //    console.log("Dom was not manipulated, because there is nothing to update.");
+            //}
         },
         complete: function() {
             // Schedule the next request when the current one's complete
@@ -129,9 +129,9 @@ $(function retrieveHand() {
                 $("#handBlock").replaceWith(fragment);
                 cardsOnHand = fragment;
             }
-            else {
-                console.log("CardOnHand not updated");
-            }
+            //else {
+            //    console.log("CardOnHand not updated");
+            //}
         },
         complete: function() {
             setTimeout(retrieveHand, 1000);
