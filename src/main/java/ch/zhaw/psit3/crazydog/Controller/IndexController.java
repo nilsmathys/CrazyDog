@@ -17,7 +17,7 @@ public class IndexController {
 
         } else {
             model.addAttribute("player", new Player());
-            model.addAttribute("loginerror", "Please login to play a game");
+            model.addAttribute("loginerror", "Bitte melden Sie sich an");
             return "login";
         }
         return "index";
@@ -29,7 +29,7 @@ public class IndexController {
 
         } else {
             model.addAttribute("player", new Player());
-            model.addAttribute("loginerror", "Please login to play a game");
+            model.addAttribute("loginerror", "Bitte melden Sie sich an");
             return "login";
         }
         return "index";

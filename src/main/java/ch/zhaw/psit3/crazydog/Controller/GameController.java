@@ -63,7 +63,7 @@ public class GameController {
             return "game";
         } else {
             model.addAttribute("player", new Player());
-            model.addAttribute("loginerror", "Please login to play a game");
+            model.addAttribute("loginerror", "Bitte melden Sie sich an");
             return "login";
         }
     }

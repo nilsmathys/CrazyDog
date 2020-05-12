@@ -42,7 +42,7 @@ public class LoginController {
         }
         else {
             LOGGER.warning("This user doesn't exist. Email or Password was wrong.");
-            model.addAttribute("loginerror", "Email or Password was wrong");
+            model.addAttribute("loginerror", "Username oder Passwort falsch");
             model.addAttribute("player", new Player()); // Return empty player to reset the HTML form
             return "login";
         }

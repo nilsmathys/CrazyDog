@@ -29,15 +29,15 @@
 
                 <!-- Login Form -->
                 <form action="#" th:action="@{/login}" th:object="${player}" method="post">
-                    <input type="text" id="login" class="fadeIn second" name="username" placeholder="Enter Username" th:field="*{username}" required>
-                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" th:field="*{password}" required>
-                    <input type="submit" class="fadeIn fourth" value="Log In">
+                    <input type="text" id="login" class="fadeIn second" name="username" placeholder="Username eingeben" th:field="*{username}" required>
+                    <input type="password" id="password" class="fadeIn third" name="password" placeholder="Passwort" th:field="*{password}" required>
+                    <input type="submit" class="fadeIn fourth" value="Anmelden">
                 </form>
 
                 <!-- Remind Passowrd -->
                 <div id="formFooter">
                     <h4 th:text="${loginerror}"></h4>
-                    <a class="underlineHover" href="#">Forgot Password?</a>
+                    <a class="underlineHover" href="#">Passwort vergessen?</a>
                 </div>
 
             </div>

@@ -22,7 +22,7 @@ public class ManualController {
 
         } else {
             model.addAttribute("player", new Player());
-            model.addAttribute("loginerror", "Please login first");
+            model.addAttribute("loginerror", "Bitte melden Sie sich an");
             return "login";
         }
         return "spielanleitung";
