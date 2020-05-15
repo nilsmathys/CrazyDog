@@ -208,7 +208,7 @@ public class Round {
         //CardsOnHand must not be empty otherwise there will be nothing to do
         if(!cards.isHandEmpty())
         {
-            while(!GameLogic.isLegalMoveMade()) {
+            while(!Turn.isLegalMoveMade()) {
                 currentTime = System.currentTimeMillis();
 
                 //exit loop after maximum time of the Round has elapsed.
@@ -224,13 +224,13 @@ public class Round {
             UserInstructions.addNewInstruction("Spieler " + CrazyDog.getNextPlayer() + " hat keine Karte mehr in der Hand und wird ausgelassen");
         }
         //remove selected card
-        if(GameLogic.getChosenCardId() != 0) {
-            cards.discardCard(GameLogic.getChosenCardId());
-            GameLogic.resetChosenCardId();
+        if(Turn.getChosenCardId() != 0) {
+            cards.discardCard(Turn.getChosenCardId());
+            Turn.resetChosenCardId();
         }
 
         //reset Flag
-        GameLogic.resetLegalMoveStatus();
+        Turn.resetLegalMoveStatus();
         //set next player
         CrazyDog.increaseNextPlayer();
     }
@@ -378,8 +378,8 @@ public class Round {
     private boolean isThereAnyMovePossibleWithCardsOnHand(CardsOnHand cards, int playerID) {
         boolean anyMovePossible = false;
         for (Card card : cards.getHand()) {
-            GameLogic.calculateMoves(card.getValue(), playerID);       // Calculate all the possible moves
-            List<Move> moves = GameLogic.getMoves();
+            Turn.calculateMoves(card.getValue(), playerID);       // Calculate all the possible moves
+            List<Move> moves = Turn.getMoves();
             //if card is 3 or questionmark, their is always a move that is possible.
             if (!moves.isEmpty() || card.getValue() == 3 || card.getValue() == 14) {
                 anyMovePossible = true;

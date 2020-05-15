@@ -10,8 +10,8 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GameLogic {
-    private static final Logger LOGGER = Logger.getLogger(GameLogic.class.getName());
+public class Turn {
+    private static final Logger LOGGER = Logger.getLogger(Turn.class.getName());
 
     private static List<GameField> gameFieldList;         // This is a copy of List<GameField> from Gameboard
     private static List<Move> moves;                      // This List containss all the calculated Sources and Destinations in Move Objects
