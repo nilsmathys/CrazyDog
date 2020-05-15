@@ -57,4 +57,14 @@ class CardsOnHandTest {
         assertFalse(cardsOnHand.isHandEmpty());
     }
 
+    @Test
+    void testDiscardAll() {
+        cardsOnHand.takeCard(card2);
+        cardsOnHand.takeCard(card3);
+        cardsOnHand.takeCard(card4);
+        cardsOnHand.takeCard(card5);
+        cardsOnHand.discardAllCards();
+        assertTrue(cardsOnHand.isHandEmpty());
+    }
+
 }
