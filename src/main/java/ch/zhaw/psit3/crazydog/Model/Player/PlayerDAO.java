@@ -8,7 +8,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * <h1>PlayerDAO</h1>
+ * The PlayerDAO queries the database to get all stored players<br>
+ *
+ * @author N. Mathys
+ * @version 1.0
+ * @since April 2020
+ */
 public class PlayerDAO {
     private static final Logger LOGGER = Logger.getLogger(PlayerDAO.class.getName());
 

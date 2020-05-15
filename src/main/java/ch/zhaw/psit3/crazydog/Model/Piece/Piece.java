@@ -3,6 +3,14 @@ package ch.zhaw.psit3.crazydog.Model.Piece;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * <h1>Piece</h1>
+ * Piece holds necessary information about one Piece<br>
+ *
+ * @author N. Mathys
+ * @version 1.0
+ * @since April 2020
+ */
 public class Piece {
     @NotNull
     private int id;
@@ -54,11 +62,11 @@ public class Piece {
 
     /**
      * Set a new color, must be green, yellow, red or blue
+     *
      * @param color
      */
     public void setColor(String color) {
-        if(!(color.equals("green") || color.equals("yellow") || color.equals("red") || color.equals("blue")))
-        {
+        if (!(color.equals("green") || color.equals("yellow") || color.equals("red") || color.equals("blue"))) {
             throw new IllegalArgumentException("Please use a right color.");
         }
         this.color = color;
@@ -75,9 +83,8 @@ public class Piece {
     @Override
     public boolean equals(Object p) {
         Piece o = (Piece) p;
-        if(this.getColor().equals(o.getColor()) && this.getNumber() == o.getNumber() && this.getHomeFieldId() == o.getHomeFieldId() &&
-            this.getId() == o.getId() && this.getPictureName().equals(o.getPictureName()) )
-        {
+        if (this.getColor().equals(o.getColor()) && this.getNumber() == o.getNumber() && this.getHomeFieldId() == o.getHomeFieldId() &&
+                this.getId() == o.getId() && this.getPictureName().equals(o.getPictureName())) {
             return true;
         }
         return false;

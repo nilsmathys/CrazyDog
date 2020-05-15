@@ -7,7 +7,7 @@ import java.util.*;
  * The CardsOnHand object holds a list of cards of a certain player during a round.<br>
  * It can take a new card as well as discard one during the round.
  *
- * @author S. Werlin
+ * @author S. Werlin, R. Somma
  * @version 1.0
  * @since April 2020
  */

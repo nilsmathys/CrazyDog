@@ -1,5 +1,14 @@
 package ch.zhaw.psit3.crazydog.Model.Game;
 
+/**
+ * <h1>DestinationFieldsClockwise</h1>
+ * DestinationFieldsClockwise Enum stores the the id's for Calculation for all destination fields of each
+ *     when the Game Direction is clockwise<br>
+ *
+ * @author R. Somma
+ * @version 1.0
+ * @since April 2020
+ */
 public enum DestinationFieldsClockwise {
     RED1(41),RED2(40),RED3(39),RED4(38),
     GREEN1(9),GREEN2(8),GREEN3(7),GREEN4(6),
@@ -9,7 +18,10 @@ public enum DestinationFieldsClockwise {
     // declaring private variable for getting values
     private int value;
 
-    // getter method
+    /**
+     * get the Value of t he Enum attribute
+     * @return  idForCalculation for Destination Field
+     */
     public int getValue()
     {
         return this.value;

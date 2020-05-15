@@ -10,6 +10,20 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * <h1>Turn</h1>
+ * Turn handles the actions for a single turn from one player<br>
+ * <ol>
+ *     <li>It checks if the right player has made a move</li>
+ *     <li>It checks if the right player has made a move</li>
+ *     <li>It calculates the destination Field for each card that could be played</li>
+ *     <li>It makes the move when the card was played for a specific piece</li>
+ * </ol>
+ *
+ * @author R. Bertschinger, R. Somma, S. Werlin
+ * @version 1.0
+ * @since April 2020
+ */
 public class Turn {
     private static final Logger LOGGER = Logger.getLogger(Turn.class.getName());
 
@@ -67,7 +81,7 @@ public class Turn {
         }
         //Calculate Exchange Card 7
         if (cardValue == 7) {
-            for(int i = 1; i<= 7;i++) {
+            for (int i = 1; i <= 7; i++) {
                 calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, i, playerColor);
             }
         }
@@ -191,14 +205,13 @@ public class Turn {
                 GameField sourceField = GameBoard.getGameFieldByCSSId(sourceFieldCSSId);
                 GameField destinationField = GameBoard.getGameFieldByCSSId(destinationFieldCSSId);
                 //if exchange card was played, exchange cards, not make a normal move
-                if(cardValue == 15) {
+                if (cardValue == 15) {
                     //exchange the Pieces
                     Piece sourcePiece = sourceField.getPieceOnField(); //temporary save source field
                     sourceField.setPieceOnField(destinationField.getPieceOnField()); //set destination Piece on Source Field
                     destinationField.setPieceOnField(sourcePiece); //set source Piece on Destination Field
 
-                }
-                else {
+                } else {
                     //if Destination is a wormhole, then the new destination should be a random GameField
                     //it is not allowed, that a piece of the same color is on the destination field
                     while (destinationField.getGameFieldName().equals("wormhole") || isPieceOfPlayerOnField(destinationField, playerColor)) {
@@ -208,9 +221,9 @@ public class Turn {
                     //check if there is another piece on the field:
                     if (checkIfOpponentPieceOnField(destinationField, playerColor)) {
                         //move field to its home field
-                        UserInstructions.addNewInstruction("Spielfigur "+ destinationField.getPieceOnField().getNumber()+
-                                " der Farbe "+destinationField.getPieceOnField().getColor()+" wurde nach Hause geschickt");
-                        GameBoard.setPieceOnHomefield(destinationField.getPieceOnField().getHomeFieldId(),destinationField.getPieceOnField());
+                        UserInstructions.addNewInstruction("Spielfigur " + destinationField.getPieceOnField().getNumber() +
+                                " der Farbe " + destinationField.getPieceOnField().getColor() + " wurde nach Hause geschickt");
+                        GameBoard.setPieceOnHomefield(destinationField.getPieceOnField().getHomeFieldId(), destinationField.getPieceOnField());
                         destinationField.setPieceOnField(null);
                     }
 
@@ -258,8 +271,8 @@ public class Turn {
     /**
      * check if there is a Piece from an opponent on the destination Field and return true or false
      *
-     * @param dstField      Destination Field where the Piece should land
-     * @param color         Color of the current player
+     * @param dstField Destination Field where the Piece should land
+     * @param color    Color of the current player
      */
     private static boolean checkIfOpponentPieceOnField(GameField dstField, String color) {
         boolean opponentOnField = false;
@@ -566,27 +579,24 @@ public class Turn {
 
     /**
      * calculate all moves that are possible with the piece exchange card
-     * @param sourceFields      sourceField that are possible with that card
-     * @param color             colour of the current player
+     *
+     * @param sourceFields sourceField that are possible with that card
+     * @param color        colour of the current player
      */
     private static void calculateDestinationFieldForExchangeCard(List<GameField> sourceFields, String color) {
-        for(GameField sourceField: sourceFields)
-        {
+        for (GameField sourceField : sourceFields) {
             List<GameField> destinationFields = GameBoard.getFieldsWithPieces();
-            for(GameField dstField: destinationFields) {
-                if(!sourceField.getPieceOnField().equals(dstField.getPieceOnField()) &&
+            for (GameField dstField : destinationFields) {
+                if (!sourceField.getPieceOnField().equals(dstField.getPieceOnField()) &&
                         !dstField.getGameFieldName().equals("homefield") &&
                         !dstField.getGameFieldName().equals("destinationfield") &&
                         !sourceField.getGameFieldName().equals("destinationfield")
-                )
-                {
-                    addToSourcesAndDestinations(sourceField,dstField,color);
+                ) {
+                    addToSourcesAndDestinations(sourceField, dstField, color);
                 }
 
             }
         }
-
-
     }
 
 }

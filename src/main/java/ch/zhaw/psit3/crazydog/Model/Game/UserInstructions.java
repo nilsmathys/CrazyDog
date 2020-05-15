@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class stores all user instructions that are shown on the user Interface
+ * <h1>UserInstructions</h1>
+ * Stores instructions that the user will see on the GUI so that he knows, what he has to do. <br>
+ *
+ * @author R. Somma
+ * @version 1.0
+ * @since April 2020
  */
 public class UserInstructions {
 
@@ -18,11 +23,11 @@ public class UserInstructions {
      */
     public static void addNewInstruction(String instruction) {
         //new messages should always be stored on the top of the list
-        userInstructions.add(0,instruction);
+        userInstructions.add(0, instruction);
 
         //if List contains more than 10 elements, remove the List
-        while(userInstructions.size() > AMOUNTOFINSTRUCTIONS) {
-            userInstructions.remove(userInstructions.size()-1);
+        while (userInstructions.size() > AMOUNTOFINSTRUCTIONS) {
+            userInstructions.remove(userInstructions.size() - 1);
         }
     }
 
@@ -31,7 +36,7 @@ public class UserInstructions {
      *
      * @return String Array - Array with all Instructions
      */
-    public static List<String> getUserInstructions () {
+    public static List<String> getUserInstructions() {
         return userInstructions;
     }
 
@@ -40,8 +45,8 @@ public class UserInstructions {
      */
     public static void printList() {
         int i = 0;
-        for (String instruction: userInstructions) {
-            System.out.println(i + ": "+instruction);
+        for (String instruction : userInstructions) {
+            System.out.println(i + ": " + instruction);
             i++;
         }
     }

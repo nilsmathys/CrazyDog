@@ -377,7 +377,7 @@ public class GameBoard {
     }
 
     /**
-     *
+     * returns a list of GameFields that currently have a piece on them
      * @return   a list of all GameFields with a piece
      */
     public static List<GameField> getFieldsWithPieces() {

@@ -8,6 +8,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * <h1>PieceDAO</h1>
+ * The PieceDAO queries the database to get all stored pieces<br>
+ *
+ * @author N. Mathys
+ * @version 1.0
+ * @since April 2020
+ */
 public class PieceDAO {
     private static final Logger LOGGER = Logger.getLogger(PieceDAO.class.getName());
 
@@ -31,7 +39,7 @@ public class PieceDAO {
             String colour = "";
             int number = 0;
             String pictureName = null;
-            int homeFieldId =0;
+            int homeFieldId = 0;
             if (rs.next()) {
                 pieceId = rs.getInt("pieceID");
                 colour = rs.getString("colourname");
@@ -39,7 +47,7 @@ public class PieceDAO {
                 pictureName = rs.getString("pictureName");
                 homeFieldId = rs.getInt("homeFieldId");
             }
-            piece = new Piece(pieceId, number, colour, pictureName,homeFieldId);
+            piece = new Piece(pieceId, number, colour, pictureName, homeFieldId);
             rs.close();
             ps.close();
         } catch (Exception e) {
@@ -94,6 +102,7 @@ public class PieceDAO {
 
     /**
      * get colour from piece
+     *
      * @param id id from piece
      * @return colour as String
      */
@@ -160,6 +169,7 @@ public class PieceDAO {
 
     /**
      * get pictureName from piece
+     *
      * @param id id from piece
      * @return pictureName as String
      */

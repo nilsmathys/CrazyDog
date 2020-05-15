@@ -1,6 +1,13 @@
 package ch.zhaw.psit3.crazydog.Model.Player;
 
-
+/**
+ * <h1>Team</h1>
+ * responsible for a Team with 2 Players that are playing together<br>
+ *
+ * @author N. Mathys
+ * @version 1.0
+ * @since April 2020
+ */
 public class Team {
 
     private Player player1;

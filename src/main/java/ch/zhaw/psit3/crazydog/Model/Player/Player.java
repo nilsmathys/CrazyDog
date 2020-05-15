@@ -3,6 +3,14 @@ package ch.zhaw.psit3.crazydog.Model.Player;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * <h1>Player</h1>
+ * Player holds necessary information about a Player<br>
+ *
+ * @author N. Mathys
+ * @version 1.0
+ * @since April 2020
+ */
 public class Player {
 
     private Integer id;
@@ -65,11 +73,12 @@ public class Player {
     }
 
     /**
-     * set email, email must contains "@" and "."
+     * set email, email must contain "@" and "."
+     *
      * @param email
      */
     public void setEmail(String email) {
-        if(email.contains("@") && email.contains(".")) {
+        if (email.contains("@") && email.contains(".")) {
             this.email = email;
         } else {
             throw new IllegalArgumentException("Emailaddresse überprüfen");
@@ -86,15 +95,16 @@ public class Player {
 
     /**
      * set color, color must be green, yellow, red or blue
+     *
      * @param color
      */
     public void setColor(String color) {
-        if(!(color.equals("green") || color.equals("yellow") || color.equals("red") || color.equals("blue")))
-        {
+        if (!(color.equals("green") || color.equals("yellow") || color.equals("red") || color.equals("blue"))) {
             throw new IllegalArgumentException("Please use a right color.");
         }
         this.color = color;
     }
+
     public String getColor() {
         return color;
     }
