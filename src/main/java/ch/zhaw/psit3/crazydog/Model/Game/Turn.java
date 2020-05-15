@@ -65,6 +65,12 @@ public class Turn {
         if (cardValue == 15) {
             calculateDestinationFieldForExchangeCard(GameFieldsWithNoPiecesOnHomeFields, playerColor);
         }
+        //Calculate Exchange Card 7
+        if (cardValue == 7) {
+            for(int i = 1; i<= 7;i++) {
+                calculateNormalFields(GameFieldsWithNoPiecesOnHomeFields, i, playerColor);
+            }
+        }
     }
 
     /**
@@ -570,7 +576,8 @@ public class Turn {
             for(GameField dstField: destinationFields) {
                 if(!sourceField.getPieceOnField().equals(dstField.getPieceOnField()) &&
                         !dstField.getGameFieldName().equals("homefield") &&
-                        !dstField.getGameFieldName().equals("destinationfield")
+                        !dstField.getGameFieldName().equals("destinationfield") &&
+                        !sourceField.getGameFieldName().equals("destinationfield")
                 )
                 {
                     addToSourcesAndDestinations(sourceField,dstField,color);
