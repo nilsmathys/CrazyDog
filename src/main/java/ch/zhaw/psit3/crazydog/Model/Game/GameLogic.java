@@ -82,10 +82,7 @@ public class GameLogic {
                 Object[] loggerArray = new Object[2];
                 loggerArray[0] = sourceField.getPieceOnField().getPictureName();
                 loggerArray[1] = sourceField.getIdForCalculation();
-                //LOGGER.log(Level.INFO, "{0} is on Field with calcID {1}", sourceField.getPieceOnField().getPictureName(), sourceField.getIdForCalculation());
-                //TODO: Überprüfen ob es anders geht zu Loggen
                 LOGGER.log(Level.INFO, "{0} is on field with calcID {1}.", loggerArray);
-                //System.out.println(sourceField.getPieceOnField().getPictureName() + " is on Field with calcID " + sourceField.getIdForCalculation());
                 int destinationId = getDestinationId(sourceId, cardValue);
                 int calculationIdOfPassedStartField = getStartFieldIfStartFieldIsPassed(sourceId, destinationId);
                 // No StartField was passed, everything is ok, we can simply add the card value
