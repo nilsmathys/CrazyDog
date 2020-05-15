@@ -65,7 +65,7 @@ class GameFieldTest {
     }
 
     @Test
-    void ThrowExceptionSettinColor() {
+    void ThrowExceptionSettingColor() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             gameField.setColor("FalseColor");
         });
@@ -81,5 +81,23 @@ class GameFieldTest {
     void setIdForCalculation() {
         gameField.setIdForCalculation(1);
         assertEquals(1, gameField.getIdForCalculation());
+    }
+
+    @Test
+    void compareEquals() {
+        GameField gameField2 = new GameField("imgName", "cssId", "standard", "white",2);
+        assertEquals(0, gameField.compareTo(gameField2));
+    }
+
+    @Test
+    void compareNotEqualsHigher() {
+        GameField gameField2 = new GameField("imgName", "cssId", "standard", "white",5);
+        assertEquals(-3, gameField.compareTo(gameField2));
+    }
+
+    @Test
+    void compareNotEqualsLower() {
+        GameField gameField2 = new GameField("imgName", "cssId", "standard", "white",1);
+        assertEquals(1, gameField.compareTo(gameField2));
     }
 }
