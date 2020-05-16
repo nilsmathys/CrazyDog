@@ -8,29 +8,45 @@ var highlightedSourceFields;
 var highlightedDestinationFields;
 var sourcefields;
 
-var exchangeCards = false;
+var roundStarted = false;
 
 function main(cardvalue, cardId) {
-    switch (cardvalue) {
-        case 3:
-            console.log("card3");
-            $("#card3").modal();
-            $("#card3Go3").attr('onclick', 'getPossibleSourceFields('+cardvalue+', '+cardId+')');
-            $("#card3ChangeDirection").attr('onclick', 'changeDirection('+cardId+')');
-            break;
-        case 14:
-            console.log("cardquestion");
-            $("#questionmark").modal();
-            for(var i = 2;i <= 15;i++) {
-                if(i != 14) {
-                    $('#modalFragezeichenKarte'+i).attr('onclick', 'main('+i+', '+cardId+')');
+    if (roundStarted) {
+        switch (cardvalue) {
+            case 3:
+                console.log("card3");
+                $("#card3").modal();
+                $("#card3Go3").attr('onclick', 'getPossibleSourceFields('+cardvalue+', '+cardId+')');
+                $("#card3ChangeDirection").attr('onclick', 'changeDirection('+cardId+')');
+                break;
+            case 14:
+                console.log("cardquestion");
+                $("#questionmark").modal();
+                for(var i = 2;i <= 15;i++) {
+                    if(i != 14) {
+                        $('#modalFragezeichenKarte'+i).attr('onclick', 'main('+i+', '+cardId+')');
+                    }
                 }
-
+                break;
+            default:
+                getPossibleSourceFields(cardvalue, cardId);
+                break;
+        }
+    } else {
+        let isButtonDisabled = document.getElementById("exchange-button").disabled;
+        if (!isButtonDisabled) {
+            chosenCardId = cardId;
+            $("input[name='selectedCardId']").val(cardId);
+            let nameToDisplay = "";
+            if (cardvalue === 15) {
+                nameToDisplay = "Tausch";
+            } else if (cardvalue === 14) {
+                nameToDisplay = "Fragezeichen";
+            }else {
+                nameToDisplay = "" + cardvalue;
             }
-            break;
-        default:
-            getPossibleSourceFields(cardvalue, cardId);
-            break;
+            document.getElementById("selection-info").innerHTML = "Karte " + nameToDisplay + " ausgewählt.";
+        }
     }
 }
 
@@ -231,19 +247,37 @@ function updateGameFields() {
 //Set the countdown for selecting a card to exchange
 var timeleft = 30;
 
-$("#exchange-button").click(function() {
-    $.ajax({
-        url : 'exchangeCard',
-        type:'POST',
-        data : JSON.stringify({sessionId: sessionId, chosenCardId: chosenCardId}),
-        contentType : 'application/json; charset=utf-8',
-        dataType:'json',
-    });
-    // when card set for exchange, stop countdown and disable button
-    timeleft = 0;
-    document.getElementById("countdown").innerHTML = "";
-    document.getElementById("exchange-button").disabled = true;
-});
+// exchanges the selected card otherwise remind player to select a card first
+function exchange() {
+    let validSelection = validateSelection();
+    if (validSelection) {
+        sessionId = $('#sessionId').html();
+        $.ajax({
+            url : 'exchangeCard',
+            type:'POST',
+            data : JSON.stringify({sessionId: sessionId, chosenCardId: chosenCardId}),
+            contentType : 'application/json; charset=utf-8',
+            dataType:'json',
+        });
+        // when card set for exchange, stop countdown and disable button
+        timeleft = 0;
+        document.getElementById("countdown").innerHTML = "";
+        document.getElementById("exchange-button").disabled = true;
+        document.getElementById("selection-info").innerHTML = "Karte wird getauscht.";
+    } else {
+        document.getElementById("selection-info").innerHTML = "Wähle eine Karte.";
+    }
+}
+
+// checks if a card is selected when clicking the exchange button
+function validateSelection() {
+    let cardId = document.forms["selection-form"]["selectedCardId"].value;
+    if (cardId == "") {
+        return false;
+    } else {
+        return true;
+    }
+}
 
 $(function updateButtonBlock() {
     $.ajax({
@@ -252,17 +286,20 @@ $(function updateButtonBlock() {
         success: function(data) {
             if(data) {
                 // if round started hide button and reset countdown up to 30 and enable button for next round
+                document.getElementById("exchange-button").disabled = false;
+                document.getElementById("selection-info").innerHTML = "";
+                $("input[name='selectedCardId']").val("");
                 $('#buttonBlock').attr("style", "display:none");
                 timeleft = 30;
-                document.getElementById("exchange-button").disabled = false;
+                roundStarted = true;
             } else {
                 // if round not yet started display button and show countdown until times up
                 $('#buttonBlock').attr("style", "display:flex");
+                roundStarted = false;
                 if (document.getElementById("countdown") != null) {
                     if (timeleft <= 0) {
                         document.getElementById("countdown").innerHTML = "";
                         document.getElementById("exchange-button").disabled = true;
-                        exchangeCards = true;
                     } else {
                         document.getElementById("countdown").innerHTML = "Wähle eine Karte in " + timeleft + " Sekunden";
                     }

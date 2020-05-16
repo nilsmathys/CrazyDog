@@ -613,6 +613,14 @@ h2 {
     font-size: 23px;
 }
 
+#countdown {
+    margin-right: 30px;
+}
+
+#selection-info {
+    margin-left: 30px;
+}
+
 .dialog {
     position: fixed;
     z-index: 1;

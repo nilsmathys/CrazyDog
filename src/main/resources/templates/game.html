@@ -74,12 +74,13 @@
         </div>
         <div class="container-bottom">
             <div class="select-buttons" id="buttonBlock">
-                <p id="countdown" style="margin-right: 30px"></p>
-                <form th:action="@{exchangeCard}">
+                <p id="countdown"></p>
+                <form name="selection-form">
                     <input type="hidden" th:name="sessionId" th:value="${sessionId}">
                     <input type="hidden" th:name="selectedCardId" value=""/>
-                    <button class="btn btn-primary" type="submit" id="exchange-button">Karte tauschen</button>
+                    <button class="btn btn-primary" type="button" onclick="exchange()" id="exchange-button">Karte tauschen</button>
                 </form>
+                <p id="selection-info"></p>
             </div>
             <div class="hand" id="handBlock">
                 <div th:each="coh : ${ playerandhand }">

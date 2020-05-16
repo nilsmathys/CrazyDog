@@ -71,7 +71,6 @@ public class GameController {
     //Set the selected card as the exchange card for specific player in Round
     @RequestMapping(value = "/exchangeCard", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody void exchangeCardService(@RequestBody String json) {
-        System.out.println("/exchangeCard was called");
         JSONObject jsonObj =new JSONObject(json);
         int sessionId = jsonObj.getInt("sessionId");
         int chosenCardId = jsonObj.getInt("chosenCardId");
