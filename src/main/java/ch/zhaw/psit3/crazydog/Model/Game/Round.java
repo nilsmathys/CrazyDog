@@ -40,7 +40,7 @@ public class Round {
     private static Card exchangeCardP3 = null;
     private static Card exchangeCardP4 = null;
     private static boolean roundStarted = false;
-    private final int MAXIMUMTIMEROUND = 30000; //in milli seconds
+    private final int MAXIMUMTIMEROUND = 15000; //in milli seconds
 
     /**
      * Constructor to create new round

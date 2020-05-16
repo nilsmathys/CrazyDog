@@ -20,10 +20,22 @@ public class Piece {
     private String pictureName;
     private int homeFieldId;
 
+    /**
+     * Constructor to create a new Piece, is used in PieceDAO to create a Player before the database connects
+     */
     public Piece() {
 
     }
 
+    /**
+     * Constructor to create a new Piece
+     *
+     * @param id          id from Piece
+     * @param number      Number of Piece
+     * @param color       color of piece
+     * @param pictureName pictureName of piece
+     * @param homeFieldId homeFieldId of piece
+     */
     public Piece(int id, int number, String color, String pictureName, int homeFieldId) {
         this.id = id;
         this.number = number;
@@ -32,30 +44,65 @@ public class Piece {
         this.homeFieldId = homeFieldId;
     }
 
+    /**
+     * Get the picture name from the piece
+     *
+     * @return pictureName
+     */
     public String getPictureName() {
         return pictureName;
     }
 
+    /**
+     * Sets the pictureName
+     *
+     * @param pictureName pictureName who you want to set
+     */
     public void setPictureName(String pictureName) {
         this.pictureName = pictureName;
     }
 
+    /**
+     * Get the id from the piece
+     *
+     * @return id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Sets a id
+     *
+     * @param id id who you want to set
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Get the number from the piece
+     *
+     * @return number
+     */
     public int getNumber() {
         return number;
     }
 
+    /**
+     * Sets a number
+     *
+     * @param number number who you want to set
+     */
     public void setNumber(int number) {
         this.number = number;
     }
 
+    /**
+     * Get the color from the piece
+     *
+     * @return color
+     */
     public String getColor() {
         return color;
     }
@@ -63,7 +110,7 @@ public class Piece {
     /**
      * Set a new color, must be green, yellow, red or blue
      *
-     * @param color
+     * @param color color who you want to set
      */
     public void setColor(String color) {
         if (!(color.equals("green") || color.equals("yellow") || color.equals("red") || color.equals("blue"))) {
@@ -72,14 +119,30 @@ public class Piece {
         this.color = color;
     }
 
+    /**
+     * Get the homefield id from the piece
+     *
+     * @return homeFieldId
+     */
     public int getHomeFieldId() {
         return homeFieldId;
     }
 
+    /**
+     * Set a homeFieldId
+     *
+     * @param homeFieldId homeFieldId who you want to set
+     */
     public void setHomeFieldId(int homeFieldId) {
         this.homeFieldId = homeFieldId;
     }
 
+    /**
+     * Return true when the given object is equals to the piece
+     *
+     * @param p the object who you want to check
+     * @return true when equals, else false
+     */
     @Override
     public boolean equals(Object p) {
         Piece o = (Piece) p;

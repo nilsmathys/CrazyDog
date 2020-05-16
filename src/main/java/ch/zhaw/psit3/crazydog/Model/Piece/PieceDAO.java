@@ -20,7 +20,7 @@ public class PieceDAO {
     private static final Logger LOGGER = Logger.getLogger(PieceDAO.class.getName());
 
     /**
-     * get piece from db with id
+     * get piece from db
      *
      * @param id id from piece
      * @return piece
@@ -101,7 +101,7 @@ public class PieceDAO {
     }
 
     /**
-     * get colour from piece
+     * get colour from piece from db
      *
      * @param id id from piece
      * @return colour as String
@@ -134,7 +134,7 @@ public class PieceDAO {
     }
 
     /**
-     * get number from piece
+     * get number from piece from db
      *
      * @param id from piece
      * @return number as int
@@ -168,7 +168,7 @@ public class PieceDAO {
     }
 
     /**
-     * get pictureName from piece
+     * get pictureName from piece from db
      *
      * @param id id from piece
      * @return pictureName as String
