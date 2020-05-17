@@ -231,8 +231,6 @@ public class Round {
 
         //reset Flag
         Turn.resetLegalMoveStatus();
-        //set next player
-        CrazyDog.increaseNextPlayer();
     }
 
     /**
@@ -272,6 +270,9 @@ public class Round {
                 hasWinner = true;
                 break;
             }
+
+            //set next player
+            CrazyDog.increaseNextPlayer();
 
             //if all players are out of cards, then the loop will break
             if (allPlayerOutOfCards()) {
