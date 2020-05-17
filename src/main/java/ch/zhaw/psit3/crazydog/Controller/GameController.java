@@ -26,45 +26,60 @@ public class GameController {
 
     @ModelAttribute("team1")
     public List<Player> populateTeam1() {
-        List<Player> team1 = new ArrayList<>();
-        team1.add(CrazyDog.getTeam1().getPlayer1());
-        team1.add(CrazyDog.getTeam1().getPlayer2());
-        return team1;
+        if(CrazyDog.isInitialized()) {
+            List<Player> team1 = new ArrayList<>();
+            team1.add(CrazyDog.getTeam1().getPlayer1());
+            team1.add(CrazyDog.getTeam1().getPlayer2());
+            return team1;
+        }
+        else {
+            return null;
+        }
     }
 
     @ModelAttribute("team2")
     public List<Player> populateTeam2() {
-        List<Player> team2 = new ArrayList<>();
-        team2.add(CrazyDog.getTeam2().getPlayer1());
-        team2.add(CrazyDog.getTeam2().getPlayer2());
-        return team2;
+        if(CrazyDog.isInitialized()) {
+            List<Player> team2 = new ArrayList<>();
+            team2.add(CrazyDog.getTeam2().getPlayer1());
+            team2.add(CrazyDog.getTeam2().getPlayer2());
+            return team2;
+        }
+        else {
+            return null;
+        }
     }
 
     @GetMapping("/game")
     public String playGame(HttpServletRequest request, Model model) {
 
-        if (request.getSession().getAttribute("id") != null) {
+        if(CrazyDog.isInitialized()) {
+            if (request.getSession().getAttribute("id") != null) {
 
-            List<GameField> fields = CrazyDog.getGameBoard().getFields();
-            model.addAttribute("fields", fields);
+                List<GameField> fields = CrazyDog.getGameBoard().getFields();
+                model.addAttribute("fields", fields);
 
-            int playerId = Integer.parseInt(request.getSession().getAttribute("id").toString());
-            Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
-            model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
+                int playerId = Integer.parseInt(request.getSession().getAttribute("id").toString());
+                Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
+                model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
 
-            model.addAttribute("userInstructions", UserInstructions.getUserInstructions());
-            model.addAttribute("currentPlayerID", CrazyDog.getNextPlayer());
-            model.addAttribute("roundNr", CrazyDog.getNextPlayer());
-            model.addAttribute("sessionId", request.getSession().getAttribute("id"));
+                model.addAttribute("userInstructions", UserInstructions.getUserInstructions());
+                model.addAttribute("currentPlayerID", CrazyDog.getNextPlayer());
+                model.addAttribute("roundNr", CrazyDog.getNextPlayer());
+                model.addAttribute("sessionId", request.getSession().getAttribute("id"));
 
-            Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE, "clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
-            model.addAttribute("gameDirection", directionMap.get(CrazyDog.getDirection()));
+                Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE, "clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
+                model.addAttribute("gameDirection", directionMap.get(CrazyDog.getDirection()));
 
-            return "game";
-        } else {
-            model.addAttribute("player", new Player());
-            model.addAttribute("loginerror", "Bitte melden Sie sich an");
-            return "login";
+                return "game";
+            } else {
+                model.addAttribute("player", new Player());
+                model.addAttribute("loginerror", "Bitte melden Sie sich an");
+                return "login";
+            }
+        }
+        else {
+            return "index";
         }
     }
 

@@ -13,6 +13,7 @@ import ch.zhaw.psit3.crazydog.Model.Player.PlayerDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Team;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,9 @@ public class CrazyDog {
     private static GameBoard gameBoard;
     private static Direction direction = Direction.COUNTERCLOCKWISE;
     private static int roundNumber = 1;
+
+    private static ConfigurableApplicationContext ctx;
+    private static boolean isInitialized = false;
 
     /**
      * Empty constructor to start the website.
@@ -112,6 +116,7 @@ public class CrazyDog {
      * @param team2 a team consisting of player 3 and player 4
      */
     private void playGame(Team team1, Team team2) {
+        System.out.println(" New Game started!");
         CardDeck deck = new CardDeck();
         deck.createDeck();
         deck.getCardDeck();
@@ -127,12 +132,18 @@ public class CrazyDog {
     }
 
     /**
-     * This is the main method which makes use of playGame method.
+     * Start springboot's server.
      * @param args unused
      */
     public static void main(String[] args) {
-        SpringApplication.run(CrazyDog.class, args);
+        ctx = SpringApplication.run(CrazyDog.class, args);
+    }
 
+    /**
+     * Initialize a new Game
+     */
+    public static void initializeGame() {
+        System.out.println(" New Game initialized");
         Player player1 = PlayerDAO.getPlayerById(1);
         playerList.add(player1);
         Player player2 = PlayerDAO.getPlayerById(2);
@@ -143,6 +154,7 @@ public class CrazyDog {
         playerList.add(player4);
 
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
+        isInitialized = true;
         UserInstructions.addNewInstruction("Spiel startet jetzt");
         crazyDog.playGame(crazyDog.team1, crazyDog.team2);
     }
@@ -239,5 +251,12 @@ public class CrazyDog {
         CrazyDog.roundNumber = roundNumber;
     }
 
+    public static void kill() {
+        ctx.close();
+    }
+
+    public static boolean isInitialized() {
+        return isInitialized;
+    }
 }
 

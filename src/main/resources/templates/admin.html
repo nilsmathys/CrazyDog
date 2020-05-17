@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Tasks</title>
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}" type="text/css" />
+</head>
+<body>
+    <div style="margin: 0 auto; width: 656px; text-align: center;">
+        <button id="adminbutton" type="button" class="btn-success" onclick="startGame()">Start game</button>
+        <button type="button" class="btn-danger" onclick="killServer()">Kill server</button>
+    </div>
+
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script src="/js/admin.js" th:href="@{/js/admin.js}"></script>
+</body>
+</html>
