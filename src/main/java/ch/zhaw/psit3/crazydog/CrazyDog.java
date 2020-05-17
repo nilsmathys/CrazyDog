@@ -1,11 +1,11 @@
 package ch.zhaw.psit3.crazydog;
 
+import ch.zhaw.psit3.crazydog.Controller.AdminController;
 import ch.zhaw.psit3.crazydog.Model.Game.Direction;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;
 import ch.zhaw.psit3.crazydog.Model.GameField.GameBoard;
 import ch.zhaw.psit3.crazydog.Model.Card.CardDeck;
-import ch.zhaw.psit3.crazydog.Model.GameField.GameField;
 import ch.zhaw.psit3.crazydog.Model.Piece.Piece;
 import ch.zhaw.psit3.crazydog.Model.Piece.PieceDAO;
 import ch.zhaw.psit3.crazydog.Model.Player.Player;
@@ -17,6 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * <h1>CrazyDog</h1>
@@ -28,6 +29,7 @@ import java.util.List;
  */
 @SpringBootApplication
 public class CrazyDog {
+    private static final Logger LOGGER = Logger.getLogger(CrazyDog.class.getName());
     private int gameId;
     private static List<Player> playerList = new ArrayList<Player>();
     private static Team team1;
@@ -116,7 +118,7 @@ public class CrazyDog {
      * @param team2 a team consisting of player 3 and player 4
      */
     private void playGame(Team team1, Team team2) {
-        System.out.println(" New Game started!");
+        LOGGER.info("New game started!");
         CardDeck deck = new CardDeck();
         deck.createDeck();
         deck.getCardDeck();
@@ -143,7 +145,7 @@ public class CrazyDog {
      * Initialize a new Game
      */
     public static void initializeGame() {
-        System.out.println(" New Game initialized");
+        LOGGER.info("New Game initialized");
         Player player1 = PlayerDAO.getPlayerById(1);
         playerList.add(player1);
         Player player2 = PlayerDAO.getPlayerById(2);
