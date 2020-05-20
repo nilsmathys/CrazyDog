@@ -49,7 +49,7 @@ public class Turn {
         // Get players color
         String playerColor = CrazyDog.getPlayerColorById(sessionId);
         // Get all the fields with Pieces of the player
-        List<GameField> GameFieldsWithThisColor = GameBoard.getGameFieldsWithPiecesOfPlayersColor(playerColor);
+        List<GameField> GameFieldsWithThisColor = CrazyDog.getGameBoard().getGameFieldsWithPiecesOfPlayersColor(playerColor);
         // Remove the GameFields with Pieces on HomeFields
         List<GameField> GameFieldsWithNoPiecesOnHomeFields = removeGameFieldsWithPiecesOnHomeFields(GameFieldsWithThisColor);
 
@@ -110,14 +110,14 @@ public class Turn {
                     LOGGER.info("The piece doesn't pass a startfield.");
                     // Case for destinationfields
                     if (sourceField.getGameFieldName().equals("destinationfield")) {
-                        GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "destinationfield");
+                        GameField calculatedGameField = CrazyDog.getGameBoard().getGameFieldByCalculationId(destinationId, "destinationfield");
                         if (calculatedGameField != null && !calculatedGameField.getGameFieldName().equals("wormhole")) {
                             addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
                         }
                     }
                     // Case for regular fields
                     else {
-                        GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
+                        GameField calculatedGameField = CrazyDog.getGameBoard().getGameFieldByCalculationId(destinationId, "standard");
                         addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
                     }
                 }
@@ -127,13 +127,13 @@ public class Turn {
                     // We can't pass a startfield when the source piece is on a destinationfield
                     if (!sourceField.getGameFieldName().equals("destinationfield")) {
                         LOGGER.log(Level.INFO, "The piece passes or lands on the startfield with the calcID {0}.", calculationIdOfPassedStartField);
-                        GameField startField = GameBoard.getGameFieldByCalculationId(calculationIdOfPassedStartField, "startfield");
+                        GameField startField = CrazyDog.getGameBoard().getGameFieldByCalculationId(calculationIdOfPassedStartField, "startfield");
                         // First check if there is a piece on the startfield of same color as startfield (if there is, we can't continue)
                         // There is no ELSE -  we can NOT move with this piece.
                         if (!isStartFieldOccupiedByPieceOfSameColor(startField)) {
                             LOGGER.log(Level.INFO, "The startfield with calcID {0} has no piece with the same color on it. No block.", calculationIdOfPassedStartField);
                             if (destinationId == calculationIdOfPassedStartField) {
-                                GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "startfield");
+                                GameField calculatedGameField = CrazyDog.getGameBoard().getGameFieldByCalculationId(destinationId, "startfield");
                                 addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
                             }
                             // Now we know that we pass the startfield and don't land on it
@@ -143,9 +143,9 @@ public class Turn {
                                 // We also need to check if the destinationfield is out of range (bigger than the calculationId's of the destination fields)
                                 GameField destinationFieldNextToStartField;
                                 if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
-                                    destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId((calculationIdOfPassedStartField + 1), "destinationfield");
+                                    destinationFieldNextToStartField = CrazyDog.getGameBoard().getGameFieldByCalculationId((calculationIdOfPassedStartField + 1), "destinationfield");
                                 } else {
-                                    destinationFieldNextToStartField = GameBoard.getGameFieldByCalculationId((calculationIdOfPassedStartField - 1), "destinationfield");
+                                    destinationFieldNextToStartField = CrazyDog.getGameBoard().getGameFieldByCalculationId((calculationIdOfPassedStartField - 1), "destinationfield");
                                 }
                                 if (destinationFieldNextToStartField.getColor().equals(playerColor) && canPlayerLandOnDestinationField(destinationId, calculationIdOfPassedStartField)) {
                                     LOGGER.info("The destination fields belong to the players color. The piece could land on a destination field.");
@@ -153,15 +153,15 @@ public class Turn {
                                     // But only if there are no Pieces blocking (we can't move past pieces in destination fields)
                                     if (!arePiecesBlockingOnDestinationFields(destinationId, destinationFieldNextToStartField)) {
                                         LOGGER.info("No own pieces are blocking the destination fields!");
-                                        GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "destinationfield");
+                                        GameField calculatedGameField = CrazyDog.getGameBoard().getGameFieldByCalculationId(destinationId, "destinationfield");
                                         addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
-                                        GameField calculatedGameField2 = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
+                                        GameField calculatedGameField2 = CrazyDog.getGameBoard().getGameFieldByCalculationId(destinationId, "standard");
                                         addToSourcesAndDestinations(sourceField, calculatedGameField2, playerColor);
                                     }
                                     // Some pieces are blocking, so we can only move to a standard field
                                     else {
                                         LOGGER.info("Some pieces in the destination field is blocking - piece can not move past them.");
-                                        GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
+                                        GameField calculatedGameField = CrazyDog.getGameBoard().getGameFieldByCalculationId(destinationId, "standard");
                                         addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
                                     }
                                 }
@@ -169,7 +169,7 @@ public class Turn {
                                 // and just place it on a standard field.
                                 else {
                                     LOGGER.info("The destination fields do not belong to the players color. The piece moves past them.");
-                                    GameField calculatedGameField = GameBoard.getGameFieldByCalculationId(destinationId, "standard");
+                                    GameField calculatedGameField = CrazyDog.getGameBoard().getGameFieldByCalculationId(destinationId, "standard");
                                     addToSourcesAndDestinations(sourceField, calculatedGameField, playerColor);
                                 }
                             }
@@ -202,8 +202,8 @@ public class Turn {
             if (isMoveIsLegal(sourceFieldCSSId, destinationFieldCSSId)) {
                 successmessage = new Message("Erfolgreicher Zug");
                 chosenCardId = cardId;
-                GameField sourceField = GameBoard.getGameFieldByCSSId(sourceFieldCSSId);
-                GameField destinationField = GameBoard.getGameFieldByCSSId(destinationFieldCSSId);
+                GameField sourceField = CrazyDog.getGameBoard().getGameFieldByCSSId(sourceFieldCSSId);
+                GameField destinationField = CrazyDog.getGameBoard().getGameFieldByCSSId(destinationFieldCSSId);
                 //if exchange card was played, exchange cards, not make a normal move
                 if (cardValue == 15) {
                     //exchange the Pieces
@@ -223,7 +223,7 @@ public class Turn {
                         //move field to its home field
                         UserInstructions.addNewInstruction("Spielfigur " + destinationField.getPieceOnField().getNumber() +
                                 " der Farbe " + destinationField.getPieceOnField().getColor() + " wurde nach Hause geschickt");
-                        GameBoard.setPieceOnHomefield(destinationField.getPieceOnField().getHomeFieldId(), destinationField.getPieceOnField());
+                        CrazyDog.getGameBoard().setPieceOnHomefield(destinationField.getPieceOnField().getHomeFieldId(), destinationField.getPieceOnField());
                         destinationField.setPieceOnField(null);
                     }
 
@@ -258,6 +258,8 @@ public class Turn {
 
     /**
      * change Direction of the Game and give a message back to GUI
+     *
+     * @param cardId ID from the card 3, so that it can be discarded
      */
     public static void changeDirection(int cardId) {
         CrazyDog.changeDirection();
@@ -434,9 +436,9 @@ public class Turn {
         for (int i = 0; i <= diff; i++) {
             GameField calculatedGameField;
             if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
-                calculatedGameField = GameBoard.getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() + i, "destinationfield");
+                calculatedGameField = CrazyDog.getGameBoard().getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() + i, "destinationfield");
             } else {
-                calculatedGameField = GameBoard.getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() - i, "destinationfield");
+                calculatedGameField = CrazyDog.getGameBoard().getGameFieldByCalculationId(firstDestinationField.getIdForCalculation() - i, "destinationfield");
             }
             if (calculatedGameField.getPieceOnField() != null) {
                 piecesAreBlockingDestinationFields = true;
@@ -485,11 +487,11 @@ public class Turn {
         boolean notFound = true;
         int i = 0;
         while (notFound && !stop) {
-            biggestHomeField = GameBoard.getGameFieldByCalculationId(calculationIdOfBiggestHomeField - i, "homefield");
+            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(calculationIdOfBiggestHomeField - i, "homefield");
             if (biggestHomeField.getPieceOnField() != null) {
                 notFound = false;   // We found the Piece on the biggest homefield!
                 // Calculate DestinationField
-                GameField startField = GameBoard.getGameFieldByCalculationId(calculationIdOfBiggestHomeField + 1, "startfield");
+                GameField startField = CrazyDog.getGameBoard().getGameFieldByCalculationId(calculationIdOfBiggestHomeField + 1, "startfield");
                 addToSourcesAndDestinations(biggestHomeField, startField, playerColor);
             }
             if (i == 3) {
@@ -509,16 +511,16 @@ public class Turn {
         GameField biggestHomeField = null;
 
         if (playerColor == "red") {
-            biggestHomeField = GameBoard.getGameFieldByCalculationId(4, "homefield");  // 4 is calcID of biggest red homefield
+            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(4, "homefield");  // 4 is calcID of biggest red homefield
         }
         if (playerColor == "yellow") {
-            biggestHomeField = GameBoard.getGameFieldByCalculationId(20, "homefield"); // 20 is calcID of biggest yellow homefield
+            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(20, "homefield"); // 20 is calcID of biggest yellow homefield
         }
         if (playerColor == "green") {
-            biggestHomeField = GameBoard.getGameFieldByCalculationId(36, "homefield"); // 36 is calcID of biggest green homefield
+            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(36, "homefield"); // 36 is calcID of biggest green homefield
         }
         if (playerColor == "blue") {
-            biggestHomeField = GameBoard.getGameFieldByCalculationId(52, "homefield"); // 52 is calcID of biggest blue homefield
+            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(52, "homefield"); // 52 is calcID of biggest blue homefield
         }
 
         return biggestHomeField;
@@ -555,7 +557,7 @@ public class Turn {
         //get a random number between 1 and 64
         int destinationIdForCalculation = r.nextInt(64 - 1 + 1) + 1; // (max - min + 1) + 1
         GameField newDestination = null;
-        newDestination = GameBoard.getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
+        newDestination = CrazyDog.getGameBoard().getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
         return newDestination;
     }
 
@@ -585,7 +587,7 @@ public class Turn {
      */
     private static void calculateDestinationFieldForExchangeCard(List<GameField> sourceFields, String color) {
         for (GameField sourceField : sourceFields) {
-            List<GameField> destinationFields = GameBoard.getFieldsWithPieces();
+            List<GameField> destinationFields = CrazyDog.getGameBoard().getFieldsWithPieces();
             for (GameField dstField : destinationFields) {
                 if (!sourceField.getPieceOnField().equals(dstField.getPieceOnField()) &&
                         !dstField.getGameFieldName().equals("homefield") &&

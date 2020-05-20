@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class GameBoard {
 
-    private static List<GameField> fields;
+    private List<GameField> fields;
 
     public GameBoard() {
         this.fields = GameFieldDAO.getFieldsFromJSON();
@@ -37,7 +37,7 @@ public class GameBoard {
      * @param color name of color
      * @return list of GameFields of pieces of a certain color
      */
-    public static List<GameField> getGameFieldsWithPiecesOfPlayersColor(String color) {
+    public List<GameField> getGameFieldsWithPiecesOfPlayersColor(String color) {
         List<GameField> GameFieldsWithAPieceOfPlayersColor = new ArrayList<GameField>();
         for(GameField gamefield : fields) {
             Piece piece = gamefield.getPieceOnField();
@@ -57,7 +57,7 @@ public class GameBoard {
      * @param fieldName     of a certain game field
      * @return a GameField object with the corresponding calculationId
      */
-    public static GameField getGameFieldByCalculationId(int calculationId, String fieldName) {
+    public GameField getGameFieldByCalculationId(int calculationId, String fieldName) {
         GameField gamefield = null;
         boolean stop = false;
         boolean notFound = true;
@@ -84,7 +84,7 @@ public class GameBoard {
      * @param cssId of a certain game field
      * @return a GameField object with the corresponding cssId
      */
-    public static GameField getGameFieldByCSSId(String cssId) {
+    public GameField getGameFieldByCSSId(String cssId) {
         GameField gamefield = null;
         boolean stop = false;
         boolean notFound = true;
@@ -113,7 +113,7 @@ public class GameBoard {
      * @param idForCalculation      ID of the Gamefield which is used for the Calculation
      * @param piece                 piece which should be placed on that field
      */
-    public static void setPieceOnHomefield(int idForCalculation, Piece piece) {
+    public void setPieceOnHomefield(int idForCalculation, Piece piece) {
         for(GameField field: fields) {
             if(field.getGameFieldName().equals("homefield") && field.getIdForCalculation() == idForCalculation)
             {
@@ -315,7 +315,7 @@ public class GameBoard {
      * @return Map with 4 values (key: number (order of destination field, e.g. 1 is where piece1 needs to be placed);
      * value: cssId of destination field)
      */
-    public static Map<Integer, String> getMapOfDestinationFieldsByColor(String playerColor) {
+    public Map<Integer, String> getMapOfDestinationFieldsByColor(String playerColor) {
         Map<Integer, String> destFieldMap = new HashMap<>();
         if (playerColor.equals("red")) {
             destFieldMap.put(1, "field92");
@@ -347,7 +347,7 @@ public class GameBoard {
      * @param idForCalculation idForCalculation for which we have to search in the list
      * @return GameField with the idForCalculation and name standard or wormhole
      */
-    public static GameField getStandardStartfieldGameFieldOrWormholeByIdForCalculation(int idForCalculation) {
+    public GameField getStandardStartfieldGameFieldOrWormholeByIdForCalculation(int idForCalculation) {
         GameField returnField = null;
         for (GameField field : fields) {
             if (field.getIdForCalculation() == idForCalculation &&
@@ -366,7 +366,7 @@ public class GameBoard {
      * @param color of specific player
      * @return Map with 4 objects (Key: Piece number, Value: cssId of current field the piece stands)
      */
-    public static Map<Integer, String> getPlacesOfPiecesByColor(String color) {
+    public Map<Integer, String> getPlacesOfPiecesByColor(String color) {
         Map<Integer, String> allPieces = new HashMap<>();
         for(GameField gf : fields) {
             if (gf.getImageName().contains(color)) {
@@ -380,7 +380,7 @@ public class GameBoard {
      * returns a list of GameFields that currently have a piece on them
      * @return   a list of all GameFields with a piece
      */
-    public static List<GameField> getFieldsWithPieces() {
+    public List<GameField> getFieldsWithPieces() {
         List<GameField> fieldsWithPieces = new ArrayList<>();
         for(GameField field : fields) {
             if (field.getPieceOnField() != null) {

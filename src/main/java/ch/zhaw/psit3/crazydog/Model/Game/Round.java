@@ -317,10 +317,10 @@ public class Round {
         String currentPlayerColor = CrazyDog.getPlayerColorById(CrazyDog.getNextPlayer());
         String teamPlayerColor = getTeamPlayer(CrazyDog.getNextPlayer()).getColor();
 
-        Map<Integer, String> currentPiecesPlayer = GameBoard.getPlacesOfPiecesByColor(currentPlayerColor);
-        Map<Integer, String> destFieldsPlayer = GameBoard.getMapOfDestinationFieldsByColor(currentPlayerColor);
-        Map<Integer, String> currentPiecesTeamPlayer = GameBoard.getPlacesOfPiecesByColor(teamPlayerColor);
-        Map<Integer, String> destFieldsTeamPlayer = GameBoard.getMapOfDestinationFieldsByColor(teamPlayerColor);
+        Map<Integer, String> currentPiecesPlayer = CrazyDog.getGameBoard().getPlacesOfPiecesByColor(currentPlayerColor);
+        Map<Integer, String> destFieldsPlayer = CrazyDog.getGameBoard().getMapOfDestinationFieldsByColor(currentPlayerColor);
+        Map<Integer, String> currentPiecesTeamPlayer = CrazyDog.getGameBoard().getPlacesOfPiecesByColor(teamPlayerColor);
+        Map<Integer, String> destFieldsTeamPlayer = CrazyDog.getGameBoard().getMapOfDestinationFieldsByColor(teamPlayerColor);
 
         if (arePiecesOfPlayerAtDestination(currentPiecesPlayer, destFieldsPlayer) &&
             arePiecesOfPlayerAtDestination(currentPiecesTeamPlayer, destFieldsTeamPlayer)) {
