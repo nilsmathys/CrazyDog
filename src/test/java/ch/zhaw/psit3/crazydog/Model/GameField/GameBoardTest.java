@@ -66,7 +66,7 @@ class GameBoardTest {
     }
 
     @Test
-    void getGameFieldsWithPiecesOfPlayersColorWithRed() {
+    void getGameFieldsWithPiecesOfPlayersColor_red() {
         Piece redpiece1 = new Piece(1, 1, "red", "piece1red.png",77);
         Piece yellowpiece1 = new Piece(2, 1, "yellow", "piece1yellow.png",78);
         GameField field18 = gameBoard.getFields().get(18);
@@ -78,7 +78,7 @@ class GameBoardTest {
     }
 
     @Test
-    void getGameFieldsWithPiecesOfPlayersColorBlue() {
+    void getGameFieldsWithPiecesOfPlayersColor_blue() {
         Piece bluepiece1 = new Piece(1, 1, "blue", "piece1blue.png",77);
         Piece bluepiece2 = new Piece(2, 2, "blue", "piece2blue.png",78);
         GameField field20 = gameBoard.getFields().get(20);
@@ -120,7 +120,7 @@ class GameBoardTest {
     }
 
     @Test
-    void renumberDestinationFields_ccwise() {
+    void renumberDestinationFields_counterclockwise() {
         GameBoard board = new GameBoard();
         board.renumberDestinationFields(COUNTERCLOCKWISE);
         assertEquals(49, board.getGameFieldByCSSId("field96").getIdForCalculation());
@@ -193,12 +193,12 @@ class GameBoardTest {
 
     @Test
     void getStandardStartfieldGameFieldOrWormholeByIdForCalculation_destinationfield() {
-        assertNull(gameBoard.getStandardStartfieldGameFieldOrWormholeByIdForCalculation(57));
+        assertNotEquals("destinationfield", gameBoard.getStandardStartfieldGameFieldOrWormholeByIdForCalculation(4));
     }
 
     @Test
     void getStandardStartfieldGameFieldOrWormholeByIdForCalculation_homefield() {
-        assertNull(gameBoard.getStandardStartfieldGameFieldOrWormholeByIdForCalculation(4));
+        assertNotEquals("homefield", gameBoard.getStandardStartfieldGameFieldOrWormholeByIdForCalculation(4));
     }
 
     // *** PIECES ***
@@ -215,7 +215,23 @@ class GameBoardTest {
 
     @Test
     void getFieldsWithPieces() {
-        //TODO
+        Piece redpiece1 = new Piece(1, 1, "red", "piece1red.png",68);
+        Piece yellowpiece1 = new Piece(2, 1, "yellow", "piece1yellow.png",72);
+        Piece greenpiece1 = new Piece(3, 1, "green", "piece1green.png",76);
+        Piece bluepiece1 = new Piece(4, 1, "blue", "piece1blue.png",80);
+        GameField field7 = gameBoard.getFields().get(18);
+        GameField field23 = gameBoard.getFields().get(42);
+        GameField field24 = gameBoard.getFields().get(43);
+        GameField field26 = gameBoard.getFields().get(45);
+        field7.setPieceOnField(redpiece1);
+        field23.setPieceOnField(yellowpiece1);
+        field24.setPieceOnField(greenpiece1);
+        field26.setPieceOnField(bluepiece1);
+        List<GameField> fields = gameBoard.getFieldsWithPieces();
+        assertTrue(fields.contains(field7));
+        assertTrue(fields.contains(field23));
+        assertTrue(fields.contains(field24));
+        assertTrue(fields.contains(field26));
     }
 
 }
