@@ -85,7 +85,7 @@ public class Round {
      * @param round: the nth round played in this game
      * @return number of cards per player
      */
-    private int getNumberOfCardsToDistribute(int round) {
+    protected static int getNumberOfCardsToDistribute(int round) {
         int cardsToDistribute = 0;
         int number = round;
         while (number > 5) {
@@ -336,7 +336,7 @@ public class Round {
      * @param destFields    cssId of destination field
      * @return true if all pieces are on their specific destination field
      */
-    private boolean arePiecesOfPlayerAtDestination(Map<Integer,String> currentPieces, Map<Integer,String> destFields) {
+    protected static boolean arePiecesOfPlayerAtDestination(Map<Integer,String> currentPieces, Map<Integer,String> destFields) {
         boolean allPiecesAtDestination = false;
         if (currentPieces.get(1).equals(destFields.get(1)) &&
             currentPieces.get(2).equals(destFields.get(2)) &&
@@ -352,7 +352,7 @@ public class Round {
      *
      * @return true if no player has a card left to play
      */
-    private boolean allPlayerOutOfCards() {
+    protected boolean allPlayerOutOfCards() {
         boolean allPlayersOutOfCards = false;
         if (playerAndHand.get(team1.getPlayer1().getId()).isHandEmpty() &&
                 playerAndHand.get(team1.getPlayer2().getId()).isHandEmpty() &&
