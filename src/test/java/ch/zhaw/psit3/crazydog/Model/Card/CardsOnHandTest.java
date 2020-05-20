@@ -36,7 +36,6 @@ class CardsOnHandTest {
 
     @Test
     void takeCard() {
-        assertEquals(0, cardsOnHand.getHand().size());
         cardsOnHand.takeCard(card2);
         assertEquals(1, cardsOnHand.getHand().size());
 
@@ -51,8 +50,12 @@ class CardsOnHandTest {
     }
 
     @Test
-    void isHandEmpty() {
+    void isHandEmpty_noCardsAtHand() {
         assertTrue(cardsOnHand.isHandEmpty());
+    }
+
+    @Test
+    void isHandEmpty_withCardAtHand() {
         cardsOnHand.takeCard(card2);
         assertFalse(cardsOnHand.isHandEmpty());
     }
