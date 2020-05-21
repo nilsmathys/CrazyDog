@@ -43,14 +43,63 @@ public class TurnTest {
     }
 
     @Test
+    void calculateMoves() {
+        Turn.calculateMoves(5, 1);
+        assertEquals(true, Turn.getMoves().isEmpty());
+        assertEquals("standard", Turn.getGameFieldList().get(0).getGameFieldName());
+        assertEquals("empty.png", Turn.getGameFieldList().get(0).getImageName());
+        assertEquals("field61", Turn.getGameFieldList().get(0).getCssId());
+        assertEquals("white", Turn.getGameFieldList().get(0).getColor());
+        assertEquals(1, Turn.getGameFieldList().get(0).getIdForCalculation());
+        assertEquals(null, Turn.getGameFieldList().get(0).getPieceOnField());
+
+        assertEquals("homefield", Turn.getGameFieldList().get(1).getGameFieldName());
+        assertEquals("piece4red.png", Turn.getGameFieldList().get(1).getImageName());
+        assertEquals("field65", Turn.getGameFieldList().get(1).getCssId());
+        assertEquals("red", Turn.getGameFieldList().get(1).getColor());
+        assertEquals(1, Turn.getGameFieldList().get(1).getIdForCalculation());
+        assertEquals(4, Turn.getGameFieldList().get(1).getPieceOnField().getId());
+        assertEquals(4, Turn.getGameFieldList().get(1).getPieceOnField().getNumber());
+        assertEquals("red", Turn.getGameFieldList().get(1).getPieceOnField().getColor());
+        assertEquals("piece4red.png", Turn.getGameFieldList().get(1).getPieceOnField().getPictureName());
+        assertEquals(1, Turn.getGameFieldList().get(1).getPieceOnField().getHomeFieldId());
+    }
+
+    @Test
+    void makeMove() {
+        Turn.makeMove(5, 2, "field16", "field21", 52);
+        assertEquals("Warten Sie mit dem Zug, bis sie an der Reihe sind", Turn.getSuccessMessage().getMessage());
+    }
+
+    @Test
+    void resetChosenCardId() {
+        Turn.resetChosenCardId();
+        assertEquals(0, Turn.getChosenCardId());
+    }
+
+    @Test
+    void isLegalMoveMade() {
+        Turn.resetLegalMoveStatus();
+        assertFalse(Turn.isLegalMoveMade());
+    }
+
+    @Test
+    void changeDirection() {
+        Turn.changeDirection(3);
+        assertEquals(3 , Turn.getChosenCardId());
+        assertTrue(Turn.isLegalMoveMade());
+        assertEquals("Sie haben die Richtung geändert." , Turn.getSuccessMessage().getMessage());
+    }
+
+    @Test
     void checkIfOpponentPieceOnField() {
         // Test without an enemy piece on the field. Should return false
         GameField gamefield = new GameField("empty.png", "field4", "standard", "white", 6);
-        assertEquals(false, Turn.checkIfOpponentPieceOnField(gamefield, "red"));
+        assertFalse(Turn.checkIfOpponentPieceOnField(gamefield, "red"));
 
         // Test with an enemy piece on the destination field. Should return true.
         gamefield.setPieceOnField(new Piece(1, 1, "green", "piece1green.png", 3));
-        assertEquals(true, Turn.checkIfOpponentPieceOnField(gamefield, "red"));
+        assertTrue(Turn.checkIfOpponentPieceOnField(gamefield, "red"));
     }
 
     @Test
