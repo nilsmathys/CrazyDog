@@ -43,14 +43,26 @@ public class TurnTest {
     }
 
     @Test
-    void checkIfOpponentPieceOnField() {
+    void checkIfOpponentPieceOnField_emptyField() {
         // Test without an enemy piece on the field. Should return false
         GameField gamefield = new GameField("empty.png", "field4", "standard", "white", 6);
-        assertEquals(false, Turn.checkIfOpponentPieceOnField(gamefield, "red"));
+        assertFalse(Turn.checkIfOpponentPieceOnField(gamefield, "red"));
+    }
 
+    @Test
+    void checkIfOpponentPieceOnField_opponentIsOnField() {
         // Test with an enemy piece on the destination field. Should return true.
+        GameField gamefield = new GameField("empty.png", "field4", "standard", "white", 6);
         gamefield.setPieceOnField(new Piece(1, 1, "green", "piece1green.png", 3));
-        assertEquals(true, Turn.checkIfOpponentPieceOnField(gamefield, "red"));
+        assertTrue(Turn.checkIfOpponentPieceOnField(gamefield, "red"));
+    }
+
+    @Test
+    void checkIfOpponentPieceOnField_ownPieceIsOnField() {
+        // Test with an enemy piece on the destination field. Should return true.
+        GameField gamefield = new GameField("empty.png", "field4", "standard", "white", 6);
+        gamefield.setPieceOnField(new Piece(1, 1, "red", "piece1red.png", 68));
+        assertFalse(Turn.checkIfOpponentPieceOnField(gamefield, "red"));
     }
 
     @Test
@@ -65,5 +77,87 @@ public class TurnTest {
         assertEquals("empty.png", Turn.getMoves().get(0).getSourceField().getImageName());
         assertEquals("field12", Turn.getMoves().get(0).getSourceField().getCssId());
         assertEquals("standard", Turn.getMoves().get(0).getSourceField().getGameFieldName());
+    }
+
+    @Test
+    void getDestinationId_move6FieldsClockwiseFromField12() {
+        assertEquals(22 ,Turn.getDestinationId(16, 6));
+    }
+
+    @Test
+    void getDestinationId_move8FieldsClockwiseFromField61() {
+        assertEquals(9 ,Turn.getDestinationId(1, 8));
+    }
+
+    @Test
+    void isStartFieldOccupiedByPieceOfSameColor_noPiece() {
+        GameField startfield = new GameField("empty.png", "field17", "startfield", "yellow", 21);
+        assertFalse(Turn.isStartFieldOccupiedByPieceOfSameColor(startfield));
+    }
+
+    @Test
+    void isStartFieldOccupiedByPieceOfSameColor_PieceOfSameColor() {
+        GameField startfield = new GameField("empty.png", "field17", "startfield", "yellow", 21);
+        Piece yellowPiece = new Piece(1, 1, "yellow", "piece1yellow.png",78);
+        startfield.setPieceOnField(yellowPiece);
+        assertTrue(Turn.isStartFieldOccupiedByPieceOfSameColor(startfield));
+    }
+
+    @Test
+    void isStartFieldOccupiedByPieceOfSameColor_PieceOfOtherColor() {
+        GameField startfield = new GameField("empty.png", "field17", "startfield", "yellow", 21);
+        Piece bluePiece = new Piece(1, 1, "blue", "piece1blue.png",77);
+        startfield.setPieceOnField(bluePiece);
+        assertFalse(Turn.isStartFieldOccupiedByPieceOfSameColor(startfield));
+    }
+
+    @Test
+    void isPieceOfPlayerOnField_noPiece() {
+        GameField calculatedGameField = new GameField("empty.png", "field12", "standard", "white", 12);
+        assertFalse(Turn.isPieceOfPlayerOnField(calculatedGameField, "green"));
+    }
+
+    @Test
+    void isPieceOfPlayerOnField_pieceOfPlayer() {
+        GameField calculatedGameField = new GameField("empty.png", "field12", "standard", "white", 12);
+        Piece greenPiece = new Piece(1, 1, "green", "piece1green.png",36);
+        calculatedGameField.setPieceOnField(greenPiece);
+        assertTrue(Turn.isPieceOfPlayerOnField(calculatedGameField, "green"));
+    }
+
+    @Test
+    void isPieceOfPlayerOnField_pieceOfOtherPlayer() {
+        GameField calculatedGameField = new GameField("empty.png", "field12", "standard", "white", 12);
+        Piece bluePiece = new Piece(1, 1, "blue", "piece1blue.png",77);
+        calculatedGameField.setPieceOnField(bluePiece);
+        assertFalse(Turn.isPieceOfPlayerOnField(calculatedGameField, "green"));
+    }
+
+    @Test
+    void calculateBiggestHomeField_red() {
+        GameField biggestRedHome = new GameField("empty.png", "field68", "homefield", "red",4);
+        GameField calculatedField = Turn.calculateBiggestHomeField("red");
+        assertEquals(biggestRedHome.getIdForCalculation(), calculatedField.getIdForCalculation());
+    }
+
+    @Test
+    void calculateBiggestHomeField_yellow() {
+        GameField biggestRedHome = new GameField("empty.png", "field72", "homefield", "yellow",20);
+        GameField calculatedField = Turn.calculateBiggestHomeField("yellow");
+        assertEquals(biggestRedHome.getIdForCalculation(), calculatedField.getIdForCalculation());
+    }
+
+    @Test
+    void calculateBiggestHomeField_green() {
+        GameField biggestRedHome = new GameField("empty.png", "field76", "homefield", "green",36);
+        GameField calculatedField = Turn.calculateBiggestHomeField("green");
+        assertEquals(biggestRedHome.getIdForCalculation(), calculatedField.getIdForCalculation());
+    }
+
+    @Test
+    void calculateBiggestHomeField_blue() {
+        GameField biggestRedHome = new GameField("empty.png", "field80", "homefield", "blue",52);
+        GameField calculatedField = Turn.calculateBiggestHomeField("blue");
+        assertEquals(biggestRedHome.getIdForCalculation(), calculatedField.getIdForCalculation());
     }
 }

@@ -292,7 +292,7 @@ public class Turn {
         //get a random number between 1 and 64
         int destinationIdForCalculation = r.nextInt(64 - 1 + 1) + 1; // (max - min + 1) + 1
         GameField newDestination = null;
-        newDestination = GameBoard.getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
+        newDestination = CrazyDog.getGameBoard().getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
         return newDestination;
     }
 
