@@ -53,10 +53,10 @@ CREATE TABLE dbo.Players
     password		  NVARCHAR(50) NOT NULL
 );
 
-INSERT INTO dbo.Players (username, email, password) VALUES ('Spieler1','Spieler1@crazydog.ch','test123');
-INSERT INTO dbo.Players (username, email, password) VALUES ('Spieler2','Spieler2@crazydog.ch','test123');
-INSERT INTO dbo.Players (username, email, password) VALUES ('Spieler3','Spieler3@crazydog.ch','test123');
-INSERT INTO dbo.Players (username, email, password) VALUES ('Spieler4','Spieler4@crazydog.ch','test123');
+INSERT INTO dbo.Players (username, email, password) VALUES ('Riccardo','riccardo@crazydog.ch','test123');
+INSERT INTO dbo.Players (username, email, password) VALUES ('Remo','remo@crazydog.ch','test123');
+INSERT INTO dbo.Players (username, email, password) VALUES ('Nils','nils@crazydog.ch','test123');
+INSERT INTO dbo.Players (username, email, password) VALUES ('Liby','liby@crazydog.ch','test123');
 
 -- Tabelle für Farben
 CREATE TABLE dbo.Colour
