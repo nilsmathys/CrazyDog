@@ -1,6 +1,5 @@
 package ch.zhaw.psit3.crazydog;
 
-import ch.zhaw.psit3.crazydog.Controller.AdminController;
 import ch.zhaw.psit3.crazydog.Model.Game.Direction;
 import ch.zhaw.psit3.crazydog.Model.Game.Round;
 import ch.zhaw.psit3.crazydog.Model.Game.UserInstructions;

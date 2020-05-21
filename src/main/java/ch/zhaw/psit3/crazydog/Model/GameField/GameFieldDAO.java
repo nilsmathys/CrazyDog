@@ -49,7 +49,6 @@ public class GameFieldDAO {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
             JSONArray gameFieldList = (JSONArray) obj;
-            //System.out.println(gameFieldList);
 
             //Iterate over employee array
             gameFieldList.forEach(

@@ -32,18 +32,16 @@ public class CardDAO {
         try {
             con = DBConnectionFactory.getConnection();
             String query = "SELECT name, value FROM Cards WHERE cardID=?";
-            PreparedStatement st = con.prepareStatement(query);
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                String name = rs.getString("name");
-                int value = rs.getInt("value");
-                card = new Card(id, name, value);
+            try (PreparedStatement st = con.prepareStatement(query)) {
+                st.setInt(1, id);
+                try (ResultSet rs = st.executeQuery()) {
+                    while (rs.next()) {
+                        String name = rs.getString("name");
+                        int value = rs.getInt("value");
+                        card = new Card(id, name, value);
+                    }
+                }
             }
-
-            rs.close();
-            st.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load card by id.", e);
         } finally {
@@ -66,17 +64,17 @@ public class CardDAO {
         List<Card> cardList = new ArrayList<>();
         try {
             con = DBConnectionFactory.getConnection();
-            Statement st = con.createStatement();
-            String query = "SELECT * FROM Cards ORDER BY cardID ASC";
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
-                int cardId = rs.getInt("cardID");
-                String name = rs.getString("name");
-                int value = rs.getInt("value");
-                cardList.add(new Card(cardId, name, value));
+            try (Statement st = con.createStatement()) {
+                String query = "SELECT * FROM Cards ORDER BY cardID ASC";
+                try (ResultSet rs = st.executeQuery(query)) {
+                    while (rs.next()) {
+                        int cardId = rs.getInt("cardID");
+                        String name = rs.getString("name");
+                        int value = rs.getInt("value");
+                        cardList.add(new Card(cardId, name, value));
+                    }
+                }
             }
-            rs.close();
-            st.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load all Cards.", e);
         } finally {

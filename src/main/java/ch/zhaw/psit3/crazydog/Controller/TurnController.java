@@ -14,17 +14,18 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- *  This controller is responsible for providing data to ajax calls.
- *  **/
+ * This controller is responsible for providing data to ajax calls.
+ **/
 @Controller
 public class TurnController {
     private static final Logger LOGGER = Logger.getLogger(TurnController.class.getName());
 
     // This method is reponsible for listening to clicks on cards and then return the fields the pieces would
     // land on, if the player would play that card.
-    @RequestMapping(value = "/getsourcefields", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<GameField> getSourceFields(@RequestBody String json) {
-        JSONObject jsonObj =new JSONObject(json);
+    @RequestMapping(value = "/getsourcefields", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<GameField> getSourceFields(@RequestBody String json) {
+        JSONObject jsonObj = new JSONObject(json);
         // Get all the Values
         int cardValue = jsonObj.getInt("chosenCard"); // This value will be given to the gamelogic class
         int sessionId = jsonObj.getInt("sessionId"); // This value will be given to the gamelogic class
@@ -41,9 +42,10 @@ public class TurnController {
     }
 
     // This method is responsible for sending back the calculated destination fields
-    @RequestMapping(value = "/getdestinationfields", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<GameField> getDestinationFields(@RequestBody String json) {
-        JSONObject jsonObj =new JSONObject(json);
+    @RequestMapping(value = "/getdestinationfields", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<GameField> getDestinationFields(@RequestBody String json) {
+        JSONObject jsonObj = new JSONObject(json);
         // Get all the Values
         int cardValue = jsonObj.getInt("chosenCard"); // This value will be given to the gamelogic class
         int sessionId = jsonObj.getInt("sessionId"); // This value will be given to the gamelogic class
@@ -55,7 +57,7 @@ public class TurnController {
 
         List<GameField> destinationFields = new ArrayList<>();
         for (Move move : moves) {
-            if(move.getSourceField().getCssId().equals(sourceFieldCSSId)) {
+            if (move.getSourceField().getCssId().equals(sourceFieldCSSId)) {
                 destinationFields.add(move.getDestinationField());
             }
         }
@@ -64,10 +66,11 @@ public class TurnController {
 
     // This method is responsible for taking JSON objects from javascript function sendCardAndIdAndDestination()
     // It creates new Objects from the JSON and gives these Objects to the GameLogic Class.
-    @RequestMapping(value = "/makemove", method = RequestMethod.POST,  consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Message makeMove(@RequestBody String json) {
+    @RequestMapping(value = "/makemove", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Message makeMove(@RequestBody String json) {
         LOGGER.fine("/makemove was called.");
-        JSONObject jsonObj =new JSONObject(json);
+        JSONObject jsonObj = new JSONObject(json);
         // Get all the Values
         int cardValue = jsonObj.getInt("chosenCard"); // This value will be given to the gamelogic class
         int sessionId = jsonObj.getInt("sessionId"); // This value will be given to the gamelogic class
@@ -81,8 +84,9 @@ public class TurnController {
     }
 
     // Is responsible for telling the GameLogic to change Direction
-    @RequestMapping(value = "/changedirection", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Message changedirection(@RequestBody String json) {
+    @RequestMapping(value = "/changedirection", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Message changedirection(@RequestBody String json) {
         LOGGER.fine("/changedirection was called.");
         JSONObject jsonObj = new JSONObject(json);
         int chosenCardId = jsonObj.getInt("chosenCardId"); // This value will be given to the gamelogic class

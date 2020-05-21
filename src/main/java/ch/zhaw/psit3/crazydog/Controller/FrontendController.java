@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,9 @@ public class FrontendController {
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server
-    @RequestMapping(value = "/getchangesPieces", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<GameField> getChangesPieces() {
+    @RequestMapping(value = "/getchangesPieces", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<GameField> getChangesPieces() {
         List<GameField> gameFieldList = CrazyDog.getGameBoard().getFields();
         // TODO: Improve performance by only returning the fields that actually changed!!!
         // TODO: We can get all the fields that changed by asking the GameLogic
@@ -31,42 +33,43 @@ public class FrontendController {
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server
-    @RequestMapping(value = "/getchangesInstructions", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List returnChangesInstructions() {
-        //System.out.println("/getchangesInstructions Controller was called");
+    @RequestMapping(value = "/getchangesInstructions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List returnChangesInstructions() {
+
         return UserInstructions.getUserInstructions();
     }
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server
-    @RequestMapping(value = "/getchangesCurrentPlayer", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody int returnChangesCurrentPlayer() {
-        //System.out.println("/getchangesCurrentPlayer Controller was called");
+    @RequestMapping(value = "/getchangesCurrentPlayer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    int returnChangesCurrentPlayer() {
         return CrazyDog.getNextPlayer();
     }
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server
     @RequestMapping(value = "/getchangesCurrentDirection", method = RequestMethod.GET)
-    public @ResponseBody String returnChangesCurrentDirection() {
-        //System.out.println("/getchangesCurrentDirection Controller was called");
-        Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE,"clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
+    public @ResponseBody
+    String returnChangesCurrentDirection() {
+        Map<Direction, String> directionMap = Map.of(Direction.CLOCKWISE, "clockwise", Direction.COUNTERCLOCKWISE, "counterclockwise");
         return directionMap.get(CrazyDog.getDirection());
     }
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server, when the listenToClicks-Controller was called.
-    @RequestMapping(value = "/getchangesAllGamefields", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<GameField> returnAllGameFields() {
-        //System.out.println("/getchangesAllGamefields Controller was called");
+    @RequestMapping(value = "/getchangesAllGamefields", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<GameField> returnAllGameFields() {
         return CrazyDog.getGameBoard().getFields();
     }
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the data that was processed by the server, when the listenToClicks-Controller was called.
-    @RequestMapping(value = "/getchangesRoundNr", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody int returnRoundNr() {
-        //System.out.println("/getchangesRoundNr Controller was called");
+    @RequestMapping(value = "/getchangesRoundNr", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    int returnRoundNr() {
         return CrazyDog.getRoundNumber();
     }
 
@@ -74,7 +77,7 @@ public class FrontendController {
     // It returns the hand for a specific player.
     @RequestMapping(value = "/getchangesCardsOnHand")
     public String returnChangesCardsOnHand(HttpServletRequest request, Model model) {
-        if(request.getSession().getAttribute("id") != null) {
+        if (request.getSession().getAttribute("id") != null) {
             int playerId = Integer.parseInt(request.getSession().getAttribute("id").toString());
             Map<Integer, CardsOnHand> playerAndHand = Round.getPlayerAndHand();
             model.addAttribute("playerandhand", playerAndHand.get(playerId).getHand());
@@ -84,15 +87,17 @@ public class FrontendController {
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the boolean value whether or not the round has started. If so the button will be hidden.
-    @RequestMapping(value = "/getChangesForButton", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Boolean returnChangesForButton() {
+    @RequestMapping(value = "/getChangesForButton", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Boolean returnChangesForButton() {
         return Round.isRoundStarted();
     }
 
     // This method is reponsible for listening to the continous ajax frontend-updater.
     // It returns the winner team if there is already one, otherwise null.
-    @RequestMapping(value = "/getWinningTeam", method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Team returnWinningTeam() {
+    @RequestMapping(value = "/getWinningTeam", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    Team returnWinningTeam() {
         return CrazyDog.getWinnerTeam();
     }
 }

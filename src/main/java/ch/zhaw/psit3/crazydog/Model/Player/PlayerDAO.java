@@ -32,22 +32,22 @@ public class PlayerDAO {
             con = DBConnectionFactory.getConnection();
 
             String query = "SELECT playerId, username, email, password FROM Players WHERE playerID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            int playerId = 0;
-            String username = null;
-            String email = null;
-            String password = null;
-            if (rs.next()) {
-                playerId = rs.getInt("playerID");
-                username = rs.getString("username");
-                email = rs.getString("email");
-                password = rs.getString("password");
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setInt(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    int playerId = 0;
+                    String username = null;
+                    String email = null;
+                    String password = null;
+                    if (rs.next()) {
+                        playerId = rs.getInt("playerID");
+                        username = rs.getString("username");
+                        email = rs.getString("email");
+                        password = rs.getString("password");
+                    }
+                    player = new Player(playerId, username, email, password);
+                }
             }
-            player = new Player(playerId, username, email, password);
-            rs.close();
-            ps.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load player by ID.", e);
         } finally {
@@ -74,19 +74,19 @@ public class PlayerDAO {
             con = DBConnectionFactory.getConnection();
 
             String query = "SELECT playerId, username, email, password FROM players WHERE username=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                player = new Player(
-                        rs.getInt("playerID"),
-                        rs.getString("username"),
-                        rs.getString("email"),
-                        rs.getString("password")
-                );
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setString(1, username);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        player = new Player(
+                                rs.getInt("playerID"),
+                                rs.getString("username"),
+                                rs.getString("email"),
+                                rs.getString("password")
+                        );
+                    }
+                }
             }
-            rs.close();
-            ps.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load player by username.", e);
         } finally {
@@ -111,17 +111,17 @@ public class PlayerDAO {
         try {
             con = DBConnectionFactory.getConnection();
             String query = "SELECT playerID, username, email FROM players";
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                int id = rs.getInt("playerID");
-                String username = rs.getString("username");
-                String email = rs.getString("email");
-                Player dbPlayer = new Player(id, username, email);
-                playerList.add(dbPlayer);
+            try (Statement stmt = con.createStatement()) {
+                try (ResultSet rs = stmt.executeQuery(query)) {
+                    while (rs.next()) {
+                        int id = rs.getInt("playerID");
+                        String username = rs.getString("username");
+                        String email = rs.getString("email");
+                        Player dbPlayer = new Player(id, username, email);
+                        playerList.add(dbPlayer);
+                    }
+                }
             }
-            rs.close();
-            stmt.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load all players.", e);
         } finally {
@@ -148,23 +148,24 @@ public class PlayerDAO {
         try {
             con = DBConnectionFactory.getConnection();
             String query = "SELECT playerID, username, email, password FROM Players WHERE username=? AND password=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, username);
-            ps.setString(2, pw);
-            ResultSet rs = ps.executeQuery();
-            int playerId = 0;
-            username = null;
-            String email = null;
-            String password = null;
-            if (rs.next()) {
-                playerId = rs.getInt("playerID");
-                username = rs.getString("username");
-                email = rs.getString("email");
-                password = rs.getString("password");
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setString(1, username);
+                ps.setString(2, pw);
+                try (ResultSet rs = ps.executeQuery()) {
+                    int playerId = 0;
+                    username = null;
+                    String email = null;
+                    String password = null;
+                    if (rs.next()) {
+                        playerId = rs.getInt("playerID");
+                        username = rs.getString("username");
+                        email = rs.getString("email");
+                        password = rs.getString("password");
+                    }
+                    player = new Player(playerId, username, email, password);
+
+                }
             }
-            player = new Player(playerId, username, email, password);
-            rs.close();
-            ps.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load player by username and password.", e);
         } finally {
@@ -197,12 +198,12 @@ public class PlayerDAO {
             try {
                 con = DBConnectionFactory.getConnection();
                 String query = "INSERT INTO Players (username, email, password) VALUES (?,?,?)";
-                PreparedStatement ps = con.prepareStatement(query);
-                ps.setString(1, player.getUsername());
-                ps.setString(2, player.getEmail());
-                ps.setString(3, player.getPassword());
-                i = ps.executeUpdate();
-                ps.close();
+                try (PreparedStatement ps = con.prepareStatement(query)) {
+                    ps.setString(1, player.getUsername());
+                    ps.setString(2, player.getEmail());
+                    ps.setString(3, player.getPassword());
+                    i = ps.executeUpdate();
+                }
             } catch (Exception e) {
                 LOGGER.log(Level.SEVERE, "Couln't insert a player in the db.", e);
             } finally {
@@ -234,13 +235,13 @@ public class PlayerDAO {
         try {
             con = DBConnectionFactory.getConnection();
             String query = "UPDATE Players SET username=?, email=?, password=? WHERE playerID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, player.getUsername());
-            ps.setString(2, player.getEmail());
-            ps.setString(3, player.getPassword());
-            ps.setInt(4, id);
-            i = ps.executeUpdate();
-            ps.close();
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setString(1, player.getUsername());
+                ps.setString(2, player.getEmail());
+                ps.setString(3, player.getPassword());
+                ps.setInt(4, id);
+                i = ps.executeUpdate();
+            }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't update the player in db.", e);
         } finally {
@@ -270,10 +271,10 @@ public class PlayerDAO {
         try {
             con = DBConnectionFactory.getConnection();
             String query = "DELETE FROM players WHERE playerID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, player.getId());
-            i = ps.executeUpdate();
-            ps.close();
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setInt(1, player.getId());
+                i = ps.executeUpdate();
+            }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't delete the player from db.", e);
         } finally {
