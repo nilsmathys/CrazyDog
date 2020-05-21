@@ -373,7 +373,6 @@ public class Turn {
     static int getStartFieldIfStartFieldIsPassed(int sourceId, int destinationId) {
         int passedStartField = 0;
         if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
-            // TODO: Logic for CrazyDog.getDirection() == Direction.CLOCKWISE can be a bit simplified -> (like it is in the ELSE case)
             // Check if we passed the Startfield with idForCalculation 21 (Startfield yellow)
             if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD4.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD16.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD17.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD29.getValue())) {
                 passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD16.getValue();
