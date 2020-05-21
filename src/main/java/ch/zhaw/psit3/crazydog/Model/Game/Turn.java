@@ -260,6 +260,17 @@ public class Turn {
         return successmessage;
     }
 
+    public static boolean isLegalMoveMade() {
+        return isLegalMoveMade;
+    }
+
+    /**
+     * Reset the flag that tells the "Round" Class, that a legal move was made.
+     */
+    public static void resetLegalMoveStatus() {
+        isLegalMoveMade = false;
+    }
+
     /**
      * change Direction of the Game and give a message back to GUI
      * @param cardId The cards Id. Each card has a unique Id.
@@ -272,11 +283,24 @@ public class Turn {
     }
 
     /**
+     * Calculates the new Destination if the piece would land on a wormhole
+     * @return new Destination GameField
+     */
+    public static GameField calcDestWhenPieceOnWormhole() {
+        Random r = new Random();
+        //get a random number between 1 and 64
+        int destinationIdForCalculation = r.nextInt(64 - 1 + 1) + 1; // (max - min + 1) + 1
+        GameField newDestination = null;
+        newDestination = GameBoard.getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
+        return newDestination;
+    }
+
+    /**
      * Check if there is a Piece from an opponent on the destination Field and return true or false
      * @param dstField Destination Field where the Piece should land
      * @param color    Color of the current player
      */
-    private static boolean checkIfOpponentPieceOnField(GameField dstField, String color) {
+    static boolean checkIfOpponentPieceOnField(GameField dstField, String color) {
         boolean opponentOnField = false;
         if (dstField.getPieceOnField() != null) {
             if (!dstField.getPieceOnField().getColor().equals(color)) {
@@ -293,7 +317,7 @@ public class Turn {
      * @param destinationField  The field where the piece would land if the player would play the card.
      * @param playerColor       Color of the player
      */
-    private static void addToSourcesAndDestinations(GameField sourceField, GameField destinationField, String playerColor) {
+    static void addToSourcesAndDestinations(GameField sourceField, GameField destinationField, String playerColor) {
         if (!isPieceOfPlayerOnField(destinationField, playerColor)) {
             LOGGER.info("No piece of the player is already on the calculated field.");
             Move move = new Move(sourceField, destinationField);
@@ -306,7 +330,7 @@ public class Turn {
      * @param gamefields A list with gamefields.
      * @return A List with gamefields which are not homefields.
      */
-    private static List<GameField> removeGameFieldsWithPiecesOnHomeFields(List<GameField> gamefields) {
+    static List<GameField> removeGameFieldsWithPiecesOnHomeFields(List<GameField> gamefields) {
         ListIterator<GameField> iter = gamefields.listIterator();
         while (iter.hasNext()) {
             if (iter.next().getGameFieldName().equals("homefield")) {
@@ -322,7 +346,7 @@ public class Turn {
      * @param cardValue The value of the card.
      * @return The idForCalculation of the destinationField.
      */
-    private static int getDestinationId(int sourceId, int cardValue) {
+    static int getDestinationId(int sourceId, int cardValue) {
         int destinationId;
         if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
             destinationId = sourceId + cardValue;
@@ -345,7 +369,7 @@ public class Turn {
      * @param destinationId IdForCalculation of the destination field.
      * @return The IdForCalculation of the startfield that was passed.
      */
-    private static int getStartFieldIfStartFieldIsPassed(int sourceId, int destinationId) {
+    static int getStartFieldIfStartFieldIsPassed(int sourceId, int destinationId) {
         int passedStartField = 0;
         if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
             // Check if we passed the Startfield with idForCalculation 21
@@ -407,7 +431,7 @@ public class Turn {
      * @param gamefield The startfield
      * @return True, if piece of same color occupies the startfield.
      */
-    private static boolean isStartFieldOccupiedByPieceOfSameColor(GameField gamefield) {
+    static boolean isStartFieldOccupiedByPieceOfSameColor(GameField gamefield) {
         boolean isOccupied = false;
         if (gamefield.getPieceOnField() != null) {
             String gameFieldColor = gamefield.getColor();
@@ -428,7 +452,7 @@ public class Turn {
      * @param firstDestinationField The first destinationField of the player.
      * @return True, if there are some pieces on the destinationfields that the player would pass.
      */
-    private static boolean arePiecesBlockingOnDestinationFields(int destinationId, GameField firstDestinationField) {
+    static boolean arePiecesBlockingOnDestinationFields(int destinationId, GameField firstDestinationField) {
         boolean piecesAreBlockingDestinationFields = false;
         int diff = Math.abs(destinationId - firstDestinationField.getIdForCalculation());
         for (int i = 0; i <= diff; i++) {
@@ -445,24 +469,13 @@ public class Turn {
         return piecesAreBlockingDestinationFields;
     }
 
-    public static boolean isLegalMoveMade() {
-        return isLegalMoveMade;
-    }
-
-    /**
-     * Reset the flag that tells the "Round" Class, that a legal move was made.
-     */
-    public static void resetLegalMoveStatus() {
-        isLegalMoveMade = false;
-    }
-
     /**
      * Checks if a GameField contains a Piece with the color of the Player.
      * @param calculatedGameField The field where the player would land based on the cards value.
      * @param playerColor         Color of the player.
      * @return True, if there is a piece of the player on the calculated field.
      */
-    private static boolean isPieceOfPlayerOnField(GameField calculatedGameField, String playerColor) {
+    static boolean isPieceOfPlayerOnField(GameField calculatedGameField, String playerColor) {
         boolean isPieceOfPlayerOnField = false;
         if (calculatedGameField.getPieceOnField() != null) {
             if (calculatedGameField.getPieceOnField().getColor().equals(playerColor)) {
@@ -478,7 +491,7 @@ public class Turn {
      * is not occupied by himself, then a new possible move is added to the List<Move> moves
      * @param playerColor Color of the player
      */
-    private static void calculateIfAPieceCanMoveFromHomeToStartField(String playerColor) {
+    static void calculateIfAPieceCanMoveFromHomeToStartField(String playerColor) {
         GameField biggestHomeField = calculateBiggestHomeField(playerColor);
         int calculationIdOfBiggestHomeField = biggestHomeField.getIdForCalculation();
 
@@ -505,7 +518,7 @@ public class Turn {
      * @param playerColor Color of the player
      * @return The HomeField which has the biggest calculationId of the player
      */
-    private static GameField calculateBiggestHomeField(String playerColor) {
+    static GameField calculateBiggestHomeField(String playerColor) {
         GameField biggestHomeField = null;
 
         if (playerColor == "red") {
@@ -530,7 +543,7 @@ public class Turn {
      * @param destinationField  Field where the piece would land, if the player would play that card
      * @return True if the move is legal
      */
-    private static boolean isMoveIsLegal(String sourceField, String destinationField) {
+    static boolean isMoveIsLegal(String sourceField, String destinationField) {
         boolean moveIsLegal = false;
         if (moves.isEmpty()) {
             LOGGER.info("Move is not legal.");
@@ -545,25 +558,12 @@ public class Turn {
     }
 
     /**
-     * Calculates the new Destination if the piece would land on a wormhole
-     * @return new Destination GameField
-     */
-    public static GameField calcDestWhenPieceOnWormhole() {
-        Random r = new Random();
-        //get a random number between 1 and 64
-        int destinationIdForCalculation = r.nextInt(64 - 1 + 1) + 1; // (max - min + 1) + 1
-        GameField newDestination = null;
-        newDestination = GameBoard.getStandardStartfieldGameFieldOrWormholeByIdForCalculation(destinationIdForCalculation);
-        return newDestination;
-    }
-
-    /**
      * Checks if the player could land on one of his destinationfields
      * @param destinationId         idForCalculation of the destinationField
      * @param idOfPassedStartField  idForCalculation of the passed startField
      * @return True, if the player could land on one of his destinationfields
      */
-    private static boolean canPlayerLandOnDestinationField(int destinationId, int idOfPassedStartField) {
+    static boolean canPlayerLandOnDestinationField(int destinationId, int idOfPassedStartField) {
         boolean playerCanLandOnDestinationField;
         if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
             if (destinationId <= idOfPassedStartField + 4) {
@@ -586,7 +586,7 @@ public class Turn {
      * @param sourceFields sourceField that are possible with that card
      * @param color        colour of the current player
      */
-    private static void calculateDestinationFieldForExchangeCard(List<GameField> sourceFields, String color) {
+    static void calculateDestinationFieldForExchangeCard(List<GameField> sourceFields, String color) {
         for (GameField sourceField : sourceFields) {
             List<GameField> destinationFields = GameBoard.getFieldsWithPieces();
             for (GameField dstField : destinationFields) {

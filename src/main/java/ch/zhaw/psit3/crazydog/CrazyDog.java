@@ -260,5 +260,12 @@ public class CrazyDog {
     public static boolean isInitialized() {
         return isInitialized;
     }
+
+    /**
+     * Add a player to the playerList
+     */
+    public static void addToPLayerList(Player player) {
+        playerList.add(player);
+    }
 }
 
