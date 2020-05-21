@@ -55,12 +55,15 @@ public class TurnTest {
 
     @Test
     void addToSourcesAndDestinations() {
-        // Test without an enemy piece on the field. Should return false
+        // Prepare the test
         GameField sourceField = new GameField("empty.png", "field12", "standard", "white", 12);
         GameField destinationField = new GameField("empty.png", "field23", "standard", "white", 23);
+        Turn.calculateMoves(3, 4);
 
-        // Test with an enemy piece on the destination field. Should return true.
-        //gamefield.setPieceOnField(new Piece(1, 1, "green", "piece1green.png", 3));
-        //assertEquals(true, Turn.checkIfOpponentPieceOnField(gamefield, "red"));
+        // Test
+        Turn.addToSourcesAndDestinations(sourceField, destinationField, "red");
+        assertEquals("empty.png", Turn.getMoves().get(0).getSourceField().getImageName());
+        assertEquals("field12", Turn.getMoves().get(0).getSourceField().getCssId());
+        assertEquals("standard", Turn.getMoves().get(0).getSourceField().getGameFieldName());
     }
 }
