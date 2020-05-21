@@ -34,7 +34,7 @@ public class TurnTest {
     @Test
     void calculateNormalFields() {
         Turn.calculateMoves(5, 1);
-        assertEquals(true, Turn.getMoves().isEmpty());
+        assertTrue(Turn.getMoves().isEmpty());
 
         Turn.calculateMoves(13, 1);
         assertEquals(1, Turn.getMoves().size());
@@ -46,13 +46,13 @@ public class TurnTest {
     @Test
     void calculateMoves() {
         Turn.calculateMoves(5, 1);
-        assertEquals(true, Turn.getMoves().isEmpty());
+        assertTrue(Turn.getMoves().isEmpty());
         assertEquals("standard", Turn.getGameFieldList().get(0).getGameFieldName());
         assertEquals("empty.png", Turn.getGameFieldList().get(0).getImageName());
         assertEquals("field61", Turn.getGameFieldList().get(0).getCssId());
         assertEquals("white", Turn.getGameFieldList().get(0).getColor());
         assertEquals(1, Turn.getGameFieldList().get(0).getIdForCalculation());
-        assertEquals(null, Turn.getGameFieldList().get(0).getPieceOnField());
+        assertNull(Turn.getGameFieldList().get(0).getPieceOnField());
 
         assertEquals("homefield", Turn.getGameFieldList().get(1).getGameFieldName());
         assertEquals("piece4red.png", Turn.getGameFieldList().get(1).getImageName());
