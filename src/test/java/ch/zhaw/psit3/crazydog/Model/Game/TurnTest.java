@@ -43,7 +43,7 @@ public class TurnTest {
     }
 
     @Test
-    protected void checkIfOpponentPieceOnField() {
+    void checkIfOpponentPieceOnField() {
         // Test without an enemy piece on the field. Should return false
         GameField gamefield = new GameField("empty.png", "field4", "standard", "white", 6);
         assertEquals(false, Turn.checkIfOpponentPieceOnField(gamefield, "red"));
@@ -51,5 +51,16 @@ public class TurnTest {
         // Test with an enemy piece on the destination field. Should return true.
         gamefield.setPieceOnField(new Piece(1, 1, "green", "piece1green.png", 3));
         assertEquals(true, Turn.checkIfOpponentPieceOnField(gamefield, "red"));
+    }
+
+    @Test
+    void addToSourcesAndDestinations() {
+        // Test without an enemy piece on the field. Should return false
+        GameField sourceField = new GameField("empty.png", "field12", "standard", "white", 12);
+        GameField destinationField = new GameField("empty.png", "field23", "standard", "white", 23);
+
+        // Test with an enemy piece on the destination field. Should return true.
+        //gamefield.setPieceOnField(new Piece(1, 1, "green", "piece1green.png", 3));
+        //assertEquals(true, Turn.checkIfOpponentPieceOnField(gamefield, "red"));
     }
 }
