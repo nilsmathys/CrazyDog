@@ -34,7 +34,7 @@ public class CrazyDog {
     private static Team team1;
     private static Team team2;
     private static Team winnerTeam = null;
-    private static int nextPlayer; //Id des Spielrs der als nächster dran ist.
+    private static int nextPlayer; //Id des Spielers der als nächster dran ist.
     private List<Piece> pieceList;
     private CardDeck deck;
     private static GameBoard gameBoard;

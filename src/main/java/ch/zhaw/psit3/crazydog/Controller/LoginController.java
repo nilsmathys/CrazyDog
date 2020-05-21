@@ -30,7 +30,7 @@ public class LoginController {
             // Set session
             HttpSession session = request.getSession();
             session.setAttribute("id", String.valueOf(player.getId()));
-            session.setMaxInactiveInterval(60);
+            session.setMaxInactiveInterval(180);
             return "redirect:/index";   // redirect is necessary to change to URL to /index
         } else {
             LOGGER.warning("This user doesn't exist. Email or Password was wrong.");
