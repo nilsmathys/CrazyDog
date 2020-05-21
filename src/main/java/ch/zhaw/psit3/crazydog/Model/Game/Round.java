@@ -70,7 +70,7 @@ public class Round {
         distributeCards(roundNumber);
         // wait for players to select a card
         UserInstructions.addNewInstruction("Bitte Karte auswählen, welche mit dem Team-Spieler getauscht wird.");
-        CompletableFuture.delayedExecutor(45, TimeUnit.SECONDS).execute(() -> {
+        CompletableFuture.delayedExecutor(45, TimeUnit.SECONDS).execute(() -> { //45 Seconds delay
             exchangeCards();
             roundStarted = true;
             UserInstructions.addNewInstruction("Runde " + roundNumber + " gestartet");
@@ -116,7 +116,7 @@ public class Round {
      * @param round current round; stock: left cards to play from the previous round
      */
     private void distributeCards(int round) {
-        int totalCardsToDistribute = 4 * getNumberOfCardsToDistribute(round);
+        int totalCardsToDistribute = 4 * getNumberOfCardsToDistribute(round); // 4 players
         if (deck.getDeckSize() < totalCardsToDistribute) {
             deck.createDeck();
         }

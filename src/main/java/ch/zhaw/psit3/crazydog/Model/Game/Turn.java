@@ -341,6 +341,7 @@ public class Turn {
     /**
      * This method returns the number of the Startfield if it is passed, based on the sourceId and the destinationId
      * If no Startfield is passed, then return 0
+     * +- 13 fields(highest value of the cards)
      *
      * @param sourceId
      * @param destinationId
@@ -350,55 +351,55 @@ public class Turn {
         int passedStartField = 0;
         if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
             // TODO: Logic for CrazyDog.getDirection() == Direction.CLOCKWISE can be a bit simplified -> (like it is in the ELSE case)
-            // Check if we passed the Startfield with idForCalculation 21
-            if ((sourceId >= 8 && sourceId <= 20) && (destinationId >= 21 && destinationId <= 33)) {
-                passedStartField = 21;
+            // Check if we passed the Startfield with idForCalculation 21 (Startfield yellow)
+            if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD4.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD16.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD17.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD29.getValue())) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD16.getValue();
             }
-            // Check if we passed the Startfield with idForCalculation 37
-            if ((sourceId >= 24 && sourceId <= 36) && (destinationId >= 37 && destinationId <= 49)) {
-                passedStartField = 37;
+            // Check if we passed the Startfield with idForCalculation 37 (Startfield green)
+            if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD20.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD32.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD33.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD45.getValue())) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD33.getValue();
             }
-            // Check if we passed the Startfield with idForCalculation 53
-            if ((sourceId >= 40 && sourceId <= 52) && (destinationId >= 53 && destinationId <= 64)) {
-                passedStartField = 53;
+            // Check if we passed the Startfield with idForCalculation 53 (Startfield blue)
+            if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD36.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD48.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD49.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD60.getValue())) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD49.getValue();
             }
-            // Check if we passed the Startfield with idForCalculation 53
+            // Check if we passed the Startfield with idForCalculation 53 (Startfield blue)
             // This is a special case, which happens if the Piece is on idForCalculation 52 and the Player plays Card 13
-            if ((sourceId == 52) && (destinationId == 1)) {
-                passedStartField = 53;
+            if ((sourceId == IdForCalculation.ID_FOR_CALCULATION_FIELD48.getValue()) && (destinationId == IdForCalculation.ID_FOR_CALCULATION_FIELD61_65_84.getValue())) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD49.getValue();
             }
-            // Check if we passed the Startfield with idForCalculation 5
-            if ((sourceId >= 56 && sourceId <= 64) && (destinationId >= 5 && destinationId <= 13)) {
-                passedStartField = 5;
+            // Check if we passed the Startfield with idForCalculation 5 (Startfield red)
+            if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD52.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD60.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD1.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD9.getValue())) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD1.getValue();
             }
-            // Check if we passed the Startfield with idForCalculation 5
-            if ((sourceId >= 1 && sourceId <= 4) && (destinationId >= 5 && destinationId <= 17)) {
-                passedStartField = 5;
+            // Check if we passed the Startfield with idForCalculation 5 (Startfield red)
+            if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD61_65_84.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD64_68_81.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD1.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD13.getValue())) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD1.getValue();
             }
         } else {
             // Check if we passed YELLOW startfield
-            if (sourceId > 21 && destinationId <= 21) {
-                passedStartField = 21;
+            if (sourceId > IdForCalculation.ID_FOR_CALCULATION_FIELD17.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD17.getValue()) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD17.getValue();
             }
             // Check if we passed RED startfield
-            if (sourceId > 5 && destinationId <= 5) {
-                passedStartField = 5;
+            if (sourceId > IdForCalculation.ID_FOR_CALCULATION_FIELD1.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD1.getValue()) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD1.getValue();
             }
             // Check if we passed RED startfield
-            if ((sourceId >= 6 && sourceId <= 12) && (destinationId >= 57 && destinationId <= 64)) {
-                passedStartField = 5;
+            if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD2.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD8.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD53.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD60.getValue())) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD1.getValue();
             }
             // Check if we passed BLUE startfield
-            if (sourceId > 53 && destinationId <= 53) {
-                passedStartField = 53;
+            if (sourceId > IdForCalculation.ID_FOR_CALCULATION_FIELD49.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD49.getValue()) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD49.getValue();
             }
             // Check if we passed BLUE startfield
-            if ((sourceId >= 1 && sourceId <= 2) && (destinationId >= 52 && destinationId <= 53)) {
-                passedStartField = 53;
+            if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD61_65_84.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD62_66_83.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD48.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD49.getValue())) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD49.getValue();
             }
             // Check if we passed GREEN startfield
-            if (sourceId > 37 && destinationId <= 37) {
-                passedStartField = 37;
+            if (sourceId > IdForCalculation.ID_FOR_CALCULATION_FIELD33.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD33.getValue()) {
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD33.getValue();
             }
         }
         return passedStartField;
@@ -511,16 +512,16 @@ public class Turn {
         GameField biggestHomeField = null;
 
         if (playerColor == "red") {
-            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(4, "homefield");  // 4 is calcID of biggest red homefield
+            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(IdForCalculation.ID_FOR_CALCULATION_FIELD64_68_81.getValue(), "homefield");  // 4 is calcID of biggest red homefield
         }
         if (playerColor == "yellow") {
-            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(20, "homefield"); // 20 is calcID of biggest yellow homefield
+            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(IdForCalculation.ID_FOR_CALCULATION_FIELD16.getValue(), "homefield"); // 20 is calcID of biggest yellow homefield
         }
         if (playerColor == "green") {
-            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(36, "homefield"); // 36 is calcID of biggest green homefield
+            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(IdForCalculation.ID_FOR_CALCULATION_FIELD32.getValue(), "homefield"); // 36 is calcID of biggest green homefield
         }
         if (playerColor == "blue") {
-            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(52, "homefield"); // 52 is calcID of biggest blue homefield
+            biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(IdForCalculation.ID_FOR_CALCULATION_FIELD48.getValue(), "homefield"); // 52 is calcID of biggest blue homefield
         }
 
         return biggestHomeField;
