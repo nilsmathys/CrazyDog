@@ -28,12 +28,13 @@ public class TurnTest {
         player1.setColor("blue");
         CrazyDog.addToPLayerList(player4);
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
+        crazyDog.setDirection(Direction.COUNTERCLOCKWISE);
     }
 
     @Test
     void calculateNormalFields_checkIfPlayerCanNotMove() {
         Turn.calculateMoves(5, 1);
-        assertEquals(true, Turn.getMoves().isEmpty());
+        assertTrue(Turn.getMoves().isEmpty());
     }
 
     @Test
@@ -48,7 +49,7 @@ public class TurnTest {
     @Test
     void calculateMoves() {
         Turn.calculateMoves(5, 1);
-        assertEquals(true, Turn.getMoves().isEmpty());
+        assertTrue(Turn.getMoves().isEmpty());
         assertEquals("standard", Turn.getGameFieldList().get(0).getGameFieldName());
         assertEquals("empty.png", Turn.getGameFieldList().get(0).getImageName());
         assertEquals("field61", Turn.getGameFieldList().get(0).getCssId());

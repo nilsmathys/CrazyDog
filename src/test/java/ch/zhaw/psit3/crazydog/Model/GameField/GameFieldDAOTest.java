@@ -39,16 +39,16 @@ class GameFieldDAOTest {
     @Test
     void testGetFieldsFromJSON() {
         List<GameField> fields = GameFieldDAO.getFieldsFromJSON();
-        assertTrue(gamefieldJSON1.equals(fields.get(0)));
-        assertTrue(gamefieldJSON11.equals(fields.get(10)));
-        assertTrue(gamefieldJSON29.equals(fields.get(28)));
-        assertTrue(gamefieldJSON57.equals(fields.get(56)));
-        assertTrue(gamefieldJSON61.equals(fields.get(60)));
-        assertTrue(gamefieldJSON65.equals(fields.get(64)));
-        assertTrue(gamefieldJSON84.equals(fields.get(83)));
-        assertTrue(gamefieldJSON85.equals(fields.get(84)));
-        assertTrue(gamefieldJSON86.equals(fields.get(85)));
-        assertTrue(gamefieldJSON96.equals(fields.get(95)));
+        assertEquals(gamefieldJSON1, fields.get(0));
+        assertEquals(gamefieldJSON11, fields.get(10));
+        assertEquals(gamefieldJSON29, fields.get(28));
+        assertEquals(gamefieldJSON57, fields.get(56));
+        assertEquals(gamefieldJSON61, fields.get(60));
+        assertEquals(gamefieldJSON65, fields.get(64));
+        assertEquals(gamefieldJSON84, fields.get(83));
+        assertEquals(gamefieldJSON85, fields.get(84));
+        assertEquals(gamefieldJSON86, fields.get(85));
+        assertEquals(gamefieldJSON96, fields.get(95));
     }
 
     @Test
