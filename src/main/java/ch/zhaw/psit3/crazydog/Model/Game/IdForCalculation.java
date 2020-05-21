@@ -9,9 +9,6 @@ public enum IdForCalculation {
     ID_FOR_CALCULATION_FIELD52(56), ID_FOR_CALCULATION_FIELD53(57), ID_FOR_CALCULATION_FIELD60(64), ID_FOR_CALCULATION_FIELD61_65_84(1),
     ID_FOR_CALCULATION_FIELD62_66_83(2), ID_FOR_CALCULATION_FIELD64_68_81(4);
 
-    //TODO: Alles IdForCalculation, umschreiben in normalesField
-
-
     // declaring private variable for getting values
     private int value;
 

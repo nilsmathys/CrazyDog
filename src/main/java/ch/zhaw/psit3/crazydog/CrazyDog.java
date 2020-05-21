@@ -38,7 +38,7 @@ public class CrazyDog {
     private List<Piece> pieceList;
     private CardDeck deck;
     private static GameBoard gameBoard;
-    private static Direction direction = Direction.COUNTERCLOCKWISE;
+    private static Direction direction;
     private static int roundNumber = 1;
 
     private static ConfigurableApplicationContext ctx;
@@ -70,6 +70,10 @@ public class CrazyDog {
         player2.setColor("green");
         player3.setColor("yellow");
         player4.setColor("blue");
+        playerList.add(player1);
+        playerList.add(player2);
+        playerList.add(player3);
+        playerList.add(player4);
         this.nextPlayer = player1.getId();
         this.winnerTeam = null;
         this.gameBoard = new GameBoard();
@@ -77,6 +81,7 @@ public class CrazyDog {
         positionFieldsInitial();
         this.deck = new CardDeck();
         deck.createDeck();
+        setDirection(Direction.COUNTERCLOCKWISE);
         //im JSON ist COUNTERCLOCKWISE abgespeichert, deshalb muss die Direction geändert werden
         changeDirection();
     }
@@ -146,13 +151,13 @@ public class CrazyDog {
     public static void initializeGame() {
         LOGGER.info("New Game initialized");
         Player player1 = PlayerDAO.getPlayerById(1);
-        playerList.add(player1);
+        //playerList.add(player1);
         Player player2 = PlayerDAO.getPlayerById(2);
-        playerList.add(player2);
+        //playerList.add(player2);
         Player player3 = PlayerDAO.getPlayerById(3);
-        playerList.add(player3);
+        //playerList.add(player3);
         Player player4 = PlayerDAO.getPlayerById(4);
-        playerList.add(player4);
+        //playerList.add(player4);
 
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
         isInitialized = true;
