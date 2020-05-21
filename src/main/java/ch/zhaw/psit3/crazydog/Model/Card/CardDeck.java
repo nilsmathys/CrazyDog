@@ -26,12 +26,12 @@ public class CardDeck {
         cardDeck = new ArrayList<>();
         for(int i=0; i<cardList.size(); i++) {
             if("questionmark".equals(cardList.get(i).getName())) {
-                for(int k=1; k<=6; k++) {
+                for(int k=1; k<=6; k++) { //6 questionmarkcards per deck
                     String customId = "" + cardList.get(i).getId() + k;
                     cardDeck.add(new Card(Integer.parseInt(customId), cardList.get(i).getName(), cardList.get(i).getValue()));
                 }
             } else {
-                for(int l=1; l<=8; l++) {
+                for(int l=1; l<=8; l++) { //other cards per deck
                     String customId = "" + cardList.get(i).getId() + l;
                     cardDeck.add(new Card(Integer.parseInt(customId), cardList.get(i).getName(), cardList.get(i).getValue()));
                 }
@@ -49,6 +49,10 @@ public class CardDeck {
         return cardDeck.size();
     }
 
+    /**
+     *
+     * @return cardDeck
+     */
     public List<Card> getCardDeck() {
         return cardDeck;
     }

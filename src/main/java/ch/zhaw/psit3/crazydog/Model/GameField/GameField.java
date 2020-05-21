@@ -143,4 +143,37 @@ public class GameField implements Comparable<GameField> {
         return this.idForCalculation - d.getIdForCalculation();
     }
 
+    /**
+     * Return true when the given object is equals to the piece
+     *
+     * @param field the object who you want to check
+     * @return true when equals, else false
+     */
+    @Override
+    public boolean equals(Object field) {
+        GameField f = (GameField) field;
+        if (this.getColor().equals(f.getColor()) &&
+                ((this.getPieceOnField() == null && f.getPieceOnField() == null) || this.getPieceOnField().equals(f.getPieceOnField()))
+                && this.getGameFieldName().equals(f.getGameFieldName()) &&
+                this.getCssId().equals(f.getCssId()) && this.getImageName().equals(f.getImageName()) &&
+                this.getIdForCalculation() == f.getIdForCalculation()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 1;
+        hash = hash * 13 + (getColor().hashCode());
+        hash = hash * 17 + (getIdForCalculation());
+        hash = hash * 31 + (getImageName().hashCode());
+        hash = hash * 31 + (getCssId().hashCode());
+        hash = hash * 31 + (getGameFieldName().hashCode());
+        if (getPieceOnField() != null) {
+            hash = hash * 31 + (getPieceOnField().hashCode());
+        }
+        return hash;
+    }
+
 }
