@@ -40,15 +40,5 @@ public class UserInstructions {
         return userInstructions;
     }
 
-    /**
-     * Display all User Instructions on the console
-     */
-    public static void printList() {
-        int i = 0;
-        for (String instruction : userInstructions) {
-            System.out.println(i + ": " + instruction);
-            i++;
-        }
-    }
 
 }

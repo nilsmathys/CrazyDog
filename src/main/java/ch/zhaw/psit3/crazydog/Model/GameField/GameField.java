@@ -170,7 +170,7 @@ public class GameField implements Comparable<GameField> {
         hash = hash * 31 + (getImageName().hashCode());
         hash = hash * 31 + (getCssId().hashCode());
         hash = hash * 31 + (getGameFieldName().hashCode());
-        if(getPieceOnField() != null) {
+        if (getPieceOnField() != null) {
             hash = hash * 31 + (getPieceOnField().hashCode());
         }
         return hash;

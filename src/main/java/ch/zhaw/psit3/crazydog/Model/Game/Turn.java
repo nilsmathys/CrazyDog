@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *     <li>It makes the move when the card was played for a specific piece</li>
  * </ol>
  *
- * @author R. Bertschinger, R. Somma, S. Werlin
+ * @author R. Bertschinger, R. Somma, S. Werlin, N.Mathys
  * @version 1.0
  * @since April 2020
  */
@@ -279,7 +279,7 @@ public class Turn {
     private static boolean checkIfOpponentPieceOnField(GameField dstField, String color) {
         boolean opponentOnField = false;
         if (dstField.getPieceOnField() != null) {
-            if (dstField.getPieceOnField().getColor() != color) {
+            if (!dstField.getPieceOnField().getColor().equals(color)) {
                 opponentOnField = true;
             }
         }
@@ -482,7 +482,8 @@ public class Turn {
      */
     private static void calculateIfAPieceCanMoveFromHomeToStartField(String playerColor) {
         GameField biggestHomeField = calculateBiggestHomeField(playerColor);
-        int calculationIdOfBiggestHomeField = biggestHomeField.getIdForCalculation();
+        int calculationIdOfBiggestHomeField;
+        calculationIdOfBiggestHomeField = biggestHomeField.getIdForCalculation();
 
         boolean stop = false;
         boolean notFound = true;
@@ -511,16 +512,16 @@ public class Turn {
     private static GameField calculateBiggestHomeField(String playerColor) {
         GameField biggestHomeField = null;
 
-        if (playerColor == "red") {
+        if (playerColor.equals("red")) {
             biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(IdForCalculation.ID_FOR_CALCULATION_FIELD64_68_81.getValue(), "homefield");  // 4 is calcID of biggest red homefield
         }
-        if (playerColor == "yellow") {
+        if (playerColor.equals("yellow")) {
             biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(IdForCalculation.ID_FOR_CALCULATION_FIELD16.getValue(), "homefield"); // 20 is calcID of biggest yellow homefield
         }
-        if (playerColor == "green") {
+        if (playerColor.equals("green")) {
             biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(IdForCalculation.ID_FOR_CALCULATION_FIELD32.getValue(), "homefield"); // 36 is calcID of biggest green homefield
         }
-        if (playerColor == "blue") {
+        if (playerColor.equals("blue")) {
             biggestHomeField = CrazyDog.getGameBoard().getGameFieldByCalculationId(IdForCalculation.ID_FOR_CALCULATION_FIELD48.getValue(), "homefield"); // 52 is calcID of biggest blue homefield
         }
 
@@ -536,9 +537,7 @@ public class Turn {
      */
     private static boolean isMoveIsLegal(String sourceField, String destinationField) {
         boolean moveIsLegal = false;
-        if (moves.isEmpty()) {
-            // do nothing
-        } else {
+        if (!moves.isEmpty()) {
             for (Move move : moves) {
                 if (move.getSourceField().getCssId().equals(sourceField) && move.getDestinationField().getCssId().equals(destinationField)) {
                     moveIsLegal = true;

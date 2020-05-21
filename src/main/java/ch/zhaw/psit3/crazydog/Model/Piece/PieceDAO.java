@@ -32,24 +32,24 @@ public class PieceDAO {
             con = DBConnectionFactory.getConnection();
 
             String query = "SELECT pieceID, colourname, number, pictureName, homeFieldId FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID WHERE pieceID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            int pieceId = 0;
-            String colour = "";
-            int number = 0;
-            String pictureName = null;
-            int homeFieldId = 0;
-            if (rs.next()) {
-                pieceId = rs.getInt("pieceID");
-                colour = rs.getString("colourname");
-                number = rs.getInt("number");
-                pictureName = rs.getString("pictureName");
-                homeFieldId = rs.getInt("homeFieldId");
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setInt(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    int pieceId = 0;
+                    String colour = "";
+                    int number = 0;
+                    String pictureName = null;
+                    int homeFieldId = 0;
+                    if (rs.next()) {
+                        pieceId = rs.getInt("pieceID");
+                        colour = rs.getString("colourname");
+                        number = rs.getInt("number");
+                        pictureName = rs.getString("pictureName");
+                        homeFieldId = rs.getInt("homeFieldId");
+                    }
+                    piece = new Piece(pieceId, number, colour, pictureName, homeFieldId);
+                }
             }
-            piece = new Piece(pieceId, number, colour, pictureName, homeFieldId);
-            rs.close();
-            ps.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load piece by ID.", e);
         } finally {
@@ -74,19 +74,19 @@ public class PieceDAO {
         try {
             con = DBConnectionFactory.getConnection();
             String query = "SELECT pieceID, number, colourname, pictureName, homeFieldId FROM dbo.Pieces p JOIN dbo.Colour c ON p.colourID = c.colourID";
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                int pieceId = rs.getInt("pieceID");
-                int number = rs.getInt("number");
-                String colour = rs.getString("colourname");
-                String pictureName = rs.getString("pictureName");
-                int homeFieldId = rs.getInt("homeFieldId");
-                Piece dbPiece = new Piece(pieceId, number, colour, pictureName, homeFieldId);
-                pieceList.add(dbPiece);
+            try (Statement stmt = con.createStatement()) {
+                try (ResultSet rs = stmt.executeQuery(query)) {
+                    while (rs.next()) {
+                        int pieceId = rs.getInt("pieceID");
+                        int number = rs.getInt("number");
+                        String colour = rs.getString("colourname");
+                        String pictureName = rs.getString("pictureName");
+                        int homeFieldId = rs.getInt("homeFieldId");
+                        Piece dbPiece = new Piece(pieceId, number, colour, pictureName, homeFieldId);
+                        pieceList.add(dbPiece);
+                    }
+                }
             }
-            rs.close();
-            stmt.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load all pieces.", e);
         } finally {
@@ -112,14 +112,14 @@ public class PieceDAO {
         try {
             con = DBConnectionFactory.getConnection();
             String query = "SELECT colourname FROM pieces p JOIN colour c ON c.colourID = p.colourID WHERE pieceID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                colour = rs.getString("colourname");
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setInt(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        colour = rs.getString("colourname");
+                    }
+                }
             }
-            rs.close();
-            ps.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load colour from piece.", e);
         } finally {
@@ -145,15 +145,15 @@ public class PieceDAO {
         try {
             con = DBConnectionFactory.getConnection();
             String query = "SELECT number FROM pieces WHERE pieceID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            piece.setNumber(0);
-            if (rs.next()) {
-                piece.setNumber(rs.getInt("number"));
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setInt(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    piece.setNumber(0);
+                    if (rs.next()) {
+                        piece.setNumber(rs.getInt("number"));
+                    }
+                }
             }
-            rs.close();
-            ps.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load number of piece.", e);
         } finally {
@@ -179,15 +179,15 @@ public class PieceDAO {
         try {
             con = DBConnectionFactory.getConnection();
             String query = "SELECT pictureName FROM pieces WHERE pieceID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            piece.setNumber(0);
-            if (rs.next()) {
-                piece.setPictureName(rs.getString("pictureName"));
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                ps.setInt(1, id);
+                try (ResultSet rs = ps.executeQuery()) {
+                    piece.setNumber(0);
+                    if (rs.next()) {
+                        piece.setPictureName(rs.getString("pictureName"));
+                    }
+                }
             }
-            rs.close();
-            ps.close();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Couldn't load picturename from piece.", e);
         } finally {

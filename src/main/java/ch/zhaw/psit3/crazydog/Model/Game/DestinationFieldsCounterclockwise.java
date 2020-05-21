@@ -3,7 +3,7 @@ package ch.zhaw.psit3.crazydog.Model.Game;
 /**
  * <h1>DestinationFieldsCounterclockwise</h1>
  * DestinationFieldsCounterclockwise Enum stores the the id's for Calculation for all destination fields of each
- *     when the Game Direction is counterclockwise<br>
+ * when the Game Direction is counterclockwise<br>
  *
  * @author R. Somma
  * @version 1.0
@@ -20,7 +20,8 @@ public enum DestinationFieldsCounterclockwise {
 
     /**
      * get the Value of t he Enum attribute
-     * @return  idForCalculation for Destination Field
+     *
+     * @return idForCalculation for Destination Field
      */
     public int getValue() {
         return this.value;

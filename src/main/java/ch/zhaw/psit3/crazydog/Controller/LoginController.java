@@ -25,22 +25,14 @@ public class LoginController {
     public String loginSubmit(@ModelAttribute Player player, Model model, HttpServletResponse response, HttpServletRequest request) {
         // Try to get the User Data out of the data base
         player = PlayerDAO.getPlayerByUsernameAndPw(player.getUsername(), player.getPassword());
-
         // Check if the user exists. If the player ID is 0, the user doesn't exist in the database.
-        if(player.getId() != 0) {
-            // Set cookie
-            //Cookie cookie = new Cookie("id", String. valueOf(player.getId()));
-            //cookie.setMaxAge(60);       // Cookie lasts for 60 seconds (only short amount of time for testing)
-            //response.addCookie(cookie);
-
+        if (player.getId() != 0) {
             // Set session
             HttpSession session = request.getSession();
-            session.setAttribute("id", String. valueOf(player.getId()));
+            session.setAttribute("id", String.valueOf(player.getId()));
             session.setMaxInactiveInterval(60);
-
             return "redirect:/index";   // redirect is necessary to change to URL to /index
-        }
-        else {
+        } else {
             LOGGER.warning("This user doesn't exist. Email or Password was wrong.");
             model.addAttribute("loginerror", "Username oder Passwort falsch");
             model.addAttribute("player", new Player()); // Return empty player to reset the HTML form

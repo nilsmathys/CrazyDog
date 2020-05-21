@@ -127,14 +127,14 @@ public class Round {
             playerAndHand.get(team2.getPlayer1().getId()).takeCard(deck.getCardFromDeck());
             playerAndHand.get(team2.getPlayer2().getId()).takeCard(deck.getCardFromDeck());
         }
-        UserInstructions.addNewInstruction(totalCardsToDistribute/4 + " Karten an die Spieler ausgeteilt");
+        UserInstructions.addNewInstruction(totalCardsToDistribute / 4 + " Karten an die Spieler ausgeteilt");
     }
 
     /**
      * Sets the exchangeCard variable with the card the user selected to exchange with its team member
      *
      * @param playerId id of a certain player
-     * @param cardId id of selected card to exchange with team member
+     * @param cardId   id of selected card to exchange with team member
      */
     public static void setExchangeCard(int playerId, int cardId) {
         if (playerId == team1.getPlayer1().getId()) {
@@ -206,25 +206,23 @@ public class Round {
 
         //wait for the flag to be set in the Game Logic that a legal move was made.
         //CardsOnHand must not be empty otherwise there will be nothing to do
-        if(!cards.isHandEmpty())
-        {
-            while(!Turn.isLegalMoveMade()) {
+        if (!cards.isHandEmpty()) {
+            while (!Turn.isLegalMoveMade()) {
                 currentTime = System.currentTimeMillis();
 
                 //exit loop after maximum time of the Round has elapsed.
-                if(currentTime>=(startTime+MAXIMUMTIMEROUND)) {
+                if (currentTime >= (startTime + MAXIMUMTIMEROUND)) {
                     UserInstructions.addNewInstruction("Spieler " + CrazyDog.getNextPlayer() + " hat die Zeit für einen Zug überschritten");
                     //discard a random card from the player's hand
                     pickRandomCard(CrazyDog.getNextPlayer());
                     break;
                 }
             }
-        }
-        else {
+        } else {
             UserInstructions.addNewInstruction("Spieler " + CrazyDog.getNextPlayer() + " hat keine Karte mehr in der Hand und wird ausgelassen");
         }
         //remove selected card
-        if(Turn.getChosenCardId() != 0) {
+        if (Turn.getChosenCardId() != 0) {
             cards.discardCard(Turn.getChosenCardId());
             Turn.resetChosenCardId();
         }
@@ -243,11 +241,11 @@ public class Round {
 
         //wait for the round to start
         //this means, that the user need to exchange their cards first.
-        while(!isRoundStarted()) {
+        while (!isRoundStarted()) {
             try {
                 //go to sleep for a second
                 Thread.sleep(1000);
-            }catch(Exception e) {
+            } catch (Exception e) {
                 LOGGER.log(Level.SEVERE, "Round could not start.");
             }
         }
@@ -323,7 +321,7 @@ public class Round {
         Map<Integer, String> destFieldsTeamPlayer = CrazyDog.getGameBoard().getMapOfDestinationFieldsByColor(teamPlayerColor);
 
         if (arePiecesOfPlayerAtDestination(currentPiecesPlayer, destFieldsPlayer) &&
-            arePiecesOfPlayerAtDestination(currentPiecesTeamPlayer, destFieldsTeamPlayer)) {
+                arePiecesOfPlayerAtDestination(currentPiecesTeamPlayer, destFieldsTeamPlayer)) {
             allTeamPiecesAtDestination = true;
         }
         return allTeamPiecesAtDestination;
@@ -336,12 +334,12 @@ public class Round {
      * @param destFields    cssId of destination field
      * @return true if all pieces are on their specific destination field
      */
-    static boolean arePiecesOfPlayerAtDestination(Map<Integer,String> currentPieces, Map<Integer,String> destFields) {
+    static boolean arePiecesOfPlayerAtDestination(Map<Integer, String> currentPieces, Map<Integer, String> destFields) {
         boolean allPiecesAtDestination = false;
         if (currentPieces.get(1).equals(destFields.get(1)) &&
-            currentPieces.get(2).equals(destFields.get(2)) &&
-            currentPieces.get(3).equals(destFields.get(3)) &&
-            currentPieces.get(4).equals(destFields.get(4))) {
+                currentPieces.get(2).equals(destFields.get(2)) &&
+                currentPieces.get(3).equals(destFields.get(3)) &&
+                currentPieces.get(4).equals(destFields.get(4))) {
             allPiecesAtDestination = true;
         }
         return allPiecesAtDestination;

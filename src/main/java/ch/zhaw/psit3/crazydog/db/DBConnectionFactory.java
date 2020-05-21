@@ -16,7 +16,7 @@ public class DBConnectionFactory {
         try {
             Class.forName(driverClassName);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Class com.microsoft.sqlserver.jdbc.SQLServerDriver not found", e);
         }
     }
 
@@ -27,8 +27,6 @@ public class DBConnectionFactory {
             conn = DriverManager.getConnection(connectionUrl);
         } catch (Exception e){
             LOGGER.log(Level.SEVERE, "Could not establish database connection.", e);
-            System.out.println();
-            e.printStackTrace();
             throw new SQLException("Could not connect to database.");
         }
         return conn;

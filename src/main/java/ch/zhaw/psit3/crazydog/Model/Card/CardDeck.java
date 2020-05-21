@@ -49,6 +49,10 @@ public class CardDeck {
         return cardDeck.size();
     }
 
+    /**
+     *
+     * @return cardDeck
+     */
     public List<Card> getCardDeck() {
         return cardDeck;
     }
