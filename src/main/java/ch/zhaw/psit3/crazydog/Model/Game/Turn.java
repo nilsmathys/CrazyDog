@@ -36,6 +36,7 @@ public class Turn {
 
     /**
      * Is responsible for calling the correct subroutines depending on which card the player wants to play.
+     *
      * @param cardValue of a certain card
      * @param sessionId of a player
      */
@@ -89,6 +90,7 @@ public class Turn {
      * Is responsible for calculating all the possible moves a player can make with a certain card.
      * The "special action" of special cards (7, 13, 4 etc.) is not considered in the calculation.
      * The calculated moves get stored into List<Move> moves.
+     *
      * @param GameFieldsWithNoPiecesOnHomeFields All Gamefields with pieces of a player, except gamefields with pieces on homefields
      * @param cardValue                          Value of the card the player wants to play
      * @param playerColor                        Color of the player
@@ -183,6 +185,7 @@ public class Turn {
 
     /**
      * Returns the list which contains all the calculated moves.
+     *
      * @return the list with calculated moves
      */
     public static List<Move> getMoves() {
@@ -191,6 +194,7 @@ public class Turn {
 
     /**
      * This functions executes the move and sets a flag, to let the backend know, that a legal move was made.
+     *
      * @param cardValue             Value of the card which was played
      * @param sessionId             Session ID from the current player
      * @param sourceFieldCSSId      CSS Id from the Source Field where the piece is actually
@@ -289,6 +293,7 @@ public class Turn {
 
     /**
      * Calculates the new Destination if the piece would land on a wormhole
+     *
      * @return new Destination GameField
      */
     public static GameField calcDestWhenPieceOnWormhole() {
@@ -302,6 +307,7 @@ public class Turn {
 
     /**
      * Check if there is a Piece from an opponent on the destination Field and return true or false
+     *
      * @param dstField Destination Field where the Piece should land
      * @param color    Color of the current player
      */
@@ -318,9 +324,10 @@ public class Turn {
     /**
      * Creates a new Move Object from the source- and destinationField.
      * Adds this new move Object to the list of calculated moves.
-     * @param sourceField       A field with a piece of the player on it.
-     * @param destinationField  The field where the piece would land if the player would play the card.
-     * @param playerColor       Color of the player
+     *
+     * @param sourceField      A field with a piece of the player on it.
+     * @param destinationField The field where the piece would land if the player would play the card.
+     * @param playerColor      Color of the player
      */
     static void addToSourcesAndDestinations(GameField sourceField, GameField destinationField, String playerColor) {
         if (!isPieceOfPlayerOnField(destinationField, playerColor)) {
@@ -332,6 +339,7 @@ public class Turn {
 
     /**
      * Receives a list with gamefields and removes all gamefields from this list which are "homefields".
+     *
      * @param gamefields A list with gamefields.
      * @return A List with gamefields which are not homefields.
      */
@@ -347,6 +355,7 @@ public class Turn {
 
     /**
      * Calculates the destinationID. The destinationID is where a piece would land, if a certain card was played.
+     *
      * @param sourceId  The iDForCalculation of the source field.
      * @param cardValue The value of the card.
      * @return The idForCalculation of the destinationField.
@@ -370,7 +379,8 @@ public class Turn {
     /**
      * This method returns the number of the Startfield (if one is passed), based on the sourceId and the destinationId.
      * If no Startfield is passed, then return 0
-     * @param sourceId IdForCalculation of the source field.
+     *
+     * @param sourceId      IdForCalculation of the source field.
      * @param destinationId IdForCalculation of the destination field.
      * @return The IdForCalculation of the startfield that was passed.
      */
@@ -433,6 +443,7 @@ public class Turn {
 
     /**
      * Returns true if the startfield has a piece on it, which has the same color as the startfield.
+     *
      * @param gamefield The startfield
      * @return True, if piece of same color occupies the startfield.
      */
@@ -453,7 +464,8 @@ public class Turn {
      * In this method with receive a gamefield which is the first destinationField of the player. We also receive the
      * destinationId. Starting from the destinationField, we check if a Piece of the Player is already on the Field,
      * and do this for each destinationfield up to the destinationid.
-     * @param destinationId The iDForCalculation of the destinationfield.
+     *
+     * @param destinationId         The iDForCalculation of the destinationfield.
      * @param firstDestinationField The first destinationField of the player.
      * @return True, if there are some pieces on the destinationfields that the player would pass.
      */
@@ -476,6 +488,7 @@ public class Turn {
 
     /**
      * Checks if a GameField contains a Piece with the color of the Player.
+     *
      * @param calculatedGameField The field where the player would land based on the cards value.
      * @param playerColor         Color of the player.
      * @return True, if there is a piece of the player on the calculated field.
@@ -494,6 +507,7 @@ public class Turn {
     /**
      * Checks if a player has Pieces on his HomeFields. If he has at least one Piece on a HomeField, and the startfield
      * is not occupied by himself, then a new possible move is added to the List<Move> moves
+     *
      * @param playerColor Color of the player
      */
     static void calculateIfAPieceCanMoveFromHomeToStartField(String playerColor) {
@@ -521,6 +535,7 @@ public class Turn {
 
     /**
      * Returns the HomeField with the biggest CalculationId of the Player
+     *
      * @param playerColor Color of the player
      * @return The HomeField which has the biggest calculationId of the player
      */
@@ -545,8 +560,9 @@ public class Turn {
 
     /**
      * This method checks if the sourceField and the destinationField are in List<Move> moves
-     * @param sourceField       Field with the piece of the player on it
-     * @param destinationField  Field where the piece would land, if the player would play that card
+     *
+     * @param sourceField      Field with the piece of the player on it
+     * @param destinationField Field where the piece would land, if the player would play that card
      * @return True if the move is legal
      */
     static boolean isMoveIsLegal(String sourceField, String destinationField) {
@@ -565,8 +581,9 @@ public class Turn {
 
     /**
      * Checks if the player could land on one of his destinationfields
-     * @param destinationId         idForCalculation of the destinationField
-     * @param idOfPassedStartField  idForCalculation of the passed startField
+     *
+     * @param destinationId        idForCalculation of the destinationField
+     * @param idOfPassedStartField idForCalculation of the passed startField
      * @return True, if the player could land on one of his destinationfields
      */
     static boolean canPlayerLandOnDestinationField(int destinationId, int idOfPassedStartField) {
@@ -590,6 +607,7 @@ public class Turn {
 
     /**
      * calculate all moves that are possible with the piece exchange card
+     *
      * @param sourceFields sourceField that are possible with that card
      * @param color        colour of the current player
      */
