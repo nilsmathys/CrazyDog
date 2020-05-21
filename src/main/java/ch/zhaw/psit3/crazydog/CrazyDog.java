@@ -38,7 +38,7 @@ public class CrazyDog {
     private List<Piece> pieceList;
     private CardDeck deck;
     private static GameBoard gameBoard;
-    private static Direction direction = Direction.COUNTERCLOCKWISE;
+    private static Direction direction;
     private static int roundNumber = 1;
 
     private static ConfigurableApplicationContext ctx;
@@ -81,6 +81,7 @@ public class CrazyDog {
         positionFieldsInitial();
         this.deck = new CardDeck();
         deck.createDeck();
+        setDirection(Direction.COUNTERCLOCKWISE);
         //im JSON ist COUNTERCLOCKWISE abgespeichert, deshalb muss die Direction geändert werden
         changeDirection();
     }
