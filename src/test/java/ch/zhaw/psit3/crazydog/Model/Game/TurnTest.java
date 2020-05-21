@@ -28,6 +28,7 @@ public class TurnTest {
         player1.setColor("blue");
         CrazyDog.addToPLayerList(player4);
         CrazyDog crazyDog = new CrazyDog(player1, player2, player3, player4);
+        crazyDog.setDirection(Direction.COUNTERCLOCKWISE);
     }
 
     @Test
