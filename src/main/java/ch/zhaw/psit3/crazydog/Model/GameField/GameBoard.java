@@ -403,8 +403,8 @@ public class GameBoard {
     public Map<Integer, String> getPlacesOfPiecesByColor(String color) {
         Map<Integer, String> allPieces = new HashMap<>();
         for (GameField gf : fields) {
-            if (gf.getImageName().contains(color)) {
-                allPieces.put(Integer.parseInt(gf.getImageName().substring(5, 6)), gf.getCssId());
+            if (gf.getPieceOnField() != null && gf.getPieceOnField().getColor().equals(color)) {
+                allPieces.put(gf.getPieceOnField().getNumber(), gf.getCssId());
             }
         }
         return allPieces;
