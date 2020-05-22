@@ -389,7 +389,7 @@ public class Turn {
         if (CrazyDog.getDirection() == Direction.CLOCKWISE) {
             // Check if we passed the Startfield with idForCalculation 21 (Startfield yellow)
             if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD4.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD16.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD17.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD29.getValue())) {
-                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD16.getValue();
+                passedStartField = IdForCalculation.ID_FOR_CALCULATION_FIELD17.getValue();
             }
             // Check if we passed the Startfield with idForCalculation 37 (Startfield green)
             if ((sourceId >= IdForCalculation.ID_FOR_CALCULATION_FIELD20.getValue() && sourceId <= IdForCalculation.ID_FOR_CALCULATION_FIELD32.getValue()) && (destinationId >= IdForCalculation.ID_FOR_CALCULATION_FIELD33.getValue() && destinationId <= IdForCalculation.ID_FOR_CALCULATION_FIELD45.getValue())) {
