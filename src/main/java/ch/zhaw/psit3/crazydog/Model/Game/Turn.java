@@ -449,7 +449,7 @@ public class Turn {
      */
     static boolean isStartFieldOccupiedByPieceOfSameColor(GameField gamefield) {
         boolean isOccupied = false;
-        if (gamefield.getPieceOnField() != null) {
+        if (gamefield != null && gamefield.getPieceOnField() != null) {
             String gameFieldColor = gamefield.getColor();
             String pieceColor = gamefield.getPieceOnField().getColor();
             if (gameFieldColor.equals(pieceColor)) {
